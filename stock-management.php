@@ -114,7 +114,7 @@ class StockManagement {
 	}
 
 	/**
-	 * 
+	 * menu
 	 **/
 	function menu_top() {
 		$blade = $this->set_view();
