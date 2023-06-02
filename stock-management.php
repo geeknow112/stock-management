@@ -21,7 +21,7 @@ Plugin URI: http://www.example.com/plugin
 Description: 商品の在庫数を集計し、発注スケジュールの管理をする。
 Author: myu
 Version: 0.1
-Author URI: http://www.example.com
+Author URI: http://hack-note.com
 */
 
 class StockManagement {
