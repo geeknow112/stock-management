@@ -20,6 +20,7 @@ Plugin Name:Stock Management
 Plugin URI: http://www.example.com/plugin
 Description: 商品の在庫数を集計し、発注スケジュールの管理をする。
 Author: gk12
+Author: gk14
 Version: 0.1
 Author URI: http://hack-note.com
 */
