@@ -52,13 +52,17 @@ class StockManagement {
 		switch ($cur_user->roles[0]) {
 			case 'administrator':
 				if (in_array($cur_user->user_login, array('admin'))) {
-					add_submenu_page('stock-management', '商品登録','商品登録', 'read', 'goods-regist', array(&$this, 'goods_regist'));
-					add_submenu_page('stock-management', '配送方法登録','配送方法登録', 'read', 'method-regist', array(&$this, 'method_regist'));
-					add_submenu_page('stock-management', '顧客登録','顧客登録', 'read', 'customer-regist', array(&$this, 'customer_regist'));
-					add_submenu_page('stock-management', '注文登録','注文登録', 'read', 'order-regist', array(&$this, 'order_regist'));
+					// 登録画面
+					add_submenu_page('stock-management', '商品登録','🔷商品登録', 'read', 'goods-regist', array(&$this, 'goods_regist'));
+					add_submenu_page('stock-management', '顧客登録','🔷顧客登録', 'read', 'customer-regist', array(&$this, 'customer_regist'));
+					add_submenu_page('stock-management', '注文登録','🔷注文登録', 'read', 'order-regist', array(&$this, 'order_regist'));
+
+					// 検索画面
+					add_submenu_page('stock-management', '商品検索','🔶商品検索', 'read', 'goods-list', array(&$this, 'goods-list'));
+					add_submenu_page('stock-management', '注文検索','🔶注文検索', 'read', 'order-list', array(&$this, 'order-list'));
+
+					// その他
 					add_submenu_page('stock-management', 'ロット番号登録','ロット番号登録', 'read', 'lot-regist', array(&$this, 'lot_regist'));
-					add_submenu_page('stock-management', '在庫・配送予定表①','在庫・配送予定表①', 'read', 'stock-1-list', array(&$this, 'stock_1_list'));
-					add_submenu_page('stock-management', '在庫管理表②','在庫管理表②', 'read', 'stock-2-list', array(&$this, 'stock_2_list'));
 					add_submenu_page('stock-management', '配送予定表③','配送予定表③', 'read', 'order-list', array(&$this, 'order_list'));
 					add_submenu_page('stock-management', '日別商品集計','日別商品集計', 'read', 'sum-day-goods', array(&$this, 'sum_day_goods'));
 				} else {
@@ -188,14 +192,6 @@ class StockManagement {
 	/**
 	 *
 	 **/
-	function method_regist() {
-		$blade = $this->set_view();
-		echo $blade->run("method-regist");
-	}
-
-	/**
-	 *
-	 **/
 	function customer_regist() {
 		$blade = $this->set_view();
 		echo $blade->run("customer-regist");
@@ -236,18 +232,24 @@ class StockManagement {
 	/**
 	 *
 	 **/
-	function stock_1_list() {
+	function goods_list() {
 		$blade = $this->set_view();
-		//echo $blade->run("shop-1-list", compact('rows', 'prm', 'step_num', 'msg', 'aliases', 'initForm'));
-		echo $blade->run("stock-1-list");
-	}
+		$prm = (object) $_GET;
+		$p = (object) $_POST;
 
-	/**
-	 *
-	 **/
-	function stock_2_list() {
-		$blade = $this->set_view();
-		echo $blade->run("stock-2-list", compact());
+		switch($prm->action) {
+			case 'search':
+			default:
+				$tb = new Order;
+				$initForm = $tb->getInitForm();
+				$rows = $tb->getList();
+				$formPage = 'order-list';
+//$this->vd($rows);
+				echo $blade->run("order-list", compact('rows', 'formPage', 'initForm'));
+				break;
+		}
+
+		echo $blade->run("goods-list");
 	}
 
 	/**
