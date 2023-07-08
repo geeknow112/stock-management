@@ -58,12 +58,12 @@ class StockManagement {
 					add_submenu_page('stock-management', '注文登録','🔷注文登録', 'read', 'order-regist', array(&$this, 'order_regist'));
 
 					// 検索画面
-					add_submenu_page('stock-management', '商品検索','🔶商品検索', 'read', 'goods-list', array(&$this, 'goods-list'));
-					add_submenu_page('stock-management', '注文検索','🔶注文検索', 'read', 'order-list', array(&$this, 'order-list'));
+					add_submenu_page('stock-management', '商品検索','🔶商品検索', 'read', 'goods-list', array(&$this, 'goods_list'));
+					add_submenu_page('stock-management', '注文検索','🔶注文検索', 'read', 'order-list', array(&$this, 'order_list'));
 
 					// その他
 					add_submenu_page('stock-management', 'ロット番号登録','ロット番号登録', 'read', 'lot-regist', array(&$this, 'lot_regist'));
-					add_submenu_page('stock-management', '配送予定表③','配送予定表③', 'read', 'order-list', array(&$this, 'order_list'));
+					add_submenu_page('stock-management', '配送予定表③','配送予定表③', 'read', 'delivery-list', array(&$this, 'delivery_list'));
 					add_submenu_page('stock-management', '日別商品集計','日別商品集計', 'read', 'sum-day-goods', array(&$this, 'sum_day_goods'));
 				} else {
 					$this->remove_menus();
@@ -243,20 +243,40 @@ class StockManagement {
 				$tb = new Order;
 				$initForm = $tb->getInitForm();
 				$rows = $tb->getList();
+				$formPage = 'goods-list';
+//$this->vd($rows);
+				echo $blade->run("goods-list", compact('rows', 'formPage', 'initForm'));
+				break;
+		}
+	}
+
+	/**
+	 *
+	 **/
+	function order_list() {
+		$blade = $this->set_view();
+		$prm = (object) $_GET;
+		$p = (object) $_POST;
+
+		$prm->action = 'search';
+		switch($prm->action) {
+			case 'search':
+			default:
+				$tb = new Order;
+				$initForm = $tb->getInitForm();
+				$rows = $tb->getList($prm, $un_convert = true);
 				$formPage = 'order-list';
 //$this->vd($rows);
 				echo $blade->run("order-list", compact('rows', 'formPage', 'initForm'));
 				break;
 		}
-
-		echo $blade->run("goods-list");
 	}
 
 	/**
 	 * 申込データ一覧画面
 	 *
 	 **/
-	function order_list() {
+	function delivery_list() {
 		$blade = $this->set_view();
 		$prm = (object) $_GET;
 		$p = (object) $_POST;
@@ -284,9 +304,9 @@ class StockManagement {
 				$tb = new Order;
 				$initForm = $tb->getInitForm();
 				$rows = $tb->getList();
-				$formPage = 'order-list';
+				$formPage = 'delivery-list';
 //$this->vd($rows);
-				echo $blade->run("order-list", compact('rows', 'formPage', 'initForm'));
+				echo $blade->run("delivery-list", compact('rows', 'formPage', 'initForm'));
 				break;
 
 			case 'search' :
