@@ -1,8 +1,7 @@
-      <p class="yjCategoryTitle">
-        <legend>注文情報</legend>
-      </p>
+	<p class="">
+	<legend>【注文登録】</legend>
+	</p>
 
-<form>
   <div class="mb-3">
     <label for="carModel" class="form-label">車種</label>
 	<select class="form-select" aria-label="carModel">
@@ -58,7 +57,4 @@
     <label class="form-check-label" for="repeat">繰り返し予定を設定する</label>
   </div>
 
-  <button type="submit" class="btn btn-primary">Submit</button>
-
-</form>
-
+<br /><br /><hr>

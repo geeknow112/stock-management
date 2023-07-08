@@ -8,7 +8,7 @@
 @endsection
 
 @section ('contents3')
-{{--	@include ('layout.parts_repeat_regist', ['rows' => $rows]) --}}
+	@include ('layout.parts_repeat_regist', ['rows' => $rows])
 
 @endsection
 <!--
