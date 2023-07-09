@@ -48,50 +48,21 @@
 		<p style="color: red;"><?php if (!empty($_POST['message']['error'])) { echo htmlspecialchars(current($_POST['message']['error'])); } ?></p>
 	</div>
 	<br />
-						<div>
-						</div>
 
+<div class="container-fluid">
+	@yield ('contents2')
 
-<div>
+	@yield ('contents3')
 
-  <div id="fcom">
-							@yield ('contents2')
-    
-    <fieldset class="ClearFix">
-      
-<!-- js 1 -->
-      
-    </fieldset>
-    
+	@yield ('contents4')
 
-							@yield ('contents3')
-  </div>
-</div>
+	@yield ('contents5')
 
-<div>
-  <a name="yjPayTop"></a>
-							@yield ('contents4')
-</div>
-    
+	@yield ('contents6')
 
-<div>
-							@yield ('contents5')
+	@yield ('contents7')
 
-  <input name="acc_select_type" type="hidden" value="A">
-</div>
-
-<div>
-							@yield ('contents6')
-  
-
-  <div id="fstr">
-							@yield ('contents7')
-  </div>
-
-</div>
-
-<div>
-							@yield ('contents8')
+	@yield ('contents8')
 </div>
 
 <input type="hidden" name="your-subject" id="your-subject" value="" />
@@ -106,7 +77,7 @@
 &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; 
 <!--<input type="button" name="cmd_regist" id="cmd_regist" class="common_btn" value="登録" onclick="to_next();">-->
 <!--<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="登録" onclick="to_next();">-->
-  <button type="submit" class="btn btn-primary">Submit</button>
+<button type="submit" class="btn btn-primary">Submit</button>
 
 </form>
 
