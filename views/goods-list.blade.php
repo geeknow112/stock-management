@@ -19,14 +19,18 @@ $g = $_GET;
 			@if ($tb->getCurUser()->roles[0] == 'administrator')
 			<div class="search-box">
 				<label class="screen-reader-text" for="user-search-input">申込者を検索:</label>
-				No. ：<input type="search" id="user-search-input" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>"><br /><br />
-				社名：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
-				開始：<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
-				終了：<input type="date" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($g['s']['edt']); ?>" placeholder="2022-12-01">&emsp;
+				商品番号 ：<input type="search" id="user-search-input" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>"><br /><br />
+				商品名：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
+				荷姿・容量：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
+				ロット番号：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
+				倉庫：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
+				個数：<input type="text" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="0">&emsp;～&emsp;
+				<input type="text" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($g['s']['edt']); ?>" placeholder="0"><br /><br />
+				在庫確認日：<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="0">&emsp;
 <!--
 				<input type="submit" id="search-submit" class="button" value="申込者を検索">
 -->
-				<button type="button" class="btn btn-primary">Primary</button>
+				<button type="button" class="btn btn-primary">検索</button>
 			</div>
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
@@ -67,12 +71,13 @@ $g = $_GET;
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
 					<tr>
-						<th scope="col" id="username" class="">品名</th>
-						<th scope="col" id="username" class="">配送先</th>
-						<th scope="col" id="username" class="">量(t)</th>
-						<th scope="col" id="username" class="">入庫予定日</th>
-						<th scope="col" id="username" class="">氏名</th>
-						<th scope="col" id="username" class="">確認</th>
+						<th scope="col" id="username" class="">No.</th>
+						<th scope="col" id="username" class="">商品番号</th>
+						<th scope="col" id="username" class="">商品名</th>
+						<th scope="col" id="username" class="">荷姿・容量</th>
+						<th scope="col" id="username" class="">個数</th>
+						<th scope="col" id="username" class="">数量(kg)</th>
+						<th scope="col" id="username" class="">備考</th>
 					</tr>
 				</thead>
 
@@ -80,6 +85,7 @@ $g = $_GET;
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($rows as $delivery_dt => $list)
 					<tr id="user-1">
+						<td></td>
 						<td colspan="1">
 							<a href="" onClick="window.open('/wp-admin/admin.php?page=sum-day-goods', 'regist lot number', 'popup', 'left=200,top=100,width=420,height=520');">{{$delivery_dt}}</a>
 						</td>
