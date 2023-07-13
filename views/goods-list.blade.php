@@ -27,9 +27,6 @@ $g = $_GET;
 				個数：<input type="text" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="0">&emsp;～&emsp;
 				<input type="text" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($g['s']['edt']); ?>" placeholder="0"><br /><br />
 				在庫確認日：<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="0">&emsp;
-<!--
-				<input type="submit" id="search-submit" class="button" value="申込者を検索">
--->
 				<button type="button" class="btn btn-primary">検索</button>
 			</div>
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
