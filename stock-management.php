@@ -54,7 +54,7 @@ class StockManagement {
 				if (in_array($cur_user->user_login, array('admin'))) {
 					// 登録画面
 					add_submenu_page('stock-management', '商品登録','🔷商品登録', 'read', 'goods-detail', array(&$this, 'goods_detail'));
-					add_submenu_page('stock-management', '顧客登録','🔷顧客登録', 'read', 'customer-regist', array(&$this, 'customer_regist'));
+					add_submenu_page('stock-management', '顧客登録','🔷顧客登録', 'read', 'customer-detail', array(&$this, 'customer_detail'));
 					add_submenu_page('stock-management', '注文登録','🔷注文登録', 'read', 'sales-detail', array(&$this, 'sales_detail'));
 
 					// 検索画面
@@ -192,9 +192,9 @@ class StockManagement {
 	/**
 	 *
 	 **/
-	function customer_regist() {
+	function customer_detail() {
 		$blade = $this->set_view();
-		echo $blade->run("customer-regist");
+		echo $blade->run("customer-detail");
 	}
 
 	/**
