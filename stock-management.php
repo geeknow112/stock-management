@@ -7,7 +7,7 @@ use eftec\bladeone\BladeOne;
 require_once(dirname(__DIR__). '/stock-management/model/model.php');
 require_once(dirname(__DIR__). '/stock-management/model/Shop.php');
 require_once(dirname(__DIR__). '/stock-management/model/Applicant.php');
-require_once(dirname(__DIR__). '/stock-management/model/Order.php');
+require_once(dirname(__DIR__). '/stock-management/model/Sales.php');
 
 //require(__DIR__. '/library/vendor/vendor_phpspreadsheet/autoload.php');
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -215,7 +215,7 @@ class StockManagement {
 
 		$prm = (object) $_GET;
 
-		$tb = new Order;
+		$tb = new Sales;
 		$rows = $tb->getLotNumberListByOrder($prm);
 //$this->vd($rows);
 		echo $blade->run("lot-regist", compact('rows'));
@@ -241,7 +241,7 @@ class StockManagement {
 		switch($prm->action) {
 			case 'search':
 			default:
-				$tb = new Order;
+				$tb = new Sales;
 				$initForm = $tb->getInitForm();
 				$rows = $tb->getList();
 				$formPage = 'goods-list';
@@ -262,7 +262,7 @@ class StockManagement {
 		switch($prm->action) {
 			case 'search':
 			default:
-				$tb = new Order;
+				$tb = new Sales;
 				$initForm = $tb->getInitForm();
 				$rows = $tb->getList();
 				$formPage = 'customer-list';
@@ -284,7 +284,7 @@ class StockManagement {
 		switch($prm->action) {
 			case 'search':
 			default:
-				$tb = new Order;
+				$tb = new Sales;
 				$initForm = $tb->getInitForm();
 				$rows = $tb->getList($prm, $un_convert = true);
 				$formPage = 'sales-list';
@@ -323,7 +323,7 @@ class StockManagement {
 				$this->export_pdf($prm);
 
 			default:
-				$tb = new Order;
+				$tb = new Sales;
 				$initForm = $tb->getInitForm();
 				$rows = $tb->getList();
 				$formPage = 'delivery-list';
