@@ -59,6 +59,7 @@ class StockManagement {
 
 					// 検索画面
 					add_submenu_page('stock-management', '商品検索','🔶商品検索', 'read', 'goods-list', array(&$this, 'goods_list'));
+					add_submenu_page('stock-management', '顧客検索','🔶顧客検索', 'read', 'customer-list', array(&$this, 'customer_list'));
 					add_submenu_page('stock-management', '注文検索','🔶注文検索', 'read', 'sales-list', array(&$this, 'sales_list'));
 
 					// その他
@@ -246,6 +247,27 @@ class StockManagement {
 				$formPage = 'goods-list';
 //$this->vd($rows);
 				echo $blade->run("goods-list", compact('rows', 'formPage', 'initForm'));
+				break;
+		}
+	}
+
+	/**
+	 *
+	 **/
+	function customer_list() {
+		$blade = $this->set_view();
+		$prm = (object) $_GET;
+		$p = (object) $_POST;
+
+		switch($prm->action) {
+			case 'search':
+			default:
+				$tb = new Order;
+				$initForm = $tb->getInitForm();
+				$rows = $tb->getList();
+				$formPage = 'customer-list';
+//$this->vd($rows);
+				echo $blade->run("customer-list", compact('rows', 'formPage', 'initForm'));
 				break;
 		}
 	}
