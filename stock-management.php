@@ -59,7 +59,7 @@ class StockManagement {
 
 					// 検索画面
 					add_submenu_page('stock-management', '商品検索','🔶商品検索', 'read', 'goods-list', array(&$this, 'goods_list'));
-					add_submenu_page('stock-management', '注文検索','🔶注文検索', 'read', 'order-list', array(&$this, 'order_list'));
+					add_submenu_page('stock-management', '注文検索','🔶注文検索', 'read', 'sales-list', array(&$this, 'sales_list'));
 
 					// その他
 					add_submenu_page('stock-management', 'ロット番号登録','ロット番号登録', 'read', 'lot-regist', array(&$this, 'lot_regist'));
@@ -118,7 +118,7 @@ class StockManagement {
 	}
 
 	/**
-	 * menu
+	 * 
 	 **/
 	function menu_top() {
 		$blade = $this->set_view();
@@ -253,7 +253,7 @@ class StockManagement {
 	/**
 	 *
 	 **/
-	function order_list() {
+	function sales_list() {
 		$blade = $this->set_view();
 		$prm = (object) $_GET;
 		$p = (object) $_POST;
@@ -265,9 +265,9 @@ class StockManagement {
 				$tb = new Order;
 				$initForm = $tb->getInitForm();
 				$rows = $tb->getList($prm, $un_convert = true);
-				$formPage = 'order-list';
+				$formPage = 'sales-list';
 //$this->vd($rows);
-				echo $blade->run("order-list", compact('rows', 'formPage', 'initForm'));
+				echo $blade->run("sales-list", compact('rows', 'formPage', 'initForm'));
 				break;
 		}
 	}
@@ -314,8 +314,8 @@ class StockManagement {
 				$initForm = $tb->getInitForm();
 //				$prm = (!empty($prm->post)) ? (object) $prm : $tb->getPrm();
 				$rows = $tb->getList($prm);
-				$formPage = 'order-list';
-				echo $blade->run("order-list", compact('rows', 'formPage', 'initForm'));
+				$formPage = 'sales-list';
+				echo $blade->run("sales-list", compact('rows', 'formPage', 'initForm'));
 				break;
 				
 			case 'save':
@@ -335,7 +335,7 @@ class StockManagement {
 						echo '<script>var msg = document.getElementById("msg"); msg.innerHTML = "'. $p->messages['error'][0]. '";</script>';
 					}
 				}
-				$formPage = 'order-list';
+				$formPage = 'sales-list';
 				echo $blade->run("shop-detail", compact('rows', 'formPage', 'prm'));
 				break;
 
@@ -344,7 +344,7 @@ class StockManagement {
 				$initForm = $tb->getInitForm();
 				$rows = $tb->getDetail($prm);
 				$p = $rows;
-				$formPage = 'order-list';
+				$formPage = 'sales-list';
 				echo $blade->run("shop-detail", compact('rows', 'formPage', 'prm', 'p', 'initForm'));
 				break;
 
@@ -378,7 +378,7 @@ $this->vd($msg);
 				
 				$rows = $tb->getDetail($prm);
 
-				$formPage = 'order-list';
+				$formPage = 'sales-list';
 				echo $blade->run("shop-detail", compact('rows', 'formPage', 'prm', 'p', 'msg'));
 
 				break;
@@ -389,7 +389,7 @@ $this->vd($msg);
 				$tb = new Applicant;
 				$rows = $tb->getDetail($prm);
 				$p = $rows;
-				$formPage = 'order-list';
+				$formPage = 'sales-list';
 				echo $blade->run("shop-detail", compact('rows', 'formPage', 'prm', 'p'));
 				break;
 
@@ -416,7 +416,7 @@ $this->vd($msg);
 				$tb = new Applicant;
 				$ret = $tb->initStatus($applicant);
 				$result = ($ret == true) ? 'true' : 'false';
-				echo '<script>window.location.href = "'. home_url(). '/wp-admin/admin.php?page=order-list&init-status='. $result. '";</script>';
+				echo '<script>window.location.href = "'. home_url(). '/wp-admin/admin.php?page=sales-list&init-status='. $result. '";</script>';
 				break;
 		}
 	}
