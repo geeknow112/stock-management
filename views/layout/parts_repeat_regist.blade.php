@@ -2,8 +2,8 @@
 	<legend>【繰り返し情報登録】</legend>
 	</p>
 
-  <div class="mb-3">
-    <label for="carModel" class="form-label">繰り返し</label>
+  <div class="row mb-3">
+    <label for="carModel" class="col-sm-2 col-form-label">繰り返し</label>
 	<select class="form-select" aria-label="carModel">
 		<option value=""></option>
 		<option value=""></option>
@@ -14,8 +14,8 @@
 	</select>
   </div>
 
-  <div class="mb-3">
-    <label for="goodsName" class="form-label">繰り返す間隔</label>
+  <div class="row mb-3">
+    <label for="goodsName" class="col-sm-2 col-form-label">繰り返す間隔</label>
 	<select class="form-select" aria-label="goodsName">
 		<option value=""></option>
 		@for ($i = 1; $i <= 31; $i++)
@@ -24,7 +24,7 @@
 	</select>
   </div>
 
-  <div class="mb-3">
+  <div class="row mb-3">
     <label class="form-check-label" for="repeat">曜日</label>
   </div>
   <div class="mb-3">
@@ -44,14 +44,14 @@
 		<label class="form-check-label" for="repeatSu">日</label>
   </div>
 
-  <div class="mb-3">
-    <label for="arrivalDt" class="form-label">開始日</label>
-    <input type="date" class="form-control" id="arrivalDt" aria-describedby="arrivalDtHelp">
-    <div id="arrivalDtHelp" class="form-text">開始日を入力してください。</div>
+  <div class="row mb-3">
+    <label for="arrivalDt" class="col-sm-2 col-form-label">開始日</label>
+    <input type="date" class="col-sm-6 col-form-control" id="arrivalDt" aria-describedby="arrivalDtHelp">
+<!--    <div id="arrivalDtHelp" class="form-text">開始日を入力してください。</div>-->
   </div>
 
-  <div class="mb-3">
-    <label for="arrivalDt" class="form-label">終了日</label>
-    <input type="date" class="form-control" id="arrivalDt" aria-describedby="arrivalDtHelp">
-    <div id="arrivalDtHelp" class="form-text">終了日を入力してください。</div>
+  <div class="row mb-3">
+    <label for="arrivalDt" class="col-sm-2 col-form-label">終了日</label>
+    <input type="date" class="col-sm-6 col-form-control" id="arrivalDt" aria-describedby="arrivalDtHelp">
+<!--    <div id="arrivalDtHelp" class="form-text">終了日を入力してください。</div>-->
   </div>
