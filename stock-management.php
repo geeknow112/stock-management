@@ -53,7 +53,7 @@ class StockManagement {
 			case 'administrator':
 				if (in_array($cur_user->user_login, array('admin'))) {
 					// 登録画面
-					add_submenu_page('stock-management', '商品登録','🔷商品登録', 'read', 'goods-regist', array(&$this, 'goods_regist'));
+					add_submenu_page('stock-management', '商品登録','🔷商品登録', 'read', 'goods-detail', array(&$this, 'goods_detail'));
 					add_submenu_page('stock-management', '顧客登録','🔷顧客登録', 'read', 'customer-regist', array(&$this, 'customer_regist'));
 					add_submenu_page('stock-management', '注文登録','🔷注文登録', 'read', 'sales-detail', array(&$this, 'sales_detail'));
 
@@ -184,9 +184,9 @@ class StockManagement {
 	/**
 	 *
 	 **/
-	function goods_regist() {
+	function goods_detail() {
 		$blade = $this->set_view();
-		echo $blade->run("goods-regist");
+		echo $blade->run("goods-detail");
 	}
 
 	/**
