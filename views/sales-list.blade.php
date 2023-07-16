@@ -112,7 +112,8 @@ $g = $_GET;
 						</td>
 
 						<td>
-							<a href="" onClick="window.open('/wp-admin/admin.php?page=sum-day-goods', 'regist lot number', 'popup', 'left=200,top=100,width=420,height=520');">{{ $list->id }}</a>
+							<a href="/wp-admin/admin.php?page=sales-detail&sales={{$list->id}}">{{ $list->id }}</a>
+							<!--<a href="" onClick="window.open('/wp-admin/admin.php?page=sum-day-goods', 'regist lot number', 'popup', 'left=200,top=100,width=420,height=520');">{{ $list->id }}</a>-->
 						</td>
 						<td>{{ $list->rgdt }}</td>
 						<td>{{ $list->name }}</td>
