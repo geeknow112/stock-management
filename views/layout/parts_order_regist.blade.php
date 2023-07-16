@@ -28,7 +28,7 @@
 
   <div class="row mb-3">
     <label for="shipAdd" class="col-sm-2 col-form-label">配送先</label>
-    <input type="text" class="col-sm-6 col-form-control" id="shipAdd" aria-describedby="shipAddHelp">
+    <input type="text" class="col-sm-6 col-form-control" id="shipAdd" name="ship_addr" aria-describedby="shipAddHelp">
 <!--    <div id="shipAddHelp" class="form-text">配送先を入力してください。</div>-->
   </div>
 
