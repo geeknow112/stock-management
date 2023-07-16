@@ -205,9 +205,13 @@ class StockManagement {
 		$blade = $this->set_view();
 		$get = (object) $_GET;
 		$post = (object) $_POST;
-$this->vd($post);
+//$this->vd($post);
 
 		switch($get->action) {
+			default:
+				echo $blade->run("sales-detail");
+				break;
+
 			case 'regist':
 				$tb = new Sales;
 				break;
