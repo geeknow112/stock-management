@@ -235,6 +235,15 @@ class StockManagement {
 				echo $blade->run("sales-detail", compact('rows', 'formPage', 'prm'));
 				break;
 
+			case 'edit':
+				$tb = new Sales;
+				$initForm = $tb->getInitForm();
+				$rows = $tb->getDetail($get);
+				$post = $rows;
+				$formPage = 'sales-list';
+				echo $blade->run("sales-detail", compact('rows', 'formPage', 'get', 'post', 'initForm'));
+				break;
+
 			case 'edit-exe':
 				$get = (object) $_GET;
 				$post = (object) $_POST;
