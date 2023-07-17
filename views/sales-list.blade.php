@@ -18,36 +18,39 @@ $g = $_GET;
 		<form method="get">
 			@if ($tb->getCurUser()->roles[0] == 'administrator')
 			<div class="search-box">
-				<label class="screen-reader-text" for="user-search-input">申込者を検索:</label>
 				<label for="carModel" class="col-sm-2 col-form-label">No. ：</label>
 					<input type="search" id="user-search-input" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>"><br /><br />
+
 				<label for="carModel" class="col-sm-2 col-form-label">商品：</label>
-					<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
+					<input type="search" id="user-search-input" name="s[goods_name]" value="<?php echo htmlspecialchars($g['s']['goods_name']); ?>"><br /><br />
+
 				<label for="carModel" class="col-sm-2 col-form-label">ロット番号：</label>
-					<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
+					<input type="search" id="user-search-input" name="s[lot]" value="<?php echo htmlspecialchars($g['s']['lot']); ?>" disabled><br /><br />
+
 				<label for="carModel" class="col-sm-2 col-form-label">状態：</label>
-					<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
+					<input type="search" id="user-search-input" name="s[status]" value="<?php echo htmlspecialchars($g['s']['status']); ?>" disabled><br /><br />
+
 				<label for="carModel" class="col-sm-2 col-form-label">出庫倉庫：</label>
-					<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
+					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($g['s']['outgoing_warehouse']); ?>" disabled><br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">注文日：</label>
-					<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
-				<input type="date" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($g['s']['edt']); ?>" placeholder="2022-12-01"><br /><br />
+					<input type="date" id="user-search-input" name="s[order_s_dt]" value="<?php echo htmlspecialchars($g['s']['order_s_dt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
+				<input type="date" id="user-search-input" name="s[order_e_dt]" value="<?php echo htmlspecialchars($g['s']['order_e_dt']); ?>" placeholder="2022-12-01"><br /><br />
 
-				<label for="carModel" class="col-sm-2 col-form-label">引取予定日：</label>
-					<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
-				<input type="date" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($g['s']['edt']); ?>" placeholder="2022-12-01">&emsp;
+				<label for="carModel" class="col-sm-2 col-form-label">引取(入庫)予定日：</label>
+					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_s_dt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
+				<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_e_dt']); ?>" placeholder="2022-12-01">&emsp;
 <!--
 				<input type="submit" id="search-submit" class="button" value="申込者を検索">
 -->
-				<button type="button" class="btn btn-primary">検索</button>
+				<input type="submit" id="search-submit" class="btn btn-primary" value="検索">
 
 			</div>
 			<br />
 
 			<div class="search-box">
 				<label for="cmd-select" class="col-sm-2 col-form-label">一括操作：</label>
-				<select name="cmd" id="cmd-select">
+				<select name="cmd" id="cmd-select" disabled>
 					<option value=""></option>
 					<option value="confirm">確定</option>
 					<option value="pending">未確定</option>
@@ -60,7 +63,7 @@ $g = $_GET;
 			</div>
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
-			<input type="hidden" name="page" value="shop-list">
+			<input type="hidden" name="page" value="sales-list">
 			<input type="hidden" name="action" value="search">
 			@endif
 
@@ -164,7 +167,7 @@ function init_status(applicant = null) {
 	var str = "No. 【" + applicant + "】 の「登録状況」を初期化しますか？";
 	if (window.confirm(str)) {
 		//alert("初期化しました。");
-		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=shop-list&post=" + applicant + "&action=init-status";
+		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=sales-list&post=" + applicant + "&action=init-status";
 	}
 }
 </script>
