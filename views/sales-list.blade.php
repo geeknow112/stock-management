@@ -58,7 +58,7 @@ $g = $_GET;
 				</select>
 
 				&emsp;
-				<button type="button" class="btn btn-primary">適用</button>
+				<button type="button" class="btn btn-primary" disabled>適用</button>
 
 			</div>
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
