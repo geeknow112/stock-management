@@ -247,6 +247,7 @@ class StockManagement {
 			case 'edit-exe':
 				$get = (object) $_GET;
 				$post = (object) $_POST;
+$this->vd($post);
 				$tb = new Sales;
 				if (!empty($_POST)) {
 					if ($post->cmd == 'save') {
