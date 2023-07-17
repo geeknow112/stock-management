@@ -40,7 +40,7 @@ $g = $_GET;
 <!--
 				<input type="submit" id="search-submit" class="button" value="申込者を検索">
 -->
-				<button type="button" class="btn btn-primary">検索</button>
+				<input type="submit" id="search-submit" class="btn btn-primary" value="検索">
 
 			</div>
 			<br />
@@ -60,7 +60,7 @@ $g = $_GET;
 			</div>
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
-			<input type="hidden" name="page" value="shop-list">
+			<input type="hidden" name="page" value="sales-list">
 			<input type="hidden" name="action" value="search">
 			@endif
 
@@ -164,7 +164,7 @@ function init_status(applicant = null) {
 	var str = "No. 【" + applicant + "】 の「登録状況」を初期化しますか？";
 	if (window.confirm(str)) {
 		//alert("初期化しました。");
-		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=shop-list&post=" + applicant + "&action=init-status";
+		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=sales-list&post=" + applicant + "&action=init-status";
 	}
 }
 </script>

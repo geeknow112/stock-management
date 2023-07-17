@@ -337,16 +337,16 @@ $this->vd($msg);
 	 **/
 	function sales_list() {
 		$blade = $this->set_view();
-		$prm = (object) $_GET;
-		$p = (object) $_POST;
+		$get = (object) $_GET;
+		$post = (object) $_POST;
 
-		$prm->action = 'search';
-		switch($prm->action) {
+		$get->action = 'search';
+		switch($get->action) {
 			case 'search':
 			default:
 				$tb = new Sales;
 				$initForm = $tb->getInitForm();
-				$rows = $tb->getList($prm, $un_convert = true);
+				$rows = $tb->getList($get, $un_convert = true);
 				$formPage = 'sales-list';
 //$this->vd($rows);
 				echo $blade->run("sales-list", compact('rows', 'formPage', 'initForm'));
