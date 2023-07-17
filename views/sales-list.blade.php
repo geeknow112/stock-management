@@ -18,25 +18,28 @@ $g = $_GET;
 		<form method="get">
 			@if ($tb->getCurUser()->roles[0] == 'administrator')
 			<div class="search-box">
-				<label class="screen-reader-text" for="user-search-input">申込者を検索:</label>
 				<label for="carModel" class="col-sm-2 col-form-label">No. ：</label>
 					<input type="search" id="user-search-input" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>"><br /><br />
+
 				<label for="carModel" class="col-sm-2 col-form-label">商品：</label>
-					<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
+					<input type="search" id="user-search-input" name="s[goods_name]" value="<?php echo htmlspecialchars($g['s']['goods_name']); ?>"><br /><br />
+
 				<label for="carModel" class="col-sm-2 col-form-label">ロット番号：</label>
-					<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
+					<input type="search" id="user-search-input" name="s[lot]" value="<?php echo htmlspecialchars($g['s']['lot']); ?>" disabled><br /><br />
+
 				<label for="carModel" class="col-sm-2 col-form-label">状態：</label>
-					<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
+					<input type="search" id="user-search-input" name="s[status]" value="<?php echo htmlspecialchars($g['s']['status']); ?>" disabled><br /><br />
+
 				<label for="carModel" class="col-sm-2 col-form-label">出庫倉庫：</label>
-					<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
+					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($g['s']['outgoing_warehouse']); ?>" disabled><br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">注文日：</label>
-					<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
-				<input type="date" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($g['s']['edt']); ?>" placeholder="2022-12-01"><br /><br />
+					<input type="date" id="user-search-input" name="s[order_s_dt]" value="<?php echo htmlspecialchars($g['s']['order_s_dt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
+				<input type="date" id="user-search-input" name="s[order_e_dt]" value="<?php echo htmlspecialchars($g['s']['order_e_dt']); ?>" placeholder="2022-12-01"><br /><br />
 
-				<label for="carModel" class="col-sm-2 col-form-label">引取予定日：</label>
-					<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
-				<input type="date" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($g['s']['edt']); ?>" placeholder="2022-12-01">&emsp;
+				<label for="carModel" class="col-sm-2 col-form-label">引取(入庫)予定日：</label>
+					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_s_dt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
+				<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_e_dt']); ?>" placeholder="2022-12-01">&emsp;
 <!--
 				<input type="submit" id="search-submit" class="button" value="申込者を検索">
 -->
@@ -47,7 +50,7 @@ $g = $_GET;
 
 			<div class="search-box">
 				<label for="cmd-select" class="col-sm-2 col-form-label">一括操作：</label>
-				<select name="cmd" id="cmd-select">
+				<select name="cmd" id="cmd-select" disabled>
 					<option value=""></option>
 					<option value="confirm">確定</option>
 					<option value="pending">未確定</option>
