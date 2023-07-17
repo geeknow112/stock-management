@@ -5,23 +5,24 @@
 	function exec_action(cmd = null) {
 		switch (cmd) {
 			case 'edit-exe':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=sales-detail&post={{$_GET['post']}}&action=edit-exe"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=sales-detail&sales={{$_GET['sales']}}&action=edit-exe"
+				document.forms.cmd.value = 'save';
 				document.forms.target = '';
 				document.forms.submit();
 				break;
 			case 'save':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=sales-detail&post={{$_GET['post']}}&action=edit-exe"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=sales-detail&sales={{$_GET['sales']}}&action=edit-exe"
 				document.forms.cmd.value = 'save';
 				document.forms.target = '';
 				document.forms.submit();
 				break;
 			case 'cancel':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=sales-detail&post={{$_GET['post']}}&action=cancel"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=sales-detail&sales={{$_GET['sales']}}&action=cancel"
 				document.forms.target = '';
 				document.forms.submit();
 				break;
 			case 'preview':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=sales-detail&post={{$_GET['post']}}&action=preview"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=sales-detail&sales={{$_GET['sales']}}&action=preview"
 				document.forms.cmd.value = 'preview';
 				document.forms.target = '_blank';
 				document.forms.submit();
@@ -42,7 +43,7 @@
 	<span id="msg" style="color: red;"></span>
 	<input type="hidden" name="cmd" value="" />
 	<input type="hidden" name="step" id="step" value="" />
-	<input type="hidden" name="applicant" value="{{$prm->post}}" />
+	<input type="hidden" name="sales" value="{{$get->sales}}" />
 	<input type="hidden" name="your_email" value="<?php echo htmlspecialchars($rows->_field_your_email); ?>" />
 	<div class="mesasge">
 		<p style="color: red;"><?php if (!empty($_POST['message']['error'])) { echo htmlspecialchars(current($_POST['message']['error'])); } ?></p>
@@ -77,8 +78,13 @@
 &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; 
 <!--<input type="button" name="cmd_regist" id="cmd_regist" class="common_btn" value="登録" onclick="to_next();">-->
 <!--<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="登録" onclick="to_next();">-->
-<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="登録" onclick="exec_action('save');">
 <!--<button type="submit" class="btn btn-primary">Submit</button>-->
+
+@if ($get->action != 'edit')
+<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="登録" onclick="exec_action('save');">
+@else
+<input type="button" name="cmd_update" id="cmd_update" class="btn btn-primary" value="更新" onclick="exec_action('edit-exe');">
+@endif
 
 </form>
 
