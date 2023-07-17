@@ -247,13 +247,13 @@ class StockManagement {
 			case 'edit-exe':
 				$get = (object) $_GET;
 				$post = (object) $_POST;
-$this->vd($post);
+//$this->vd($post);
 				$tb = new Sales;
 				if (!empty($_POST)) {
 					if ($post->cmd == 'save') {
 						$post->messages = array('error' => array('error is _field_company-name.')); // TEST DATA 
 $msg = $this->getValidMsg();		
-$this->vd($msg);
+//$this->vd($msg);
 						if ($msg['msg'] != 'success') {
 						} else {
 							$rows = $tb->updDetail($get, $post);
@@ -267,7 +267,7 @@ $this->vd($msg);
 				}
 				
 				$rows = $tb->getDetail($get);
-
+//$this->vd($rows);
 				$formPage = 'sales-list';
 				echo $blade->run("sales-detail", compact('rows', 'formPage', 'get', 'post', 'msg'));
 
