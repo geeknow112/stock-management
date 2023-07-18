@@ -209,7 +209,10 @@ class StockManagement {
 
 		switch($get->action) {
 			default:
-				echo $blade->run("sales-detail");
+				$tb = new Sales;
+				$initForm = $tb->getInitForm();
+				$formPage = 'sales-list';
+				echo $blade->run("sales-detail", compact('formPage', 'get', 'initForm'));
 				break;
 
 			case 'regist':
