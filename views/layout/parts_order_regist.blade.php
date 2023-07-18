@@ -12,24 +12,18 @@
 	<div class="row mb-3">
 		<label for="carModel" class="col-sm-2 col-form-label">車種</label>
 	<select class="form-select" aria-label="carModel">
-		<option value=""></option>
-		<option value="6t_1" selected>6t-1</option>
-		<option value="6t_2">6t-2</option>
-		<option value="6t_3">6t-3</option>
-		<option value="6t_4">6t-4</option>
-		<option value="6t_5">6t-5</option>
+		@foreach($initForm['select']['car_model'] as $i => $d)
+			<option value="{{$i}}" @if ($i == $rows->class) selected @endif >{{$d}}</option>
+		@endforeach
 	</select>
 	</div>
 
 	<div class="row mb-3">
 		<label for="goodsName" class="col-sm-2 col-form-label">品名</label>
 	<select class="form-select" aria-label="goodsName">
-		<option value=""></option>
-		<option value="1" selected>商品①</option>
-		<option value="2">商品②</option>
-		<option value="3">商品③</option>
-		<option value="4">商品④</option>
-		<option value="5">商品⑤</option>
+		@foreach($initForm['select']['goods_name'] as $i => $d)
+			<option value="{{$i}}" @if ($i == $rows->goods) selected @endif >{{$d}}</option>
+		@endforeach
 	</select>
 	</div>
 
