@@ -80,22 +80,6 @@ $g = $_GET;
 <!--
 			<table class="striped" style="border-collapse: collapse;">
 -->
-			<table class="table table-bordered text-nowrap">
-				<thead class="table-light">
-				</thead>
-
-			@if (isset($rows) && count($rows))
-				<tbody id="the-list" data-wp-lists="list:user">
-			@else
-				<td class="colspanchange" colspan="7">検索対象は見つかりませんでした。</td>
-			@endif
-				</tbody>
-
-				<tfoot>
-				</tfoot>
-			</table>
-
-
 		<div>
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
@@ -137,7 +121,7 @@ $g = $_GET;
 					</tr>
 					@endforeach
 			@else
-				<td class="colspanchange" colspan="7">検索対象は見つかりませんでした。</td>
+				<td class="colspanchange" colspan="10">検索対象は見つかりませんでした。</td>
 			@endif
 				</tbody>
 
