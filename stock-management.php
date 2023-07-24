@@ -9,6 +9,7 @@ require_once(dirname(__DIR__). '/stock-management/model/Shop.php');
 require_once(dirname(__DIR__). '/stock-management/model/Applicant.php');
 require_once(dirname(__DIR__). '/stock-management/model/Sales.php');
 require_once(dirname(__DIR__). '/stock-management/model/Goods.php');
+require_once(dirname(__DIR__). '/stock-management/model/Customer.php');
 
 //require(__DIR__. '/library/vendor/vendor_phpspreadsheet/autoload.php');
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -331,15 +332,16 @@ $msg = $this->getValidMsg();
 	 **/
 	function customer_list() {
 		$blade = $this->set_view();
-		$prm = (object) $_GET;
-		$p = (object) $_POST;
+		$get = (object) $_GET;
+		$post = (object) $_POST;
 
-		switch($prm->action) {
+		$get->action = 'search';
+		switch($get->action) {
 			case 'search':
 			default:
-				$tb = new Sales;
+				$tb = new Customer;
 				$initForm = $tb->getInitForm();
-				$rows = $tb->getList();
+				$rows = $tb->getList($get, $un_convert = true);
 				$formPage = 'customer-list';
 //$this->vd($rows);
 				echo $blade->run("customer-list", compact('rows', 'formPage', 'initForm'));

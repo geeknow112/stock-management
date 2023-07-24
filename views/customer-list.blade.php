@@ -18,20 +18,20 @@ $g = $_GET;
 		<form method="get">
 			@if ($tb->getCurUser()->roles[0] == 'administrator')
 			<div class="search-box">
-				<label class="screen-reader-text" for="user-search-input">申込者を検索:</label>
-				商品番号 ：<input type="search" id="user-search-input" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>"><br /><br />
-				商品名：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
-				荷姿・容量：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
-				ロット番号：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
-				倉庫：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
-				個数：<input type="text" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="0">&emsp;～&emsp;
-				<input type="text" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($g['s']['edt']); ?>" placeholder="0"><br /><br />
-				在庫確認日：<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="0">&emsp;
-				<button type="button" class="btn btn-primary">検索</button>
+				<label for="customer" class="col-sm-2 col-form-label">顧客番号：</label>
+					<input type="search" id="customer" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>"><br /><br />
+
+				<label for="customer_name" class="col-sm-2 col-form-label">顧客名：</label>
+					<input type="search" id="customer_name" name="s[customer_name]" value="<?php echo htmlspecialchars($g['s']['customer_name']); ?>"><br /><br />
+<!--
+				<input type="submit" id="search-submit" class="button" value="申込者を検索">
+-->
+				<input type="submit" id="search-submit" class="btn btn-primary" value="検索">
+
 			</div>
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
-			<input type="hidden" name="page" value="shop-list">
+			<input type="hidden" name="page" value="customer-list">
 			<input type="hidden" name="action" value="search">
 			@endif
 
@@ -48,50 +48,32 @@ $g = $_GET;
 <!--
 			<table class="striped" style="border-collapse: collapse;">
 -->
-			<table class="table table-bordered text-nowrap">
-				<thead class="table-light">
-				</thead>
-
-			@if (isset($rows) && count($rows))
-				<tbody id="the-list" data-wp-lists="list:user">
-			@else
-				<td class="colspanchange" colspan="7">検索対象は見つかりませんでした。</td>
-			@endif
-				</tbody>
-
-				<tfoot>
-				</tfoot>
-			</table>
-
-
 		<div>
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
 					<tr>
-						<th scope="col" id="username" class="">No.</th>
-						<th scope="col" id="username" class="">商品番号</th>
-						<th scope="col" id="username" class="">商品名</th>
-						<th scope="col" id="username" class="">荷姿・容量</th>
-						<th scope="col" id="username" class="">個数</th>
-						<th scope="col" id="username" class="">数量(kg)</th>
+						<th scope="col" id="username" class="">顧客番号</th>
+						<th scope="col" id="username" class="">顧客名</th>
+						<th scope="col" id="username" class=""></th>
+						<th scope="col" id="username" class=""></th>
+						<th scope="col" id="username" class=""></th>
 						<th scope="col" id="username" class="">備考</th>
 					</tr>
 				</thead>
 
 			@if (isset($rows) && count($rows))
 				<tbody id="the-list" data-wp-lists="list:user">
-					@foreach ($rows as $delivery_dt => $list)
+					@foreach ($rows as $i => $list)
 					<tr id="user-1">
-						<td></td>
 						<td colspan="1">
-							<a href="" onClick="window.open('/wp-admin/admin.php?page=sum-day-goods', 'regist lot number', 'popup', 'left=200,top=100,width=420,height=520');">{{$delivery_dt}}</a>
+							<a href="/wp-admin/admin.php?page=goods-detail&customer={{$list->customer}}&action=edit">{{ $list->customer }}</a>
+							<!--<a href="" onClick="window.open('/wp-admin/admin.php?page=sum-day-goods', 'regist lot number', 'popup', 'left=200,top=100,width=420,height=520');">{{$delivery_dt}}</a>-->
 						</td>
-
+						<td>{{ $list->customer_name }}</td>
 						<td></td>
 						<td></td>
 						<td></td>
-						<td></td>
-						<td></td>
+						<td>{{ $list->remark }}</td>
 
 					</tr>
 					@endforeach
@@ -126,7 +108,7 @@ function init_status(applicant = null) {
 	var str = "No. 【" + applicant + "】 の「登録状況」を初期化しますか？";
 	if (window.confirm(str)) {
 		//alert("初期化しました。");
-		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=shop-list&post=" + applicant + "&action=init-status";
+		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=customer-list&post=" + applicant + "&action=init-status";
 	}
 }
 </script>
