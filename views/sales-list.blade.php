@@ -18,14 +18,14 @@ $g = $_GET;
 		<form method="get">
 			@if ($tb->getCurUser()->roles[0] == 'administrator')
 			<div class="search-box">
-				<label for="carModel" class="col-sm-2 col-form-label">No. ：</label>
-					<input type="search" id="user-search-input" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>"><br /><br />
+				<label for="sales" class="col-sm-2 col-form-label">No. ：</label>
+					<input type="search" id="sales" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>"><br /><br />
 
-				<label for="carModel" class="col-sm-2 col-form-label">商品：</label>
-					<input type="search" id="user-search-input" name="s[goods_name]" value="<?php echo htmlspecialchars($g['s']['goods_name']); ?>"><br /><br />
+				<label for="goods_name" class="col-sm-2 col-form-label">商品名：</label>
+					<input type="search" id="goods_name" name="s[goods_name]" value="<?php echo htmlspecialchars($g['s']['goods_name']); ?>"><br /><br />
 
-				<label for="carModel" class="col-sm-2 col-form-label">ロット番号：</label>
-					<input type="search" id="user-search-input" name="s[lot]" value="<?php echo htmlspecialchars($g['s']['lot']); ?>" disabled><br /><br />
+				<label for="lot" class="col-sm-2 col-form-label">ロット番号：</label>
+					<input type="search" id="lot" name="s[lot]" value="<?php echo htmlspecialchars($g['s']['lot']); ?>" disabled><br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">状態：</label>
 					<input type="search" id="user-search-input" name="s[status]" value="<?php echo htmlspecialchars($g['s']['status']); ?>" disabled><br /><br />
