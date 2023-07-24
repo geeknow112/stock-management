@@ -37,7 +37,7 @@ $g = $_GET;
 			</div>
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
-			<input type="hidden" name="page" value="shop-list">
+			<input type="hidden" name="page" value="goods-list">
 			<input type="hidden" name="action" value="search">
 			@endif
 
@@ -69,10 +69,11 @@ $g = $_GET;
 
 			@if (isset($rows) && count($rows))
 				<tbody id="the-list" data-wp-lists="list:user">
-					@foreach ($rows as $delivery_dt => $list)
+					@foreach ($rows as $i => $list)
 					<tr id="user-1">
 						<td colspan="1">
-							<a href="" onClick="window.open('/wp-admin/admin.php?page=sum-day-goods', 'regist lot number', 'popup', 'left=200,top=100,width=420,height=520');">{{$delivery_dt}}</a>
+							<a href="/wp-admin/admin.php?page=goods-detail&goods={{$list->goods}}&action=edit">{{ $list->goods }}</a>
+							<!--<a href="" onClick="window.open('/wp-admin/admin.php?page=sum-day-goods', 'regist lot number', 'popup', 'left=200,top=100,width=420,height=520');">{{$delivery_dt}}</a>-->
 						</td>
 						<td>{{ $list->goods_name }}</td>
 						<td>{{ $list->qty }}</td>
@@ -113,7 +114,7 @@ function init_status(applicant = null) {
 	var str = "No. 【" + applicant + "】 の「登録状況」を初期化しますか？";
 	if (window.confirm(str)) {
 		//alert("初期化しました。");
-		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=shop-list&post=" + applicant + "&action=init-status";
+		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=goods-list&post=" + applicant + "&action=init-status";
 	}
 }
 </script>
