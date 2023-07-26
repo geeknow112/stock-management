@@ -189,7 +189,15 @@ class StockManagement {
 	 **/
 	function goods_detail() {
 		$blade = $this->set_view();
-		echo $blade->run("goods-detail");
+		$get = (object) $_GET;
+		$post = (object) $_POST;
+//$this->vd($post);
+//$this->vd($get);
+		$this->_tb = new Goods;
+		$rows = $this->dispatch_db_action($get);
+		//echo $blade->run($formPage, compact('rows', 'formPage', 'initForm'));
+echo $blade->run('goods-detail', compact('get', 'rows'));
+		//echo $blade->run("goods-detail");
 	}
 
 	/**
@@ -372,15 +380,13 @@ $msg = $this->getValidMsg();
 	}
 
 	/**
-	 * 申込データ一覧画面
+	 * DBへの操作振分
 	 *
 	 **/
-	function delivery_list() {
-		$blade = $this->set_view();
-		$prm = (object) $_GET;
-		$p = (object) $_POST;
+	private $_tb = null;
+	private function dispatch_db_action($get = null) {
 
-		switch($prm->action) {
+		switch($get->action) {
 			case 'regist':
 				$tb = new Applicant;
 				break;
@@ -400,12 +406,12 @@ $msg = $this->getValidMsg();
 				$this->export_pdf($prm);
 
 			default:
-				$tb = new Sales;
-				$initForm = $tb->getInitForm();
-				$rows = $tb->getList();
-				$formPage = 'delivery-list';
-//$this->vd($rows);
-				echo $blade->run("delivery-list", compact('rows', 'formPage', 'initForm'));
+
+$this->vd($this->_tb->getTableName());
+				$initForm = $this->_tb->getInitForm();
+				$rows = $this->_tb->getList();
+
+				return $rows;
 				break;
 
 			case 'search' :
@@ -418,14 +424,17 @@ $msg = $this->getValidMsg();
 				break;
 				
 			case 'save':
+				$rows = null;
 				if (!empty($_POST)) {
-					$prm = (object) $_POST;
-//					$tb = new Postmeta;
-//					$result = $tb->updShopDetail($prm, $p);
-					if ($prm->cmd == 'save') {
-						$prm->messages = array('error' => array('error is _field_company-name.')); // TEST DATA 
-						$tb = new Applicant;
-						$rows = $tb->updDetail($prm);
+					$post = (object) $_POST;
+
+					if ($post->cmd == 'save') {
+//$this->vd($post);exit;
+/*
+						$post->messages = array('error' => array('error is _field_company-name.')); // TEST DATA 
+*/
+						$rows = $this->_tb->regDetail($get, $post);
+
 
 					}
 					if (empty($prm->messages)) {
@@ -434,8 +443,7 @@ $msg = $this->getValidMsg();
 						echo '<script>var msg = document.getElementById("msg"); msg.innerHTML = "'. $p->messages['error'][0]. '";</script>';
 					}
 				}
-				$formPage = 'sales-list';
-				echo $blade->run("shop-detail", compact('rows', 'formPage', 'prm'));
+				return $rows;
 				break;
 
 			case 'edit':
@@ -448,37 +456,8 @@ $msg = $this->getValidMsg();
 				break;
 
 			case 'edit-exe':
-				$prm = (object) $_GET;
-				$p = (object) $_POST;
-/*
-				$tb = new Postmeta;
-				$rows = $tb->getShopDetail($prm);
-*/
-					//$this->_rows = $tb->updShopDetail($prm, $p);
-				// TODO: transaction, validation
-				$tb = new Applicant;
-				if (!empty($_POST)) {
-					if ($p->cmd == 'save') {
-						$p->messages = array('error' => array('error is _field_company-name.')); // TEST DATA 
-$msg = $this->getValidMsg();		
-$this->vd($msg);
-						if ($msg['msg'] != 'success') {
-						} else {
-							$rows = $tb->updDetail($prm, $p);
-						}
-
-					}
-					if (empty($p->messages)) {
-	//					$result = $tb->updShopDetail($prm, $p);
-					} else {
-						echo '<script>var msg = document.getElementById("msg"); msg.innerHTML = "'. $p->messages['error'][0]. '";</script>';
-					}
-				}
-				
-				$rows = $tb->getDetail($prm);
-
-				$formPage = 'sales-list';
-				echo $blade->run("shop-detail", compact('rows', 'formPage', 'prm', 'p', 'msg'));
+				$formPage = 'goods-list';
+				return $rows;
 
 				break;
 

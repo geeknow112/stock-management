@@ -5,24 +5,24 @@
 	function exec_action(cmd = null) {
 		switch (cmd) {
 			case 'edit-exe':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=sales-detail&sales={{$_GET['sales']}}&action=edit-exe"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=edit-exe"
 				document.forms.cmd.value = 'save';
 				document.forms.target = '';
 				document.forms.submit();
 				break;
 			case 'save':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=sales-detail&sales={{$_GET['sales']}}&action=edit-exe"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=save"
 				document.forms.cmd.value = 'save';
 				document.forms.target = '';
 				document.forms.submit();
 				break;
 			case 'cancel':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=sales-detail&sales={{$_GET['sales']}}&action=cancel"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=cancel"
 				document.forms.target = '';
 				document.forms.submit();
 				break;
 			case 'preview':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=sales-detail&sales={{$_GET['sales']}}&action=preview"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=preview"
 				document.forms.cmd.value = 'preview';
 				document.forms.target = '_blank';
 				document.forms.submit();
