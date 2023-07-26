@@ -130,8 +130,8 @@ class StockManagement {
 		$list = $applicant->getList();
 
 		$msg = $this->getValidMsg();
-		$title = '<p>menu_top</p>';
-		echo $blade->run("sample", compact('title','fugafuga', 'msg'));
+		$title = '<p>menu top</p>';
+		echo $blade->run("menu-top", compact('title','menu top', 'msg'));
 	}
 
 	/**
