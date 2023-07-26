@@ -126,10 +126,10 @@ class StockManagement {
 	function menu_top() {
 		$blade = $this->set_view();
 
-		$applicant = new Applicant();
-		$list = $applicant->getList();
+//		$applicant = new Applicant();
+//		$list = $applicant->getList();
 
-		$msg = $this->getValidMsg();
+//		$msg = $this->getValidMsg();
 		$title = '<p>menu top</p>';
 		echo $blade->run("menu-top", compact('title','menu top', 'msg'));
 	}
@@ -194,7 +194,7 @@ class StockManagement {
 
 		$this->_tb = new Goods;
 		$rows = $this->dispatch_db_action($get);
-if($rows['messages']) { $msg = $rows['messages']; $get->action = 'save'; }
+if($rows['messages']['error']) { $msg = $rows['messages']; $get->action = 'save'; }
 		//echo $blade->run($formPage, compact('rows', 'formPage', 'initForm'));
 		echo $blade->run('goods-detail', compact('get', 'rows', 'msg'));
 	}
