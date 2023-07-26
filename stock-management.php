@@ -194,7 +194,7 @@ class StockManagement {
 
 		$this->_tb = new Goods;
 		$rows = $this->dispatch_db_action($get);
-if($rows['messages']) { $msg = $rows['messages']; }
+if($rows['messages']) { $msg = $rows['messages']; $get->action = 'save'; }
 		//echo $blade->run($formPage, compact('rows', 'formPage', 'initForm'));
 		echo $blade->run('goods-detail', compact('get', 'rows', 'msg'));
 	}
