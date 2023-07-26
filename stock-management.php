@@ -139,7 +139,7 @@ class StockManagement {
 	 * 
 	 **/
 	function getValidMsg($step_num = null) {
-		$app = new Applicant();
+		$app = $this->_tb;
 		$ve = $app->getValidElement($step_num);
 
 		// rakid
@@ -155,7 +155,7 @@ class StockManagement {
 			'goods_image1' => 'が選択されていません。',
 			// etc
 		]);
-
+/*
 		// 項目コピーのradioにチェックが入ってる場合、rulesを削除してValidation不要にする
 		$ve = $app->initValidationRules($_POST, $ve);
 
@@ -166,7 +166,7 @@ class StockManagement {
 		if ((!empty($_FILES)) && ($step_num == 3)) {
 			$ve = $app->changeFileValidationRules($_POST + $_FILES, $ve);
 		}
-
+*/
 		// make it
 		$validation = $validator->make($_POST + $_FILES, $ve['rules'], $ve['messages']);
 		
@@ -191,13 +191,12 @@ class StockManagement {
 		$blade = $this->set_view();
 		$get = (object) $_GET;
 		$post = (object) $_POST;
-//$this->vd($post);
-//$this->vd($get);
+
 		$this->_tb = new Goods;
 		$rows = $this->dispatch_db_action($get);
+if($rows['messages']) { $msg = $rows['messages']; }
 		//echo $blade->run($formPage, compact('rows', 'formPage', 'initForm'));
-echo $blade->run('goods-detail', compact('get', 'rows'));
-		//echo $blade->run("goods-detail");
+		echo $blade->run('goods-detail', compact('get', 'rows', 'msg'));
 	}
 
 	/**
@@ -406,8 +405,6 @@ $msg = $this->getValidMsg();
 				$this->export_pdf($prm);
 
 			default:
-
-$this->vd($this->_tb->getTableName());
 				$initForm = $this->_tb->getInitForm();
 				$rows = $this->_tb->getList();
 
@@ -424,23 +421,18 @@ $this->vd($this->_tb->getTableName());
 				break;
 				
 			case 'save':
+			case 'edit-exe':
 				$rows = null;
 				if (!empty($_POST)) {
 					$post = (object) $_POST;
 
 					if ($post->cmd == 'save') {
-//$this->vd($post);exit;
-/*
-						$post->messages = array('error' => array('error is _field_company-name.')); // TEST DATA 
-*/
-						$rows = $this->_tb->regDetail($get, $post);
-
-
-					}
-					if (empty($prm->messages)) {
-	//					$result = $tb->updShopDetail($prm, $p);
-					} else {
-						echo '<script>var msg = document.getElementById("msg"); msg.innerHTML = "'. $p->messages['error'][0]. '";</script>';
+						$msg = $this->getValidMsg();
+						if ($msg['msg'] == 'success') {
+							$rows = $this->_tb->regDetail($get, $post);
+						} else {
+							$rows['messages'] = $msg;
+						}
 					}
 				}
 				return $rows;
@@ -453,12 +445,6 @@ $this->vd($this->_tb->getTableName());
 				$p = $rows;
 				$formPage = 'sales-list';
 				echo $blade->run("shop-detail", compact('rows', 'formPage', 'prm', 'p', 'initForm'));
-				break;
-
-			case 'edit-exe':
-				$formPage = 'goods-list';
-				return $rows;
-
 				break;
 
 			case 'cancel':

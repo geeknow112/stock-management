@@ -11,7 +11,7 @@
 				document.forms.submit();
 				break;
 			case 'save':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=save"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=edit-exe"
 				document.forms.cmd.value = 'save';
 				document.forms.target = '';
 				document.forms.submit();
@@ -33,7 +33,7 @@
 
 <div class="mesasge">
 	@foreach($msg as $k => $error)
-	<p style="color: red;">【 {{$aliases[$k]}} 】 {{$error}}</p>
+		<p style="color: red;">【 {{$k}} 】 {{$error}}</p>
 	@endforeach
 </div>
 
@@ -80,7 +80,7 @@
 <!--<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="登録" onclick="to_next();">-->
 <!--<button type="submit" class="btn btn-primary">Submit</button>-->
 
-@if ($get->action == '')
+@if ($get->action == '' || $get->action == 'save')
 <input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="登録" onclick="exec_action('save');">
 @else
 <input type="button" name="cmd_update" id="cmd_update" class="btn btn-primary" value="更新" onclick="exec_action('edit-exe');">
