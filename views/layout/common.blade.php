@@ -86,24 +86,27 @@
 <!--<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="登録" onclick="to_next();">-->
 <!--<button type="submit" class="btn btn-primary">Submit</button>-->
 
-{{$get->action}}
-@if ($get->action == '' || $get->action == 'save' || $get->action == 'edit')
-<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="確認" onclick="to_next();">
-@elseif ($get->action == 'confirm')
-<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="登録" onclick="confirm_regist();">
-<input type="button" name="cmd_return" id="cmd_return" class="btn btn-primary" value="編集" onclick="exec_action('edit');">
-<script>
-function confirm_regist() {
-	var ret = window.confirm('登録しますか？');
-	if (ret) {
-		exec_action('save');
-	} else {
+<div class="d-flex flex-column align-items-center">
+<!--<div class="d-flex flex-column align-items-end mx-5">-->
+	{{$get->action}}
+	@if ($get->action == '' || $get->action == 'save' || $get->action == 'edit')
+	<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="確認" onclick="to_next();">
+	@elseif ($get->action == 'confirm')
+	<input type="button" name="cmd_regist" id="cmd_regist" class="mb-3 btn btn-primary" value="登録" onclick="confirm_regist();">
+	<input type="button" name="cmd_return" id="cmd_return" class="mb-3 btn btn-primary" value="編集" onclick="exec_action('edit');">
+	<script>
+	function confirm_regist() {
+		var ret = window.confirm('登録しますか？');
+		if (ret) {
+			exec_action('save');
+		} else {
+		}
 	}
-}
-</script>
-@else
-<input type="button" name="cmd_update" id="cmd_update" class="btn btn-primary" value="更新" onclick="exec_action('edit-exe');">
-@endif
+	</script>
+	@else
+	<input type="button" name="cmd_update" id="cmd_update" class="btn btn-primary" value="更新" onclick="exec_action('edit-exe');">
+	@endif
+</dvi>
 
 </form>
 
