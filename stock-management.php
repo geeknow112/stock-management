@@ -139,7 +139,7 @@ class StockManagement {
 	 * 
 	 **/
 	function getValidMsg($step_num = null) {
-		$app = $this->_tb;
+		$app = $this->getTb();
 		$ve = $app->getValidElement($step_num);
 
 		// rakid
@@ -192,11 +192,30 @@ class StockManagement {
 		$get = (object) $_GET;
 		$post = (object) $_POST;
 
-		$this->_tb = new Goods;
-		$rows = $this->dispatch_db_action($get);
-if($rows['messages']) { $msg = $rows['messages']; $get->action = 'save'; }
+		$this->setTb('Goods');
+		$page = 'goods-detail';
+
+		$rows = $this->dispatch_db_action($get, $post);
+		if($rows->messages) {
+			$msg = $rows->messages;
+			$get->action = 'save';
+		} else {
+//			$page = 'goods-detail-confirm';
+//$this->vd(array($post, $msg, $rows, $page));exit;
+		}
+/*
+		if(is_null($rows)) {
+			if($rows->messages) {
+				$msg = $rows->messages;
+				$get->action = 'save';
+			} else {
+				$page = 'goods-detail-confirm';
+			}
+		}
+*/
+
 		//echo $blade->run($formPage, compact('rows', 'formPage', 'initForm'));
-		echo $blade->run('goods-detail', compact('get', 'rows', 'msg'));
+		echo $blade->run($page, compact('get', 'rows', 'msg'));
 	}
 
 	/**
@@ -379,11 +398,32 @@ $msg = $this->getValidMsg();
 	}
 
 	/**
-	 * DBへの操作振分
+	 * 
 	 *
 	 **/
 	private $_tb = null;
-	private function dispatch_db_action($get = null) {
+
+	/**
+	 * 
+	 *
+	 **/
+	private function setTb($modelClassName = null) {
+		$this->_tb = new $modelClassName;
+	}
+
+	/**
+	 * 
+	 *
+	 **/
+	private function getTb() {
+		return $this->_tb;
+	}
+
+	/**
+	 * DBへの操作振分
+	 *
+	 **/
+	private function dispatch_db_action($get = null, $post = null) {
 
 		switch($get->action) {
 			case 'regist':
@@ -405,8 +445,8 @@ $msg = $this->getValidMsg();
 				$this->export_pdf($prm);
 
 			default:
-				$initForm = $this->_tb->getInitForm();
-				$rows = $this->_tb->getList();
+				$initForm = $this->getTb()->getInitForm();
+				$rows = $this->getTb()->getList();
 
 				return $rows;
 				break;
@@ -420,18 +460,41 @@ $msg = $this->getValidMsg();
 				echo $blade->run("sales-list", compact('rows', 'formPage', 'initForm'));
 				break;
 				
+			case 'confirm':
+				$rows = null;
+				if (!empty($post)) {
+					if ($post->cmd == 'cmd_confirm') {
+						$msg = $this->getValidMsg();
+
+						$rows = $post;
+						$rows->name = $post->goods_name;
+
+						if ($msg['msg'] !== 'success') {
+							$rows->messages = $msg;
+						}
+					}
+				}
+				return $rows;
+				break;
+
+			case 'complete':
+				$prm = $tb->getPrm();
+				$rows = $tb->regDetail($prm);
+				echo $blade->run("shop-detail-complete", compact('rows', 'prm'));
+				break;
+
 			case 'save':
 			case 'edit-exe':
 				$rows = null;
-				if (!empty($_POST)) {
-					$post = (object) $_POST;
-
+				if (!empty($post)) {
 					if ($post->cmd == 'save') {
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
-							$rows = $this->_tb->regDetail($get, $post);
+							$rows = $this->getTb()->regDetail($get, $post);
 						} else {
-							$rows['messages'] = $msg;
+							$rows = $post;
+							$rows->name = $post->goods_name;
+							$rows->messages = $msg;
 						}
 					}
 				}
@@ -439,12 +502,21 @@ $msg = $this->getValidMsg();
 				break;
 
 			case 'edit':
-				$tb = new Applicant;
-				$initForm = $tb->getInitForm();
-				$rows = $tb->getDetail($prm);
-				$p = $rows;
-				$formPage = 'sales-list';
-				echo $blade->run("shop-detail", compact('rows', 'formPage', 'prm', 'p', 'initForm'));
+				$rows = null;
+				if (!empty($post)) {
+//					if ($post->cmd == 'cmd_regist') {
+						$msg = $this->getValidMsg();
+
+						$rows = $post;
+						$rows->name = $post->goods_name;
+
+						if ($msg['msg'] !== 'success') {
+							$rows->messages = $msg;
+						}
+//					}
+				}
+//$this->vd(array($post, $msg, $rows, $page));exit;
+				return $rows;
 				break;
 
 			case 'cancel':
