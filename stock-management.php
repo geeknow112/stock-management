@@ -193,8 +193,9 @@ class StockManagement {
 		$post = (object) $_POST;
 
 		$this->_tb = new Goods;
-		$rows = $this->dispatch_db_action($get);
-if($rows['messages']) { $msg = $rows['messages']; $get->action = 'save'; }
+		$rows = $this->dispatch_db_action($get, $post);
+		if($rows->messages) { $msg = $rows->messages; $get->action = 'save'; }
+
 		//echo $blade->run($formPage, compact('rows', 'formPage', 'initForm'));
 		echo $blade->run('goods-detail', compact('get', 'rows', 'msg'));
 	}
@@ -383,7 +384,7 @@ $msg = $this->getValidMsg();
 	 *
 	 **/
 	private $_tb = null;
-	private function dispatch_db_action($get = null) {
+	private function dispatch_db_action($get = null, $post = null) {
 
 		switch($get->action) {
 			case 'regist':
@@ -423,15 +424,15 @@ $msg = $this->getValidMsg();
 			case 'save':
 			case 'edit-exe':
 				$rows = null;
-				if (!empty($_POST)) {
-					$post = (object) $_POST;
-
+				if (!empty($post)) {
 					if ($post->cmd == 'save') {
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
 							$rows = $this->_tb->regDetail($get, $post);
 						} else {
-							$rows['messages'] = $msg;
+							$rows = $post;
+							$rows->name = $post->goods_name;
+							$rows->messages = $msg;
 						}
 					}
 				}
