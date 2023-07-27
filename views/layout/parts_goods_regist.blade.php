@@ -10,7 +10,7 @@
 	@endif
 
 	<div class="row mb-3">
-		<label for="goodsName" class="col-sm-2 col-form-label">商品名</label>
+		<label for="goods_name" class="col-sm-2 col-form-label">商品名</label>
 		<input type="text" class="col-sm-2 col-form-control" id="goods_name" name="goods_name" aria-describedby="goodsNameHelp" value="{{$rows->name}}">
 <!--		<div id="orderName" class="form-text">商品名を入力してください。</div>-->
 	</div>
