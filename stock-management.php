@@ -196,7 +196,6 @@ class StockManagement {
 		$page = 'goods-detail';
 		
 		$rows = null;
-$this->vd(array($get, $post, $msg, $rows, $page));
 		switch($get->action) {
 			case 'regist':
 				$tb = new Applicant;
@@ -227,6 +226,7 @@ $this->vd(array($get, $post, $msg, $rows, $page));
 							$rows = $post;
 							$rows->name = $post->goods_name;
 							$rows->id = $rows->goods;
+							if ($rows->goods) { $rows->btn = 'update'; }
 
 							if ($msg['msg'] !== 'success') {
 								$rows->messages = $msg;
@@ -238,20 +238,8 @@ $this->vd(array($get, $post, $msg, $rows, $page));
 						$msg = $rows->messages;
 						$get->action = 'save';
 				} else {
-//					  $page = 'goods-detail-confirm';
-//$this->vd(array($post, $msg, $rows, $page));exit;
 				}
-/*
-				if(is_null($rows)) {
-						if($rows->messages) {
-								$msg = $rows->messages;
-								$get->action = 'save';
-						} else {
-								$page = 'goods-detail-confirm';
-						}
-				}
-*/
-
+$this->vd(array($get, $post, $msg, $rows, $page));
 				echo $blade->run("goods-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
 
@@ -267,6 +255,8 @@ $this->vd(array($get, $post, $msg, $rows, $page));
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
 							$rows = $this->getTb()->regDetail($get, $post);
+							$get->action = 'complete';
+
 						} else {
 							$rows = $post;
 							$rows->name = $post->goods_name;
@@ -274,6 +264,7 @@ $this->vd(array($get, $post, $msg, $rows, $page));
 						}
 					}
 				}
+$this->vd($rows);
 				echo $blade->run("goods-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
 
@@ -283,6 +274,9 @@ $this->vd(array($get, $post, $msg, $rows, $page));
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
 							$rows = $this->getTb()->updDetail($get, $post);
+							$rows->goods_name = $rows->name;
+							$get->action = 'complete';
+
 						} else {
 							$rows = $post;
 							$rows->name = $post->goods_name;
@@ -290,7 +284,7 @@ $this->vd(array($get, $post, $msg, $rows, $page));
 						}
 					}
 				}
-				$this->vd($rows);
+$this->vd($rows);
 				echo $blade->run("goods-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
 
