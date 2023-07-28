@@ -293,7 +293,6 @@ $this->vd(array($get, $post, $msg, $rows, $page));
 				$this->vd($rows);
 				echo $blade->run("goods-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
-				break;
 
 			case 'edit':
 				if (!empty($get->goods)) {
