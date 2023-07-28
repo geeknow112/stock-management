@@ -5,7 +5,7 @@
 	function exec_action(cmd = null) {
 		switch (cmd) {
 			case 'edit':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=edit"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&goods={{$_GET['goods']}}&action=edit"
 				document.forms.cmd.value = 'edit';
 				document.forms.target = '';
 				document.forms.submit();
