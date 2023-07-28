@@ -66,7 +66,7 @@ class StockManagement {
 
 					// その他
 					add_submenu_page('stock-management', 'ロット番号登録','ロット番号登録', 'read', 'lot-regist', array(&$this, 'lot_regist'));
-					add_submenu_page('stock-management', '配送予定表③','配送予定表③', 'read', 'delivery-list', array(&$this, 'delivery_list'));
+					add_submenu_page('stock-management', '配送予定表③','配送予定表③', 'read', 'delivery-graph', array(&$this, 'delivery_graph'));
 					add_submenu_page('stock-management', '日別商品集計','日別商品集計', 'read', 'sum-day-goods', array(&$this, 'sum_day_goods'));
 				} else {
 					$this->remove_menus();
@@ -521,6 +521,29 @@ $msg = $this->getValidMsg();
 				$formPage = 'sales-list';
 //$this->vd($rows);
 				echo $blade->run("sales-list", compact('rows', 'formPage', 'initForm'));
+				break;
+		}
+	}
+
+	/**
+	 *
+	 **/
+	function delivery_graph() {
+		$blade = $this->set_view();
+		$get = (object) $_GET;
+		$post = (object) $_POST;
+
+		$get->action = 'search';
+		switch($get->action) {
+			case 'search':
+			default:
+				$tb = new Sales;
+				$initForm = $tb->getInitForm();
+//				$rows = $tb->getList($get, $un_convert = true);
+				$rows = $tb->getList($get);
+				$formPage = 'delivery-graph';
+//$this->vd($rows);
+				echo $blade->run("delivery-graph", compact('rows', 'formPage', 'initForm'));
 				break;
 		}
 	}
