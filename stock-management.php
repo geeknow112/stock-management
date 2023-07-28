@@ -463,15 +463,19 @@ $msg = $this->getValidMsg();
 			case 'confirm':
 				$rows = null;
 				if (!empty($post)) {
-					if ($post->cmd == 'cmd_confirm') {
-						$msg = $this->getValidMsg();
+					switch ($post->cmd) {
+						default:
+						case 'cmd_confirm':
+							$msg = $this->getValidMsg();
 
-						$rows = $post;
-						$rows->name = $post->goods_name;
+							$rows = $post;
+							$rows->name = $post->goods_name;
+							$rows->id = $rows->goods;
 
-						if ($msg['msg'] !== 'success') {
-							$rows->messages = $msg;
-						}
+							if ($msg['msg'] !== 'success') {
+								$rows->messages = $msg;
+							}
+						break;
 					}
 				}
 				return $rows;
@@ -504,7 +508,13 @@ $msg = $this->getValidMsg();
 			case 'edit':
 				$rows = null;
 				if (!empty($post)) {
-//					if ($post->cmd == 'cmd_regist') {
+$this->vd(array($get, $post, $msg, $rows, $page));
+					if (!empty($get->goods) || !empty($post->goods)) {
+						$rows = $this->getTb()->getDetailByGoodsCode($get->goods);
+						$rows->id = ($rows->goods) ? $rows->goods : $post->goods;
+						$rows->cmd = $post->cmd = 'cmd_update';
+
+					} else {
 						$msg = $this->getValidMsg();
 
 						$rows = $post;
@@ -513,9 +523,8 @@ $msg = $this->getValidMsg();
 						if ($msg['msg'] !== 'success') {
 							$rows->messages = $msg;
 						}
-//					}
+					}
 				}
-//$this->vd(array($post, $msg, $rows, $page));exit;
 				return $rows;
 				break;
 
@@ -579,10 +588,14 @@ $msg = $this->getValidMsg();
 	 *
 	 **/
 	function vd($d) {
-		echo '<pre>';
-//		var_dump($d);
-		print_r($d);
-		echo '</pre>';
+		global $wpdb;
+		$cur_user = wp_get_current_user();
+		if (current($cur_user->roles) == 'administrator') {
+			echo '<pre>';
+//			var_dump($d);
+			print_r($d);
+			echo '</pre>';
+		}
 	}
 }
 
