@@ -12,12 +12,12 @@
 				break;
 			case 'edit-exe':
 				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=edit-exe"
-				document.forms.cmd.value = 'save';
+				document.forms.cmd.value = 'update';
 				document.forms.target = '';
 				document.forms.submit();
 				break;
 			case 'save':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=edit-exe"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=save"
 				document.forms.cmd.value = 'save';
 				document.forms.target = '';
 				document.forms.submit();

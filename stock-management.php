@@ -262,8 +262,6 @@ $this->vd(array($get, $post, $msg, $rows, $page));
 				break;
 
 			case 'save':
-			case 'edit-exe':
-				$rows = null;
 				if (!empty($post)) {
 					if ($post->cmd == 'save') {
 						$msg = $this->getValidMsg();
@@ -276,7 +274,25 @@ $this->vd(array($get, $post, $msg, $rows, $page));
 						}
 					}
 				}
-				return $rows;
+				echo $blade->run("goods-detail", compact('rows', 'get', 'post', 'msg'));
+				break;
+
+			case 'edit-exe':
+				if (!empty($post)) {
+					if ($post->cmd == 'update') {
+						$msg = $this->getValidMsg();
+						if ($msg['msg'] == 'success') {
+							$rows = $this->getTb()->updDetail($get, $post);
+						} else {
+							$rows = $post;
+							$rows->name = $post->goods_name;
+							$rows->messages = $msg;
+						}
+					}
+				}
+				$this->vd($rows);
+				echo $blade->run("goods-detail", compact('rows', 'get', 'post', 'msg'));
+				break;
 				break;
 
 			case 'edit':
