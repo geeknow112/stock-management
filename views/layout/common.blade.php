@@ -89,9 +89,9 @@
 <div class="d-flex flex-column align-items-center">
 <!--<div class="d-flex flex-column align-items-end mx-5">-->
 	{{$get->action}}
-	@if ($get->action == '' || $get->action == 'save' || $get->action == 'edit')
+{{--	@if ($get->action == '' || $get->action == 'save' || $get->action == 'edit')--}}
 	<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="確認" onclick="to_next();">
-	@elseif ($get->action == 'confirm')
+{{--	@elseif ($get->action == 'confirm')--}}
 	<input type="button" name="cmd_regist" id="cmd_regist" class="mb-3 btn btn-primary" value="登録" onclick="confirm_regist();">
 	<input type="button" name="cmd_return" id="cmd_return" class="mb-3 btn btn-primary" value="編集" onclick="exec_action('edit');">
 	<script>
@@ -103,9 +103,9 @@
 		}
 	}
 	</script>
-	@else
+{{--	@else--}}
 	<input type="button" name="cmd_update" id="cmd_update" class="btn btn-primary" value="更新" onclick="exec_action('edit-exe');">
-	@endif
+{{--	@endif--}}
 </dvi>
 
 </form>
