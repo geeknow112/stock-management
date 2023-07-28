@@ -255,6 +255,7 @@ $this->vd(array($get, $post, $msg, $rows, $page));
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
 							$rows = $this->getTb()->regDetail($get, $post);
+							$rows->goods_name = $rows->name;
 							$get->action = 'complete';
 
 						} else {
@@ -568,6 +569,7 @@ $msg = $this->getValidMsg();
 	 *
 	 **/
 	function vd($d) {
+return false;
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 		if (current($cur_user->roles) == 'administrator') {
