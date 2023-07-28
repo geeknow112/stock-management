@@ -194,28 +194,146 @@ class StockManagement {
 
 		$this->setTb('Goods');
 		$page = 'goods-detail';
+		
+		$rows = null;
+$this->vd(array($get, $post, $msg, $rows, $page));
+		switch($get->action) {
+			case 'regist':
+				$tb = new Applicant;
+				break;
 
-		$rows = $this->dispatch_db_action($get, $post);
-		if($rows->messages) {
-			$msg = $rows->messages;
-			$get->action = 'save';
-		} else {
-//			$page = 'goods-detail-confirm';
+			default:
+				$initForm = $this->getTb()->getInitForm();
+				$rows = $this->getTb()->getList();
+				echo $blade->run("goods-detail");
+				break;
+
+			case 'search' :
+				$tb = new Applicant;
+				$initForm = $tb->getInitForm();
+//				$prm = (!empty($prm->post)) ? (object) $prm : $tb->getPrm();
+				$rows = $tb->getList($prm);
+				$formPage = 'sales-list';
+				echo $blade->run("sales-list", compact('rows', 'formPage', 'initForm'));
+				break;
+				
+			case 'confirm':
+				if (!empty($post)) {
+					switch ($post->cmd) {
+						default:
+						case 'cmd_confirm':
+							$msg = $this->getValidMsg();
+
+							$rows = $post;
+							$rows->name = $post->goods_name;
+							$rows->id = $rows->goods;
+
+							if ($msg['msg'] !== 'success') {
+								$rows->messages = $msg;
+							}
+						break;
+					}
+				}
+				if($rows->messages) {
+						$msg = $rows->messages;
+						$get->action = 'save';
+				} else {
+//					  $page = 'goods-detail-confirm';
 //$this->vd(array($post, $msg, $rows, $page));exit;
-		}
+				}
 /*
-		if(is_null($rows)) {
-			if($rows->messages) {
-				$msg = $rows->messages;
-				$get->action = 'save';
-			} else {
-				$page = 'goods-detail-confirm';
-			}
-		}
+				if(is_null($rows)) {
+						if($rows->messages) {
+								$msg = $rows->messages;
+								$get->action = 'save';
+						} else {
+								$page = 'goods-detail-confirm';
+						}
+				}
 */
 
-		//echo $blade->run($formPage, compact('rows', 'formPage', 'initForm'));
-		echo $blade->run($page, compact('get', 'rows', 'msg'));
+				echo $blade->run("goods-detail", compact('rows', 'get', 'post', 'msg'));
+				break;
+
+			case 'complete':
+				$prm = $tb->getPrm();
+				$rows = $tb->regDetail($prm);
+				echo $blade->run("shop-detail-complete", compact('rows', 'prm'));
+				break;
+
+			case 'save':
+			case 'edit-exe':
+				$rows = null;
+				if (!empty($post)) {
+					if ($post->cmd == 'save') {
+						$msg = $this->getValidMsg();
+						if ($msg['msg'] == 'success') {
+							$rows = $this->getTb()->regDetail($get, $post);
+						} else {
+							$rows = $post;
+							$rows->name = $post->goods_name;
+							$rows->messages = $msg;
+						}
+					}
+				}
+				return $rows;
+				break;
+
+			case 'edit':
+				if (!empty($get->goods)) {
+					$rows = $this->getTb()->getDetailByGoodsCode($get->goods);
+					$rows->goods_name = $rows->name;
+					$rows->cmd = $post->cmd = 'cmd_update';
+
+				} else {
+					$msg = $this->getValidMsg();
+
+					$rows = $post;
+					$rows->name = $post->goods_name;
+
+					if ($msg['msg'] !== 'success') {
+						$rows->messages = $msg;
+					}
+				}
+				echo $blade->run("goods-detail", compact('rows', 'get', 'post', 'msg'));
+				break;
+
+			case 'cancel':
+				$prm = (object) $_GET;
+				unset($_POST);
+				$tb = new Applicant;
+				$rows = $tb->getDetail($prm);
+				$p = $rows;
+				$formPage = 'sales-list';
+				echo $blade->run("shop-detail", compact('rows', 'formPage', 'prm', 'p'));
+				break;
+
+			case 'preview':
+				// 申込データプレビュー画面
+				// (PDF保存形式でプレビューする)
+				echo 'test preview';
+				$app = new Applicant;
+				$curUser = $app->getCurUser();
+				if ($curUser->roles != 'administrator') {
+					$applicant = htmlspecialchars($_GET['post']);
+					$row = $app->getDetailByApplicantCode($applicant);
+
+				} else {
+					$row = null;
+				}
+				echo $blade->run("preview", compact('row', 'formPage', 'prm', 'p'));
+				break;
+
+			case 'init-status':
+				$prm = (object) $_GET;
+				unset($_POST);
+				$applicant = $prm->post;
+				$tb = new Applicant;
+				$ret = $tb->initStatus($applicant);
+				$result = ($ret == true) ? 'true' : 'false';
+				echo '<script>window.location.href = "'. home_url(). '/wp-admin/admin.php?page=sales-list&init-status='. $result. '";</script>';
+				break;
+		}
 	}
 
 	/**
@@ -420,153 +538,6 @@ $msg = $this->getValidMsg();
 	}
 
 	/**
-	 * DBへの操作振分
-	 *
-	 **/
-	private function dispatch_db_action($get = null, $post = null) {
-
-		switch($get->action) {
-			case 'regist':
-				$tb = new Applicant;
-				break;
-
-			case '-1':
-				$_GET['post'] = '-1';
-				$_GET['action'] = 'search';
-				if ($prm->export_all && $prm->service_type) {
-					$_GET['action'] = 'export_all';
-					echo 'case export_all';
-					$this->export_csv($prm);
-				}
-
-			case 'export_pdf':
-//				$_GET['action'] = 'export_pdf';
-				echo 'case export_pdf';
-				$this->export_pdf($prm);
-
-			default:
-				$initForm = $this->getTb()->getInitForm();
-				$rows = $this->getTb()->getList();
-
-				return $rows;
-				break;
-
-			case 'search' :
-				$tb = new Applicant;
-				$initForm = $tb->getInitForm();
-//				$prm = (!empty($prm->post)) ? (object) $prm : $tb->getPrm();
-				$rows = $tb->getList($prm);
-				$formPage = 'sales-list';
-				echo $blade->run("sales-list", compact('rows', 'formPage', 'initForm'));
-				break;
-				
-			case 'confirm':
-				$rows = null;
-				if (!empty($post)) {
-					switch ($post->cmd) {
-						default:
-						case 'cmd_confirm':
-							$msg = $this->getValidMsg();
-
-							$rows = $post;
-							$rows->name = $post->goods_name;
-							$rows->id = $rows->goods;
-
-							if ($msg['msg'] !== 'success') {
-								$rows->messages = $msg;
-							}
-						break;
-					}
-				}
-				return $rows;
-				break;
-
-			case 'complete':
-				$prm = $tb->getPrm();
-				$rows = $tb->regDetail($prm);
-				echo $blade->run("shop-detail-complete", compact('rows', 'prm'));
-				break;
-
-			case 'save':
-			case 'edit-exe':
-				$rows = null;
-				if (!empty($post)) {
-					if ($post->cmd == 'save') {
-						$msg = $this->getValidMsg();
-						if ($msg['msg'] == 'success') {
-							$rows = $this->getTb()->regDetail($get, $post);
-						} else {
-							$rows = $post;
-							$rows->name = $post->goods_name;
-							$rows->messages = $msg;
-						}
-					}
-				}
-				return $rows;
-				break;
-
-			case 'edit':
-				$rows = null;
-				if (!empty($post)) {
-$this->vd(array($get, $post, $msg, $rows, $page));
-					if (!empty($get->goods) || !empty($post->goods)) {
-						$rows = $this->getTb()->getDetailByGoodsCode($get->goods);
-						$rows->id = ($rows->goods) ? $rows->goods : $post->goods;
-						$rows->cmd = $post->cmd = 'cmd_update';
-
-					} else {
-						$msg = $this->getValidMsg();
-
-						$rows = $post;
-						$rows->name = $post->goods_name;
-
-						if ($msg['msg'] !== 'success') {
-							$rows->messages = $msg;
-						}
-					}
-				}
-				return $rows;
-				break;
-
-			case 'cancel':
-				$prm = (object) $_GET;
-				unset($_POST);
-				$tb = new Applicant;
-				$rows = $tb->getDetail($prm);
-				$p = $rows;
-				$formPage = 'sales-list';
-				echo $blade->run("shop-detail", compact('rows', 'formPage', 'prm', 'p'));
-				break;
-
-			case 'preview':
-				// 申込データプレビュー画面
-				// (PDF保存形式でプレビューする)
-				echo 'test preview';
-				$app = new Applicant;
-				$curUser = $app->getCurUser();
-				if ($curUser->roles != 'administrator') {
-					$applicant = htmlspecialchars($_GET['post']);
-					$row = $app->getDetailByApplicantCode($applicant);
-
-				} else {
-					$row = null;
-				}
-				echo $blade->run("preview", compact('row', 'formPage', 'prm', 'p'));
-				break;
-
-			case 'init-status':
-				$prm = (object) $_GET;
-				unset($_POST);
-				$applicant = $prm->post;
-				$tb = new Applicant;
-				$ret = $tb->initStatus($applicant);
-				$result = ($ret == true) ? 'true' : 'false';
-				echo '<script>window.location.href = "'. home_url(). '/wp-admin/admin.php?page=sales-list&init-status='. $result. '";</script>';
-				break;
-		}
-	}
-
-	/**
 	 *
 	 **/
 	function remove_menus() {
@@ -591,10 +562,12 @@ $this->vd(array($get, $post, $msg, $rows, $page));
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 		if (current($cur_user->roles) == 'administrator') {
+			echo '<div class="border border-success mb-3">';
 			echo '<pre>';
 //			var_dump($d);
 			print_r($d);
 			echo '</pre>';
+			echo '</div>';
 		}
 	}
 }
