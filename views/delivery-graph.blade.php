@@ -177,31 +177,47 @@ $g = $_GET;
 --}}
 
 <?php	function innerTable($list, $class) {	?>
-	<table class="table table-bordered text-nowrap">
-		<!--
-		<thead class="table-light">
-		<tr>
-			<th scope="col" id="username" class="">品名</th>
-			<th scope="col" id="username" class="">配送先</th>
-			<th scope="col" id="username" class="">量(t)</th>
-			<th scope="col" id="username" class="">入庫予定日</th>
-			<th scope="col" id="username" class="">氏名</th>
-		</tr>
-		</thead>
-		-->
+		<div style="width: 40rem;">
+<!--	<div class="card" style="width: 40rem;">-->
 		<?php foreach ($list as $i => $row) { ?>
 			<?php if ($row->class == $class) { ?>
-			<tr>
-				<td scope="row" class=""><?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></td>
-				<td class=""><?php echo $row->ship_addr; ?></td>
-				<td class=""><?php echo $row->qty; ?></td>
-				<td class=""><?php echo $row->arrival_dt; ?></td>
-				<td class=""><?php echo $row->name; ?></td>
-				<td class=""><a href="" onClick="window.open('/wp-admin/admin.php?page=lot-regist&order=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>', 'regist lot number', 'popup', 'left=200,top=200,width=800,height=520,noopener'); return false;">未登録</a></td>
-			</tr>
+				<div class="d-flex flex-row bd-highlight mb-3" style="background: #eee;">
+					<div class="" style="width: 5rem; background: #ff0;"><?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></div>
+					<div class="" style="width: 8rem; background: #eee;"><?php echo $row->ship_addr; ?></div>
+					<div class="" style="width: 5rem; background: #ff0;"><?php echo $row->qty; ?></div>
+					<div class="" style="width: 11rem; background: #eee;"><?php echo $row->arrival_dt; ?></div>
+					<div class="" style="width: 6rem; background: #ff0;"><?php echo $row->name; ?></div>
+					<a href="" class="btn btn-secondary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&order=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
+				</div>
+<!--
+				<div class="card-body border mb-1">
+					<h5 class="card-title">品名：<?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></h5>
+					<p class="card-text">配送先：<?php echo $row->ship_addr; ?></p>
+					<a href="" class="btn btn-primary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&order=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
+				</div>
+-->
+<!--
+				<div class="card mb-3" style="max-width: 540px;">
+					<div class="row no-gutters">
+						<div class="col-md-4">
+							<svg class="bd-placeholder-img" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image"><title>Placeholder</title><rect fill="#868e96" width="100%" height="100%"/><text fill="#dee2e6" dy=".3em" x="50%" y="50%">Image</text></svg>
+						</div>
+						<div class="col-md-8">
+							<div class="card-body">
+								<h5 class="card-title">品名：<?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></h5>
+								<p class="card-text">配送先：<?php echo $row->ship_addr; ?></p>
+								<p class="card-text">量(t)：<?php echo $row->qty; ?></p>
+								<p class="card-text">入庫予定日：<?php echo $row->arrival_dt; ?></p>
+								<p class="card-text">氏名：<?php echo $row->name; ?></p>
+								<a href="" class="btn btn-primary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&order=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
+							</div>
+						</div>
+					</div>
+				</div>
+-->
 			<?php }	?>
 		<?php }	?>
-	</table>
+	</div>
 <?php	}	?>
 			@if (isset($rows) && count($rows))
 				<tbody id="the-list" data-wp-lists="list:user">
