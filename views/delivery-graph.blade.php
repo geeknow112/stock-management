@@ -180,6 +180,10 @@ $g = $_GET;
 	.inner_box {
 		width: 8rem; background: #eeeeee; border-right: 1px solid #d3d3d3;
 	}
+
+	.inner_box_repeat {
+		width: 8rem; background: #ff69b4; border-right: 1px solid #ffffff; color: #ffffff;
+	}
 </style>
 
 <?php	function innerTable($list, $class) {	?>
@@ -188,7 +192,12 @@ $g = $_GET;
 		<?php foreach ($list as $i => $row) { ?>
 			<?php if ($row->class == $class) { ?>
 				<div class="d-flex flex-row bd-highlight mb-3">
-					<div class="text-wrap text-center inner_box" style="width: 8rem;"><?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></div>
+<!--					<div class="text-wrap text-center inner_box" style="width: 8rem;"><?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></div>-->
+					@if ($row->repeat_fg != 1)
+					<div class="text-wrap text-center inner_box" style="width: 8rem;">{{$row->goods_name}}</div>
+					@else
+					<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;">{{$row->goods_name}}</div>
+					@endif
 					<div class="text-wrap text-center inner_box" style="width: 9rem;"><?php echo $row->ship_addr; ?></div>
 					<div class="text-wrap text-center inner_box" style="width: 3.5rem;"><?php echo $row->qty; ?></div>
 					<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo $row->arrival_dt; ?></div>
