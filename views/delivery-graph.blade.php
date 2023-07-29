@@ -84,12 +84,12 @@ $g = $_GET;
 						<th scope="col" id="username" class="">曜</th>
 						<th scope="col" id="username" class="">日</th>
 						@for ($i = 0; $i < 7; $i++)
-						<th scope="col" id="username" class="">品名</th>
-						<th scope="col" id="username" class="">配送先</th>
-						<th scope="col" id="username" class="">量(t)</th>
-						<th scope="col" id="username" class="">入庫予定日</th>
-						<th scope="col" id="username" class="">氏名</th>
-						<th scope="col" id="username" class="">確認</th>
+						<th class="" style="width: 7rem;">品名</th>
+						<th class="" style="width: 7rem;">配送先</th>
+						<th class="" style="width: 3rem;">量(t)</th>
+						<th class="" style="width: 5rem;">入庫予定日</th>
+						<th class="" style="width: 5rem;">氏名</th>
+						<th class="" style="width: 5rem;">確認</th>
 						@endfor
 					</tr>
 				</thead>
@@ -176,18 +176,24 @@ $g = $_GET;
 				</tbody>
 --}}
 
+<style>
+	.inner_box {
+		width: 8rem; background: #eeeeee; border-right: 1px solid #d3d3d3;
+	}
+</style>
+
 <?php	function innerTable($list, $class) {	?>
 		<div style="width: 40rem;">
 <!--	<div class="card" style="width: 40rem;">-->
 		<?php foreach ($list as $i => $row) { ?>
 			<?php if ($row->class == $class) { ?>
-				<div class="d-flex flex-row bd-highlight mb-3" style="background: #eee;">
-					<div class="" style="width: 5rem; background: #ff0;"><?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></div>
-					<div class="" style="width: 8rem; background: #eee;"><?php echo $row->ship_addr; ?></div>
-					<div class="" style="width: 5rem; background: #ff0;"><?php echo $row->qty; ?></div>
-					<div class="" style="width: 11rem; background: #eee;"><?php echo $row->arrival_dt; ?></div>
-					<div class="" style="width: 6rem; background: #ff0;"><?php echo $row->name; ?></div>
-					<a href="" class="btn btn-secondary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&order=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
+				<div class="d-flex flex-row bd-highlight mb-3">
+					<div class="text-wrap text-center inner_box" style="width: 8rem;"><?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></div>
+					<div class="text-wrap text-center inner_box" style="width: 9rem;"><?php echo $row->ship_addr; ?></div>
+					<div class="text-wrap text-center inner_box" style="width: 3.5rem;"><?php echo $row->qty; ?></div>
+					<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo $row->arrival_dt; ?></div>
+					<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo $row->name; ?></div>
+					<a href="" class="btn btn-secondary text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&order=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
 				</div>
 <!--
 				<div class="card-body border mb-1">
