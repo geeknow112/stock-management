@@ -451,7 +451,6 @@ $msg = $this->getValidMsg();
 			default:
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getLotNumberListBySales($get);
-$this->vd($rows);
 				echo $blade->run("lot-regist", compact('rows', 'formPage', 'get', 'post', 'msg'));
 				break;
 
@@ -460,19 +459,20 @@ $this->vd($rows);
 					if ($post->cmd == 'save') {
 						$msg = $this->getValidMsg(2);
 						if ($msg['msg'] == 'success') {
-//							$rows = $this->getTb()->regDetail($get, $post);
+							$rows = $this->getTb()->updLotDetail($get, $post);
+							$get->sales = $post->sales;
+							$get->goods = $post->goods;
 							$get->action = 'complete';
 
 						} else {
 							$rows = $post;
-							$rows->name = $post->goods_name;
 							$rows->messages = $msg;
 						}
 					}
 				}
-//				$initForm = $this->getTb()->getInitForm();
-//				$rows = $this->getTb()->getLotNumberListBySales($get);
-$this->vd($rows);
+				$initForm = $this->getTb()->getInitForm();
+				$rows = $this->getTb()->getLotNumberListBySales($get);
+//$this->vd($rows);
 				echo $blade->run("lot-regist", compact('rows', 'formPage', 'get', 'post', 'msg'));
 				break;
 
@@ -481,7 +481,9 @@ $this->vd($rows);
 					switch ($post->cmd) {
 						default:
 						case 'cmd_confirm':
+$this->vd($post);
 							$msg = $this->getValidMsg(2);
+$this->vd($msg);
 							$rows = $this->getTb()->getLotNumberListBySales($get);
 
 							// DBの更新対象データを、post値に変更

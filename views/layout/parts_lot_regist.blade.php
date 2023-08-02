@@ -22,6 +22,8 @@
 			</thead>
 
 			<tbody id="the-list" data-wp-lists="list:user">
+				<input type="hidden" id="sales" name="sales" value="{{$get->sales}}">
+				<input type="hidden" id="goods" name="goods" value="{{$get->goods}}">
 				@if (isset($rows) && count($rows))
 					@foreach ($rows as $i => $d)
 					<tr id="user-1">
