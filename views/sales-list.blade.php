@@ -102,7 +102,7 @@ $g = $_GET;
 					@foreach ($rows as $i => $list)
 					<tr id="user-1">
 						<td>
-							<input type="checkbox" />
+							<input type="checkbox" id="no" name="no[]" value="{{$list->id}}" />
 						</td>
 
 						<td>
@@ -118,8 +118,11 @@ $g = $_GET;
 						<td></td>
 						<td>{{ $list->arrival_dt }}</td>
 						<td>{{ $list->delivery_dt }}</td>
-						<td></td>
-
+						@if ($list->status == '0')
+						<td><span class="text-danger">{{ $initForm['select']['status'][$list->status] }}</span></td>
+						@else
+						<td><span class="text-success">{{ $initForm['select']['status'][$list->status] }}</span></td>
+						@endif
 					</tr>
 					@endforeach
 			@else
