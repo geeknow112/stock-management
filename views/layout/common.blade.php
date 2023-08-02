@@ -5,19 +5,19 @@
 	function exec_action(cmd = null) {
 		switch (cmd) {
 			case 'edit':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&goods={{$_GET['goods']}}&action=edit"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$post->sales}}&goods={{$post->goods}}&action=edit"
 				document.forms.cmd.value = 'edit';
 				document.forms.target = '';
 				document.forms.submit();
 				break;
 			case 'edit-exe':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=edit-exe"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&goods={{$post->goods}}&action=edit-exe"
 				document.forms.cmd.value = 'update';
 				document.forms.target = '';
 				document.forms.submit();
 				break;
 			case 'save':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=save"
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&action=save"
 				document.forms.cmd.value = 'save';
 				document.forms.target = '';
 				document.forms.submit();
@@ -89,11 +89,18 @@
 <div class="d-flex flex-column align-items-center">
 <!--<div class="d-flex flex-column align-items-end mx-5">-->
 	{{$get->action}}
-{{--	@if ($get->action == '' || $get->action == 'save' || $get->action == 'edit')--}}
+	@if ($get->action == '' || $get->action == 'save' || $get->action == 'edit')
 	<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="確認" onclick="to_next();">
-{{--	@elseif ($get->action == 'confirm')--}}
+	@elseif ($get->action == 'confirm' && $rows->btn == 'update')
+	<input type="button" name="cmd_update" id="cmd_update" class="mb-3 btn btn-primary" value="更新" onclick="confirm_update();">
+	<input type="button" name="cmd_return" id="cmd_return" class="mb-3 btn btn-primary" value="編集" onclick="exec_action('edit');">
+	@elseif ($get->action == 'confirm')
 	<input type="button" name="cmd_regist" id="cmd_regist" class="mb-3 btn btn-primary" value="登録" onclick="confirm_regist();">
 	<input type="button" name="cmd_return" id="cmd_return" class="mb-3 btn btn-primary" value="編集" onclick="exec_action('edit');">
+	@else
+	<input type="button" name="cmd_return" id="cmd_return" class="mb-3 btn btn-primary" value="編集" onclick="exec_action('edit');">
+	@endif
+
 	<script>
 	function confirm_regist() {
 		var ret = window.confirm('登録しますか？');
@@ -102,10 +109,15 @@
 		} else {
 		}
 	}
+
+	function confirm_update() {
+		var ret = window.confirm('更新しますか？');
+		if (ret) {
+			exec_action('edit-exe');
+		} else {
+		}
+	}
 	</script>
-{{--	@else--}}
-	<input type="button" name="cmd_update" id="cmd_update" class="btn btn-primary" value="更新" onclick="exec_action('edit-exe');">
-{{--	@endif--}}
 </dvi>
 
 </form>
