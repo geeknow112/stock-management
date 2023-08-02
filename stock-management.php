@@ -440,14 +440,15 @@ $msg = $this->getValidMsg();
 	 **/
 	function lot_regist() {
 		$blade = $this->set_view();
+		$get = (object) $_GET;
+		$post = (object) $_POST;
+//$this->vd($post);
 		$this->remove_menus();
 
-		$prm = (object) $_GET;
-
 		$tb = new Sales;
-		$rows = $tb->getLotNumberListByOrder($prm);
+		$rows = $tb->getLotNumberListBySales($get);
 //$this->vd($rows);
-		echo $blade->run("lot-regist", compact('rows'));
+		echo $blade->run("lot-regist", compact('rows', 'formPage', 'get', 'post', 'msg'));
 	}
 
 	/**
