@@ -203,16 +203,16 @@ $g = $_GET;
 					<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo $row->arrival_dt; ?></div>
 					<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo $row->name; ?></div>
 					@if ($row->lot_fg != 1)
-					<a href="" class="btn btn-secondary text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&order=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
+					<a href="" class="btn btn-secondary text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
 					@else
-					<a href="" class="btn btn-success text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&order=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">登録済</a>
+					<a href="" class="btn btn-success text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">登録済</a>
 					@endif
 				</div>
 <!--
 				<div class="card-body border mb-1">
 					<h5 class="card-title">品名：<?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></h5>
 					<p class="card-text">配送先：<?php echo $row->ship_addr; ?></p>
-					<a href="" class="btn btn-primary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&order=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
+					<a href="" class="btn btn-primary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
 				</div>
 -->
 <!--
@@ -228,7 +228,7 @@ $g = $_GET;
 								<p class="card-text">量(t)：<?php echo $row->qty; ?></p>
 								<p class="card-text">入庫予定日：<?php echo $row->arrival_dt; ?></p>
 								<p class="card-text">氏名：<?php echo $row->name; ?></p>
-								<a href="" class="btn btn-primary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&order=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
+								<a href="" class="btn btn-primary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
 							</div>
 						</div>
 					</div>
@@ -243,7 +243,7 @@ $g = $_GET;
 					@foreach ($rows as $delivery_dt => $list)
 					<tr id="user-1">
 						<td colspan="3">
-							<a href="" onClick="window.open('/wp-admin/admin.php?page=sum-day-goods', 'regist lot number', 'popup', 'left=200,top=100,width=420,height=520');">{{$delivery_dt}}</a>
+							<a href="/wp-admin/admin.php?page=sum-day-goods">{{$delivery_dt}}</a>
 						</td>
 
 						<!-- 6t 1 -->
