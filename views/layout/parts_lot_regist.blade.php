@@ -25,16 +25,17 @@
 				@if (isset($rows) && count($rows))
 					@foreach ($rows as $i => $d)
 					<tr id="user-1">
+						<input type="hidden" id="lot_tmp_id" name="lot_tmp_id[]" value="{{$d->lot_tmp_id}}">
 						<td>{{$d->goods_name}}</td>
 						<td>{{$d->ship_addr}}</td>
 						<td>{{$d->goods_qty}}</td>
 						<td>{{$d->arrival_dt}}</td>
 						<td>{{$d->name}}</td>
 						<td class="">
-						<input type="text" class="" id="tank" name="tank" value="{{$d->tank}}">
+						<input type="text" class="" id="tank" name="tank[{{$d->lot_tmp_id}}]" value="{{$d->tank}}">
 						</td>
 						<td class="">
-						<input type="text" class="" id="lot" name="lot" value="{{$d->lot}}">
+						<input type="text" class="" id="lot" name="lot[{{$d->lot_tmp_id}}]" value="{{$d->lot}}">
 						</td>
 					</tr>
 					@endforeach

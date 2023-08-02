@@ -169,7 +169,7 @@ class StockManagement {
 */
 		// make it
 		$validation = $validator->make($_POST + $_FILES, $ve['rules'], $ve['messages']);
-		
+
 		// then validate
 		$validation->validate();
 		
@@ -445,10 +445,68 @@ $msg = $this->getValidMsg();
 //$this->vd($post);
 		$this->remove_menus();
 
-		$tb = new Sales;
-		$rows = $tb->getLotNumberListBySales($get);
-//$this->vd($rows);
-		echo $blade->run("lot-regist", compact('rows', 'formPage', 'get', 'post', 'msg'));
+		$this->setTb('Sales');
+
+		switch($get->action) {
+			default:
+				$initForm = $this->getTb()->getInitForm();
+				$rows = $this->getTb()->getLotNumberListBySales($get);
+$this->vd($rows);
+				echo $blade->run("lot-regist", compact('rows', 'formPage', 'get', 'post', 'msg'));
+				break;
+
+			case 'save':
+				if (!empty($post)) {
+					if ($post->cmd == 'save') {
+						$msg = $this->getValidMsg(2);
+						if ($msg['msg'] == 'success') {
+//							$rows = $this->getTb()->regDetail($get, $post);
+							$get->action = 'complete';
+
+						} else {
+							$rows = $post;
+							$rows->name = $post->goods_name;
+							$rows->messages = $msg;
+						}
+					}
+				}
+//				$initForm = $this->getTb()->getInitForm();
+//				$rows = $this->getTb()->getLotNumberListBySales($get);
+$this->vd($rows);
+				echo $blade->run("lot-regist", compact('rows', 'formPage', 'get', 'post', 'msg'));
+				break;
+
+			case 'confirm':
+				if (!empty($post)) {
+					switch ($post->cmd) {
+						default:
+						case 'cmd_confirm':
+							$msg = $this->getValidMsg(2);
+							$rows = $this->getTb()->getLotNumberListBySales($get);
+
+							// DBの更新対象データを、post値に変更
+							$plt_id = $post->lot_tmp_id;
+							foreach ($rows as $lot_tmp_id => $d) {
+								$d->tank = $post->tank[$lot_tmp_id];
+								$d->lot = $post->lot[$lot_tmp_id];
+							}
+
+							if ($msg['msg'] !== 'success') {
+								$rows->messages = $msg;
+							}
+						break;
+					}
+				}
+				if($rows->messages) {
+						$msg = $rows->messages;
+						$get->action = 'save';
+				} else {
+				}
+//$this->vd(array($get, $post, $msg, $rows, $page));
+				echo $blade->run("lot-regist", compact('rows', 'get', 'post', 'msg'));
+				break;
+
+		}
 	}
 
 	/**
@@ -593,7 +651,7 @@ $msg = $this->getValidMsg();
 	 *
 	 **/
 	function vd($d) {
-return false;
+//return false;
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 		if (current($cur_user->roles) == 'administrator') {
