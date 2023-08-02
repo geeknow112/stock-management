@@ -589,15 +589,17 @@ $msg = $this->getValidMsg();
 		$get = (object) $_GET;
 		$post = (object) $_POST;
 
-		$get->action = 'search';
-		switch($get->action) {
+		$this->setTb('Sales');
+
+		switch($post->cmd) {
 			case 'search':
+			case 'edit':
+				$ret = $this->getTb()->changeStatus($post->change_status, $post->no);
+
 			default:
-				$tb = new Sales;
-				$initForm = $tb->getInitForm();
-				$rows = $tb->getList($get, $un_convert = true);
+				$initForm = $this->getTb()->getInitForm();
+				$rows = $this->getTb()->getList($get, $un_convert = true);
 				$formPage = 'sales-list';
-//$this->vd($rows);
 				echo $blade->run("sales-list", compact('rows', 'formPage', 'initForm'));
 				break;
 		}
