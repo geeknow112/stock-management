@@ -112,7 +112,9 @@ $g = $_GET;
 						<td>{{ $list->rgdt }}</td>
 						<td>{{ $list->name }}</td>
 						<td>{{ $list->goods_name }}</td>
-						<td>{{ $list->qty }}</td>
+						<td>
+							<a href="/wp-admin/admin.php?page=lot-regist&sales={{$list->id}}&goods={{$list->goods}}&action=save">{{ $list->qty }}</a>
+						</td>
 						<td></td>
 						<td>{{ $list->arrival_dt }}</td>
 						<td>{{ $list->delivery_dt }}</td>

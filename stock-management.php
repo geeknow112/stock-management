@@ -481,9 +481,7 @@ $msg = $this->getValidMsg();
 					switch ($post->cmd) {
 						default:
 						case 'cmd_confirm':
-$this->vd($post);
 							$msg = $this->getValidMsg(2);
-$this->vd($msg);
 							$rows = $this->getTb()->getLotNumberListBySales($get);
 
 							// DBの更新対象データを、post値に変更
@@ -505,6 +503,25 @@ $this->vd($msg);
 				} else {
 				}
 //$this->vd(array($get, $post, $msg, $rows, $page));
+				echo $blade->run("lot-regist", compact('rows', 'get', 'post', 'msg'));
+				break;
+
+			case 'edit':
+				if (!empty($post->sales) && !empty($post->goods)) {
+					$post->action = $get->action;
+					$rows = $this->getTb()->getLotNumberListBySales($post);
+					$rows->cmd = $post->cmd = 'cmd_update';
+
+				} else {
+					$msg = $this->getValidMsg();
+
+					$rows = $post;
+					$rows->name = $post->goods_name;
+
+					if ($msg['msg'] !== 'success') {
+						$rows->messages = $msg;
+					}
+				}
 				echo $blade->run("lot-regist", compact('rows', 'get', 'post', 'msg'));
 				break;
 
