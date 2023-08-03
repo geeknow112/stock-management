@@ -595,6 +595,7 @@ $msg = $this->getValidMsg();
 			case 'search':
 			case 'edit':
 				$ret = $this->getTb()->changeStatus($post->change_status, $post->no);
+$this->getTb()->makeLotSpace($get, $post);
 
 			default:
 				$initForm = $this->getTb()->getInitForm();
