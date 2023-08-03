@@ -472,7 +472,10 @@ $msg = $this->getValidMsg();
 				}
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getLotNumberListBySales($get);
-//$this->vd($rows);
+
+				// lot_fgの変更
+				$this->getTb()->updLotFg($rows);
+
 				echo $blade->run("lot-regist", compact('rows', 'formPage', 'get', 'post', 'msg'));
 				break;
 
