@@ -132,7 +132,7 @@ $g = $_GET;
 						</td>
 						<td>{{ $list->rgdt }}</td>
 						<td>{{ $list->name }}</td>
-						<td>{{ $list->goods_name }}</td>
+						<td @if ($list->repeat_fg == 1) style="background: #ff69b4;" @endif >{{ $list->goods_name }}</td>
 						<td>
 							<a href="/wp-admin/admin.php?page=lot-regist&sales={{$list->id}}&goods={{$list->goods}}&action=save">{{ $list->qty }}</a>
 						</td>
