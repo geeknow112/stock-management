@@ -15,7 +15,7 @@ $g = $_GET;
 
 		<hr class="wp-header-end">
 
-		<form method="get">
+		<form name="forms" id="forms" action="" method="" enctype="multipart/form-data">
 			@if ($tb->getCurUser()->roles[0] == 'administrator')
 			<div class="search-box">
 				<label for="sales" class="col-sm-2 col-form-label">No. ：</label>
@@ -43,28 +43,47 @@ $g = $_GET;
 <!--
 				<input type="submit" id="search-submit" class="button" value="申込者を検索">
 -->
-				<input type="submit" id="search-submit" class="btn btn-primary" value="検索">
+				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 
 			</div>
 			<br />
 
 			<div class="search-box">
 				<label for="cmd-select" class="col-sm-2 col-form-label">一括操作：</label>
-				<select name="cmd" id="cmd-select" disabled>
-					<option value=""></option>
-					<option value="confirm">確定</option>
-					<option value="pending">未確定</option>
-					<option value="delete">削除</option>
+				<select class="col-form-select" aria-label="orderName" id="change_status" name="change_status">
+					@foreach($initForm['select']['status'] as $i => $d)
+						<option value="{{$i}}">{{$d}}</option>
+					@endforeach
 				</select>
 
 				&emsp;
-				<button type="button" class="btn btn-primary" disabled>適用</button>
+				<button type="button" class="btn btn-primary" onclick="confirm_bulk_operation();">適用</button>
 
+				<script>
+				function cmd_search() {
+					document.forms.method = 'get';
+					document.forms.action = "/wp-admin/admin.php?page=sales-list&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
+					document.forms.cmd.value = 'search';
+					document.forms.submit();
+				}
+
+				function confirm_bulk_operation() {
+					var ret = window.confirm('チェックした注文の状態を一括操作しますか？');
+					if (ret) {
+						document.forms.method = 'post';
+						document.forms.action = "/wp-admin/admin.php?page=sales-list&sales={{$get->sales}}&goods={{$get->goods}}"
+						document.forms.cmd.value = 'edit';
+						document.forms.submit();
+					} else {
+					}
+				}
+				</script>
 			</div>
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
 			<input type="hidden" name="page" value="sales-list">
 			<input type="hidden" name="action" value="search">
+			<input type="hidden" name="cmd" value="">
 			@endif
 
 			<div class="tablenav top">
@@ -103,6 +122,8 @@ $g = $_GET;
 					<tr id="user-1">
 						<td>
 							<input type="checkbox" id="no" name="no[]" value="{{$list->id}}" />
+							<input type="hidden" id="arr_goods" name="arr_goods[{{$list->id}}]" value="{{$list->goods}}" />
+							<input type="hidden" id="arr_qty" name="arr_qty[{{$list->id}}]" value="{{$list->qty}}" />
 						</td>
 
 						<td>
