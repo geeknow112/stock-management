@@ -124,6 +124,8 @@ $g = $_GET;
 							<input type="checkbox" id="no" name="no[]" value="{{$list->id}}" />
 							<input type="hidden" id="arr_goods" name="arr_goods[{{$list->id}}]" value="{{$list->goods}}" />
 							<input type="hidden" id="arr_qty" name="arr_qty[{{$list->id}}]" value="{{$list->qty}}" />
+							<input type="hidden" id="arr_repeat" name="arr_repeat[]" value="{{$list->repeat}}" />
+							<input type="hidden" id="arr_delivery_dt" name="arr_delivery_dt[]" value="{{$list->delivery_dt}}" />
 						</td>
 
 						<td>
