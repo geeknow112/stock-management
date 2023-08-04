@@ -228,6 +228,21 @@ class Sales {
 
 	/**
 	 * 受注情報詳細取得
+	 * - 注文コード(sales)から抽出
+	 **/
+	public function getDetailBySalesCode($sales = null) {
+		global $wpdb;
+
+		$sql  = "SELECT s.* FROM ". $this->getTableName(). " as s ";
+		$sql .= sprintf("WHERE s.id = '%s' ", $sales);
+		$sql .= "LIMIT 1;";
+
+		$rows = $wpdb->get_results($sql);
+		return $rows[0];
+	}
+
+	/**
+	 * 受注情報詳細取得
 	 * - 受注コード(applicant)から抽出
 	 **/
 	public function getDetailByApplicantCode($applicant = null) {
@@ -273,122 +288,35 @@ class Sales {
 	/**
 	 * 受注情報登録
 	 **/
-	public function regDetail($prm = null, $p = null) {
+	public function regDetail($get = null, $post = null) {
 		global $wpdb;
 		$cur_user = $this->getCurUser();
 
-		if (current($cur_user->roles) != 'administrator') {
-			$app = $this->getApplicantByEmail($cur_user->user_email);
-		} else {
-			$app = null;
-		}
+//		$p->updt = date('Y-m-d H:i:s'); // updt
 
-//var_dump($app);
-
-/*
-$wpdb->query($wpdb->prepare(
-"
- INSERT INTO $wpdb->table_name
- (column1, column2,column3)
- VALUES(%d,%s,%s)
- ON DUPLICATE KEY UPDATE
- column2 = %s,
- column3 = %s
- ",
-$value1,
-$value2,
-$value3,
-$value4,
-$value5
-));
-*/
-
-		if (!empty($app)) {
-/*
-			$sql = "UPDATE wp_applicant ";
-			$sql .= "SET company_name = 'test company', ";
-			$sql .= sprintf("updt = '%s' ", date('Y-m-d H:i:s')); // updt
-			$sql .= "WHERE applicant = '". $app. "' ";
-			$sql .= "AND mail = '". $cur_user->user_email. "' ";
-			$sql .= ";";
-*/
-
-			$where = array(
-				'applicant' => $app, 
-				'mail' => $cur_user->user_email
-			);
-
-			$p->updt = date('Y-m-d H:i:s'); // updt
-
-			$exist_columns = $wpdb->get_col("DESC wp_applicant;", 0);
-			foreach ($exist_columns as $i => $col) {
-					// 更新除外カラムをスキップ
-					if (in_array($col, array('applicant', 'mail'))) { continue; }
-
-					if (isset($p->$col)) {
-						$data[$col] = $p->$col;
-					}
+		$exist_columns = $wpdb->get_col("DESC ". $this->getTableName(). ";", 0);
+		foreach ($exist_columns as $i => $col) {
+			if(!empty($post->$col)) {
+				$data[$col] = $post->$col;
 			}
-
-//unset($data['invoice_addr_fg']);
-
-/*
-unset($data['location_fg']);
-unset($data['supervisor_fg']);
-unset($data['defective']);
-unset($data['sales_qty']);
-unset($data['about_returns']);
-*/
-			// JSON形式で登録している項目のコード
-			if (!empty($data['expenses'])) { $data['expenses'] = json_encode($data['expenses']); }
-			if (!empty($data['payment'])) { $data['payment'] = json_encode($data['payment']); }
-//			if (!empty($data['return_shipping'])) { $data['return_shipping'] = json_encode($data['return_shipping']); }
-
-			// 入力欄「その他」がある項目の制御
-			$data['expenses_other'] = (!empty($data['expenses']) && in_array('9', json_decode($data['expenses']))) ? $p->expenses_other : '';
-			$data['payment_other'] = (!empty($data['payment']) && in_array('9', json_decode($data['payment']))) ? $p->payment_other : '';
-			$data['defective_other'] = (!empty($data['defective']) && $data['defective'] == 9) ? $p->defective_other : '';
-			$data['sales_qty_other'] = (!empty($data['sales_qty']) && $data['sales_qty'] == 9) ? $p->sales_qty_other : '';
-			$data['about_returns_other'] = (!empty($data['about_returns']) && $data['about_returns'] == 9) ? $p->about_returns_other : '';
-			$data['return_shipping_other'] = (!empty($data['return_shipping_other']) && $data['return_shipping'] == 9) ? $p->return_shipping_other : '';
-
-			// ファイル(商品画像等)アップ時の制御
-//			$r_goods_image = (!empty($_FILES['goods_image']['name'][0])) ? $_FILES['goods_image']['name'][0] : null;
-			$data['goods_image1'] = (!empty($p->goods_image1)) ? $p->goods_image1 : '';
-
-			$ret = $wpdb->update(
-				'wp_applicant', 
-				$data, 
-				$where
-			);
-//$this->vd(array($ret, $data, $where));exit;
-			return $ret;
-
-		} else {
-			$sql = "INSERT INTO wp_applicant VALUES (";
-			$date = date('md-His');
-			$sql .= sprintf("'test-%s', ", $date); // applicant
-			$sql .="'1','biz_number','company_name','company_name_kana','zip','pref','addr','addr2','addr3','addr_kana','tel',";
-			$sql .="'ceo_name_kana_mei','ceo_birth','ceo_addr_fg','ceo_zip','ceo_pref','ceo_addr1','ceo_addr2','ceo_addr3','ceo_addr_kana','ceo_tel',";
-			$sql .="'1','staff_company_name','staff_company_name_kana','staff_name_sei','staff_name_mei','staff_name_kana_sei','staff_name_kana_mei',";
-			$sql .="'staff_mail','staff_section','staff_post','staff_tel','staff_fax','1','staff_zip','staff_pref','staff_addr1','staff_addr2',";
-			$sql .="'staff_addr3','staff_addr_kana','1','1','invoice_company_name','invoice_company_name_kana','invoice_name_sei','invoice_name_mei',";
-			$sql .="'invoice_name_kana_sei','invoice_name_kana_mei','invoice_section','invoice_post','invoice_tel','invoice_fax','1','invoice_zip',";
-			$sql .="'invoice_pref','invoice_addr1','invoice_addr2','invoice_addr3','invoice_addr_kana','fin_name','fin_branch_name','fin_account_type','fin_account_number',";
-			$sql .="'fin_account_name','fin_account_name_kana','goods_name1','goods_price1','goods_image1','goods_name2','goods_price2','goods_image2','goods_name3',";
-			$sql .="'goods_price3','goods_image3','price_range_min','price_range_max','other_site_url','distributor','corp_name','corp_name_kana','corp_name_en','1',";
-			$sql .="'supervisor_zip','supervisor_pref','supervisor_addr','supervisor_addr2','supervisor_addr3','supervisor_addr_kana','1',";
-			$sql .="'supervisor_name_sei','supervisor_name_mei','supervisor_mail','supervisor_tel','supervisor_fax','contact_s_time','contact_e_time','expenses',";
-			$sql .="'1','1','delivery_time','delivery_time_none','1','due_payment','1','due_returns','1',";
-			$sql .="'2','2','2','2','2','2','1','2','2','2','2','status','shop_category','open_dt','close_dt','remark',";
-			$sql .="'field1','field2','field3','message',";
-			$sql .= sprintf("'%s',", date('Y-m-d H:i:s')); // rgdt
-			$sql .= "'updt','test'";
-			$sql .= ");";
 		}
 
-		$ret = $wpdb->query($sql);
-		return $ret;
+		// 初期化
+		$data['repeat_fg'] = 0;
+
+		$ret = $wpdb->insert(
+			$this->getTableName(), 
+			$data
+			//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+		);
+
+		// 登録したIDを取得
+		$sales = $wpdb->insert_id;
+
+		// 登録情報を再取得
+		$rows = $this->getDetailBySalesCode($sales);
+$this->vd($rows);
+		return $rows;
 	}
 
 	/**
@@ -472,6 +400,31 @@ $this->vd($data);
 		$exec_status = (int) array_search('確定', $this->getPartsStatus());
 		$curr_status = (int) $post->change_status;
 		if ($exec_status !== $curr_status) { return false; }
+
+		foreach ($post->no as $i => $sales) {
+			// 注文IDがNULLの場合、リピート注文のため、元注文をコピーして新規登録する
+			if (empty($sales)) {
+				// 1. リピートIDで、yc_schdule_repeat.salesで元注文の注文IDを取得
+				$rep_sqls[]  = sprintf("SELECT * FROM yc_schedule_repeat AS sc LEFT JOIN yc_sales AS s ON sc.sales = s.id WHERE sc.repeat = %d LIMIT 1;", $post->arr_repeat[$i]);
+			}
+		}
+
+		// 2. yc_sales.id = yc_schdule_repeat.salesで元注文の注文情報を取得
+		foreach ($rep_sqls as $i => $rep_sql) {
+			$rep_rets[] = current($wpdb->get_results($rep_sql));
+		}
+
+		// 3. regDetail()で新規登録
+		foreach ($rep_rets as $i => $d) {
+			$d->id = NULL; // sales = NULLで新規登録
+			$d->delivery_dt = $post->arr_delivery_dt[$i]; // リピート注文からdelivery_dtをコピー
+			$reg_rets[] = $this->regDetail($get, $d);
+		}
+
+		// 4. $postにmerge
+		foreach ($reg_rets as $i => $data) {
+			array_push($post->no, $data->id);
+		}
 
 		foreach ($post->no as $i => $sales) {
 			$sqls[$sales]  = sprintf("SELECT count(*) as count FROM yc_goods_detail as gd WHERE gd.sales = %s AND gd.goods = %s LIMIT 1;", $sales, $post->arr_goods[$sales]);
