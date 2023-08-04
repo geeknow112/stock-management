@@ -905,7 +905,6 @@ unset($data['about_returns']);
 			$date = date('md-His');
 			$sql .= sprintf("'test-%s', ", $date); // applicant
 			$sql .="'1','biz_number','company_name','company_name_kana','zip','pref','addr','addr2','addr3','addr_kana','tel',";
-			$sql .="'fax','est_dt','num_employ','capital','annual_sales','goods_class','goods','delivery_company','url','逸品','太郎','ceo_name_kana_sei',";
 			$sql .="'ceo_name_kana_mei','ceo_birth','ceo_addr_fg','ceo_zip','ceo_pref','ceo_addr1','ceo_addr2','ceo_addr3','ceo_addr_kana','ceo_tel',";
 			$sql .="'1','staff_company_name','staff_company_name_kana','staff_name_sei','staff_name_mei','staff_name_kana_sei','staff_name_kana_mei',";
 			$sql .="'staff_mail','staff_section','staff_post','staff_tel','staff_fax','1','staff_zip','staff_pref','staff_addr1','staff_addr2',";
