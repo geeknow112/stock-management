@@ -146,18 +146,24 @@ class Sales {
 		);
 
 
+		// リピート注文除外リスト:TEST ※コピー元のsales, repeat, rep_iで2, 5を除外
+		$e_list = array(2, 5);
+
 		foreach ($rows as $i => $row) {
 			if ($row->repeat_fg == true) {
 				// repeat分
-				if ($row->period == 1) { // 毎週 (元注文の配送予定日を起点)
-					for ($i=0; $i<10; $i++) {
+				if ($row->period == 1) { // 毎週 (元注文の配送予定日を起点にn回繰り返す処理)
+					for ($i=1; $i<=5; $i++) {
+						if (in_array($i, $e_list)) { continue; } // 除外
 						$r = clone $row;
 						$r->id = NULL;
 						$r->goods_name = 'rep:'. $r->goods_name;
 						$r->status = 0;
 						$date = new DateTime($r->delivery_dt);
-						$date->modify(sprintf('+%d month', $i));
+						$date->modify(sprintf('+%d day', $i));
 						$r->delivery_dt = $date->format('Y-m-d');
+						$r->rgdt = NULL;
+						$r->rep_i = $i;
 						$rows[] = $r;
 					}
 				}
@@ -166,7 +172,7 @@ class Sales {
 
 		// sales-listの処理
 		if ($un_convert == true) {
-
+//$this->vd($rows);
 			// 配送予定日でソート
 			$dts = [];
 			foreach ($rows as $row) {

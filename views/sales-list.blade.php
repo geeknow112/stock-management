@@ -134,9 +134,13 @@ $g = $_GET;
 						</td>
 						<td>{{ $list->rgdt }}</td>
 						<td>{{ $list->name }}</td>
-						<td @if ($list->repeat_fg == 1) style="background: #ff69b4;" @endif >{{ $list->goods_name }}</td>
+						<td @if ($list->repeat_fg == 1) style="background: #ff69b4;" @endif >{{ $list->goods_name }} @if ($list->rep_i) : {{ $list->rep_i }} @endif</td>
 						<td>
+							@if ($list->status == '0')
+							{{ $list->qty }}
+							@else
 							<a href="/wp-admin/admin.php?page=lot-regist&sales={{$list->id}}&goods={{$list->goods}}&action=save">{{ $list->qty }}</a>
+							@endif
 						</td>
 						<td></td>
 						<td>{{ $list->arrival_dt }}</td>
