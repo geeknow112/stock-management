@@ -14,4 +14,7 @@
  */
 class CustomerController 
 {
+
+	public function listAction() {
+	}
 }

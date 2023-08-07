@@ -566,6 +566,9 @@ $msg = $this->getValidMsg();
 	 *
 	 **/
 	function customer_list() {
+		$c = new CustomerController();
+$this->vd($c);
+
 		$blade = $this->set_view();
 		$get = (object) $_GET;
 		$post = (object) $_POST;
