@@ -4,12 +4,14 @@ use Rakit\Validation\Validator;
 //require(__DIR__. '/library/vendor/autoload.php');
 use eftec\bladeone\BladeOne;
 
-require_once(dirname(__DIR__). '/stock-management/model/model.php');
-require_once(dirname(__DIR__). '/stock-management/model/Shop.php');
-require_once(dirname(__DIR__). '/stock-management/model/Applicant.php');
-require_once(dirname(__DIR__). '/stock-management/model/Sales.php');
-require_once(dirname(__DIR__). '/stock-management/model/Goods.php');
-require_once(dirname(__DIR__). '/stock-management/model/Customer.php');
+require_once(dirname(__DIR__). '/stock-management/models/model.php');
+require_once(dirname(__DIR__). '/stock-management/models/Shop.php');
+require_once(dirname(__DIR__). '/stock-management/models/Applicant.php');
+require_once(dirname(__DIR__). '/stock-management/models/Sales.php');
+require_once(dirname(__DIR__). '/stock-management/models/Goods.php');
+require_once(dirname(__DIR__). '/stock-management/models/Customer.php');
+
+require_once(dirname(__DIR__). '/stock-management/controllers/CustomerController.php');
 
 //require(__DIR__. '/library/vendor/vendor_phpspreadsheet/autoload.php');
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -350,8 +352,8 @@ $this->vd($rows);
 	 *
 	 **/
 	function customer_detail() {
-		$blade = $this->set_view();
-		echo $blade->run("customer-detail");
+		$c = new CustomerController();
+		$c->detailAction();
 	}
 
 	/**
@@ -567,24 +569,7 @@ $msg = $this->getValidMsg();
 	 **/
 	function customer_list() {
 		$c = new CustomerController();
-$this->vd($c);
-
-		$blade = $this->set_view();
-		$get = (object) $_GET;
-		$post = (object) $_POST;
-
-		$get->action = 'search';
-		switch($get->action) {
-			case 'search':
-			default:
-				$tb = new Customer;
-				$initForm = $tb->getInitForm();
-				$rows = $tb->getList($get, $un_convert = true);
-				$formPage = 'customer-list';
-//$this->vd($rows);
-				echo $blade->run("customer-list", compact('rows', 'formPage', 'initForm'));
-				break;
-		}
+		$c->listAction();
 	}
 
 	/**
