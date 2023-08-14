@@ -12,6 +12,7 @@ require_once(dirname(__DIR__). '/stock-management/models/Goods.php');
 require_once(dirname(__DIR__). '/stock-management/models/Customer.php');
 
 require_once(dirname(__DIR__). '/stock-management/controllers/CustomerController.php');
+require_once(dirname(__DIR__). '/stock-management/controllers/MenuController.php');
 
 //require(__DIR__. '/library/vendor/vendor_phpspreadsheet/autoload.php');
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -126,14 +127,14 @@ class StockManagement {
 	 * 
 	 **/
 	function menu_top() {
-		$blade = $this->set_view();
+		$m = new MenuController();
 
 //		$applicant = new Applicant();
 //		$list = $applicant->getList();
 
 //		$msg = $this->getValidMsg();
 		$title = '<p>menu top</p>';
-		echo $blade->run("menu-top", compact('title','menu top', 'msg'));
+		echo $m->get_blade()->run("menu-top", compact('title','menu top', 'msg'));
 	}
 
 	/**
