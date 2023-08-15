@@ -87,47 +87,6 @@ class StockManagement {
 	/**
 	 * 
 	 **/
-	function reload() {
-		unset($_POST); 
-		unset($p); 
-//		echo '<script type="text/javascript">if (window.name != "any") {window.location.reload();window.name = "any";} else {window.name = "";}</script>';
-	}
-
-	/**
-	 * 
-	 **/
-	function confirm() {
-		$blade = $this->set_view();
-		list($prm, $p, $rows) = $this->preStepProcess('confirm');
-		echo $blade->run("shop-detail-confirm", compact('rows', 'prm'));
-	}
-
-	/**
-	 * 
-	 **/
-	function status() {
-		$blade = $this->set_view();
-		list($prm, $p, $rows, $step_num) = $this->preStepProcess('confirm');
-
-		// 状態取得
-		$tb = new Applicant;
-		$status = $tb->getStatusForMenu();
-		echo $blade->run("shop-detail-status", compact('status', 'step_num'));
-	}
-
-	/**
-	 * 
-	 **/
-	function set_view() {
-		$views = __DIR__. '/views';
-		$cache = __DIR__. '/cache';
-		$blade = new BladeOne($views, $cache, BladeOne::MODE_AUTO);
-		return $blade;
-	}
-
-	/**
-	 * 
-	 **/
 	function menu_top() {
 		$m = new MenuController();
 		$m->listAction();
@@ -161,99 +120,8 @@ class StockManagement {
 	 *
 	 **/
 	function lot_regist() {
-//		$g = new GoodsController();
-//		$g->lotRegistAction();
-
-		$blade = $this->set_view();
-		$get = (object) $_GET;
-		$post = (object) $_POST;
-//$this->vd($post);
-		$this->remove_menus();
-
-		$this->setTb('Sales');
-
-		switch($get->action) {
-			default:
-				$initForm = $this->getTb()->getInitForm();
-				$rows = $this->getTb()->getLotNumberListBySales($get);
-				echo $blade->run("lot-regist", compact('rows', 'formPage', 'get', 'post', 'msg'));
-				break;
-
-			case 'save':
-				if (!empty($post)) {
-					if ($post->cmd == 'save') {
-						$msg = $this->getValidMsg(2);
-						if ($msg['msg'] == 'success') {
-							$rows = $this->getTb()->updLotDetail($get, $post);
-							$get->sales = $post->sales;
-							$get->goods = $post->goods;
-							$get->action = 'complete';
-
-						} else {
-							$rows = $post;
-							$rows->messages = $msg;
-						}
-					}
-				}
-				$initForm = $this->getTb()->getInitForm();
-				$rows = $this->getTb()->getLotNumberListBySales($get);
-
-				// lot_fgの変更
-				$this->getTb()->updLotFg($rows);
-
-				echo $blade->run("lot-regist", compact('rows', 'formPage', 'get', 'post', 'msg'));
-				break;
-
-			case 'confirm':
-				if (!empty($post)) {
-					switch ($post->cmd) {
-						default:
-						case 'cmd_confirm':
-							$msg = $this->getValidMsg(2);
-							$rows = $this->getTb()->getLotNumberListBySales($get);
-
-							// DBの更新対象データを、post値に変更
-							$plt_id = $post->lot_tmp_id;
-							foreach ($rows as $lot_tmp_id => $d) {
-								$d->tank = $post->tank[$lot_tmp_id];
-								$d->lot = $post->lot[$lot_tmp_id];
-							}
-
-							if ($msg['msg'] !== 'success') {
-								$rows->messages = $msg;
-							}
-						break;
-					}
-				}
-				if($rows->messages) {
-						$msg = $rows->messages;
-						$get->action = 'save';
-				} else {
-				}
-//$this->vd(array($get, $post, $msg, $rows, $page));
-				echo $blade->run("lot-regist", compact('rows', 'get', 'post', 'msg'));
-				break;
-
-			case 'edit':
-				if (!empty($post->sales) && !empty($post->goods)) {
-					$post->action = $get->action;
-					$rows = $this->getTb()->getLotNumberListBySales($post);
-					$rows->cmd = $post->cmd = 'cmd_update';
-
-				} else {
-					$msg = $this->getValidMsg();
-
-					$rows = $post;
-					$rows->name = $post->goods_name;
-
-					if ($msg['msg'] !== 'success') {
-						$rows->messages = $msg;
-					}
-				}
-				echo $blade->run("lot-regist", compact('rows', 'get', 'post', 'msg'));
-				break;
-
-		}
+		$s = new SalesController();
+		$s->lotRegistAction();
 	}
 
 	/**
