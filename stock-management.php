@@ -128,9 +128,8 @@ class StockManagement {
 	 *
 	 **/
 	function sum_day_goods() {
-		$this->remove_menus();
-		$blade = $this->set_view();
-		echo $blade->run("sum-day-goods");
+		$s = new SalesController();
+		$s->sumDayGoodsAction();
 	}
 
 	/**
