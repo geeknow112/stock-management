@@ -13,6 +13,7 @@ require_once(dirname(__DIR__). '/stock-management/models/Customer.php');
 
 require_once(dirname(__DIR__). '/stock-management/controllers/CustomerController.php');
 require_once(dirname(__DIR__). '/stock-management/controllers/GoodsController.php');
+require_once(dirname(__DIR__). '/stock-management/controllers/SalesController.php');
 require_once(dirname(__DIR__). '/stock-management/controllers/MenuController.php');
 
 //require(__DIR__. '/library/vendor/vendor_phpspreadsheet/autoload.php');
@@ -354,25 +355,8 @@ $msg = $this->getValidMsg();
 	 *
 	 **/
 	function sales_list() {
-		$blade = $this->set_view();
-		$get = (object) $_GET;
-		$post = (object) $_POST;
-
-		$this->setTb('Sales');
-
-		switch($post->cmd) {
-			case 'search':
-			case 'edit':
-				$ret = $this->getTb()->changeStatus($post->change_status, $post->no);
-				$this->getTb()->makeLotSpace($get, $post);
-
-			default:
-				$initForm = $this->getTb()->getInitForm();
-				$rows = $this->getTb()->getList($get, $un_convert = true);
-				$formPage = 'sales-list';
-				echo $blade->run("sales-list", compact('rows', 'formPage', 'initForm'));
-				break;
-		}
+		$s = new SalesController();
+		$s->listAction();
 	}
 
 	/**
