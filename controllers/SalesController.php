@@ -115,5 +115,26 @@ $msg = $this->getValidMsg();
 
 		}
 	}
+
+	/**
+	 *
+	 **/
+	public function deliveryGraph() {
+		$get = (object) $_GET;
+		$post = (object) $_POST;
+
+		$this->setTb('Sales');
+
+		$get->action = 'search';
+		switch($get->action) {
+			case 'search':
+			default:
+				$initForm = $this->getTb()->getInitForm();
+				$rows = $this->getTb()->getList($get);
+				$formPage = 'delivery-graph';
+				echo $this->get_blade()->run("delivery-graph", compact('rows', 'formPage', 'initForm'));
+				break;
+		}
+	}
 }
 ?>

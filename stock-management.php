@@ -161,6 +161,9 @@ class StockManagement {
 	 *
 	 **/
 	function lot_regist() {
+//		$g = new GoodsController();
+//		$g->lotRegistAction();
+
 		$blade = $this->set_view();
 		$get = (object) $_GET;
 		$post = (object) $_POST;
@@ -290,46 +293,8 @@ class StockManagement {
 	 *
 	 **/
 	function delivery_graph() {
-		$blade = $this->set_view();
-		$get = (object) $_GET;
-		$post = (object) $_POST;
-
-		$this->setTb('Sales');
-
-		$get->action = 'search';
-		switch($get->action) {
-			case 'search':
-			default:
-				$initForm = $this->getTb()->getInitForm();
-//				$rows = $tb->getList($get, $un_convert = true);
-				$rows = $this->getTb()->getList($get);
-				$formPage = 'delivery-graph';
-//$this->vd($rows);
-				echo $blade->run("delivery-graph", compact('rows', 'formPage', 'initForm'));
-				break;
-		}
-	}
-
-	/**
-	 * 
-	 *
-	 **/
-	private $_tb = null;
-
-	/**
-	 * 
-	 *
-	 **/
-	private function setTb($modelClassName = null) {
-		$this->_tb = new $modelClassName;
-	}
-
-	/**
-	 * 
-	 *
-	 **/
-	private function getTb() {
-		return $this->_tb;
+		$s = new SalesController();
+		$s->deliveryGraph();
 	}
 
 	/**
