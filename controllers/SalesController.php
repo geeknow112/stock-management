@@ -230,5 +230,12 @@ $msg = $this->getValidMsg();
 				break;
 		}
 	}
+
+	/**
+	 *
+	 **/
+	public function sumDayGoodsAction() {
+		echo $this->get_blade()->run("sum-day-goods");
+	}
 }
 ?>
