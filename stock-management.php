@@ -128,13 +128,7 @@ class StockManagement {
 	 **/
 	function menu_top() {
 		$m = new MenuController();
-
-//		$applicant = new Applicant();
-//		$list = $applicant->getList();
-
-//		$msg = $this->getValidMsg();
-		$title = '<p>menu top</p>';
-		echo $m->get_blade()->run("menu-top", compact('title','menu top', 'msg'));
+		$m->listAction();
 	}
 
 	/**

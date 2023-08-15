@@ -6,7 +6,6 @@
  *
  */
 use eftec\bladeone\BladeOne;
-require_once(dirname(__DIR__). '/models/Customer.php');
 require_once(dirname(__DIR__). '/library/Ext/Controller/Action.php');
 /**
  * MenuControllerClass short discription
