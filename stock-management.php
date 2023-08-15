@@ -541,22 +541,8 @@ $msg = $this->getValidMsg();
 	 *
 	 **/
 	function goods_list() {
-		$blade = $this->set_view();
-		$get = (object) $_GET;
-		$post = (object) $_POST;
-
-		$get->action = 'search';
-		switch($get->action) {
-			case 'search':
-			default:
-				$tb = new Goods;
-				$initForm = $tb->getInitForm();
-				$rows = $tb->getList($get, $un_convert = true);
-				$formPage = 'goods-list';
-//$this->vd($rows);
-				echo $blade->run("goods-list", compact('rows', 'formPage', 'initForm'));
-				break;
-		}
+		$g = new GoodsController();
+		$g->listAction();
 	}
 
 	/**
