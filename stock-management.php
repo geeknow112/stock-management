@@ -85,7 +85,7 @@ class StockManagement {
 	}
 
 	/**
-	 * 
+	 * メニュー
 	 **/
 	function menu_top() {
 		$m = new MenuController();
@@ -93,7 +93,7 @@ class StockManagement {
 	}
 
 	/**
-	 *
+	 * 商品詳細
 	 **/
 	function goods_detail() {
 		$g = new GoodsController();
@@ -101,7 +101,7 @@ class StockManagement {
 	}
 
 	/**
-	 *
+	 * 顧客詳細
 	 **/
 	function customer_detail() {
 		$c = new CustomerController();
@@ -109,7 +109,7 @@ class StockManagement {
 	}
 
 	/**
-	 *
+	 * 注文詳細
 	 **/
 	function sales_detail() {
 		$s = new SalesController();
@@ -117,7 +117,7 @@ class StockManagement {
 	}
 
 	/**
-	 *
+	 * ロット管理
 	 **/
 	function lot_regist() {
 		$s = new SalesController();
@@ -125,7 +125,7 @@ class StockManagement {
 	}
 
 	/**
-	 *
+	 * 日別集計
 	 **/
 	function sum_day_goods() {
 		$s = new SalesController();
@@ -133,7 +133,7 @@ class StockManagement {
 	}
 
 	/**
-	 *
+	 * 商品検索
 	 **/
 	function goods_list() {
 		$g = new GoodsController();
@@ -141,7 +141,7 @@ class StockManagement {
 	}
 
 	/**
-	 *
+	 * 顧客検索
 	 **/
 	function customer_list() {
 		$c = new CustomerController();
@@ -149,7 +149,7 @@ class StockManagement {
 	}
 
 	/**
-	 *
+	 * 注文検索
 	 **/
 	function sales_list() {
 		$s = new SalesController();
@@ -157,7 +157,7 @@ class StockManagement {
 	}
 
 	/**
-	 *
+	 * 配送表
 	 **/
 	function delivery_graph() {
 		$s = new SalesController();
