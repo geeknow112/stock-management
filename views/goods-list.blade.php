@@ -35,6 +35,7 @@ $g = $_GET;
 				<input type="submit" id="search-submit" class="btn btn-primary" value="検索">
 
 			</div>
+{{ $wp_list_table->display_tablenav('top') }}
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
 			<input type="hidden" name="page" value="goods-list">

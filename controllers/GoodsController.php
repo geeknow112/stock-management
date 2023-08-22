@@ -25,6 +25,29 @@ class GoodsController extends Ext_Controller_Action
 		$get = (object) $_GET;
 		$post = (object) $_POST;
 
+
+
+// pagination
+require_once(dirname(__DIR__). '/library/Ext/wp-admin/includes/class-yc-goods-list-table.php');
+//$wp_list_table = _get_list_table( 'YC_Goods_List_Table' );
+$wp_list_table = new YC_Goods_List_Table;
+//$this->vd($wp_list_table);exit;
+
+$pagenum       = $wp_list_table->get_pagenum();
+
+$wp_list_table->prepare_items();
+$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
+$this->vd($total_pages);
+if ( $pagenum > $total_pages && $total_pages > 0 ) {
+        wp_redirect( add_query_arg( 'paged', $total_pages ) );
+        exit;
+}
+
+global $wpdb;
+$this->vd(preg_replace('/^'. $wpdb->prefix. '/', '', $wpdb->yc_goods));
+
+
+
 		$get->action = 'search';
 		switch($get->action) {
 			case 'search':
@@ -34,7 +57,7 @@ class GoodsController extends Ext_Controller_Action
 				$rows = $tb->getList($get, $un_convert = true);
 				$formPage = 'goods-list';
 //$this->vd($rows);
-				echo $this->get_blade()->run("goods-list", compact('rows', 'formPage', 'initForm'));
+				echo $this->get_blade()->run("goods-list", compact('rows', 'formPage', 'initForm', 'wp_list_table'));
 				break;
 		}
 	}
