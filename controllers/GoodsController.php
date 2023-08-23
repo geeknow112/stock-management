@@ -36,17 +36,19 @@ $wp_list_table = new YC_Goods_List_Table;
 $pagenum       = $wp_list_table->get_pagenum();
 
 $wp_list_table->prepare_items();
+/*
 $total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
-$this->vd($total_pages);
 if ( $pagenum > $total_pages && $total_pages > 0 ) {
         wp_redirect( add_query_arg( 'paged', $total_pages ) );
         exit;
 }
-
+*/
 global $wpdb;
 $this->vd(preg_replace('/^'. $wpdb->prefix. '/', '', $wpdb->yc_goods));
-
-
+//$this->vd($wp_list_table->items);
+//$d = $wpdb->get_results( "SELECT * FROM yc_goods limit 20;" );
+//$this->vd($d);
+//$this->vd($this->screen->render_screen_reader_content( 'heading_list' ));
 
 		$get->action = 'search';
 		switch($get->action) {
