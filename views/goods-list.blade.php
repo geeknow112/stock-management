@@ -36,7 +36,9 @@ $g = $_GET;
 
 			</div>
 {{-- $wp_list_table->display_tablenav('top') --}}
+
 {{ $wp_list_table->display() }}
+
 {{-- $wp_list_table->display_tablenav('bottom') --}}
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
