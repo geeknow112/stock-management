@@ -59,6 +59,8 @@ $g = $_GET;
 <!--
 			<table class="striped" style="border-collapse: collapse;">
 -->
+
+<!--
 		<div>
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
@@ -78,7 +80,6 @@ $g = $_GET;
 					<tr id="user-1">
 						<td colspan="1">
 							<a href="/wp-admin/admin.php?page=goods-detail&goods={{$list->goods}}&action=edit">{{ $list->goods }}</a>
-							<!--<a href="" onClick="window.open('/wp-admin/admin.php?page=sum-day-goods', 'regist lot number', 'popup', 'left=200,top=100,width=420,height=520');">{{$delivery_dt}}</a>-->
 						</td>
 						<td>{{ $list->goods_name }}</td>
 						<td>{{ $list->qty }}</td>
@@ -97,7 +98,7 @@ $g = $_GET;
 				</tfoot>
 			</table>
 </div>
-
+-->
 		</div>
 
 			<div class="tablenav bottom">
