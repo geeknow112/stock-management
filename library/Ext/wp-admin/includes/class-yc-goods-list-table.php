@@ -675,12 +675,12 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_goods;" )
 	public function get_column_info() {
 		return array(
 			array(
-				'id' => '', 
-				'goods' => 'Goods', 
-				'name' => 'Name', 
-				'email' => 'Mail', 
-				'role' => 'Role', 
-				'posts' => 'posts'
+				'id' => mb_convert_encoding('商品番号', 'UTF-8', 'SJIS'), 
+				'goods' => mb_convert_encoding('商品名', 'UTF-8', 'SJIS'), 
+				'amt' => mb_convert_encoding('荷姿・容量', 'UTF-8', 'SJIS'), 
+				'qty' => mb_convert_encoding('個数', 'UTF-8', 'SJIS'), 
+				'sum' => mb_convert_encoding('数量(kg)', 'UTF-8', 'SJIS'), 
+				'remark' => mb_convert_encoding('備考', 'UTF-8', 'SJIS')
 			)
 		);
 	}
