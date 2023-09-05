@@ -35,6 +35,10 @@ $g = $_GET;
 				<input type="submit" id="search-submit" class="btn btn-primary" value="検索">
 
 			</div>
+
+{{-- $wp_list_table->search_box( __( 'Search Users' ), 'user' ) --}}
+{{-- $wp_list_table->search_box( __( '商品検索' ), 'yc_goods' ) --}}
+
 {{-- $wp_list_table->display_tablenav('top') --}}
 
 {{ $wp_list_table->display() }}
