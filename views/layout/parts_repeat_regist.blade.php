@@ -1,3 +1,5 @@
+<div id="repeat_info" style="display: none">
+
 	<p class="">
 	<legend>【繰り返し情報登録】</legend>
 	</p>
@@ -55,3 +57,5 @@
     <input type="date" class="col-sm-6 col-form-control" id="repeat_e_dt" aria-describedby="repeatEDtHelp">
 <!--    <div id="repeatEDtHelp" class="form-text">終了日を入力してください。</div>-->
   </div>
+
+</div>

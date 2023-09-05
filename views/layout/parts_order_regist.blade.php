@@ -85,7 +85,7 @@
 
 	<div class="row mb-3">
 		<label for="repeat" class="col-sm-2 col-form-label">繰り返し予定を設定する</label>
-		<input type="checkbox" class="col-sm-2 form-check-input" id="repeat">
+		<input type="checkbox" class="col-sm-2 form-check-input" id="repeat" onclick="checkRepeat();">
 	</div>
 
 <br /><br /><hr>
