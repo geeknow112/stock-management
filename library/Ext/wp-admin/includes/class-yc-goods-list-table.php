@@ -142,9 +142,20 @@ class YC_Goods_List_Table extends WP_List_Table {
 
 //		$this->items = $wp_user_search->get_results();
 global $wpdb;
+$req = (object) $_REQUEST;
+print_r($req->s['no']);
+
+$where = sprintf("WHERE goods is not null ");
+if (!empty($req->s['no'])) {
+	$where .= sprintf("AND goods = '%s'", $req->s['no']);
+}
+if (!empty($req->s['goods_name'])) {
+	$str = $req->s['goods_name'];
+	$where .= "AND name LIKE '%". $str. "%'";
+}
 
 $limit = ($paged -1) * $users_per_page;
-$sql = sprintf("SELECT * FROM yc_goods limit %d, %d", (int) $limit, (int) $users_per_page);
+$sql = sprintf("SELECT * FROM yc_goods %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
 print_r($sql);
 $this->items = $wpdb->get_results( $sql );
 
@@ -683,5 +694,41 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_goods;" )
 				'remark' => mb_convert_encoding('”õl', 'UTF-8', 'SJIS')
 			)
 		);
+	}
+
+	/**
+	 * Displays the search box.
+	 *
+	 * @since 3.1.0
+	 *
+	 * @param string $text	 The 'submit' button label.
+	 * @param string $input_id ID attribute value for the search input field.
+	 */
+	public function search_box( $text, $input_id ) {
+			if ( empty( $_REQUEST['s'] ) && ! $this->has_items() ) {
+					return;
+			}
+
+			$input_id = $input_id . '-search-input';
+
+			if ( ! empty( $_REQUEST['orderby'] ) ) {
+					echo '<input type="hidden" name="orderby" value="' . esc_attr( $_REQUEST['orderby'] ) . '" />';
+			}
+			if ( ! empty( $_REQUEST['order'] ) ) {
+					echo '<input type="hidden" name="order" value="' . esc_attr( $_REQUEST['order'] ) . '" />';
+			}
+			if ( ! empty( $_REQUEST['post_mime_type'] ) ) {
+					echo '<input type="hidden" name="post_mime_type" value="' . esc_attr( $_REQUEST['post_mime_type'] ) . '" />';
+			}
+			if ( ! empty( $_REQUEST['detached'] ) ) {
+					echo '<input type="hidden" name="detached" value="' . esc_attr( $_REQUEST['detached'] ) . '" />';
+			}
+			?>
+<p class="search-box">
+	<label class="screen-reader-text" for="<?php echo esc_attr( $input_id ); ?>"><?php echo $text; ?>:</label>
+	<input type="search" id="<?php echo esc_attr( $input_id ); ?>" name="s" value="<?php _admin_search_query(); ?>" />
+			<?php submit_button( $text, '', '', false, array( 'id' => 'search-submit' ) ); ?>
+</p>
+			<?php
 	}
 }
