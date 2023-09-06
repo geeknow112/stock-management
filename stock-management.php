@@ -58,7 +58,7 @@ class StockManagement {
 
 		switch ($cur_user->roles[0]) {
 			case 'administrator':
-				if (in_array($cur_user->user_login, array('admin'))) {
+				if (in_array($cur_user->user_login, array('admin', 'yamachu'))) {
 					// 登録画面
 					add_submenu_page('stock-management', '商品登録','🔷商品登録', 'read', 'goods-detail', array(&$this, 'goods_detail'));
 					add_submenu_page('stock-management', '顧客登録','🔷顧客登録', 'read', 'customer-detail', array(&$this, 'customer_detail'));
