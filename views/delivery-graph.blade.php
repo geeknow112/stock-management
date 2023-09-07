@@ -194,7 +194,7 @@ $g = $_GET;
 				<div class="d-flex flex-row bd-highlight mb-3">
 <!--					<div class="text-wrap text-center inner_box" style="width: 8rem;"><?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></div>-->
 					@if ($row->repeat_fg != 1)
-					<div class="text-wrap text-center inner_box" style="width: 8rem;">{{$row->goods_name}}</div>
+					<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->id}}&action=edit'>{{$row->goods_name}}</a></div>
 					@else
 					<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;">{{$row->goods_name}}</div>
 					@endif
