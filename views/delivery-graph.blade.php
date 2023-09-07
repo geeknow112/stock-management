@@ -70,20 +70,24 @@ $g = $_GET;
 						<th class=""></th>
 						<th class=""></th>
 						<th class=""></th>
+						<th class="" colspan="6">6t 0</th>
 						<th class="" colspan="6">6t 1</th>
 						<th class="" colspan="6">6t 2</th>
 						<th class="" colspan="6">6t 3</th>
 						<th class="" colspan="6">6t 4</th>
 						<th class="" colspan="6">6t 5</th>
-						<th class="" colspan="6"></th>
-						<th class="" colspan="6"></th>
+						<th class="" colspan="6">6t 6</th>
+						<th class="" colspan="6">6t 7</th>
+						<th class="" colspan="6">6t 8</th>
+						<th class="" colspan="6">6t 9</th>
+						<th class="" colspan="6">6t 10</th>
 					</tr>
 
 					<tr>
 						<th scope="col" id="username" class=""></th>
 						<th scope="col" id="username" class="">曜</th>
 						<th scope="col" id="username" class="">日</th>
-						@for ($i = 0; $i < 7; $i++)
+						@for ($i = 0; $i <= 10; $i++)
 						<th class="" style="width: 7rem;">品名</th>
 						<th class="" style="width: 7rem;">配送先</th>
 						<th class="" style="width: 3rem;">量(t)</th>
@@ -245,7 +249,13 @@ $g = $_GET;
 					@foreach ($rows as $delivery_dt => $list)
 					<tr id="user-1">
 						<td colspan="3">
-							<a href="/wp-admin/admin.php?page=sum-day-goods">{{$delivery_dt}}</a>
+							<a href="/wp-admin/admin.php?page=sum-day-goods">{{$delivery_dt}}</a><br />
+							<p>　1槽</p>
+						</td>
+
+						<!-- 6t 0 -->
+						<td colspan="6">
+							@php innerTable($list, 0); @endphp
 						</td>
 
 						<!-- 6t 1 -->
@@ -271,13 +281,133 @@ $g = $_GET;
 						<td colspan="6">
 							@php innerTable($list, 5); @endphp
 						</td>
-						<!--  -->
+						<!-- 6t 6 -->
 						<td colspan="6">
 							@php innerTable($list, 6); @endphp
 						</td>
-						<!--  -->
+						<!-- 6t 7 -->
 						<td colspan="6">
 							@php innerTable($list, 7); @endphp
+						</td>
+						<!-- 6t 8 -->
+						<td colspan="6">
+							@php innerTable($list, 8); @endphp
+						</td>
+						<!-- 6t 9 -->
+						<td colspan="6">
+							@php innerTable($list, 9); @endphp
+						</td>
+						<!-- 6t 10 -->
+						<td colspan="6">
+							@php innerTable($list, 10); @endphp
+						</td>
+					</tr>
+					<tr id="user-1">
+						<td colspan="3">
+							<p>　2槽</p>
+						</td>
+
+						<!-- 6t 0 -->
+						<td colspan="6">
+							@php innerTable(null, 0); @endphp
+						</td>
+
+						<!-- 6t 1 -->
+						<td colspan="6">
+							@php innerTable(null, 1); @endphp
+						</td>
+
+						<!-- 6t 2 -->
+						<td colspan="6">
+							@php innerTable(null, 2); @endphp
+						</td>
+
+						<!-- 6t 3 -->
+						<td colspan="6">
+							@php innerTable(null, 3); @endphp
+						</td>
+
+						<!-- 6t 4 -->
+						<td colspan="6">
+							@php innerTable(null, 4); @endphp
+						</td>
+						<!-- 6t 5 -->
+						<td colspan="6">
+							@php innerTable(null, 5); @endphp
+						</td>
+						<!-- 6t 6 -->
+						<td colspan="6">
+							@php innerTable(null, 6); @endphp
+						</td>
+						<!-- 6t 7 -->
+						<td colspan="6">
+							@php innerTable(null, 7); @endphp
+						</td>
+						<!-- 6t 8 -->
+						<td colspan="6">
+							@php innerTable(null, 8); @endphp
+						</td>
+						<!-- 6t 9 -->
+						<td colspan="6">
+							@php innerTable(null, 9); @endphp
+						</td>
+						<!-- 6t 10 -->
+						<td colspan="6">
+							@php innerTable(null, 10); @endphp
+						</td>
+					</tr>
+					<tr id="user-1">
+						<td colspan="3">
+							<p>　3槽</p>
+						</td>
+
+						<!-- 6t 0 -->
+						<td colspan="6">
+							@php innerTable(null, 0); @endphp
+						</td>
+
+						<!-- 6t 1 -->
+						<td colspan="6">
+							@php innerTable(null, 1); @endphp
+						</td>
+
+						<!-- 6t 2 -->
+						<td colspan="6">
+							@php innerTable(null, 2); @endphp
+						</td>
+
+						<!-- 6t 3 -->
+						<td colspan="6">
+							@php innerTable(null, 3); @endphp
+						</td>
+
+						<!-- 6t 4 -->
+						<td colspan="6">
+							@php innerTable(null, 4); @endphp
+						</td>
+						<!-- 6t 5 -->
+						<td colspan="6">
+							@php innerTable(null, 5); @endphp
+						</td>
+						<!-- 6t 6 -->
+						<td colspan="6">
+							@php innerTable(null, 6); @endphp
+						</td>
+						<!-- 6t 7 -->
+						<td colspan="6">
+							@php innerTable(null, 7); @endphp
+						</td>
+						<!-- 6t 8 -->
+						<td colspan="6">
+							@php innerTable(null, 8); @endphp
+						</td>
+						<!-- 6t 9 -->
+						<td colspan="6">
+							@php innerTable(null, 9); @endphp
+						</td>
+						<!-- 6t 10 -->
+						<td colspan="6">
+							@php innerTable(null, 10); @endphp
 						</td>
 					</tr>
 					@endforeach
