@@ -9,10 +9,11 @@
 
 <script>
 	function to_next() {
-		document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=step1";
+		document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=customer-detail&action=confirm";
 
-		var ch = document.getElementById('cmd_confirm').checked;
-		document.forms.cmd.value = (ch != true) ? "cmd_regist" : "cmd_confirm";
+//		var ch = document.getElementById('cmd_confirm').checked;
+//		document.forms.cmd.value = (ch != true) ? "cmd_regist" : "cmd_confirm";
+		document.forms.cmd.value = "cmd_confirm";
 		document.forms.submit();
 	}
 </script>
