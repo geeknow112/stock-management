@@ -226,7 +226,22 @@ $msg = $this->getValidMsg();
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList($get);
 				$formPage = 'delivery-graph';
-				echo $this->get_blade()->run("delivery-graph", compact('rows', 'formPage', 'initForm'));
+$t = (array) current(current(current($rows['2023-07-17'])));
+$this->vd($t);
+$r = array(
+	array(
+		'id' => '1',
+		'goods_name' => 'g-1',
+		'categoryNo' => '1'
+	),
+	array(
+		'id' => '2',
+		'goods_name' => 'g-2',
+		'categoryNo' => '2'
+	),
+	(array) current(current(current($rows['2023-07-17'])))
+);
+				echo $this->get_blade()->run("delivery-graph", compact('rows', 'formPage', 'initForm', 'r'));
 				break;
 		}
 	}
