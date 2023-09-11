@@ -686,8 +686,8 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_customer;
 	public function get_column_info() {
 		return array(
 			array(
-				'id' => mb_convert_encoding('商品番号', 'UTF-8', 'SJIS'), 
-				'goods' => mb_convert_encoding('商品名', 'UTF-8', 'SJIS'), 
+				'id' => mb_convert_encoding('顧客番号', 'UTF-8', 'SJIS'), 
+				'customer' => mb_convert_encoding('顧客名', 'UTF-8', 'SJIS'), 
 				'amt' => mb_convert_encoding('荷姿・容量', 'UTF-8', 'SJIS'), 
 				'qty' => mb_convert_encoding('個数', 'UTF-8', 'SJIS'), 
 				'sum' => mb_convert_encoding('数量(kg)', 'UTF-8', 'SJIS'), 
