@@ -30,7 +30,7 @@
 
 	<div class="row mb-3">
 		<label for="goodsName" class="col-sm-2 col-form-label">品名</label>
-		<select class="form-select" aria-label="goodsName" id="goods_name" name="goods_name">
+		<select class="form-select" aria-label="goodsName" id="goods" name="goods">
 			@foreach($initForm['select']['goods_name'] as $i => $d)
 				<option value="{{$i}}" @if ($i == $rows->goods) selected @endif >{{$d}}</option>
 			@endforeach
@@ -69,8 +69,8 @@
 	</div>
 
 	<div class="row mb-3">
-		<label for="ship_dt" class="col-sm-2 col-form-label">配送予定日</label>
-		<input type="date" class="col-sm-6 col-form-control" id="ship_dt" name="ship_dt" aria-describedby="shipDtHelp" value="{{$rows->ship_dt}}">
+		<label for="delivery_dt" class="col-sm-2 col-form-label">配送予定日</label>
+		<input type="date" class="col-sm-6 col-form-control" id="delivery_dt" name="delivery_dt" aria-describedby="deliveryDtHelp" value="{{$rows->delivery_dt}}">
 <!--		<div id="arrivalDtHelp" class="form-text">入庫予定日を入力してください。</div>-->
 	</div>
 
