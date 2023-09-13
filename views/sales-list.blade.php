@@ -86,6 +86,9 @@ $g = $_GET;
 			<input type="hidden" name="cmd" value="">
 			@endif
 
+
+{{ $wp_list_table->display() }}
+
 			<div class="tablenav top">
 				<br class="clear">
 			</div>
