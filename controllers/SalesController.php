@@ -120,7 +120,7 @@ global $wpdb;
 						}
 					}
 				}
-$this->vd($rows);
+//$this->vd($rows);
 				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm'));
 				break;
 
@@ -140,7 +140,7 @@ $this->vd($rows);
 						}
 					}
 				}
-$this->vd($rows);
+//$this->vd($rows);
 				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm'));
 				break;
 
