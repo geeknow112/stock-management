@@ -145,17 +145,17 @@ global $wpdb;
 $req = (object) $_REQUEST;
 print_r($req->s['no']);
 
-$where = sprintf("WHERE id is not null ");
+$where = sprintf("WHERE s.id is not null ");
 if (!empty($req->s['no'])) {
-	$where .= sprintf("AND id = '%s'", $req->s['no']);
+	$where .= sprintf("AND s.id = '%s'", $req->s['no']);
 }
 if (!empty($req->s['goods_name'])) {
 	$str = $req->s['goods_name'];
-	$where .= "AND name LIKE '%". $str. "%'";
+	$where .= "AND g.name LIKE '%". $str. "%'";
 }
 
 $limit = ($paged -1) * $users_per_page;
-$sql = sprintf("SELECT * FROM yc_sales %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
+$sql = sprintf("SELECT s.*, g.name AS goods_name FROM yc_sales AS s LEFT JOIN yc_goods AS g ON s.goods = g.goods %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
 print_r($sql);
 $this->items = $wpdb->get_results( $sql );
 
@@ -426,12 +426,13 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 		}
 */
+
 		foreach ( $this->items as $id => $object ) {
 //			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 			echo '<tr>';
 			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->id. '&action=edit">'. $object->id. '</a></td>';
 			echo '<td>'. $object->name. '</td>';
-			echo '<td>'. $object->goods. '</td>';
+			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods_name. '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->id. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
 			echo '<td>'. $object->delivery_dt. '</td>';
 			echo '<td>'. $object->arrival_dt. '</td>';
