@@ -10,8 +10,8 @@
 	@endif
 
 	<div class="row mb-3">
-		<label for="orderName" class="col-sm-2 col-form-label">氏名</label>
-		<select class="form-select" aria-label="orderName">
+		<label for="order_name" class="col-sm-2 col-form-label">氏名</label>
+		<select class="form-select" aria-label="order_name" id="order_name" name="order_name">
 			@foreach($initForm['select']['order_name'] as $i => $d)
 				<option value="{{$i}}" @if ($i == $rows->name) selected @endif >{{$d}}</option>
 			@endforeach
@@ -21,7 +21,7 @@
 
 	<div class="row mb-3">
 		<label for="carModel" class="col-sm-2 col-form-label">車種</label>
-		<select class="form-select" aria-label="carModel">
+		<select class="form-select" aria-label="carModel" id="class" name="class">
 			@foreach($initForm['select']['car_model'] as $i => $d)
 				<option value="{{$i}}" @if ($i == $rows->class) selected @endif >{{$d}}</option>
 			@endforeach
@@ -30,7 +30,7 @@
 
 	<div class="row mb-3">
 		<label for="goodsName" class="col-sm-2 col-form-label">品名</label>
-		<select class="form-select" aria-label="goodsName">
+		<select class="form-select" aria-label="goodsName" id="goods_name" name="goods_name">
 			@foreach($initForm['select']['goods_name'] as $i => $d)
 				<option value="{{$i}}" @if ($i == $rows->goods) selected @endif >{{$d}}</option>
 			@endforeach
@@ -39,7 +39,7 @@
 
 	<div class="row mb-3">
 		<label for="shipAddr" class="col-sm-2 col-form-label">配送先</label>
-		<select class="form-select" aria-label="shipAddr">
+		<select class="form-select" aria-label="shipAddr" id="ship_addr" name="ship_addr">
 			@foreach($initForm['select']['ship_addr'] as $i => $d)
 				<option value="{{$i}}" @if ($i == $rows->ship_addr) selected @endif >{{$d}}</option>
 			@endforeach
@@ -49,7 +49,7 @@
 
 	<div class="row mb-3">
 		<label for="qty" class="col-sm-2 col-form-label">量(t)</label>
-		<select class="form-select" aria-label="qty">
+		<select class="form-select" aria-label="qty" id="qty" name="qty">
 			@foreach($initForm['select']['qty'] as $i => $d)
 				<option value="{{$i}}" @if ($i == $rows->qty) selected @endif >{{$d}}</option>
 			@endforeach

@@ -37,29 +37,9 @@ class Sales {
 
 		$step1 = array(
 			'rules' => array(
-				'apply_service'				=> 'required|max:100',
-				'apply_plan'				=> 'required|max:100',
+				'order_name'				=> 'required|max:100',
+				'qty'						=> 'required|max:100',
 
-				'biz_fg'					=> 'required|max:100',
-				'biz_number'				=> 'required|regex:/^[0-9]{13}+$/i',
-				'company_name'				=> 'required|max:100',
-				'company_name_kana'			=> 'required|max:100|regex:/^[ァ-ヶｦ-ﾟー]+$/u',
-				'zip'						=> 'required|max:100',
-				'pref'						=> 'required|max:100',
-				'addr'						=> 'required|max:100',
-				'addr2'						=> 'required|max:100',
-				'addr3'						=> 'max:100',
-				'addr_kana'					=> 'required|max:100|regex:/^[ァ-ヶｦ-ﾟー]+$/u',
-				'tel'						=> 'required|max:100',
-				'fax'						=> 'max:100',
-				'est_dt'					=> 'required|max:100',
-				'num_employ'				=> 'required|max:100',
-				'capital'					=> 'required|max:100',
-				'annual_sales'				=> 'max:100',
-				'goods_class'				=> 'required|max:100',
-				'goods'						=> 'required|max:100',
-				'delivery_company'			=> 'max:100',
-				'url'						=> 'max:100',
 /*
 				'name'                  => 'required|max:2',
 				'email'                 => 'required|email',
@@ -406,7 +386,7 @@ $this->vd($data);
 		$exec_status = (int) array_search('確定', $this->getPartsStatus());
 		$curr_status = (int) $post->change_status;
 		if ($exec_status !== $curr_status) { return false; }
-
+$this->vd($post);exit;
 		foreach ($post->no as $i => $sales) {
 			// 注文IDがNULLの場合、リピート注文のため、元注文をコピーして新規登録する
 			if (empty($sales)) {
