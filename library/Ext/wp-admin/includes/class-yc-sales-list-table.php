@@ -432,7 +432,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 			echo '<tr>';
 			echo '<td><input type="checkbox" id="no" name="no[]" value="'. $object->id. '" /></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->id. '&action=edit">'. $object->id. '</a></td>';
-			echo '<td>'. $object->name. '</td>';
+			echo '<td><a href="/wp-admin/admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->name. '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods_name. '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->id. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
 			echo '<td>'. $object->delivery_dt. '</td>';
