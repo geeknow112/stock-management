@@ -64,70 +64,104 @@ global $wpdb;
 		$post = (object) $_POST;
 
 		$this->setTb('Sales');
+		$page = 'sales-detail';
+		$initForm = $this->getTb()->getInitForm();
 
+		$rows = null;
 		switch($get->action) {
-			default:
-				$initForm = $this->getTb()->getInitForm();
-				$formPage = 'sales-list';
-				echo $this->get_blade()->run("sales-detail", compact('formPage', 'get', 'initForm'));
-				break;
-
 			case 'regist':
 				break;
 
-			case 'save':
-				if (!empty($_POST)) {
-					$get = (object) $_POST;
-					if ($get->cmd == 'save') {
-						$get->messages = array('error' => array('error is _field_company-name.')); // TEST DATA 
-						$rows = $this->getTb()->updDetail($prm);
-
-					}
-					if (empty($get->messages)) {
-	//					$result = $tb->updShopDetail($prm, $p);
-					} else {
-						echo '<script>var msg = document.getElementById("msg"); msg.innerHTML = "'. $post->messages['error'][0]. '";</script>';
-					}
-				}
-				$formPage = 'sales-list';
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'formPage', 'prm'));
+			default:
+				$initForm = $this->getTb()->getInitForm();
+				$rows = $this->getTb()->getList();
+				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm'));
 				break;
 
-			case 'edit':
-				$initForm = $this->getTb()->getInitForm();
-				$rows = $this->getTb()->getDetail($get);
-				$post = $rows;
-				$formPage = 'sales-list';
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'formPage', 'get', 'post', 'initForm'));
+			case 'confirm':
+				if (!empty($post)) {
+					switch ($post->cmd) {
+						default:
+						case 'cmd_confirm':
+							$msg = $this->getValidMsg();
+							$rows = $post;
+//							$rows->name = $post->order_name;
+//							$rows->id = $rows->goods;
+//							if ($rows->goods) { $rows->btn = 'update'; }
+
+							if ($msg['msg'] !== 'success') {
+								$rows->messages = $msg;
+							}
+						break;
+					}
+				}
+				if($rows->messages) {
+						$msg = $rows->messages;
+						$get->action = 'save';
+				} else {
+				}
+
+				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm'));
+				break;
+
+			case 'save':
+				if (!empty($post)) {
+					if ($post->cmd == 'save') {
+						$msg = $this->getValidMsg();
+						if ($msg['msg'] == 'success') {
+							$rows = $this->getTb()->regDetail($get, $post);
+//							$rows->order_name = $rows->name;
+							$get->action = 'complete';
+
+						} else {
+							$rows = $post;
+//							$rows->name = $post->order_name;
+							$rows->messages = $msg;
+						}
+					}
+				}
+$this->vd($rows);
+				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm'));
 				break;
 
 			case 'edit-exe':
-				$get = (object) $_GET;
-				$post = (object) $_POST;
-
-				if (!empty($_POST)) {
-					if ($post->cmd == 'save') {
-						$post->messages = array('error' => array('error is _field_company-name.')); // TEST DATA 
-$msg = $this->getValidMsg();		
-//$this->vd($msg);
-						if ($msg['msg'] != 'success') {
-						} else {
+				if (!empty($post)) {
+					if ($post->cmd == 'update') {
+						$msg = $this->getValidMsg();
+						if ($msg['msg'] == 'success') {
 							$rows = $this->getTb()->updDetail($get, $post);
-						}
+//							$rows->order_name = $rows->name;
+							$get->action = 'complete';
 
-					}
-					if (empty($post->messages)) {
-					} else {
-						echo '<script>var msg = document.getElementById("msg"); msg.innerHTML = "'. $post->messages['error'][0]. '";</script>';
+						} else {
+							$rows = $post;
+//							$rows->name = $post->order_name;
+							$rows->messages = $msg;
+						}
 					}
 				}
-				
-				$rows = $this->getTb()->getDetail($get);
-				$formPage = 'sales-list';
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'formPage', 'get', 'post', 'msg'));
-
+$this->vd($rows);
+				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm'));
 				break;
 
+			case 'edit':
+				if (!empty($get->sales)) {
+					$rows = $this->getTb()->getDetailBySalesCode($get->sales);
+//					$rows->goods_name = $rows->name;
+					$rows->cmd = $post->cmd = 'cmd_update';
+
+				} else {
+					$msg = $this->getValidMsg();
+
+					$rows = $post;
+//					$rows->name = $post->goods_name;
+
+					if ($msg['msg'] !== 'success') {
+						$rows->messages = $msg;
+					}
+				}
+				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm'));
+				break;
 		}
 	}
 
