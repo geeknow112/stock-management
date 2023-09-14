@@ -163,8 +163,8 @@ $this->vd($rows);
 				break;
 
 			case 'edit':
-				if (!empty($get->goods)) {
-					$rows = $this->getTb()->getDetailByGoodsCode($get->goods);
+				if (!empty($get->customer)) {
+					$rows = $this->getTb()->getDetailByCustomerCode($get->customer);
 					$rows->customer_name = $rows->name;
 					$rows->cmd = $post->cmd = 'cmd_update';
 
