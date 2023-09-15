@@ -5,7 +5,7 @@
 	@if ($get->action != '')
 	<div class="row mb-3">
 		<label for="sales" class="col-sm-2 col-form-label">注文番号</label>
-		<input type="text" class="col-sm-2 col-form-control" id="sales" name="sales" aria-describedby="salesHelp" value="{{$rows->id}}" readonly>
+		<input type="text" class="col-sm-2 col-form-control" id="sales" name="sales" aria-describedby="salesHelp" value="{{$rows->sales}}" readonly>
 	</div>
 	@endif
 

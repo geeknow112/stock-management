@@ -155,7 +155,7 @@ if (!empty($req->s['goods_name'])) {
 }
 
 $limit = ($paged -1) * $users_per_page;
-$sql = sprintf("SELECT s.*, g.name AS goods_name FROM yc_sales AS s LEFT JOIN yc_goods AS g ON s.goods = g.goods %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
+$sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM yc_sales AS s LEFT JOIN yc_goods AS g ON s.goods = g.goods LEFT JOIN yc_customer AS c ON s.customer = c.customer %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
 print_r($sql);
 $this->items = $wpdb->get_results( $sql );
 
@@ -432,7 +432,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 			echo '<tr>';
 			echo '<td><input type="checkbox" id="no" name="no[]" value="'. $object->id. '" /></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->id. '&action=edit">'. $object->id. '</a></td>';
-			echo '<td><a href="/wp-admin/admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->name. '</a></td>';
+			echo '<td><a href="/wp-admin/admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->customer_name. '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods_name. '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->id. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
 			echo '<td>'. $object->delivery_dt. '</td>';

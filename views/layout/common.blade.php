@@ -14,6 +14,8 @@
 			case 'edit-exe':
 				if (page == 'customer-detail') {
 					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&customer={{$post->customer}}&action=edit-exe";
+				} else if (page == 'sales-detail') {
+					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$post->sales}}&action=edit-exe";
 				} else {
 					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&goods={{$post->goods}}&action=edit-exe";
 				}

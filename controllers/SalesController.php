@@ -86,8 +86,7 @@ global $wpdb;
 							$msg = $this->getValidMsg();
 							$rows = $post;
 //							$rows->name = $post->order_name;
-//							$rows->id = $rows->goods;
-//							if ($rows->goods) { $rows->btn = 'update'; }
+							if ($rows->sales) { $rows->btn = 'update'; }
 
 							if ($msg['msg'] !== 'success') {
 								$rows->messages = $msg;
@@ -125,6 +124,7 @@ global $wpdb;
 				break;
 
 			case 'edit-exe':
+$this->vd($post);
 				if (!empty($post)) {
 					if ($post->cmd == 'update') {
 						$msg = $this->getValidMsg();
@@ -147,6 +147,7 @@ global $wpdb;
 			case 'edit':
 				if (!empty($get->sales)) {
 					$rows = $this->getTb()->getDetailBySalesCode($get->sales);
+					$rows->sales = $rows->id;
 //					$rows->goods_name = $rows->name;
 					$rows->cmd = $post->cmd = 'cmd_update';
 
