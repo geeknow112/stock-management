@@ -318,34 +318,15 @@ $this->vd($rows);
 				$data[$col] = $post->$col;
 			}
 		}
-
-$this->vd($data);
-/*
-		$ret_sql = $wpdb->prepare(
-		"UPDATE wp_applicant 
-		 set 
-			company_name = %s, 
-			company_name_kana = %s
-		 WHERE applicant = %s
-		 ",
-		$p->company_name, 
-		$p->company_name_kana, 
-		$p->applicant
-		);
-*/
 		$ret = $wpdb->update(
 			$this->getTableName(), 
-/*
-			array(
-				'company_name' => $p->company_name,
-				'company_name_kana' => $p->company_name_kana,
-			), 
-*/
 			$data, 
 			array('id' => $post->sales)
 		);
-//var_dump($ret);
-		return true;
+
+		// 更新情報を再取得
+		$rows = $this->getDetailBySalesCode($post->sales);
+		return $rows;
 	}
 
 	/**
