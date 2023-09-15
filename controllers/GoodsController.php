@@ -142,7 +142,6 @@ global $wpdb;
 						}
 					}
 				}
-$this->vd($rows);
 				echo $this->get_blade()->run("goods-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
 
@@ -162,7 +161,6 @@ $this->vd($rows);
 						}
 					}
 				}
-$this->vd($rows);
 				echo $this->get_blade()->run("goods-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
 

@@ -99,8 +99,9 @@ global $wpdb;
 							$msg = $this->getValidMsg();
 							$rows = $post;
 							$rows->name = $post->customer_name;
-							$rows->id = $rows->goods;
-							if ($rows->goods) { $rows->btn = 'update'; }
+							$rows->id = $rows->customer;
+$this->vd($rows);
+							if ($rows->customer) { $rows->btn = 'update'; }
 
 							if ($msg['msg'] !== 'success') {
 								$rows->messages = $msg;
