@@ -429,7 +429,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_customer;
 		foreach ( $this->items as $id => $object ) {
 //			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 			echo '<tr>';
-			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods. '</a></td>';
+			echo '<td><a href="/wp-admin/admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->customer. '</a></td>';
 			echo '<td>'. $object->name. '</td>';
 			echo '<td>'. $object->qty. '</td>';
 			echo '<td></td>';
