@@ -145,17 +145,17 @@ global $wpdb;
 $req = (object) $_REQUEST;
 print_r($req->s['no']);
 
-$where = sprintf("WHERE customer is not null ");
+$where = sprintf("WHERE c.customer is not null ");
 if (!empty($req->s['no'])) {
-	$where .= sprintf("AND customer = '%s'", $req->s['no']);
+	$where .= sprintf("AND c.customer = '%s'", $req->s['no']);
 }
 if (!empty($req->s['customer_name'])) {
 	$str = $req->s['customer_name'];
-	$where .= "AND name LIKE '%". $str. "%'";
+	$where .= "AND c.name LIKE '%". $str. "%'";
 }
 
 $limit = ($paged -1) * $users_per_page;
-$sql = sprintf("SELECT * FROM yc_customer %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
+$sql = sprintf("SELECT c.*, cd.pref, cd.add1, cd.add2, cd.add3 FROM yc_customer AS c LEFT JOIN yc_customer_detail AS cd ON c.customer = cd.customer %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
 print_r($sql);
 $this->items = $wpdb->get_results( $sql );
 
@@ -431,10 +431,10 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_customer;
 			echo '<tr>';
 			echo '<td><a href="/wp-admin/admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->customer. '</a></td>';
 			echo '<td>'. $object->name. '</td>';
-			echo '<td>'. $object->qty. '</td>';
-			echo '<td></td>';
-			echo '<td></td>';
-			echo '<td>'. $object->remark. '</td>';
+			echo '<td>'. $object->pref. '</td>';
+			echo '<td>'. $object->add1. '</td>';
+			echo '<td>'. $object->add2. '</td>';
+			echo '<td>'. $object->add3. '</td>';
 			echo '</tr>';
 		}
 	}
@@ -688,10 +688,10 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_customer;
 			array(
 				'id' => mb_convert_encoding('å⁄ãqî‘çÜ', 'UTF-8', 'SJIS'), 
 				'customer' => mb_convert_encoding('å⁄ãqñº', 'UTF-8', 'SJIS'), 
-				'amt' => mb_convert_encoding('â◊épÅEóeó ', 'UTF-8', 'SJIS'), 
-				'qty' => mb_convert_encoding('å¬êî', 'UTF-8', 'SJIS'), 
-				'sum' => mb_convert_encoding('êîó (kg)', 'UTF-8', 'SJIS'), 
-				'remark' => mb_convert_encoding('îıçl', 'UTF-8', 'SJIS')
+				'pref' => mb_convert_encoding('ìsìπï{åß', 'UTF-8', 'SJIS'), 
+				'addr1' => mb_convert_encoding('èZèäÇP', 'UTF-8', 'SJIS'), 
+				'addr2' => mb_convert_encoding('èZèäÇQ', 'UTF-8', 'SJIS'), 
+				'addr3' => mb_convert_encoding('èZèäÇR', 'UTF-8', 'SJIS')
 			)
 		);
 	}
