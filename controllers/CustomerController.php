@@ -100,21 +100,31 @@ global $wpdb;
 							$rows = $post;
 							$rows->name = $post->customer_name;
 							$rows->id = $rows->customer;
-$this->vd($rows);
 							if ($rows->customer) { $rows->btn = 'update'; }
-
 							if ($msg['msg'] !== 'success') {
 								$rows->messages = $msg;
 							}
-						break;
+							break;
 					}
 				}
+
 				if($rows->messages) {
 						$msg = $rows->messages;
 						$get->action = 'save';
 				} else {
 				}
-
+if ($post->pref) {
+	// post値をrowsの形式に変換
+	foreach ($post->pref as $i => $d) {
+		$tmp[$i] = (object) array(
+			'pref' => $post->pref[$i], 
+			'addr1' => $post->addr1[$i], 
+			'addr2' => $post->addr2[$i], 
+			'addr3' => $post->addr3[$i], 
+		);
+	}
+	$rows->list = (object) $tmp;
+}
 				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
 
@@ -148,6 +158,18 @@ $this->vd($rows);
 					if ($post->cmd == 'update') {
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
+if ($post->pref) {
+	// post値をrowsの形式に変換
+	foreach ($post->pref as $i => $d) {
+		$tmp[$i] = (object) array(
+			'pref' => $post->pref[$i], 
+			'addr1' => $post->addr1[$i], 
+			'addr2' => $post->addr2[$i], 
+			'addr3' => $post->addr3[$i], 
+		);
+	}
+	$post->list = (object) $tmp;
+}
 							$rows = $this->getTb()->updDetail($get, $post);
 							$rows->customer_name = $rows->name;
 							$get->action = 'complete';
@@ -159,15 +181,16 @@ $this->vd($rows);
 						}
 					}
 				}
-$this->vd($rows);
+
 				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
 
 			case 'edit':
 				if (!empty($get->customer)) {
 					$rows = $this->getTb()->getDetailByCustomerCode($get->customer);
-					$rows->customer_name = $rows->name;
-					$rows->cmd = $post->cmd = 'cmd_update';
+					$post->customer = current($rows)->customer;
+					$post->customer_name = current($rows)->name;
+					$post->cmd = 'cmd_update';
 
 				} else {
 					$msg = $this->getValidMsg();
@@ -179,6 +202,18 @@ $this->vd($rows);
 						$rows->messages = $msg;
 					}
 				}
+if ($post->pref) {
+	// post値をrowsの形式に変換
+	foreach ($post->pref as $i => $d) {
+		$tmp[$i] = (object) array(
+			'pref' => $post->pref[$i], 
+			'addr1' => $post->addr1[$i], 
+			'addr2' => $post->addr2[$i], 
+			'addr3' => $post->addr3[$i], 
+		);
+	}
+	$rows->list = (object) $tmp;
+}
 				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
 

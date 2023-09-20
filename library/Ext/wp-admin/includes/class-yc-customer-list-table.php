@@ -155,7 +155,7 @@ if (!empty($req->s['customer_name'])) {
 }
 
 $limit = ($paged -1) * $users_per_page;
-$sql = sprintf("SELECT c.*, cd.pref, cd.add1, cd.add2, cd.add3 FROM yc_customer AS c LEFT JOIN yc_customer_detail AS cd ON c.customer = cd.customer %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
+$sql = sprintf("SELECT c.* FROM yc_customer AS c %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
 print_r($sql);
 $this->items = $wpdb->get_results( $sql );
 
@@ -431,10 +431,10 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_customer;
 			echo '<tr>';
 			echo '<td><a href="/wp-admin/admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->customer. '</a></td>';
 			echo '<td>'. $object->name. '</td>';
-			echo '<td>'. $object->pref. '</td>';
-			echo '<td>'. $object->add1. '</td>';
-			echo '<td>'. $object->add2. '</td>';
-			echo '<td>'. $object->add3. '</td>';
+			echo '<td>'. $object->remark. '</td>';
+			echo '<td>'. $object->rgdt. '</td>';
+			echo '<td>'. $object->updt. '</td>';
+			echo '<td>'. $object->upuser. '</td>';
 			echo '</tr>';
 		}
 	}
@@ -688,10 +688,10 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_customer;
 			array(
 				'id' => mb_convert_encoding('å⁄ãqî‘çÜ', 'UTF-8', 'SJIS'), 
 				'customer' => mb_convert_encoding('å⁄ãqñº', 'UTF-8', 'SJIS'), 
-				'pref' => mb_convert_encoding('ìsìπï{åß', 'UTF-8', 'SJIS'), 
-				'addr1' => mb_convert_encoding('èZèäÇP', 'UTF-8', 'SJIS'), 
-				'addr2' => mb_convert_encoding('èZèäÇQ', 'UTF-8', 'SJIS'), 
-				'addr3' => mb_convert_encoding('èZèäÇR', 'UTF-8', 'SJIS')
+				'remark' => mb_convert_encoding('îıçl', 'UTF-8', 'SJIS'), 
+				'rgdt' => mb_convert_encoding('ìoò^ì˙', 'UTF-8', 'SJIS'), 
+				'updt' => mb_convert_encoding('ç≈èIçXêVì˙', 'UTF-8', 'SJIS'), 
+				'upuser' => mb_convert_encoding('ç≈èIçXêVé“', 'UTF-8', 'SJIS')
 			)
 		);
 	}
