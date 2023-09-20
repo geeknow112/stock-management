@@ -216,43 +216,6 @@ if ($post->pref) {
 }
 				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
-
-			case 'cancel':
-				$prm = (object) $_GET;
-				unset($_POST);
-				$tb = new Applicant;
-				$rows = $tb->getDetail($prm);
-				$p = $rows;
-				$formPage = 'sales-list';
-				echo $this->get_blade()->run("shop-detail", compact('rows', 'formPage', 'prm', 'p'));
-				break;
-
-			case 'preview':
-				// 申込データプレビュー画面
-				// (PDF保存形式でプレビューする)
-				echo 'test preview';
-				$app = new Applicant;
-				$curUser = $app->getCurUser();
-				if ($curUser->roles != 'administrator') {
-					$applicant = htmlspecialchars($_GET['post']);
-					$row = $app->getDetailByApplicantCode($applicant);
-
-				} else {
-					$row = null;
-				}
-				echo $this->get_blade()->run("preview", compact('row', 'formPage', 'prm', 'p'));
-				break;
-
-			case 'init-status':
-				$prm = (object) $_GET;
-				unset($_POST);
-				$applicant = $prm->post;
-				$tb = new Applicant;
-				$ret = $tb->initStatus($applicant);
-				$result = ($ret == true) ? 'true' : 'false';
-				echo '<script>window.location.href = "'. home_url(). '/wp-admin/admin.php?page=sales-list&init-status='. $result. '";</script>';
-				break;
-		}
 	}
 }
 ?>
