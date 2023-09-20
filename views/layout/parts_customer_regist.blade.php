@@ -17,12 +17,22 @@
 
 	<br />
 
-	@foreach($rows as $i => $d)
+	@if ($rows)
+		@foreach($rows as $i => $d)
+			<div class="row mb-3">
+				<label class="col-sm-2 col-form-label">住所: {{$d->detail}}</label>
+				<input type="text" class="col-sm-2 col-form-control" id="pref_{{$i}}" name="pref[]" aria-describedby="prefHelp" value="{{$d->pref}}">&emsp;
+				<input type="text" class="col-sm-2 col-form-control" id="addr1_{{$i}}" name="addr1[]" aria-describedby="addr1Help" value="{{$d->addr1}}">&emsp;
+				<input type="text" class="col-sm-2 col-form-control" id="addr2_{{$i}}" name="addr2[]" aria-describedby="addr2Help" value="{{$d->addr2}}">&emsp;
+				<input type="text" class="col-sm-2 col-form-control" id="addr3_{{$i}}" name="addr3[]" aria-describedby="addr3Help" value="{{$d->addr3}}">&emsp;
+			</div>
+		@endforeach
+	@else
 		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">住所: {{$d->detail}}</label>
-			<input type="text" class="col-sm-2 col-form-control" id="pref_{{$i}}" name="pref[]" aria-describedby="prefHelp" value="{{$d->pref}}">&emsp;
-			<input type="text" class="col-sm-2 col-form-control" id="addr1_{{$i}}" name="addr1[]" aria-describedby="addr1Help" value="{{$d->addr1}}">&emsp;
-			<input type="text" class="col-sm-2 col-form-control" id="addr2_{{$i}}" name="addr2[]" aria-describedby="addr2Help" value="{{$d->addr2}}">&emsp;
-			<input type="text" class="col-sm-2 col-form-control" id="addr3_{{$i}}" name="addr3[]" aria-describedby="addr3Help" value="{{$d->addr3}}">&emsp;
+			<label class="col-sm-2 col-form-label">住所: 追加</label>
+			<input type="text" class="col-sm-2 col-form-control" id="pref_0" name="pref[]" aria-describedby="prefHelp" value="">&emsp;
+			<input type="text" class="col-sm-2 col-form-control" id="addr1_0" name="addr1[]" aria-describedby="addr1Help" value="">&emsp;
+			<input type="text" class="col-sm-2 col-form-control" id="addr2_0" name="addr2[]" aria-describedby="addr2Help" value="">&emsp;
+			<input type="text" class="col-sm-2 col-form-control" id="addr3_0" name="addr3[]" aria-describedby="addr3Help" value="">&emsp;
 		</div>
-	@endforeach
+	@endif

@@ -236,6 +236,7 @@ class Customer {
 		}
 
 		$data['name'] = $post->customer_name;
+		$data['rgdt'] = date('Y-m-d H:i:s');
 
 		$ret = $wpdb->insert(
 			$this->getTableName(), 
@@ -245,6 +246,23 @@ class Customer {
 
 		// 登録したIDを取得
 		$customer = $wpdb->insert_id;
+
+		foreach ($post->pref as $i => $d) {
+			$detail = $i+1;
+			$ret_detail[] = $wpdb->insert(
+				'yc_customer_detail', 
+				array(
+					'customer' => $customer, 
+					'detail' => $detail, 
+					'pref' => $post->pref[$i], 
+					'addr1' => $post->addr1[$i], 
+					'addr2' => $post->addr2[$i], 
+					'addr3' => $post->addr3[$i], 
+					'rgdt' => date('Y-m-d H:i:s')
+				)
+				//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+			);
+		}
 
 		// 登録情報を再取得
 		$rows = $this->getDetailByCustomerCode($customer);
