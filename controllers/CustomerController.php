@@ -96,7 +96,7 @@ global $wpdb;
 							$rows = $post;
 							$rows->name = $post->customer_name;
 							$rows->id = $rows->customer;
-							if ($rows->customer) { $rows->btn = 'update'; }
+							if ($rows->customer) { $post->btn = 'update'; }
 							if ($msg['msg'] !== 'success') {
 								$rows->messages = $msg;
 							}
@@ -109,7 +109,7 @@ global $wpdb;
 						$get->action = 'save';
 				} else {
 				}
-$rows->list = $this->sortData($post);
+if ($post->pref) { $rows = $this->sortData($post); }
 				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
 
@@ -170,8 +170,7 @@ $post->list = $this->sortData($post);
 						$rows->messages = $msg;
 					}
 				}
-$this->vd($rows);
-$rows->list = $this->sortData($post);
+if ($post->pref) { $rows = $this->sortData($post); }
 				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
 		}
@@ -185,6 +184,7 @@ $rows->list = $this->sortData($post);
 		if ($post->pref) {
 			foreach ($post->pref as $i => $d) {
 				$tmp[$i] = (object) array(
+					'customer' => $post->customer[$i], 
 					'pref' => $post->pref[$i], 
 					'addr1' => $post->addr1[$i], 
 					'addr2' => $post->addr2[$i], 

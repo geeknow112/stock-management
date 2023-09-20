@@ -17,12 +17,6 @@
 
 	<br />
 
-	<?php
-		if (!empty($rows->list)) {
-			$rows = $rows->list;
-		}
-	?>
-
 	@foreach($rows as $i => $d)
 		<div class="row mb-3">
 			<label class="col-sm-2 col-form-label">住所: {{$d->detail}}</label>

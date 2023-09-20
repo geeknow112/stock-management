@@ -98,7 +98,7 @@
 	{{$get->action}}
 	@if ($get->action == '' || $get->action == 'save' || $get->action == 'edit')
 	<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="確認" onclick="to_next();">
-	@elseif ($get->action == 'confirm' && $rows->btn == 'update')
+	@elseif ($get->action == 'confirm' && ($post->btn == 'update' || $rows->btn == 'update'))
 	<input type="button" name="cmd_update" id="cmd_update" class="mb-3 btn btn-primary" value="更新" onclick="confirm_update();">
 	<input type="button" name="cmd_return" id="cmd_return" class="mb-3 btn btn-primary" value="編集" onclick="exec_action('edit');">
 	@elseif ($get->action == 'confirm')
