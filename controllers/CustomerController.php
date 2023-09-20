@@ -137,7 +137,7 @@ if ($post->pref) { $rows = $this->sortData($post); }
 					if ($post->cmd == 'update') {
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
-$post->list = $this->sortData($post);
+if ($post->pref) { $post->list = $this->sortData($post); }
 							$rows = $this->getTb()->updDetail($get, $post);
 							$rows->customer_name = $rows->name;
 							$get->action = 'complete';
@@ -184,7 +184,8 @@ if ($post->pref) { $rows = $this->sortData($post); }
 		if ($post->pref) {
 			foreach ($post->pref as $i => $d) {
 				$tmp[$i] = (object) array(
-					'customer' => $post->customer[$i], 
+					'customer' => $post->customer, 
+					'name' => $post->customer_name, 
 					'pref' => $post->pref[$i], 
 					'addr1' => $post->addr1[$i], 
 					'addr2' => $post->addr2[$i], 
