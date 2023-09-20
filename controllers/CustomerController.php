@@ -72,10 +72,6 @@ global $wpdb;
 
 		$rows = null;
 		switch($get->action) {
-			case 'regist':
-				$tb = new Applicant;
-				break;
-
 			default:
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList();
@@ -113,25 +109,8 @@ global $wpdb;
 						$get->action = 'save';
 				} else {
 				}
-if ($post->pref) {
-	// post値をrowsの形式に変換
-	foreach ($post->pref as $i => $d) {
-		$tmp[$i] = (object) array(
-			'pref' => $post->pref[$i], 
-			'addr1' => $post->addr1[$i], 
-			'addr2' => $post->addr2[$i], 
-			'addr3' => $post->addr3[$i], 
-		);
-	}
-	$rows->list = (object) $tmp;
-}
+$rows->list = $this->sortData($post);
 				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
-				break;
-
-			case 'complete':
-				$prm = $tb->getPrm();
-				$rows = $tb->regDetail($prm);
-				echo $this->get_blade()->run("shop-detail-complete", compact('rows', 'prm'));
 				break;
 
 			case 'save':
@@ -158,18 +137,7 @@ if ($post->pref) {
 					if ($post->cmd == 'update') {
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
-if ($post->pref) {
-	// post値をrowsの形式に変換
-	foreach ($post->pref as $i => $d) {
-		$tmp[$i] = (object) array(
-			'pref' => $post->pref[$i], 
-			'addr1' => $post->addr1[$i], 
-			'addr2' => $post->addr2[$i], 
-			'addr3' => $post->addr3[$i], 
-		);
-	}
-	$post->list = (object) $tmp;
-}
+$post->list = $this->sortData($post);
 							$rows = $this->getTb()->updDetail($get, $post);
 							$rows->customer_name = $rows->name;
 							$get->action = 'complete';
@@ -202,20 +170,28 @@ if ($post->pref) {
 						$rows->messages = $msg;
 					}
 				}
-if ($post->pref) {
-	// post値をrowsの形式に変換
-	foreach ($post->pref as $i => $d) {
-		$tmp[$i] = (object) array(
-			'pref' => $post->pref[$i], 
-			'addr1' => $post->addr1[$i], 
-			'addr2' => $post->addr2[$i], 
-			'addr3' => $post->addr3[$i], 
-		);
-	}
-	$rows->list = (object) $tmp;
-}
+$this->vd($rows);
+$rows->list = $this->sortData($post);
 				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
+		}
+	}
+
+	/**
+	 * post値をrowsの形式に変換
+	 * 
+	 **/
+	private function sortData($post = null) {
+		if ($post->pref) {
+			foreach ($post->pref as $i => $d) {
+				$tmp[$i] = (object) array(
+					'pref' => $post->pref[$i], 
+					'addr1' => $post->addr1[$i], 
+					'addr2' => $post->addr2[$i], 
+					'addr3' => $post->addr3[$i], 
+				);
+			}
+			return (object) $tmp;
 		}
 	}
 }
