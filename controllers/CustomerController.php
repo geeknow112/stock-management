@@ -216,6 +216,7 @@ if ($post->pref) {
 }
 				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
+		}
 	}
 }
 ?>
