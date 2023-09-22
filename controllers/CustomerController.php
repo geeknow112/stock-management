@@ -155,6 +155,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 			case 'edit':
 				if (!empty($get->customer)) {
 					$rows = $this->getTb()->getDetailByCustomerCode($get->customer);
+					$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
 					$post->customer = current($rows)->customer;
 					$post->customer_name = current($rows)->name;
 					$post->cmd = 'cmd_update';
@@ -170,7 +171,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 					}
 				}
 if ($post->pref) { $rows = $this->sortData($post); }
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_goods'));
 				break;
 		}
 	}
