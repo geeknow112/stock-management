@@ -199,6 +199,23 @@ class Customer {
 	}
 
 	/**
+	 * 顧客に紐づく商品情報取得
+	 * - 顧客コード(customer)から抽出
+	 **/
+	public function getGoodsByCustomerCode($customer = null) {
+		global $wpdb;
+
+		$sql  = "SELECT c.*, g.* FROM ". $this->getTableName(). " as c ";
+		$sql .= "LEFT JOIN yc_customer_goods AS cg ON c.customer = cg.customer ";
+		$sql .= "LEFT JOIN yc_goods AS g ON cg.goods = g.goods ";
+		$sql .= sprintf("WHERE c.customer = '%s' ", $customer);
+		$sql .= ";";
+
+		$rows = $wpdb->get_results($sql);
+		return (object) $rows;
+	}
+
+	/**
 	 * 対象注文のロット番号一覧取得
 	 **/
 	public function getLotNumberListByOrder($prm = null) {
