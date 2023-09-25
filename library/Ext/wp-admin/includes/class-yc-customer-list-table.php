@@ -143,7 +143,7 @@ class YC_Customer_List_Table extends WP_List_Table {
 //		$this->items = $wp_user_search->get_results();
 global $wpdb;
 $req = (object) $_REQUEST;
-print_r($req->s['no']);
+//print_r($req->s['no']);
 
 $where = sprintf("WHERE c.customer is not null ");
 if (!empty($req->s['no'])) {
@@ -156,7 +156,7 @@ if (!empty($req->s['customer_name'])) {
 
 $limit = ($paged -1) * $users_per_page;
 $sql = sprintf("SELECT c.* FROM yc_customer AS c %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
-print_r($sql);
+//print_r($sql);
 $this->items = $wpdb->get_results( $sql );
 
 $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_customer;" ));
