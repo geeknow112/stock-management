@@ -6,7 +6,7 @@
 
   <div class="row mb-3">
     <label for="repeat_every" class="col-sm-2 col-form-label">繰り返し</label>
-	<select class="form-select" aria-label="repeat_every">
+	<select class="form-select w-75" aria-label="repeat_every">
 		<option value=""></option>
 		<option value=""></option>
 		<option value="1" selected>毎日</option>
@@ -18,7 +18,7 @@
 
   <div class="row mb-3">
     <label for="interval" class="col-sm-2 col-form-label">繰り返す間隔</label>
-	<select class="form-select" aria-label="interval">
+	<select class="form-select w-75" aria-label="interval">
 		<option value=""></option>
 		@for ($i = 1; $i <= 31; $i++)
 		<option value="{{$i}}">{{$i}}</option>
@@ -48,13 +48,13 @@
 
   <div class="row mb-3">
     <label for="repeat_s_dt" class="col-sm-2 col-form-label">開始日</label>
-    <input type="date" class="col-sm-6 col-form-control" id="repeat_s_dt" aria-describedby="repeatSDtHelp">
+    <input type="date" class="col-sm-6 col-form-control w-auto" id="repeat_s_dt" aria-describedby="repeatSDtHelp">
 <!--    <div id="repeatSDtHelp" class="form-text">開始日を入力してください。</div>-->
   </div>
 
   <div class="row mb-3">
     <label for="repeat_e_dt" class="col-sm-2 col-form-label">終了日</label>
-    <input type="date" class="col-sm-6 col-form-control" id="repeat_e_dt" aria-describedby="repeatEDtHelp">
+    <input type="date" class="col-sm-6 col-form-control w-auto" id="repeat_e_dt" aria-describedby="repeatEDtHelp">
 <!--    <div id="repeatEDtHelp" class="form-text">終了日を入力してください。</div>-->
   </div>
 

@@ -4,14 +4,14 @@
 
 	@if ($get->action != '')
 	<div class="row mb-3">
-		<label for="customer" class="col-sm-2 col-form-label">顧客番号</label>
-		<input type="text" class="col-sm-2 col-form-control" id="customer" name="customer" aria-describedby="customerHelp" value="{{$post->customer}}" readonly>
+		<label for="customer" class="col-sm-2 col-form-label w-5">顧客番号</label>
+		<input type="text" class="col-sm-2 col-form-control w-auto" id="customer" name="customer" aria-describedby="customerHelp" value="{{$post->customer}}" readonly>
 	</div>
 	@endif
 
 	<div class="row mb-3">
-		<label for="customer_name" class="col-sm-2 col-form-label">顧客名</label>
-		<input type="text" class="col-sm-2 col-form-control" id="customer_name" name="customer_name" aria-describedby="customerNameHelp" value="{{$post->customer_name}}">
+		<label for="customer_name" class="col-sm-2 col-form-label w-5">顧客名</label>
+		<input type="text" class="col-sm-2 col-form-control w-auto" id="customer_name" name="customer_name" aria-describedby="customerNameHelp" value="{{$post->customer_name}}">
 <!--		<div id="orderName" class="form-text">顧客名を入力してください。</div>-->
 	</div>
 
@@ -20,20 +20,20 @@
 	@if ($rows)
 		@foreach($rows as $i => $d)
 			<div class="row mb-3">
-				<label class="col-sm-2 col-form-label">住所: {{$d->detail}}</label>
-				<input type="text" class="col-sm-2 col-form-control" id="pref_{{$i}}" name="pref[]" aria-describedby="prefHelp" value="{{$d->pref}}">&emsp;
-				<input type="text" class="col-sm-2 col-form-control" id="addr1_{{$i}}" name="addr1[]" aria-describedby="addr1Help" value="{{$d->addr1}}">&emsp;
-				<input type="text" class="col-sm-2 col-form-control" id="addr2_{{$i}}" name="addr2[]" aria-describedby="addr2Help" value="{{$d->addr2}}">&emsp;
-				<input type="text" class="col-sm-2 col-form-control" id="addr3_{{$i}}" name="addr3[]" aria-describedby="addr3Help" value="{{$d->addr3}}">&emsp;
+				<label class="col-sm-2 col-form-label w-5">住所: {{$d->detail}}</label>
+				<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_{{$i}}" name="pref[]" aria-describedby="prefHelp" value="{{$d->pref}}">&emsp;
+				<input type="text" class="col-sm-2 col-form-control w-auto" id="addr1_{{$i}}" name="addr1[]" aria-describedby="addr1Help" value="{{$d->addr1}}">&emsp;
+				<input type="text" class="col-sm-2 col-form-control w-auto" id="addr2_{{$i}}" name="addr2[]" aria-describedby="addr2Help" value="{{$d->addr2}}">&emsp;
+				<input type="text" class="col-sm-2 col-form-control w-auto" id="addr3_{{$i}}" name="addr3[]" aria-describedby="addr3Help" value="{{$d->addr3}}">&emsp;
 			</div>
 		@endforeach
 	@else
 		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">住所: 追加</label>
-			<input type="text" class="col-sm-2 col-form-control" id="pref_0" name="pref[]" aria-describedby="prefHelp" value="">&emsp;
-			<input type="text" class="col-sm-2 col-form-control" id="addr1_0" name="addr1[]" aria-describedby="addr1Help" value="">&emsp;
-			<input type="text" class="col-sm-2 col-form-control" id="addr2_0" name="addr2[]" aria-describedby="addr2Help" value="">&emsp;
-			<input type="text" class="col-sm-2 col-form-control" id="addr3_0" name="addr3[]" aria-describedby="addr3Help" value="">&emsp;
+			<label class="col-sm-2 col-form-label w-5">住所: 追加</label>
+			<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_0" name="pref[]" aria-describedby="prefHelp" value="">&emsp;
+			<input type="text" class="col-sm-2 col-form-control w-auto" id="addr1_0" name="addr1[]" aria-describedby="addr1Help" value="">&emsp;
+			<input type="text" class="col-sm-2 col-form-control w-auto" id="addr2_0" name="addr2[]" aria-describedby="addr2Help" value="">&emsp;
+			<input type="text" class="col-sm-2 col-form-control w-auto" id="addr3_0" name="addr3[]" aria-describedby="addr3Help" value="">&emsp;
 		</div>
 	@endif
 
@@ -200,11 +200,11 @@ function editRow(obj)
 	@if (current($rows_goods)->goods)
 		@foreach($rows_goods as $i => $goods)
 			<div class="row mb-3">
-				<label class="col-sm-2 col-form-label">商品: {{$d->detail}}</label>
-				<input type="text" class="col-sm-2 col-form-control" id="goods_{{$i}}" name="goods[]" aria-describedby="prefHelp" value="{{$goods->goods}}">&emsp;
-				<input type="text" class="col-sm-2 col-form-control" id="goods_name_{{$i}}" name="goods_name[]" aria-describedby="addr1Help" value="{{$goods->name}}">&emsp;
-				<input type="text" class="col-sm-2 col-form-control" id="qty_{{$i}}" name="qty[]" aria-describedby="addr2Help" value="{{$goods->qty}}">&emsp;
-				<input type="text" class="col-sm-2 col-form-control" id="remark_{{$i}}" name="remark[]" aria-describedby="addr3Help" value="{{$goods->remark}}">&emsp;
+				<label class="col-sm-2 col-form-label w-5">商品: {{$d->detail}}</label>
+				<input type="text" class="col-sm-2 col-form-control w-auto" id="goods_{{$i}}" name="goods[]" aria-describedby="prefHelp" value="{{$goods->goods}}">&emsp;
+				<input type="text" class="col-sm-2 col-form-control w-auto" id="goods_name_{{$i}}" name="goods_name[]" aria-describedby="addr1Help" value="{{$goods->name}}">&emsp;
+				<input type="text" class="col-sm-2 col-form-control w-auto" id="qty_{{$i}}" name="qty[]" aria-describedby="addr2Help" value="{{$goods->qty}}">&emsp;
+				<input type="text" class="col-sm-2 col-form-control w-auto" id="remark_{{$i}}" name="remark[]" aria-describedby="addr3Help" value="{{$goods->remark}}">&emsp;
 			</div>
 		@endforeach
 	@else
