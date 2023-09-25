@@ -156,7 +156,7 @@ if (!empty($req->s['goods_name'])) {
 
 $limit = ($paged -1) * $users_per_page;
 $sql = sprintf("SELECT * FROM yc_goods %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
-print_r($sql);
+//print_r($sql);
 $this->items = $wpdb->get_results( $sql );
 
 $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_goods;" ));
@@ -429,7 +429,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_goods;" )
 		foreach ( $this->items as $id => $object ) {
 //			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 			echo '<tr>';
-			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods. '</a></td>';
+			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. sprintf('%07d', $object->goods). '</a></td>';
 			echo '<td>'. $object->name. '</td>';
 			echo '<td>'. $object->qty. '</td>';
 			echo '<td></td>';
@@ -686,8 +686,8 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_goods;" )
 	public function get_column_info() {
 		return array(
 			array(
-				'id' => mb_convert_encoding('商品番号', 'UTF-8', 'SJIS'), 
-				'goods' => mb_convert_encoding('商品名', 'UTF-8', 'SJIS'), 
+				'goods' => mb_convert_encoding('商品番号', 'UTF-8', 'SJIS'), 
+				'name' => mb_convert_encoding('商品名', 'UTF-8', 'SJIS'), 
 				'amt' => mb_convert_encoding('荷姿・容量', 'UTF-8', 'SJIS'), 
 				'qty' => mb_convert_encoding('個数', 'UTF-8', 'SJIS'), 
 				'sum' => mb_convert_encoding('数量(kg)', 'UTF-8', 'SJIS'), 
