@@ -197,7 +197,7 @@ function editRow(obj)
 </script>
 
 
-	@if ($rows_goods)
+	@if (current($rows_goods)->goods)
 		@foreach($rows_goods as $i => $goods)
 			<div class="row mb-3">
 				<label class="col-sm-2 col-form-label">商品: {{$d->detail}}</label>
@@ -209,10 +209,7 @@ function editRow(obj)
 		@endforeach
 	@else
 		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">住所: 追加</label>
-			<input type="text" class="col-sm-2 col-form-control" id="pref_0" name="pref[]" aria-describedby="prefHelp" value="">&emsp;
-			<input type="text" class="col-sm-2 col-form-control" id="addr1_0" name="addr1[]" aria-describedby="addr1Help" value="">&emsp;
-			<input type="text" class="col-sm-2 col-form-control" id="addr2_0" name="addr2[]" aria-describedby="addr2Help" value="">&emsp;
-			<input type="text" class="col-sm-2 col-form-control" id="addr3_0" name="addr3[]" aria-describedby="addr3Help" value="">&emsp;
+			<label class="col-sm-2 col-form-label">商品: </label>
+			関連する商品がありません。
 		</div>
 	@endif
