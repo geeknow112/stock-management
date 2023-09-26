@@ -2,12 +2,12 @@
 	<legend>【注文登録】</legend>
 	</p>
 
-	@if ($get->action != '')
+{{--	@if ($get->action != '')	--}}
 	<div class="row mb-3">
 		<label for="sales" class="col-sm-2 col-form-label w-5">注文番号</label>
 		<input type="text" class="col-sm-2 col-form-control w-auto" id="sales" name="sales" aria-describedby="salesHelp" value="{{$rows->sales}}" readonly>
 	</div>
-	@endif
+{{--	@endif	--}}
 
 	<div class="row mb-3">
 		<label for="customer" class="col-sm-2 col-form-label w-5">氏名</label>

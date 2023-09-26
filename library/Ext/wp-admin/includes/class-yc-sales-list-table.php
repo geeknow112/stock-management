@@ -145,9 +145,9 @@ global $wpdb;
 $req = (object) $_REQUEST;
 //print_r($req->s['no']);
 
-$where = sprintf("WHERE s.id is not null ");
+$where = sprintf("WHERE s.sales is not null ");
 if (!empty($req->s['no'])) {
-	$where .= sprintf("AND s.id = '%s'", $req->s['no']);
+	$where .= sprintf("AND s.sales = '%s'", $req->s['no']);
 }
 if (!empty($req->s['goods_name'])) {
 	$str = $req->s['goods_name'];
@@ -430,11 +430,11 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 		foreach ( $this->items as $id => $object ) {
 //			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 			echo '<tr>';
-			echo '<td><input type="checkbox" id="no" name="no[]" value="'. $object->id. '" /></td>';
-			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->id. '&action=edit">'. sprintf('%07d', $object->id). '</a></td>';
+			echo '<td><input type="checkbox" id="no" name="no[]" value="'. $object->sales. '" /></td>';
+			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->sales. '&action=edit">'. sprintf('%07d', $object->sales). '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->customer_name. '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods_name. '</a></td>';
-			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->id. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
+			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
 			echo '<td>'. $object->delivery_dt. '</td>';
 			echo '<td>'. $object->arrival_dt. '</td>';
 			if ($object->status == '0') {
@@ -696,7 +696,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 		return array(
 			array(
 				'no' => mb_convert_encoding('No.', 'UTF-8', 'SJIS'), 
-				'id' => mb_convert_encoding('íçï∂î‘çÜ', 'UTF-8', 'SJIS'), 
+				'sales' => mb_convert_encoding('íçï∂î‘çÜ', 'UTF-8', 'SJIS'), 
 				'name' => mb_convert_encoding('íçï∂é“ñº', 'UTF-8', 'SJIS'), 
 				'goods' => mb_convert_encoding('è§ïi', 'UTF-8', 'SJIS'), 
 				'qty' => mb_convert_encoding('å¬êî', 'UTF-8', 'SJIS'), 

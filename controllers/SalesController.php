@@ -110,7 +110,6 @@ global $wpdb;
 						if ($msg['msg'] == 'success') {
 							$rows = $this->getTb()->regDetail($get, $post);
 //							$rows->order_name = $rows->name;
-							$rows->sales = $rows->id;
 							$get->action = 'complete';
 
 						} else {
@@ -147,7 +146,6 @@ global $wpdb;
 			case 'edit':
 				if (!empty($get->sales)) {
 					$rows = $this->getTb()->getDetailBySalesCode($get->sales);
-					$rows->sales = $rows->id;
 //					$rows->goods_name = $rows->name;
 					$rows->cmd = $post->cmd = 'cmd_update';
 
