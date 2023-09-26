@@ -549,8 +549,8 @@ $this->vd($upd_ret);
 	private function getPartsOrderName() {
 		return array(
 			0 => '', 
-			101 => '顧客①', 
-			102 => '顧客②',
+			43 => '顧客①', 
+			45 => '顧客②',
 		);
 	}
 
