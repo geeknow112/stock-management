@@ -143,7 +143,7 @@ class YC_Sales_List_Table extends WP_List_Table {
 //		$this->items = $wp_user_search->get_results();
 global $wpdb;
 $req = (object) $_REQUEST;
-print_r($req->s['no']);
+//print_r($req->s['no']);
 
 $where = sprintf("WHERE s.id is not null ");
 if (!empty($req->s['no'])) {
@@ -156,7 +156,7 @@ if (!empty($req->s['goods_name'])) {
 
 $limit = ($paged -1) * $users_per_page;
 $sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM yc_sales AS s LEFT JOIN yc_goods AS g ON s.goods = g.goods LEFT JOIN yc_customer AS c ON s.customer = c.customer %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
-print_r($sql);
+//print_r($sql);
 $this->items = $wpdb->get_results( $sql );
 
 $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" ));
@@ -431,7 +431,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 //			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 			echo '<tr>';
 			echo '<td><input type="checkbox" id="no" name="no[]" value="'. $object->id. '" /></td>';
-			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->id. '&action=edit">'. $object->id. '</a></td>';
+			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->id. '&action=edit">'. sprintf('%07d', $object->id). '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->customer_name. '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods_name. '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->id. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
