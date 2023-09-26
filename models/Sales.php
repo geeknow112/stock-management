@@ -87,9 +87,9 @@ class Sales {
 		//$rows = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM ".$wpdb->prefix."postmeta WHERE meta_key = '_field_your-email'");
 		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.day_of_week, sc.st_dt, sc.ed_dt, g.name as goods_name ";
 		$sql .= "FROM yc_sales as s ";
-		$sql .= "LEFT JOIN yc_schedule_repeat as sc ON s.id = sc.sales ";
+		$sql .= "LEFT JOIN yc_schedule_repeat as sc ON s.sales = sc.sales ";
 		$sql .= "LEFT JOIN yc_goods as g ON s.goods = g.goods ";
-		$sql .= "WHERE s.id is not null ";
+		$sql .= "WHERE s.sales is not null ";
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
@@ -101,7 +101,7 @@ class Sales {
 
 		} else {
 			if ($get->action == 'search') {
-				if (!empty($get->s['no'])) { $sql .= sprintf("AND s.id = '%s' ", $get->s['no']); }
+				if (!empty($get->s['no'])) { $sql .= sprintf("AND s.sales = '%s' ", $get->s['no']); }
 				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
 
 				if (!empty($get->s['order_s_dt'])) { $sql .= sprintf("AND s.rgdt >= '%s 00:00:00' ", $get->s['order_s_dt']); }
@@ -136,7 +136,7 @@ class Sales {
 					for ($i=1; $i<=5; $i++) {
 						if (in_array($i, $e_list)) { continue; } // 除外
 						$r = clone $row;
-						$r->id = NULL;
+						$r->sales = NULL;
 						$r->goods_name = 'rep:'. $r->goods_name;
 						$r->status = 0;
 						$date = new DateTime($r->delivery_dt);
@@ -165,7 +165,7 @@ class Sales {
 		// delivery-graphの処理
 			// convert
 			foreach ($rows as $i => $row) {
-				$tmp[$row->delivery_dt][$row->id] = $row;
+				$tmp[$row->delivery_dt][$row->sales] = $row;
 			}
 
 			foreach ($days10 as $i => $day) {
@@ -194,7 +194,7 @@ class Sales {
 
 		// 受注IDで検索して受注情報を取得するSQL
 		$sql  = "SELECT s.* FROM yc_sales as s ";
-		$sql .= "WHERE s.id = '". $get->sales. "'";
+		$sql .= "WHERE s.sales = '". $get->sales. "'";
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
@@ -220,7 +220,7 @@ class Sales {
 		global $wpdb;
 
 		$sql  = "SELECT s.* FROM ". $this->getTableName(). " as s ";
-		$sql .= sprintf("WHERE s.id = '%s' ", $sales);
+		$sql .= sprintf("WHERE s.sales = '%s' ", $sales);
 		$sql .= "LIMIT 1;";
 
 		$rows = $wpdb->get_results($sql);
@@ -250,15 +250,15 @@ class Sales {
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.id, s.ship_addr, s.arrival_dt, s.name, g.goods, g.name as goods_name, g.qty as goods_qty, gd.id as lot_tmp_id, gd.lot, gd.tank ";
+		$sql  = "SELECT s.sales, s.ship_addr, s.arrival_dt, s.name, g.goods, g.name as goods_name, g.qty as goods_qty, gd.id as lot_tmp_id, gd.lot, gd.tank ";
 		$sql .= "FROM yc_sales as s ";
 		$sql .= "LEFT JOIN yc_goods as g ON s.goods = g.goods ";
-		$sql .= "LEFT JOIN yc_goods_detail as gd on s.id = gd.sales ";
-		$sql .= "WHERE s.id is not null ";
+		$sql .= "LEFT JOIN yc_goods_detail as gd on s.sales = gd.sales ";
+		$sql .= "WHERE s.sales is not null ";
 		$sql .= "AND gd.id is not null ";
 
 		if (in_array($get->action, array('save', 'confirm', 'edit', 'complete'))) {
-			$sql .= sprintf("AND s.id = %d and g.goods = %d ", $get->sales, $get->goods);
+			$sql .= sprintf("AND s.sales = %d and g.goods = %d ", $get->sales, $get->goods);
 		}
 
 		$rows = $wpdb->get_results($sql);
@@ -303,7 +303,7 @@ class Sales {
 
 		// 登録情報を再取得
 		$rows = $this->getDetailBySalesCode($sales);
-		$rows->sales = $rows->id;
+		$rows->sales = $rows->sales;
 		return $rows;
 	}
 
@@ -328,7 +328,7 @@ class Sales {
 		$ret = $wpdb->update(
 			$this->getTableName(), 
 			$data, 
-			array('id' => $post->sales)
+			array('sales' => $post->sales)
 		);
 
 		// 更新情報を再取得
@@ -379,18 +379,18 @@ $this->vd($post);exit;
 			// 注文IDがNULLの場合、リピート注文のため、元注文をコピーして新規登録する
 			if (empty($sales)) {
 				// 1. リピートIDで、yc_schdule_repeat.salesで元注文の注文IDを取得
-				$rep_sqls[]  = sprintf("SELECT * FROM yc_schedule_repeat AS sc LEFT JOIN yc_sales AS s ON sc.sales = s.id WHERE sc.repeat = %d LIMIT 1;", $post->arr_repeat[$i]);
+				$rep_sqls[]  = sprintf("SELECT * FROM yc_schedule_repeat AS sc LEFT JOIN yc_sales AS s ON sc.sales = s.sales WHERE sc.repeat = %d LIMIT 1;", $post->arr_repeat[$i]);
 			}
 		}
 
-		// 2. yc_sales.id = yc_schdule_repeat.salesで元注文の注文情報を取得
+		// 2. yc_sales.sales = yc_schdule_repeat.salesで元注文の注文情報を取得
 		foreach ($rep_sqls as $i => $rep_sql) {
 			$rep_rets[] = current($wpdb->get_results($rep_sql));
 		}
 
 		// 3. regDetail()で新規登録
 		foreach ($rep_rets as $i => $d) {
-			$d->id = NULL; // sales = NULLで新規登録
+			$d->sales = NULL; // sales = NULLで新規登録
 			$d->delivery_dt = $post->arr_delivery_dt[$i]; // リピート注文からdelivery_dtをコピー
 			$reg_rets[] = $this->regDetail($get, $d);
 		}
