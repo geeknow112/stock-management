@@ -526,6 +526,7 @@ $this->vd($upd_ret);
 			'select' => array(
 				'customer' => $this->getPartsOrderName(), 
 				'car_model' => $this->getPartsCarModel(), 
+				'cars_tank' => $this->getPartsCarsTank(), 
 				'goods_name' => $this->getPartsGoodsName(), 
 				'ship_addr' => $this->getPartsShipAddr(), 
 				'qty' => $this->getPartsQty(), 
@@ -557,6 +558,18 @@ $this->vd($upd_ret);
 			3 => '6t-3',
 			4 => '6t-4',
 			5 => '6t-5',
+		);
+	}
+
+	/**
+	 * 「槽」
+	 **/
+	private function getPartsCarsTank() {
+		return array(
+			0 => '', 
+			1 => '1', 
+			2 => '2',
+			3 => '3',
 		);
 	}
 

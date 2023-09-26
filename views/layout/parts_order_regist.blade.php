@@ -29,6 +29,15 @@
 	</div>
 
 	<div class="row mb-3">
+		<label for="carsTank" class="col-sm-2 col-form-label">槽</label>
+		<select class="form-select w-75" aria-label="carsTank" id="cars_tank" name="cars_tank">
+			@foreach($initForm['select']['cars_tank'] as $i => $d)
+				<option value="{{$i}}" @if ($i == $rows->cars_tank) selected @endif >{{$d}}</option>
+			@endforeach
+		</select>
+	</div>
+
+	<div class="row mb-3">
 		<label for="goodsName" class="col-sm-2 col-form-label">品名</label>
 		<select class="form-select w-75" aria-label="goodsName" id="goods" name="goods">
 			@foreach($initForm['select']['goods_name'] as $i => $d)
@@ -59,7 +68,7 @@
 
 	<div class="row mb-3">
 		<label for="use_stock" class="col-sm-2 col-form-label">在庫から配送</label>
-		<input type="checkbox" class="col-sm-2 form-check-input" id="use_stock">
+		<input type="checkbox" class="col-sm-2 form-check-input" id="use_stock" name="use_stock">
 	</div>
 
 	<div class="row mb-3">
@@ -76,7 +85,7 @@
 
 	<div class="row mb-3">
 		<label for="outgoing_warehouse" class="col-sm-2 col-form-label">出庫倉庫</label>
-		<select class="form-select w-75" aria-label="outgoing_warehouse">
+		<select class="form-select w-75" aria-label="outgoing_warehouse" id="outgoing_warehouse" name="outgoing_warehouse">
 			@foreach($initForm['select']['outgoing_warehouse'] as $i => $d)
 				<option value="{{$i}}" @if ($i == $rows->outgoing_warehouse) selected @endif >{{$d}}</option>
 			@endforeach
