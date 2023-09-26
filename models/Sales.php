@@ -312,12 +312,17 @@ $this->vd($rows);
 		$post = (object) $post;
 		global $wpdb;
 
+		// checkboxの初期化
+		$post->use_stock = ($post->use_stock == 'on') ? 1 : 0;
+		$post->repeat_fg = ($post->repeat_fg == 'on') ? 1 : 0;
+
 		$exist_columns = $wpdb->get_col("DESC ". $this->getTableName(). ";", 0);
 		foreach ($exist_columns as $i => $col) {
-			if(!empty($post->$col)) {
+			if(!is_null($post->$col)) {
 				$data[$col] = $post->$col;
 			}
 		}
+
 		$ret = $wpdb->update(
 			$this->getTableName(), 
 			$data, 

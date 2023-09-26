@@ -68,7 +68,7 @@
 
 	<div class="row mb-3">
 		<label for="use_stock" class="col-sm-2 col-form-label">在庫から配送</label>
-		<input type="checkbox" class="col-sm-2 form-check-input" id="use_stock" name="use_stock">
+		<input type="checkbox" class="col-sm-2 form-check-input" id="use_stock" name="use_stock" onchange="check_use_stock();">
 	</div>
 
 	<div class="row mb-3">
@@ -93,8 +93,36 @@
 	</div>
 
 	<div class="row mb-3">
-		<label for="repeat" class="col-sm-2 col-form-label">繰り返し予定を設定する</label>
-		<input type="checkbox" class="col-sm-2 form-check-input" id="repeat" onclick="checkRepeat();">
+		<label for="repeat_fg" class="col-sm-2 col-form-label">繰り返し予定を設定する</label>
+<!--		<input type="checkbox" class="col-sm-2 form-check-input" id="repeat" name="repeat" onchange="changeCheckBox('repeat') && checkRepeat();">-->
+		<input type="checkbox" class="col-sm-2 form-check-input" id="repeat_fg" name="repeat_fg" onchange="check_repeat(); checkRepeat();">
 	</div>
 
 <br /><br /><hr>
+
+<script>
+initCheckbox();
+function initCheckbox() {
+	const use_stock = '{{$rows->use_stock}}';
+	if (use_stock == 'on' || use_stock == 1) {
+		document.getElementById('use_stock').checked = true;
+	}
+
+	const repeat = '{{$rows->repeat_fg}}';
+	if (repeat == 'on' || repeat == 1) {
+		document.getElementById('repeat_fg').checked = true;
+	}
+}
+
+function check_use_stock() {
+	if (document.getElementById('use_stock').checked) {
+		document.getElementById('use_stock').value = 1; // true
+	}
+}
+
+function check_repeat() {
+	if (document.getElementById('repeat_fg').checked) {
+		document.getElementById('repeat_fg').value = 1; // true
+	}
+}
+</script>

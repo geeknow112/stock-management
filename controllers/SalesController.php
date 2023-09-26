@@ -79,8 +79,8 @@ global $wpdb;
 				break;
 
 			case 'confirm':
+$this->vd($post);
 				if (!empty($post)) {
-$this->vd($post);exit;
 					switch ($post->cmd) {
 						default:
 						case 'cmd_confirm':
@@ -125,7 +125,6 @@ $this->vd($post);exit;
 				break;
 
 			case 'edit-exe':
-$this->vd($post);
 				if (!empty($post)) {
 					if ($post->cmd == 'update') {
 						$msg = $this->getValidMsg();

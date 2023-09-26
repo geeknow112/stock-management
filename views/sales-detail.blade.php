@@ -22,16 +22,17 @@
 	}
 </script>
 <script>
+	checkRepeat();
 	function checkRepeat() {
-		//alert('test');
 		const p1 = document.getElementById("repeat_info");
-
-		if(p1.style.display=="block"){
+		const rep = '{{$rows->repeat_fg}}';
+//		alert(rep);
+		if (p1.style.display == "block" && rep !== 1) {
 			// noneで非表示
-			p1.style.display ="none";
-		}else{
+			p1.style.display = "none";
+		} else {
 			// blockで表示
-			p1.style.display ="block";
+			p1.style.display = "block";
 		}
 	}
 </script>
