@@ -37,7 +37,7 @@ class Sales {
 
 		$step1 = array(
 			'rules' => array(
-				'customer'				=> 'required|max:100',
+				'customer'					=> 'required|min:2',
 				'qty'						=> 'required|max:100',
 
 /*
@@ -275,20 +275,22 @@ class Sales {
 	 * 受注情報登録
 	 **/
 	public function regDetail($get = null, $post = null) {
+		$post = (object) $post;
 		global $wpdb;
 		$cur_user = $this->getCurUser();
+
+		// checkboxの初期化
+		$post->use_stock = ($post->use_stock == 'on') ? 1 : 0;
+		$post->repeat_fg = ($post->repeat_fg == 'on') ? 1 : 0;
 
 //		$p->updt = date('Y-m-d H:i:s'); // updt
 
 		$exist_columns = $wpdb->get_col("DESC ". $this->getTableName(). ";", 0);
 		foreach ($exist_columns as $i => $col) {
-			if(!empty($post->$col)) {
+			if(!is_null($post->$col)) {
 				$data[$col] = $post->$col;
 			}
 		}
-
-		// 初期化
-		$data['repeat_fg'] = 0;
 
 		$ret = $wpdb->insert(
 			$this->getTableName(), 
@@ -301,7 +303,7 @@ class Sales {
 
 		// 登録情報を再取得
 		$rows = $this->getDetailBySalesCode($sales);
-$this->vd($rows);
+		$rows->sales = $rows->id;
 		return $rows;
 	}
 
@@ -547,8 +549,8 @@ $this->vd($upd_ret);
 	private function getPartsOrderName() {
 		return array(
 			0 => '', 
-			1 => '顧客①', 
-			2 => '顧客②',
+			101 => '顧客①', 
+			102 => '顧客②',
 		);
 	}
 

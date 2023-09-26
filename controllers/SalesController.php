@@ -79,7 +79,6 @@ global $wpdb;
 				break;
 
 			case 'confirm':
-$this->vd($post);
 				if (!empty($post)) {
 					switch ($post->cmd) {
 						default:
@@ -111,6 +110,7 @@ $this->vd($post);
 						if ($msg['msg'] == 'success') {
 							$rows = $this->getTb()->regDetail($get, $post);
 //							$rows->order_name = $rows->name;
+							$rows->sales = $rows->id;
 							$get->action = 'complete';
 
 						} else {
@@ -120,7 +120,7 @@ $this->vd($post);
 						}
 					}
 				}
-//$this->vd($rows);
+
 				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm'));
 				break;
 
