@@ -10,10 +10,10 @@
 	@endif
 
 	<div class="row mb-3">
-		<label for="order_name" class="col-sm-2 col-form-label w-5">氏名</label>
-		<select class="form-select w-75" aria-label="order_name" id="order_name" name="order_name">
-			@foreach($initForm['select']['order_name'] as $i => $d)
-				<option value="{{$i}}" @if ($i == $rows->name) selected @endif >{{$d}}</option>
+		<label for="customer" class="col-sm-2 col-form-label w-5">氏名</label>
+		<select class="form-select w-75" aria-label="customer" id="customer" name="customer">
+			@foreach($initForm['select']['customer'] as $i => $d)
+				<option value="{{$i}}" @if ($i == $rows->customer) selected @endif >{{$d}}</option>
 			@endforeach
 		</select>
 <!--		<div id="orderName" class="form-text">氏名を入力してください。</div>-->

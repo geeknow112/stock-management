@@ -37,7 +37,7 @@ class Sales {
 
 		$step1 = array(
 			'rules' => array(
-				'order_name'				=> 'required|max:100',
+				'customer'				=> 'required|max:100',
 				'qty'						=> 'required|max:100',
 
 /*
@@ -524,7 +524,7 @@ $this->vd($upd_ret);
 	public function getInitForm() {
 		return array(
 			'select' => array(
-				'order_name' => $this->getPartsOrderName(), 
+				'customer' => $this->getPartsOrderName(), 
 				'car_model' => $this->getPartsCarModel(), 
 				'goods_name' => $this->getPartsGoodsName(), 
 				'ship_addr' => $this->getPartsShipAddr(), 
