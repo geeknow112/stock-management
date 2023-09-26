@@ -14,8 +14,10 @@
 			case 'edit-exe':
 				if (page == 'customer-detail') {
 					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&customer={{$post->customer}}&action=edit-exe";
+
 				} else if (page == 'sales-detail') {
 					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$post->sales}}&action=edit-exe";
+
 				} else {
 					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&goods={{$post->goods}}&action=edit-exe";
 				}
@@ -27,17 +29,6 @@
 				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&action=save";
 				document.forms.cmd.value = 'save';
 				document.forms.target = '';
-				document.forms.submit();
-				break;
-			case 'cancel':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=cancel";
-				document.forms.target = '';
-				document.forms.submit();
-				break;
-			case 'preview':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$_GET['sales']}}&action=preview";
-				document.forms.cmd.value = 'preview';
-				document.forms.target = '_blank';
 				document.forms.submit();
 				break;
 		}
