@@ -79,6 +79,7 @@ global $wpdb;
 				break;
 
 			case 'confirm':
+$this->vd($post);
 				if (!empty($post)) {
 					switch ($post->cmd) {
 						default:

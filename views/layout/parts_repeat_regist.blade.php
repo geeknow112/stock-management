@@ -23,25 +23,18 @@
 	</select>
   </div>
 
-  <div class="row mb-3">
-    <label class="form-check-label" for="week">曜日</label>
-  </div>
-  <div class="mb-3">
-		<input type="checkbox" name="week_M" id="week_M" class="form-check-imput" />
-		<label class="form-check-label" for="week_M">月</label>
-		<input type="checkbox" name="week_Tu" id="week_Tu" class="form-check-imput" />
-		<label class="form-check-label" for="week_Tu">火</label>
-		<input type="checkbox" name="week_W" id="week_W" class="form-check-imput" />
-		<label class="form-check-label" for="week_W">水</label>
-		<input type="checkbox" name="week_Th" id="week_Th" class="form-check-imput" />
-		<label class="form-check-label" for="week_Th">木</label>
-		<input type="checkbox" name="week_F" id="week_F" class="form-check-imput" />
-		<label class="form-check-label" for="week_F">金</label>
-		<input type="checkbox" name="week_St" id="week_St" class="form-check-imput" />
-		<label class="form-check-label" for="week_St">土</label>
-		<input type="checkbox" name="week_Su" id="week_Su" class="form-check-imput" />
-		<label class="form-check-label" for="week_Su">日</label>
-  </div>
+	<div class="row mb-3">
+		<label class="form-check-label" for="week">曜日</label>
+	</div>
+	<div class="mb-3">
+		<input type="checkbox" name="week[0]" id="week_M" class="form-check-imput" /><label class="form-check-label" for="week_M">月</label>
+		<input type="checkbox" name="week[1]" id="week_Tu" class="form-check-imput" /><label class="form-check-label" for="week_Tu">火</label>
+		<input type="checkbox" name="week[2]" id="week_W" class="form-check-imput" /><label class="form-check-label" for="week_W">水</label>
+		<input type="checkbox" name="week[3]" id="week_Th" class="form-check-imput" /><label class="form-check-label" for="week_Th">木</label>
+		<input type="checkbox" name="week[4]" id="week_F" class="form-check-imput" /><label class="form-check-label" for="week_F">金</label>
+		<input type="checkbox" name="week[5]" id="week_St" class="form-check-imput" /><label class="form-check-label" for="week_St">土</label>
+		<input type="checkbox" name="week[6]" id="week_Su" class="form-check-imput" /><label class="form-check-label" for="week_Su">日</label>
+	</div>
 
   <div class="row mb-3">
     <label for="repeat_s_dt" class="col-sm-2 col-form-label">開始日</label>
