@@ -80,7 +80,6 @@ global $wpdb;
 
 			case 'confirm':
 				if (!empty($post)) {
-$this->vd($post);
 					switch ($post->cmd) {
 						default:
 						case 'cmd_confirm':
