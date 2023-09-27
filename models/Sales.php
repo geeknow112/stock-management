@@ -292,6 +292,8 @@ class Sales {
 			}
 		}
 
+		$data['rgdt'] = date('Y-m-d H:i:s');
+
 		$ret = $wpdb->insert(
 			$this->getTableName(), 
 			$data
@@ -325,11 +327,46 @@ class Sales {
 			}
 		}
 
+		$data['updt'] = date('Y-m-d H:i:s');
+
 		$ret = $wpdb->update(
 			$this->getTableName(), 
 			$data, 
 			array('sales' => $post->sales)
 		);
+
+		// schedule_repeat関連値登録
+		// upsert
+		$targetId = $wpdb->get_var($wpdb->prepare("SELECT sales FROM yc_sales WHERE sales = %s ", $post->sales));
+		if (is_null($targetId)) {
+			$ret[] = $wpdb->insert(
+				'yc_schedule_repeat', 
+				array(
+					'repeat' => null, 
+					'sales' => null, 
+					'period' => $post->period, 
+					'rgdt' => date('Y-m-d H:i:s')
+				)
+				//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+			);
+		} else {
+/*
+			$ret[] = $wpdb->update(
+				'yc_customer_detail', 
+				array(
+					'pref' => $d->pref, 
+					'addr1' => $d->addr1, 
+					'addr2' => $d->addr2, 
+					'addr3' => $d->addr3, 
+					'updt' => date('Y-m-d H:i:s')
+				),
+				array(
+					'customer' => $post->customer, 
+					'detail' => $detail
+				)
+			);
+*/
+		}
 
 		// 更新情報を再取得
 		$rows = $this->getDetailBySalesCode($post->sales);
@@ -539,6 +576,7 @@ $this->vd($upd_ret);
 				'qty' => $this->getPartsQty(), 
 				'outgoing_warehouse' => $this->getPartsOutgoingWarehouse(), 
 				'status' => $this->getPartsStatus(), 
+				'period' => $this->getPartsPeriod(), 
 			)
 		);
 	}

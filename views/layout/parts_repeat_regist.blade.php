@@ -1,4 +1,5 @@
-<div id="repeat_info" style="display: none">
+<div id="repeat_info">
+<!--<div id="repeat_info" style="display: none">-->
 
 	<p class="">
 	<legend>【繰り返し情報登録】</legend>
@@ -6,13 +7,10 @@
 
   <div class="row mb-3">
     <label for="repeat_every" class="col-sm-2 col-form-label">繰り返し</label>
-	<select class="form-select w-75" aria-label="repeat_every">
-		<option value=""></option>
-		<option value=""></option>
-		<option value="1" selected>毎日</option>
-		<option value="2">毎週</option>
-		<option value="3">毎月</option>
-		<option value="4">毎年</option>>
+	<select class="form-select w-75" aria-label="repeat_every" id="period" name="period">
+		@foreach($initForm['select']['period'] as $i => $d)
+			<option value="{{$i}}" @if ($i == $rows->period) selected @endif >{{$d}}</option>
+		@endforeach
 	</select>
   </div>
 
