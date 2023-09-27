@@ -22,7 +22,7 @@
 	}
 </script>
 <script>
-	checkRepeat();
+//	checkRepeat();
 	function checkRepeat() {
 		const p1 = document.getElementById("repeat_info");
 		const rep = '{{$rows->repeat_fg}}';
