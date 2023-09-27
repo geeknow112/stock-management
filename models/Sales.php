@@ -219,7 +219,8 @@ class Sales {
 	public function getDetailBySalesCode($sales = null) {
 		global $wpdb;
 
-		$sql  = "SELECT s.* FROM ". $this->getTableName(). " as s ";
+		$sql  = "SELECT s.*, sr.* FROM ". $this->getTableName(). " as s ";
+		$sql .= "LEFT JOIN yc_schedule_repeat AS sr ON s.sales = sr.sales ";
 		$sql .= sprintf("WHERE s.sales = '%s' ", $sales);
 		$sql .= "LIMIT 1;";
 
@@ -337,35 +338,35 @@ class Sales {
 
 		// schedule_repeat関連値登録
 		// upsert
-		$targetId = $wpdb->get_var($wpdb->prepare("SELECT sales FROM yc_sales WHERE sales = %s ", $post->sales));
+		$targetId = $wpdb->get_var($wpdb->prepare("SELECT sales FROM yc_schedule_repeat WHERE sales = %s", $post->sales));
 		if (is_null($targetId)) {
 			$ret[] = $wpdb->insert(
 				'yc_schedule_repeat', 
 				array(
 					'repeat' => null, 
-					'sales' => null, 
+					'sales' => $post->sales, 
 					'period' => $post->period, 
+					'span' => $post->span, 
+					'st_dt' => $post->repeat_s_dt, 
+					'ed_dt' => $post->repeat_e_dt, 
 					'rgdt' => date('Y-m-d H:i:s')
 				)
 				//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
 			);
 		} else {
-/*
 			$ret[] = $wpdb->update(
-				'yc_customer_detail', 
+				'yc_schedule_repeat', 
 				array(
-					'pref' => $d->pref, 
-					'addr1' => $d->addr1, 
-					'addr2' => $d->addr2, 
-					'addr3' => $d->addr3, 
+					'period' => $post->period, 
+					'span' => $post->span, 
+					'st_dt' => $post->repeat_s_dt, 
+					'ed_dt' => $post->repeat_e_dt, 
 					'updt' => date('Y-m-d H:i:s')
 				),
 				array(
-					'customer' => $post->customer, 
-					'detail' => $detail
+					'sales' => $post->sales
 				)
 			);
-*/
 		}
 
 		// 更新情報を再取得
@@ -577,6 +578,7 @@ $this->vd($upd_ret);
 				'outgoing_warehouse' => $this->getPartsOutgoingWarehouse(), 
 				'status' => $this->getPartsStatus(), 
 				'period' => $this->getPartsPeriod(), 
+				'span' => $this->getPartsSpan(), 
 			)
 		);
 	}
@@ -709,6 +711,17 @@ $this->vd($upd_ret);
 			2 => '毎月',
 			3 => '毎年',
 		);
+	}
+
+	/**
+	 * 繰り返し間隔
+	 * 
+	 * yc_schedule_repeat.span
+	 **/
+	private function getPartsSpan() {
+		$ret = range(0, 31);
+		$ret[0] = '';
+		return $ret;
 	}
 }
 ?>
