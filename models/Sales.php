@@ -347,8 +347,8 @@ class Sales {
 					'sales' => $post->sales, 
 					'period' => $post->period, 
 					'span' => $post->span, 
-					'st_dt' => $post->repeat_s_dt, 
-					'ed_dt' => $post->repeat_e_dt, 
+					'repeat_s_dt' => $post->repeat_s_dt, 
+					'repeat_e_dt' => $post->repeat_e_dt, 
 					'rgdt' => date('Y-m-d H:i:s')
 				)
 				//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
@@ -359,8 +359,8 @@ class Sales {
 				array(
 					'period' => $post->period, 
 					'span' => $post->span, 
-					'st_dt' => $post->repeat_s_dt, 
-					'ed_dt' => $post->repeat_e_dt, 
+					'repeat_s_dt' => $post->repeat_s_dt, 
+					'repeat_e_dt' => $post->repeat_e_dt, 
 					'updt' => date('Y-m-d H:i:s')
 				),
 				array(
