@@ -629,11 +629,25 @@ $this->vd($upd_ret);
 	 * 「氏名」
 	 **/
 	private function getPartsOrderName() {
+		global $wpdb;
+
+		$sql  = "SELECT c.customer, c.name FROM yc_customer as c ";
+		$sql .= ";";
+		$rows = $wpdb->get_results($sql);
+
+		// 配列整形
+		foreach ($rows as $i => $d) {
+			$ret[$d->customer] = $d->name;
+		}
+		return $ret;
+
+/*
 		return array(
 			0 => '', 
 			43 => '顧客①', 
 			45 => '顧客②',
 		);
+*/
 	}
 
 	/**
