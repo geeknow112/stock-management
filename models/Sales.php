@@ -636,6 +636,7 @@ $this->vd($upd_ret);
 		$rows = $wpdb->get_results($sql);
 
 		// 配列整形
+		$ret[0] = '';
 		foreach ($rows as $i => $d) {
 			$ret[$d->customer] = $d->name;
 		}
@@ -680,6 +681,24 @@ $this->vd($upd_ret);
 	 * 「品名」
 	 **/
 	private function getPartsGoodsName() {
+		global $wpdb;
+$customer = 2;
+		$sql  = "SELECT c.customer, g.goods, g.name FROM yc_customer as c ";
+		$sql .= "LEFT JOIN yc_customer_goods as cg ON c.customer = cg.customer ";
+		$sql .= "LEFT JOIN yc_goods as g ON cg.goods = g.goods ";
+		$sql .= sprintf("WHERE c.customer = %d ", $customer);
+		$sql .= ";";
+		$rows = $wpdb->get_results($sql);
+
+		// 配列整形
+		$ret[0] = '';
+		foreach ($rows as $i => $d) {
+			if (!empty($d->goods)) { $ret[$d->goods] = $d->name; }
+		}
+
+		return $ret;
+
+/*
 		return array(
 			0 => '', 
 			10 => '商品①', 
@@ -688,12 +707,30 @@ $this->vd($upd_ret);
 			40 => '商品④',
 			50 => '商品⑤',
 		);
+*/
 	}
 
 	/**
 	 * 「配送先」
 	 **/
 	private function getPartsShipAddr() {
+		global $wpdb;
+$customer = 37;
+		$sql  = "SELECT c.*, cd.* FROM yc_customer as c ";
+		$sql .= "LEFT JOIN yc_customer_detail as cd ON c.customer = cd.customer ";
+		$sql .= sprintf("WHERE c.customer = %d ", $customer);
+		$sql .= ";";
+		$rows = $wpdb->get_results($sql);
+
+		// 配列整形
+		$ret[0] = '';
+		foreach ($rows as $i => $d) {
+			$ret[$d->detail] = sprintf("%s %s %s %s", $d->pref, $d->addr1, $d->addr2, $d->addr3);
+		}
+//$this->vd($ret);
+		return $ret;
+
+/*
 		return array(
 			0 => '', 
 			10 => '配送先①', 
@@ -702,6 +739,7 @@ $this->vd($upd_ret);
 			40 => '配送先④',
 			50 => '配送先⑤',
 		);
+*/
 	}
 
 	/**
