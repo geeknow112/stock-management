@@ -225,7 +225,11 @@ class Sales {
 		$sql .= "LIMIT 1;";
 
 		$rows = $wpdb->get_results($sql);
-		return $rows[0];
+
+		$ret = current($rows);
+		$ret->week = explode(',', $ret->week);
+
+		return $ret;
 	}
 
 	/**
@@ -347,6 +351,7 @@ class Sales {
 					'sales' => $post->sales, 
 					'period' => $post->period, 
 					'span' => $post->span, 
+					'week' => implode(',', array_keys($post->week)), 
 					'repeat_s_dt' => $post->repeat_s_dt, 
 					'repeat_e_dt' => $post->repeat_e_dt, 
 					'rgdt' => date('Y-m-d H:i:s')
@@ -359,6 +364,7 @@ class Sales {
 				array(
 					'period' => $post->period, 
 					'span' => $post->span, 
+					'week' => implode(',', array_keys($post->week)), 
 					'repeat_s_dt' => $post->repeat_s_dt, 
 					'repeat_e_dt' => $post->repeat_e_dt, 
 					'updt' => date('Y-m-d H:i:s')
@@ -579,6 +585,7 @@ $this->vd($upd_ret);
 				'status' => $this->getPartsStatus(), 
 				'period' => $this->getPartsPeriod(), 
 				'span' => $this->getPartsSpan(), 
+				'week' => $this->getPartsWeek(), 
 			)
 		);
 	}
@@ -722,6 +729,23 @@ $this->vd($upd_ret);
 		$ret = range(0, 31);
 		$ret[0] = '';
 		return $ret;
+	}
+
+	/**
+	 * 繰り返し曜日
+	 * 
+	 * yc_schedule_repeat.week
+	 **/
+	private function getPartsWeek() {
+		return array(
+			1 => '月', 
+			2 => '火',
+			3 => '水',
+			4 => '木',
+			5 => '金',
+			6 => '土',
+			7 => '日',
+		);
 	}
 }
 ?>

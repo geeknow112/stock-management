@@ -79,14 +79,13 @@ global $wpdb;
 				break;
 
 			case 'confirm':
-$this->vd($post);
 				if (!empty($post)) {
 					switch ($post->cmd) {
 						default:
 						case 'cmd_confirm':
 							$msg = $this->getValidMsg();
 							$rows = $post;
-//							$rows->name = $post->order_name;
+							$rows->week = array_keys($rows->week); // post’l[week]‚ðcheckboxŒ`Ž®‚É•ÏŠ·
 							if ($rows->sales) { $rows->btn = 'update'; }
 
 							if ($msg['msg'] !== 'success') {
