@@ -308,6 +308,41 @@ class Sales {
 		// 登録したIDを取得
 		$sales = $wpdb->insert_id;
 
+		// schedule_repeat関連値登録
+		// upsert
+		$targetId = $wpdb->get_var($wpdb->prepare("SELECT sales FROM yc_schedule_repeat WHERE sales = %s", $sales));
+		if (is_null($targetId)) {
+			$ret[] = $wpdb->insert(
+				'yc_schedule_repeat', 
+				array(
+					'repeat' => null, 
+					'sales' => $sales, 
+					'period' => $post->period, 
+					'span' => $post->span, 
+					'week' => implode(',', array_keys($post->week)), 
+					'repeat_s_dt' => $post->repeat_s_dt, 
+					'repeat_e_dt' => $post->repeat_e_dt, 
+					'rgdt' => date('Y-m-d H:i:s')
+				)
+				//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+			);
+		} else {
+			$ret[] = $wpdb->update(
+				'yc_schedule_repeat', 
+				array(
+					'period' => $post->period, 
+					'span' => $post->span, 
+					'week' => implode(',', array_keys($post->week)), 
+					'repeat_s_dt' => $post->repeat_s_dt, 
+					'repeat_e_dt' => $post->repeat_e_dt, 
+					'updt' => date('Y-m-d H:i:s')
+				),
+				array(
+					'sales' => $sales
+				)
+			);
+		}
+
 		// 登録情報を再取得
 		$rows = $this->getDetailBySalesCode($sales);
 		$rows->sales = $rows->sales;
@@ -594,11 +629,25 @@ $this->vd($upd_ret);
 	 * 「氏名」
 	 **/
 	private function getPartsOrderName() {
+		global $wpdb;
+
+		$sql  = "SELECT c.customer, c.name FROM yc_customer as c ";
+		$sql .= ";";
+		$rows = $wpdb->get_results($sql);
+
+		// 配列整形
+		foreach ($rows as $i => $d) {
+			$ret[$d->customer] = $d->name;
+		}
+		return $ret;
+
+/*
 		return array(
 			0 => '', 
 			43 => '顧客①', 
 			45 => '顧客②',
 		);
+*/
 	}
 
 	/**
