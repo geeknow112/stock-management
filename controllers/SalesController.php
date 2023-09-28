@@ -65,7 +65,7 @@ global $wpdb;
 
 		$this->setTb('Sales');
 		$page = 'sales-detail';
-		$initForm = $this->getTb()->getInitForm();
+		$initForm = $this->getTb()->getInitForm($post);
 
 		$rows = null;
 		switch($get->action) {
