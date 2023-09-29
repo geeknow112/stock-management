@@ -159,7 +159,8 @@ global $wpdb;
 						$rows->messages = $msg;
 					}
 				}
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm'));
+$test_ship_addr = json_encode($initForm['select']['ship_addr']);
+				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'test_ship_addr'));
 				break;
 		}
 	}

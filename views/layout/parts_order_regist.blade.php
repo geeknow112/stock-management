@@ -11,7 +11,7 @@
 
 	<div class="row mb-3">
 		<label for="customer" class="col-sm-2 col-form-label w-5">氏名</label>
-		<select class="form-select w-75" aria-label="customer" id="customer" name="customer">
+		<select class="form-select w-75" aria-label="customer" id="customer" name="customer" onchange="chTest();">
 			@foreach($initForm['select']['customer'] as $i => $d)
 				<option value="{{$i}}" @if ($i == $rows->customer) selected @endif >{{$d}}</option>
 			@endforeach
@@ -45,7 +45,40 @@
 			@endforeach
 		</select>
 	</div>
+<script>
+var unescapeHtml = function(str) {
+	if (typeof str !== 'string') return str;
 
+	var patterns = {
+		'&lt;'   : '<',
+		'&gt;'   : '>',
+		'&amp;'  : '&',
+		'&quot;' : '"',
+		'&#x27;' : '\'',
+		'&#x60;' : '`'
+	};
+
+	return str.replace(/&(lt|gt|amp|quot|#x27|#x60);/g, function(match) {
+		return patterns[match];
+	});
+};
+
+function chTest() {
+	var customer = document.forms.customer.value;
+	console.log(customer);
+	var arr = "{{$test_ship_addr}}";
+	console.log(unescapeHtml(arr));
+	var json = JSON.parse(unescapeHtml(arr));
+	console.log(json[customer]);
+const sel = document.createElement("ship_addr");
+const opt = document.createElement("option");
+opt.value = "3";
+opt.text = "Option: Value 3";
+
+//sel.add(opt, null);
+
+}
+</script>
 	<div class="row mb-3">
 		<label for="shipAddr" class="col-sm-2 col-form-label">配送先</label>
 		<select class="form-select w-75" aria-label="shipAddr" id="ship_addr" name="ship_addr">
