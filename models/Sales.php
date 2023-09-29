@@ -715,19 +715,17 @@ $customer = 2;
 	 **/
 	private function getPartsShipAddr() {
 		global $wpdb;
-$customer = 37;
 		$sql  = "SELECT c.*, cd.* FROM yc_customer as c ";
 		$sql .= "LEFT JOIN yc_customer_detail as cd ON c.customer = cd.customer ";
-		$sql .= sprintf("WHERE c.customer = %d ", $customer);
 		$sql .= ";";
 		$rows = $wpdb->get_results($sql);
 
 		// 配列整形
-		$ret[0] = '';
 		foreach ($rows as $i => $d) {
-			$ret[$d->detail] = sprintf("%s %s %s %s", $d->pref, $d->addr1, $d->addr2, $d->addr3);
+			$ret[$d->customer][0] = '';
+			$ret[$d->customer][$d->detail] = sprintf("%s %s %s %s", $d->pref, $d->addr1, $d->addr2, $d->addr3);
 		}
-//$this->vd($ret);
+
 		return $ret;
 
 /*
