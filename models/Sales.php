@@ -37,7 +37,7 @@ class Sales {
 
 		$step1 = array(
 			'rules' => array(
-				'customer'					=> 'required|min:2',
+//				'customer'					=> 'required|min:2',
 				'qty'						=> 'required|max:100',
 
 /*

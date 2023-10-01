@@ -75,7 +75,8 @@ global $wpdb;
 			default:
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList();
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm'));
+$test_ship_addr = json_encode($initForm['select']['ship_addr']);
+				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'test_ship_addr'));
 				break;
 
 			case 'confirm':
@@ -99,8 +100,10 @@ global $wpdb;
 						$get->action = 'save';
 				} else {
 				}
-
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm'));
+$this->vd($post);
+$test_ship_addr = json_encode($initForm['select']['ship_addr']);
+$set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['ship_addr'][$post->customer][$post->ship_addr] : null;
+				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'test_ship_addr', 'set_ship_addr'));
 				break;
 
 			case 'save':
@@ -120,7 +123,9 @@ global $wpdb;
 					}
 				}
 
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm'));
+$test_ship_addr = json_encode($initForm['select']['ship_addr']);
+$set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['ship_addr'][$post->customer][$post->ship_addr] : null;
+				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'test_ship_addr', 'set_ship_addr'));
 				break;
 
 			case 'edit-exe':
@@ -140,7 +145,9 @@ global $wpdb;
 					}
 				}
 //$this->vd($rows);
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm'));
+$test_ship_addr = json_encode($initForm['select']['ship_addr']);
+$set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['ship_addr'][$post->customer][$post->ship_addr] : null;
+				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'test_ship_addr', 'set_ship_addr'));
 				break;
 
 			case 'edit':
@@ -160,7 +167,8 @@ global $wpdb;
 					}
 				}
 $test_ship_addr = json_encode($initForm['select']['ship_addr']);
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'test_ship_addr'));
+$set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['ship_addr'][$post->customer][$post->ship_addr] : null;
+				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'test_ship_addr', 'set_ship_addr'));
 				break;
 		}
 	}
