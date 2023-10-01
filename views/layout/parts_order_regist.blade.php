@@ -11,7 +11,7 @@
 
 	<div class="row mb-3">
 		<label for="customer" class="col-sm-2 col-form-label w-5">氏名</label>
-		<select class="form-select w-75" aria-label="customer" id="customer" name="customer" onchange="chTest();">
+		<select class="form-select w-75" aria-label="customer" id="customer" name="customer" onchange="createSelectBox();">
 			@foreach($initForm['select']['customer'] as $i => $d)
 				<option value="{{$i}}" @if ($i == $rows->customer) selected @endif >{{$d}}</option>
 			@endforeach
@@ -63,28 +63,47 @@ var unescapeHtml = function(str) {
 	});
 };
 
-function chTest() {
+function createSelectBox(){
 	var customer = document.forms.customer.value;
 	console.log(customer);
-	var arr = "{{$test_ship_addr}}";
-	console.log(unescapeHtml(arr));
-	var json = JSON.parse(unescapeHtml(arr));
+	//連想配列の配列
+	var ar = "{{$test_ship_addr}}";
+	var json = JSON.parse(unescapeHtml(ar));
 	console.log(json[customer]);
-const sel = document.createElement("ship_addr");
-const opt = document.createElement("option");
-opt.value = "3";
-opt.text = "Option: Value 3";
+	var arr = json[customer];
 
-//sel.add(opt, null);
+	// selectの初期化
+	const sel = document.getElementById("ship_addr");
+	console.log(sel.childNodes.length);
+	for (var i=sel.childNodes.length-1; i>=0; i--) {
+		sel.removeChild(sel.childNodes[i]);
+	}
 
-}
+	if (arr !== undefined) {
+		//連想配列をループ処理で値を取り出してセレクトボックスにセットする
+		for (var i=0; i<arr.length; i++) {
+			if (i != 0 && arr[i] == '') { continue; }
+			let op = document.createElement("option");
+			op.value = i;  //value値
+			op.text = arr[i];   //テキスト値
+			document.getElementById("ship_addr").appendChild(op);
+		}
+	}
+};
 </script>
+
 	<div class="row mb-3">
 		<label for="shipAddr" class="col-sm-2 col-form-label">配送先</label>
 		<select class="form-select w-75" aria-label="shipAddr" id="ship_addr" name="ship_addr">
-			@foreach($initForm['select']['ship_addr'] as $i => $d)
-				<option value="{{$i}}" @if ($i == $rows->ship_addr) selected @endif >{{$d}}</option>
-			@endforeach
+			@if ($post->customer)
+				@foreach($initForm['select']['ship_addr'][$post->customer] as $i => $d)
+					<option value="{{$i}}" @if ($i == $rows->ship_addr) selected @endif >{{$d}}</option>
+				@endforeach
+			@else
+				@foreach($initForm['select']['ship_addr'][$rows->customer] as $i => $d)
+					<option value="{{$i}}" @if ($i == $rows->ship_addr) selected @endif >{{$d}}</option>
+				@endforeach
+			@endif
 		</select>
 <!--		<div id="shipAddHelp" class="form-text">配送先を入力してください。</div>-->
 	</div>
