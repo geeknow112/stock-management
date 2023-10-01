@@ -11,7 +11,7 @@
 
 	<div class="row mb-3">
 		<label for="customer" class="col-sm-2 col-form-label w-5">氏名</label>
-		<select class="form-select w-75" aria-label="customer" id="customer" name="customer" onchange="createSelectBox();">
+		<select class="form-select w-75" aria-label="customer" id="customer" name="customer" onchange="createSelectBox(); createSelectBoxGoods();">
 			@foreach($initForm['select']['customer'] as $i => $d)
 				<option value="{{$i}}" @if ($i == $rows->customer) selected @endif >{{$d}}</option>
 			@endforeach
@@ -40,9 +40,15 @@
 	<div class="row mb-3">
 		<label for="goodsName" class="col-sm-2 col-form-label">品名</label>
 		<select class="form-select w-75" aria-label="goodsName" id="goods" name="goods">
-			@foreach($initForm['select']['goods_name'] as $i => $d)
-				<option value="{{$i}}" @if ($i == $rows->goods) selected @endif >{{$d}}</option>
-			@endforeach
+			@if ($post->customer)
+				@foreach($initForm['select']['goods_name'][$post->customer] as $i => $d)
+					<option value="{{$i}}" @if ($i == $rows->goods) selected @endif >{{$d}}</option>
+				@endforeach
+			@else
+				@foreach($initForm['select']['goods_name'][$rows->customer] as $i => $d)
+					<option value="{{$i}}" @if ($i == $rows->goods) selected @endif >{{$d}}</option>
+				@endforeach
+			@endif
 		</select>
 	</div>
 <script>
@@ -87,6 +93,32 @@ function createSelectBox(){
 			op.value = i;  //value値
 			op.text = arr[i];   //テキスト値
 			document.getElementById("ship_addr").appendChild(op);
+		}
+	}
+};
+
+function createSelectBoxGoods(){
+	var customer = document.forms.customer.value;
+	//連想配列の配列
+	var ar = "{{$gnames}}";
+	var json = JSON.parse(unescapeHtml(ar));
+	console.log(json[customer]);
+	var arr = json[customer];
+
+	// selectの初期化
+	const sel = document.getElementById("goods");
+	console.log(sel.childNodes.length);
+	for (var i=sel.childNodes.length-1; i>=0; i--) {
+		sel.removeChild(sel.childNodes[i]);
+	}
+
+	if (arr !== undefined) {
+		//連想配列をループ処理で値を取り出してセレクトボックスにセットする
+		for (let goods in arr) {
+			let op = document.createElement("option");
+			op.value = goods;  //value値
+			op.text = arr[goods];   //テキスト値
+			document.getElementById("goods").appendChild(op);
 		}
 	}
 };

@@ -682,32 +682,20 @@ $this->vd($upd_ret);
 	 **/
 	private function getPartsGoodsName() {
 		global $wpdb;
-$customer = 2;
 		$sql  = "SELECT c.customer, g.goods, g.name FROM yc_customer as c ";
 		$sql .= "LEFT JOIN yc_customer_goods as cg ON c.customer = cg.customer ";
 		$sql .= "LEFT JOIN yc_goods as g ON cg.goods = g.goods ";
-		$sql .= sprintf("WHERE c.customer = %d ", $customer);
 		$sql .= ";";
 		$rows = $wpdb->get_results($sql);
 
 		// 配列整形
 		$ret[0] = '';
 		foreach ($rows as $i => $d) {
-			if (!empty($d->goods)) { $ret[$d->goods] = $d->name; }
+			$ret[$d->customer][0] = '';
+			$ret[$d->customer][$d->goods] = sprintf("%s", $d->name);
 		}
 
 		return $ret;
-
-/*
-		return array(
-			0 => '', 
-			10 => '商品①', 
-			20 => '商品②',
-			30 => '商品③',
-			40 => '商品④',
-			50 => '商品⑤',
-		);
-*/
 	}
 
 	/**
@@ -727,17 +715,6 @@ $customer = 2;
 		}
 
 		return $ret;
-
-/*
-		return array(
-			0 => '', 
-			10 => '配送先①', 
-			20 => '配送先②',
-			30 => '配送先③',
-			40 => '配送先④',
-			50 => '配送先⑤',
-		);
-*/
 	}
 
 	/**
