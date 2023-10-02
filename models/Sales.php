@@ -453,7 +453,7 @@ class Sales {
 		$exec_status = (int) array_search('確定', $this->getPartsStatus());
 		$curr_status = (int) $post->change_status;
 		if ($exec_status !== $curr_status) { return false; }
-$this->vd($post);exit;
+
 		foreach ($post->no as $i => $sales) {
 			// 注文IDがNULLの場合、リピート注文のため、元注文をコピーして新規登録する
 			if (empty($sales)) {
@@ -487,6 +487,11 @@ $this->vd($post);exit;
 			$rets[$sales] = current($wpdb->get_results($sql));
 		}
 
+//$this->vd($post);
+//$this->vd($sqls);
+//$this->vd($rets);
+
+		//ロット登録領域の作成処理
 		foreach ($rets as $sales => $d) {
 			if ($d->count == 0) {
 				// 数量(t)/0.5(t)=レコード数
@@ -510,19 +515,20 @@ $this->vd($post);exit;
 			}
 		}
 
-//$this->vd($results);
 		// ロット登録領域を生成したら、yc_sales.lot_fgを変更する。(0:未作成 → 1:未登録)
-		foreach ($results as $sales => $ret) {
-			$upd_ret[$sales] = $wpdb->update(
-				$this->getTableName(), 
-				array(
-					'id' => $sales,
-					'lot_fg' => array_search('未登録', $this->getPartsLotFg()),
-				), 
-				array('id' => $sales)
-			);
+		if (!empty($results)) {
+			foreach ($results as $sales => $ret) {
+				$upd_ret[$sales] = $wpdb->update(
+					$this->getTableName(), 
+					array(
+						'sales' => $sales,
+						'lot_fg' => array_search('未登録', $this->getPartsLotFg()),
+					), 
+					array('sales' => $sales)
+				);
+			}
 		}
-$this->vd($upd_ret);
+//$this->vd($upd_ret);
 		return true;
 	}
 
@@ -570,7 +576,7 @@ $this->vd($upd_ret);
 
 		foreach ($object_no as $i => $sales) {
 			$data[$sales] = array(
-				'id' => $sales, 
+				'sales' => $sales, 
 				'status' => $change_status
 			);
 		}
@@ -581,7 +587,7 @@ $this->vd($upd_ret);
 			$ret[] = $wpdb->update(
 				$this->getTableName(), 
 				$d, 
-				array('id' => $sales)
+				array('sales' => $sales)
 			);
 		}
 		return true;

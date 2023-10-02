@@ -431,6 +431,10 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 //			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 			echo '<tr>';
 			echo '<td><input type="checkbox" id="no" name="no[]" value="'. $object->sales. '" /></td>';
+			echo '<input type="hidden" id="arr_goods" name="arr_goods['. $object->sales. ']" value="'. $object->goods. '" />';
+			echo '<input type="hidden" id="arr_qty" name="arr_qty['. $object->sales. ']" value="'. $object->qty. '" />';
+//			echo '<input type="hidden" id="arr_repeat" name="arr_repeat[]" value="{{$list->repeat}}" />';
+//			echo '<input type="hidden" id="arr_delivery_dt" name="arr_delivery_dt[]" value="{{$list->delivery_dt}}" />';
 			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->sales. '&action=edit">'. sprintf('%07d', $object->sales). '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->customer_name. '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods_name. '</a></td>';
