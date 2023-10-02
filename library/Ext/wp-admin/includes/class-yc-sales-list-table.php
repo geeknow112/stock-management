@@ -438,7 +438,14 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->sales. '&action=edit">'. sprintf('%07d', $object->sales). '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->customer_name. '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods_name. '</a></td>';
-			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
+//			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
+			echo '<td>';
+			if ($object->status == '0') {
+				echo '[ '. $object->qty. ' ]';
+			} else {
+				echo '<a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save"> [ '. $object->qty. ' ] </a>';
+			}
+			echo '</td>';
 			echo '<td>'. $object->delivery_dt. '</td>';
 			echo '<td>'. $object->arrival_dt. '</td>';
 			if ($object->status == '0') {
