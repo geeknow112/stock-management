@@ -441,7 +441,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 //			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
 			echo '<td>';
 			if ($object->status == '0') {
-				echo '[ '. $object->qty. ' ]';
+				echo ': '. $object->qty. ' :';
 			} else {
 				echo '<a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save"> [ '. $object->qty. ' ] </a>';
 			}
