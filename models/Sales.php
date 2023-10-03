@@ -219,11 +219,11 @@ class Sales {
 	public function getDetailBySalesCode($sales = null) {
 		global $wpdb;
 
-		$sql  = "SELECT s.*, sr.* FROM ". $this->getTableName(). " as s ";
+		$sql  = "SELECT s.*, sr.*, s.sales AS sales FROM ". $this->getTableName(). " as s "; 
+		// →リピート登録がない場合、JOIN後に受注番号(yc_sales.sales)が消えるため、"s.sales AS sales"カラム表示を追加
 		$sql .= "LEFT JOIN yc_schedule_repeat AS sr ON s.sales = sr.sales ";
 		$sql .= sprintf("WHERE s.sales = '%s' ", $sales);
 		$sql .= "LIMIT 1;";
-
 		$rows = $wpdb->get_results($sql);
 
 		$ret = current($rows);
