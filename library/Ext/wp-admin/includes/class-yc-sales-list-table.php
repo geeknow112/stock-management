@@ -166,12 +166,47 @@ if (!empty($req->s['goods_name'])) {
 		$sql_r = sprintf("select * from yc_sales as s LEFT JOIN yc_schedule_repeat AS sr ON s.sales = sr.sales WHERE s.repeat_fg = 1;");
 		//print_r($sql_r);
 		$repeat_items = $wpdb->get_results( $sql_r );
-		$r = $repeat_items[0];
-		$r->base_sales = $r->sales;
-		$r->sales = null;
+//		$r = $repeat_items[0];
+		foreach ($repeat_items as $i => $r) {
+			if (!isset($r->sales)) { continue; }
+
+			// copy•s—v•”•ª‚ğ‰Šú‰»
+			$r->base_sales = $r->sales;
+			$r->sales = null;
+			$r->lot_fg = $r->status = 0;
+			$r->rgdt = $r->updt = $r->upuser = null;
+
+			switch ($r->period) { 
+				default: 
+				case 0: // –ˆ“ú
+					$period = '+1 day';
+					break;
+
+				case 1: // –ˆT
+					$period = '+1 week';
+					break;
+
+				case 2: // –ˆŒ
+					$period = '+1 month';
+					break;
+
+				case 3: // –ˆ”N
+					$period = '+1 year';
+					break;
+			}
+			$delivery_dt = new DateTime($r->delivery_dt);
+			$delivery_dt->modify($period);
+			$r->delivery_dt = $delivery_dt->format('Y-m-d');
+
+			$arrival_dt = new DateTime($r->arrival_dt);
+			$arrival_dt->modify($period);
+			$r->arrival_dt = $arrival_dt->format('Y-m-d');
+
+			$ret_repeat_items[] = $r;
+		}
 
 echo '<pre>';
-//print_r($repeat_items[0]);
+//print_r($ret_repeat_items);
 //print_r(count($repeat_items));
 echo '</pre>';
 $count_repeat_item = 3; // TEST
@@ -184,7 +219,12 @@ $sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM y
 //print_r($sql);
 $this->items = $wpdb->get_results( $sql );
 
-array_push($this->items, $repeat_items[0]);
+// repeat•ª‚ğ’Ç‰Á
+foreach ($ret_repeat_items as $i => $d) {
+	array_push($this->items, $d);
+}
+
+
 echo '<pre>';
 //print_r($this->items);
 echo '</pre>';
