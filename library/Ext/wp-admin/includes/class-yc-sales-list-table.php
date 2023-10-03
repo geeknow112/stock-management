@@ -154,11 +154,40 @@ if (!empty($req->s['goods_name'])) {
 	$where .= "AND g.name LIKE '%". $str. "%'";
 }
 
+
+		// TEST repeat
+		/**
+		 *  1. 検索条件をもとに、salesを抽出する。
+		 *  2. 同条件でJOINして、repeatを抽出する。
+		 *  3. mergeする。
+		 *  4. pagerのために、mergeした配列を調整する。
+		 **/
+
+		$sql_r = sprintf("select * from yc_sales as s LEFT JOIN yc_schedule_repeat AS sr ON s.sales = sr.sales WHERE s.repeat_fg = 1;");
+		//print_r($sql_r);
+		$repeat_items = $wpdb->get_results( $sql_r );
+		$r = $repeat_items[0];
+		$r->base_sales = $r->sales;
+		$r->sales = null;
+
+echo '<pre>';
+//print_r($repeat_items[0]);
+//print_r(count($repeat_items));
+echo '</pre>';
+$count_repeat_item = 3; // TEST
+//$count_repeat_item = count($repeat_items);
+$users_per_page = $users_per_page - $count_repeat_item; //repeat対象注文カウント数分減ずる
+
+
 $limit = ($paged -1) * $users_per_page;
 $sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM yc_sales AS s LEFT JOIN yc_goods AS g ON s.goods = g.goods LEFT JOIN yc_customer AS c ON s.customer = c.customer %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
 //print_r($sql);
 $this->items = $wpdb->get_results( $sql );
 
+array_push($this->items, $repeat_items[0]);
+echo '<pre>';
+//print_r($this->items);
+echo '</pre>';
 $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" ));
 
 		$this->set_pagination_args(
@@ -429,7 +458,15 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 
 		foreach ( $this->items as $id => $object ) {
 //			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
-			echo '<tr>';
+			if ($object->repeat_fg == 1) {
+				if (!$object->base_sales) {
+					echo '<tr style="background: plum;">';
+				} else {
+					echo '<tr style="background: pink;">';
+				}
+			} else {
+				echo '<tr>';
+			}
 			echo '<td><input type="checkbox" id="no" name="no[]" value="'. $object->sales. '" /></td>';
 			echo '<input type="hidden" id="arr_goods" name="arr_goods['. $object->sales. ']" value="'. $object->goods. '" />';
 			echo '<input type="hidden" id="arr_qty" name="arr_qty['. $object->sales. ']" value="'. $object->qty. '" />';
