@@ -79,16 +79,13 @@ class Sales {
 	 **/
 	public function getList($get = null, $un_convert = null) {
 		$get = (object) $get;
-// $this->vd($get);
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		// your_name, your_emailで検索してIDを取得するSQL
-		//$rows = $wpdb->get_results("SELECT post_id, meta_key, meta_value FROM ".$wpdb->prefix."postmeta WHERE meta_key = '_field_your-email'");
-		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.day_of_week, sc.st_dt, sc.ed_dt, g.name as goods_name ";
-		$sql .= "FROM yc_sales as s ";
-		$sql .= "LEFT JOIN yc_schedule_repeat as sc ON s.sales = sc.sales ";
-		$sql .= "LEFT JOIN yc_goods as g ON s.goods = g.goods ";
+		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name ";
+		$sql .= "FROM yc_sales AS s ";
+		$sql .= "LEFT JOIN yc_schedule_repeat AS sc ON s.sales = sc.sales ";
+		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
 		$sql .= "WHERE s.sales is not null ";
 
 		if (current($cur_user->roles) != 'administrator') {
@@ -97,7 +94,7 @@ class Sales {
 
 		if (empty($get->action)) {
 //			$sql .= "ORDER BY ap.rgdt desc";
-//			$sql .= ";";
+			$sql .= ";";
 
 		} else {
 			if ($get->action == 'search') {
@@ -117,10 +114,12 @@ class Sales {
 //				$sql .= "AND ap.applicant = '". $prm->post. "';";
 			}
 		}
-//$this->vd($sql);
+
 		$rows = $wpdb->get_results($sql);
 
 		$days10 = array(
+			'2023-09-23', '2023-09-24', '2023-09-25', '2023-09-26', '2023-09-21', '2023-09-22',
+			'2023-09-17', '2023-09-18', '2023-09-19', '2023-09-20', '2023-09-21', '2023-09-22',
 			'2023-07-17', '2023-07-18', '2023-07-19', '2023-07-20', '2023-07-21', '2023-07-22',
 			'2022-12-20', '2022-12-21', '2022-12-22', '2022-12-23', '2022-12-24', '2022-12-25'
 		);
@@ -152,7 +151,6 @@ class Sales {
 
 		// sales-listの処理
 		if ($un_convert == true) {
-//$this->vd($rows);
 			// 配送予定日でソート
 			$dts = [];
 			foreach ($rows as $row) {
