@@ -206,24 +206,48 @@ if (!empty($req->s['goods_name'])) {
 		}
 
 echo '<pre>';
-//print_r($ret_repeat_items);
-//print_r(count($repeat_items));
+//	print_r($ret_repeat_items);
+//	print_r(count($ret_repeat_items));
 echo '</pre>';
-$count_repeat_item = 3; // TEST
-//$count_repeat_item = count($repeat_items);
+$count_repeat_item = count($ret_repeat_items);
 $users_per_page = $users_per_page - $count_repeat_item; //repeat対象注文カウント数分減ずる
 
 
+/**
+ * 受注情報をLIMITで取得して、後でpager用にrepert分を追加する方法
+ **/
 $limit = ($paged -1) * $users_per_page;
 $sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM yc_sales AS s LEFT JOIN yc_goods AS g ON s.goods = g.goods LEFT JOIN yc_customer AS c ON s.customer = c.customer %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
 //print_r($sql);
 $this->items = $wpdb->get_results( $sql );
+
+
+/**
+ * 受注情報を全取得して、repeat分をpushして、delivery_dtでsortした上で、phpでpager用limitを設定する方法
+ **/
+/*
+$limit = ($paged -1) * $users_per_page;
+$sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM yc_sales AS s LEFT JOIN yc_goods AS g ON s.goods = g.goods LEFT JOIN yc_customer AS c ON s.customer = c.customer %s", $where);
+$this->items = $wpdb->get_results( $sql );
+*/
 
 // repeat分を追加
 foreach ($ret_repeat_items as $i => $d) {
 	array_push($this->items, $d);
 }
 
+/*
+foreach ($this->items as $i => $d) {
+	$sort[$i] = (array) $d;
+}
+*/
+
+/*
+echo '<pre>';
+//	print_r(array_column($sort, 'sales'));
+//	print_r(array_multisort(array_column($sort, 'sales'), SORT_ASC, $sort));
+echo '</pre>';
+*/
 
 echo '<pre>';
 //print_r($this->items);
