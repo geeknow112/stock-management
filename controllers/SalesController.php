@@ -288,7 +288,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				$rows = $this->getTb()->getList($get);
 				$formPage = 'delivery-graph';
 $t = (array) current(current(current($rows['2023-07-17'])));
-$this->vd($t);
+//$this->vd($t);
 $r = array(
 	array(
 		'id' => '1',
