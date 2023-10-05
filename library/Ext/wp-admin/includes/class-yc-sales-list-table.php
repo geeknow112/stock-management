@@ -143,17 +143,17 @@ class YC_Sales_List_Table extends WP_List_Table {
 //		$this->items = $wp_user_search->get_results();
 global $wpdb;
 $req = (object) $_REQUEST;
-//print_r($req->s['no']);
 
+//$this->vd($req);
 $where = sprintf("WHERE s.sales is not null ");
-if (!empty($req->s['no'])) {
-	$where .= sprintf("AND s.sales = '%s'", $req->s['no']);
-}
-if (!empty($req->s['goods_name'])) {
-	$str = $req->s['goods_name'];
-	$where .= "AND g.name LIKE '%". $str. "%'";
-}
-
+if (!empty($req->s['no'])) { $where .= sprintf("AND s.sales = '%s'", $req->s['no']); }
+if (!empty($req->s['goods_name'])) { $where .= "AND g.name LIKE '%". $req->s['goods_name']. "%'"; }
+//if (!empty($req->s['lot'])) { $where .= sprintf("AND gd.lot = '%s'", $req->s['lot']); }
+if (!empty($req->s['order_s_dt'])) { $where .= sprintf("AND s.rgdt >= '%s 00:00:00' ", $req->s['order_s_dt']); }
+if (!empty($req->s['order_e_dt'])) { $where .= sprintf("AND s.rgdt <= '%s 23:59:59' ", $req->s['order_e_dt']); }
+if (!empty($req->s['arrival_s_dt'])) { $where .= sprintf("AND s.arrival_dt >= '%s 00:00:00' ", $req->s['arrival_s_dt']); }
+if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND s.arrival_dt <= '%s 23:59:59' ", $req->s['arrival_e_dt']); }
+//$this->vd($where);
 
 		// TEST repeat
 		/**
@@ -182,7 +182,10 @@ $users_per_page = $users_per_page - $count_repeat_item; //repeat対象注文カウント
  * 受注情報をLIMITで取得して、後でpager用にrepert分を追加する方法
  **/
 $limit = ($paged -1) * $users_per_page;
-$sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM yc_sales AS s LEFT JOIN yc_goods AS g ON s.goods = g.goods LEFT JOIN yc_customer AS c ON s.customer = c.customer %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
+$sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM yc_sales AS s ");
+$sql .= sprintf("LEFT JOIN yc_goods AS g ON s.goods = g.goods ");
+$sql .= sprintf("LEFT JOIN yc_customer AS c ON s.customer = c.customer ");
+$sql .= sprintf("%s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
 //print_r($sql);
 $this->items = $wpdb->get_results( $sql );
 
