@@ -167,48 +167,13 @@ if (!empty($req->s['goods_name'])) {
 		//print_r($sql_r);
 		$repeat_items = $wpdb->get_results( $sql_r );
 //		$r = $repeat_items[0];
-		foreach ($repeat_items as $i => $r) {
-			if (!isset($r->sales)) { continue; }
 
-			// copy不要部分を初期化
-			$r->base_sales = $r->sales;
-			$r->sales = null;
-			$r->lot_fg = $r->status = 0;
-			$r->rgdt = $r->updt = $r->upuser = null;
+		// repeat itemsの生成
+		$ret_repeat_items = $this->makeRepeatItems($repeat_items);
 
-			switch ($r->period) { 
-				default: 
-				case 0: // 毎日
-					$period = '+1 day';
-					break;
+//$this->vd($ret_repeat_items);
+//$this->vd(count($ret_repeat_items));
 
-				case 1: // 毎週
-					$period = '+1 week';
-					break;
-
-				case 2: // 毎月
-					$period = '+1 month';
-					break;
-
-				case 3: // 毎年
-					$period = '+1 year';
-					break;
-			}
-			$delivery_dt = new DateTime($r->delivery_dt);
-			$delivery_dt->modify($period);
-			$r->delivery_dt = $delivery_dt->format('Y-m-d');
-
-			$arrival_dt = new DateTime($r->arrival_dt);
-			$arrival_dt->modify($period);
-			$r->arrival_dt = $arrival_dt->format('Y-m-d');
-
-			$ret_repeat_items[] = $r;
-		}
-
-echo '<pre>';
-//	print_r($ret_repeat_items);
-//	print_r(count($ret_repeat_items));
-echo '</pre>';
 $count_repeat_item = count($ret_repeat_items);
 $users_per_page = $users_per_page - $count_repeat_item; //repeat対象注文カウント数分減ずる
 
@@ -261,6 +226,69 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 				'per_page'    => $users_per_page,
 			)
 		);
+	}
+
+	/**
+	 * Make Repeat Items.
+	 *
+	 *
+	 */
+	public function makeRepeatItems($repeat_items = null) {
+		foreach ($repeat_items as $i => $r) {
+			if (!isset($r->sales)) { continue; }
+
+			// copy不要部分を初期化
+			$r->base_sales = $r->sales;
+			$r->sales = null;
+			$r->lot_fg = $r->status = 0;
+			$r->rgdt = $r->updt = $r->upuser = null;
+
+			switch ($r->period) { 
+				default: 
+				case 0: // 毎日
+					$period = '+1 day';
+					break;
+
+				case 1: // 毎週
+					$period = '+1 week';
+					break;
+
+				case 2: // 毎月
+					$period = '+1 month';
+					break;
+
+				case 3: // 毎年
+					$period = '+1 year';
+					break;
+			}
+			$delivery_dt = new DateTime($r->delivery_dt);
+			$delivery_dt->modify($period);
+			$r->delivery_dt = $delivery_dt->format('Y-m-d');
+
+			$arrival_dt = new DateTime($r->arrival_dt);
+			$arrival_dt->modify($period);
+			$r->arrival_dt = $arrival_dt->format('Y-m-d');
+
+			$ret_repeat_items[] = $r;
+		}
+		return $ret_repeat_items;
+	}
+
+	/**
+	 *
+	 **/
+	function vd($d) {
+//return false;
+		global $wpdb;
+		$cur_user = wp_get_current_user();
+		if (current($cur_user->roles) == 'administrator') {
+			echo '<div class="border border-success mb-3">';
+			echo '<pre>';
+//			var_dump($d);
+			print_r($d);
+			echo '</pre>';
+			echo '</div>';
+		}
 	}
 
 	/**
