@@ -26,9 +26,21 @@ $g = $_GET;
 
 				<label for="lot" class="col-sm-2 col-form-label">ロット番号：</label>
 					<input type="search" id="lot" name="s[lot]" value="<?php echo htmlspecialchars($g['s']['lot']); ?>" disabled><br /><br />
-
+<?php 
+//print_r($g['s']['status']); 
+//print_r($initForm['select']['status']); 
+?>
 				<label for="carModel" class="col-sm-2 col-form-label">状態：</label>
-					<input type="search" id="user-search-input" name="s[status]" value="<?php echo htmlspecialchars($g['s']['status']); ?>" disabled><br /><br />
+					<select type="search" id="user-search-input" name="s[status]" class="col-form-select" aria-label="status" id="status" disabled>
+						@foreach($initForm['select']['status'] as $i => $d)
+							@if (isset($g['s']['status']))
+								<option value="{{$i}}" selected>{{$d}}</option>
+							@else
+								<option value="{{$i}}">{{$d}}</option>
+							@endif
+						@endforeach
+					</select>
+					<br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">出庫倉庫：</label>
 					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($g['s']['outgoing_warehouse']); ?>" disabled><br /><br />
