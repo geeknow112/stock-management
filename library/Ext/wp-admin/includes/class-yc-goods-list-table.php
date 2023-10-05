@@ -143,20 +143,24 @@ class YC_Goods_List_Table extends WP_List_Table {
 //		$this->items = $wp_user_search->get_results();
 global $wpdb;
 $req = (object) $_REQUEST;
-print_r($req->s['no']);
 
-$where = sprintf("WHERE goods is not null ");
-if (!empty($req->s['no'])) {
-	$where .= sprintf("AND goods = '%s'", $req->s['no']);
-}
-if (!empty($req->s['goods_name'])) {
-	$str = $req->s['goods_name'];
-	$where .= "AND name LIKE '%". $str. "%'";
-}
+//print_r($req);
+$where = sprintf("WHERE g.goods is not null ");
+if (!empty($req->s['no'])) { $where .= sprintf("AND g.goods = '%s'", $req->s['no']); }
+if (!empty($req->s['goods_name'])) { $where .= "AND g.name LIKE '%". $req->s['goods_name']. "%'"; }
+if (!empty($req->s['lot'])) { $where .= sprintf("AND gd.lot = '%s'", $req->s['lot']); }
+//print_r($where);
+
 
 $limit = ($paged -1) * $users_per_page;
-$sql = sprintf("SELECT * FROM yc_goods %s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
+$sql = sprintf("SELECT g.*, gd.*, g.goods AS goods FROM yc_goods AS g ");
+$sql .= sprintf("LEFT JOIN yc_goods_detail AS gd ON g.goods = gd.goods ");
+$sql .= sprintf("%s ", $where);
+$sql .= sprintf("GROUP BY g.goods ");
+$sql .= sprintf("ORDER BY g.goods ASC ");
+$sql .= sprintf("LIMIT %d, %d", (int) $limit, (int) $users_per_page);
 //print_r($sql);
+
 $this->items = $wpdb->get_results( $sql );
 
 $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_goods;" ));
