@@ -551,6 +551,9 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 		}
 */
 
+$s = new Sales();
+$initForm = $s->getInitForm();
+
 		foreach ( $this->items as $id => $object ) {
 //			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 			if ($object->repeat_fg == 1) {
@@ -564,7 +567,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 			}
 			echo '<td><input type="checkbox" id="no" name="no[]" value="'. $object->sales. '" /></td>';
 			echo '<input type="hidden" id="arr_goods" name="arr_goods['. $object->sales. ']" value="'. $object->goods. '" />';
-			echo '<input type="hidden" id="arr_qty" name="arr_qty['. $object->sales. ']" value="'. $object->qty. '" />';
+			echo '<input type="hidden" id="arr_qty" name="arr_qty['. $object->sales. ']" value="'. $initForm["select"]["qty"][$object->qty]. '" />';
 //			echo '<input type="hidden" id="arr_repeat" name="arr_repeat[]" value="{{$list->repeat}}" />';
 //			echo '<input type="hidden" id="arr_delivery_dt" name="arr_delivery_dt[]" value="{{$list->delivery_dt}}" />';
 			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->sales. '&action=edit">'. sprintf('%07d', $object->sales). '</a></td>';
@@ -573,9 +576,9 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 //			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
 			echo '<td>';
 			if ($object->status == '0') {
-				echo ': '. $object->qty. ' :';
+				echo ': '. $initForm["select"]["qty"][$object->qty]. ' :';
 			} else {
-				echo '<a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save"> [ '. $object->qty. ' ] </a>';
+				echo '<a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save"> [ '. $initForm["select"]["qty"][$object->qty]. ' ] </a>';
 			}
 			echo '</td>';
 			echo '<td>'. $object->delivery_dt. '</td>';
