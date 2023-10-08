@@ -493,7 +493,7 @@ class Sales {
 		foreach ($rets as $sales => $d) {
 			if ($d->count == 0) {
 				// 数量(t)/0.5(t)=レコード数
-				$loop = (int) $post->arr_qty[$sales] / 0.5;
+				$loop = (float) $post->arr_qty[$sales] / 0.5;
 				for ($j=0; $j<$loop; $j++) {
 					$results[$sales][] = $wpdb->insert(
 						'yc_goods_detail', 
