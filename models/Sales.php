@@ -82,10 +82,11 @@ class Sales {
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name ";
+		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, gd.* ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_schedule_repeat AS sc ON s.sales = sc.sales ";
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
+		$sql .= "LEFT JOIN yc_goods_detail AS gd ON g.goods = gd.goods ";
 		$sql .= "WHERE s.sales is not null ";
 
 		if (current($cur_user->roles) != 'administrator') {
@@ -116,15 +117,7 @@ class Sales {
 		}
 
 		$rows = $wpdb->get_results($sql);
-
-		$days10 = array(
-			'2023-09-23', '2023-09-24', '2023-09-25', '2023-09-26', '2023-09-21', '2023-09-22',
-			'2023-09-17', '2023-09-18', '2023-09-19', '2023-09-20', '2023-09-21', '2023-09-22',
-			'2023-07-17', '2023-07-18', '2023-07-19', '2023-07-20', '2023-07-21', '2023-07-22',
-			'2022-12-20', '2022-12-21', '2022-12-22', '2022-12-23', '2022-12-24', '2022-12-25'
-		);
-
-
+/*
 		// リピート注文除外リスト:TEST ※コピー元のsales, repeat, rep_iで2, 5を除外
 		$e_list = array(2, 5);
 
@@ -148,7 +141,7 @@ class Sales {
 				}
 			}
 		}
-
+*/
 		// sales-listの処理
 		if ($un_convert == true) {
 			// 配送予定日でソート
@@ -161,23 +154,32 @@ class Sales {
 
 		} else {
 		// delivery-graphの処理
-			// convert
+			$days10 = array(
+				'2023-07-17', '2023-07-18', '2023-07-19', '2023-07-20', '2023-07-21', '2023-07-22',
+				'2022-12-20', '2022-12-21', '2022-12-22', '2022-12-23', '2022-12-24', '2022-12-25'
+			);
+//$this->vd($rows);exit;
+			// convert: 配送番号順にソート
 			foreach ($rows as $i => $row) {
-				$tmp[$row->delivery_dt][$row->sales] = $row;
+				$tmp[$row->delivery_dt][$row->sales][$row->id] = $row;
 			}
-
+//$this->vd($tmp);exit;
+			// 指定日付の注文を抽出
 			foreach ($days10 as $i => $day) {
+/*
 				$t = $tmp;
 				$t->delivery_dt = $day;
 				// repeat分
 				$result[$day][] = $t;
+*/
 				// 個別分
 				if (!empty($tmp[$day])) {
-					foreach ($tmp[$day] as $i => $list) {
-						$result[$day][] = $list;
+					foreach ($tmp[$day] as $sales => $list) {
+						$result[$day][$sales] = $list;
 					}
 				}
 			}
+//$this->vd($result);exit;
 			return $result;
 		}
 	}
