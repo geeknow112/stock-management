@@ -233,8 +233,8 @@ $g = $_GET;
 						<th class="fixed01" scope="col" id="username">日</th>
 						@for ($i = 0; $i <= 10; $i++)
 						<th class="" style="width: 7rem;">品名</th>
-						<th class="" style="width: 7rem;">配送先</th>
 						<th class="" style="width: 3rem;">量(t)</th>
+						<th class="" style="width: 7rem;">配送先</th>
 						<th class="" style="width: 5rem;">入庫予定日</th>
 						<th class="" style="width: 5rem;">氏名</th>
 						<th class="" style="width: 5rem;">確認</th>
@@ -337,53 +337,56 @@ $g = $_GET;
 <?php	function innerTable($list, $class) {	?>
 		<div style="width: 40rem;">
 <!--	<div class="card" style="width: 40rem;">-->
-		<?php foreach ($list as $i => $row) { ?>
-			<?php if ($row->class == $class) { ?>
-				<div class="d-flex flex-row bd-highlight mb-3">
-<!--					<div class="text-wrap text-center inner_box" style="width: 8rem;"><?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></div>-->
-					@if ($row->repeat_fg != 1)
-					<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->id}}&action=edit'>{{$row->goods_name}}</a></div>
-					@else
-					<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;">{{$row->goods_name}}</div>
-					@endif
-					<div class="text-wrap text-center inner_box" style="width: 9rem;"><?php echo $row->ship_addr; ?></div>
-					<div class="text-wrap text-center inner_box" style="width: 3.5rem;"><?php echo $row->qty; ?></div>
-					<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo $row->arrival_dt; ?></div>
-					<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo $row->name; ?></div>
-					@if ($row->lot_fg == 0)
-					<a href="" class="btn btn-secondary text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未作成</a>
-					@elseif ($row->lot_fg == 1)
-					<a href="" class="btn btn-warning text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未登録</a>
-					@else
-					<a href="" class="btn btn-success text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=edit'; return false;">登録済</a>
-					@endif
-				</div>
-<!--
-				<div class="card-body border mb-1">
-					<h5 class="card-title">品名：<?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></h5>
-					<p class="card-text">配送先：<?php echo $row->ship_addr; ?></p>
-					<a href="" class="btn btn-primary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
-				</div>
--->
-<!--
-				<div class="card mb-3" style="max-width: 540px;">
-					<div class="row no-gutters">
-						<div class="col-md-4">
-							<svg class="bd-placeholder-img" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image"><title>Placeholder</title><rect fill="#868e96" width="100%" height="100%"/><text fill="#dee2e6" dy=".3em" x="50%" y="50%">Image</text></svg>
-						</div>
-						<div class="col-md-8">
-							<div class="card-body">
-								<h5 class="card-title">品名：<?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></h5>
-								<p class="card-text">配送先：<?php echo $row->ship_addr; ?></p>
-								<p class="card-text">量(t)：<?php echo $row->qty; ?></p>
-								<p class="card-text">入庫予定日：<?php echo $row->arrival_dt; ?></p>
-								<p class="card-text">氏名：<?php echo $row->name; ?></p>
-								<a href="" class="btn btn-primary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
+		<?php foreach ($list as $sales => $d) { ?>
+			<?php foreach ($d as $id => $row) { ?>
+				<?php if ($row->class == $class) { ?>
+					<div class="d-flex flex-row bd-highlight mb-3">
+	<!--					<div class="text-wrap text-center inner_box" style="width: 8rem;"><?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></div>-->
+						@if ($row->repeat_fg != 1)
+						<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->id}}&action=edit'>{{$row->goods_name}}</a></div>
+						@else
+						<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;">{{$row->goods_name}}</div>
+						@endif
+						<div class="text-wrap text-center inner_box" style="width: 3.5rem;"><?php echo $row->qty; ?></div>
+<!--						<div class="text-wrap text-center inner_box" style="width: 9rem;"><?php echo $row->ship_addr; ?></div>	-->
+						<div class="text-wrap text-center inner_box" style="width: 9rem;"><?php echo sprintf('(%s, %s)', $row->ship_addr, $row->tank); ?></div>
+						<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo $row->arrival_dt; ?></div>
+						<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo $row->name; ?></div>
+						@if ($row->lot_fg == 0)
+						<a href="" class="btn btn-secondary text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未作成</a>
+						@elseif ($row->lot_fg == 1)
+						<a href="" class="btn btn-warning text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未登録</a>
+						@else
+						<a href="" class="btn btn-success text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=edit'; return false;">登録済</a>
+						@endif
+					</div>
+	<!--
+					<div class="card-body border mb-1">
+						<h5 class="card-title">品名：<?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></h5>
+						<p class="card-text">配送先：<?php echo $row->ship_addr; ?></p>
+						<a href="" class="btn btn-primary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
+					</div>
+	-->
+	<!--
+					<div class="card mb-3" style="max-width: 540px;">
+						<div class="row no-gutters">
+							<div class="col-md-4">
+								<svg class="bd-placeholder-img" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image"><title>Placeholder</title><rect fill="#868e96" width="100%" height="100%"/><text fill="#dee2e6" dy=".3em" x="50%" y="50%">Image</text></svg>
+							</div>
+							<div class="col-md-8">
+								<div class="card-body">
+									<h5 class="card-title">品名：<?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></h5>
+									<p class="card-text">配送先：<?php echo $row->ship_addr; ?></p>
+									<p class="card-text">量(t)：<?php echo $row->qty; ?></p>
+									<p class="card-text">入庫予定日：<?php echo $row->arrival_dt; ?></p>
+									<p class="card-text">氏名：<?php echo $row->name; ?></p>
+									<a href="" class="btn btn-primary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
+								</div>
 							</div>
 						</div>
 					</div>
-				</div>
--->
+	-->
+				<?php }	?>
 			<?php }	?>
 		<?php }	?>
 	</div>
