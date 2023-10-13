@@ -82,11 +82,12 @@ class Sales {
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, gd.* ";
+		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name ";
+//		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, gd.* ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_schedule_repeat AS sc ON s.sales = sc.sales ";
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
-		$sql .= "LEFT JOIN yc_goods_detail AS gd ON g.goods = gd.goods ";
+//		$sql .= "LEFT JOIN yc_goods_detail AS gd ON g.goods = gd.goods ";
 		$sql .= "WHERE s.sales is not null ";
 
 		if (current($cur_user->roles) != 'administrator') {
@@ -175,10 +176,7 @@ class Sales {
 				// 個別分
 				if (!empty($tmp[$day])) {
 					foreach ($tmp[$day] as $sales => $list) {
-						foreach ($list as $id => $d) {
-							$result[$day][$sales][$id] = $d;
-							$result[$day][$sales]['output_tank'][$d->tank] = $d->tank;
-						}
+						$result[$day][$sales] = $list;
 					}
 				}
 			}
@@ -595,6 +593,42 @@ class Sales {
 		}
 
 //$this->vd($data);exit;
+
+		foreach ($data as $sales => $d) {
+			$ret[] = $wpdb->update(
+				$this->getTableName(), 
+				$d, 
+				array('sales' => $sales)
+			);
+		}
+		return true;
+	}
+
+	/**
+	 * Tankを基準にTBを表示用に集計
+	 * 
+	 * $rows : getList()で取得した表示分の注文
+	 **/
+	public function sumTanks($rows = null) {
+		global $wpdb;
+//$this->vd($rows);exit;
+
+//TODO:20231013
+		$sql = 'SELECT * FROM yc_goods_detail AS gd WHERE gd.id is not null ';
+		foreach ($rows as $day => $list) {
+			foreach ($list as $sales => $d) {
+				$sql .= sprintf('(gd.sales = "%s" AND gd.goods = "%s") OR ', $sales, current($d)->goods);
+/*
+				$data[$sales] = array(
+					'sales' => $sales, 
+					'goods' => current($d)->goods
+				);
+*/
+			}
+		}
+$this->vd($sql);exit;
+		$rows = $wpdb->get_results($sql);
+$this->vd($data);exit;
 
 		foreach ($data as $sales => $d) {
 			$ret[] = $wpdb->update(
