@@ -565,9 +565,12 @@ $initForm = $s->getInitForm();
 			} else {
 				echo '<tr>';
 			}
+
+			$qty = sprintf('%.1f', $object->qty);
+
 			echo '<td><input type="checkbox" id="no" name="no[]" value="'. $object->sales. '" /></td>';
 			echo '<input type="hidden" id="arr_goods" name="arr_goods['. $object->sales. ']" value="'. $object->goods. '" />';
-			echo '<input type="hidden" id="arr_qty" name="arr_qty['. $object->sales. ']" value="'. $initForm["select"]["qty"][$object->qty]. '" />';
+			echo '<input type="hidden" id="arr_qty" name="arr_qty['. $object->sales. ']" value="'. $qty. '" />';
 //			echo '<input type="hidden" id="arr_repeat" name="arr_repeat[]" value="{{$list->repeat}}" />';
 //			echo '<input type="hidden" id="arr_delivery_dt" name="arr_delivery_dt[]" value="{{$list->delivery_dt}}" />';
 			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->sales. '&action=edit">'. sprintf('%07d', $object->sales). '</a></td>';
@@ -576,9 +579,9 @@ $initForm = $s->getInitForm();
 //			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
 			echo '<td>';
 			if ($object->status == '0') {
-				echo ': '. $initForm["select"]["qty"][$object->qty]. ' :';
+				echo ': '. $qty. ' :';
 			} else {
-				echo '<a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save"> [ '. $initForm["select"]["qty"][$object->qty]. ' ] </a>';
+				echo '<a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save"> [ '. $qty. ' ] </a>';
 			}
 			echo '</td>';
 			echo '<td>'. $object->delivery_dt. '</td>';
