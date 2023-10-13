@@ -286,8 +286,9 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 			default:
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList($get);
+//				$sumTanks = $this->getTb()->sumTanks($rows);
 				$formPage = 'delivery-graph';
-$this->vd($rows['2023-07-17']);
+//$this->vd($rows['2023-07-17']);
 /*
 $t = (array) current(current(current($rows['2023-07-17'])));
 //$this->vd($t);
