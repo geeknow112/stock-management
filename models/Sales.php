@@ -175,7 +175,10 @@ class Sales {
 				// 個別分
 				if (!empty($tmp[$day])) {
 					foreach ($tmp[$day] as $sales => $list) {
-						$result[$day][$sales] = $list;
+						foreach ($list as $id => $d) {
+							$result[$day][$sales][$id] = $d;
+							$result[$day][$sales]['output_tank'][$d->tank] = $d->tank;
+						}
 					}
 				}
 			}
@@ -293,7 +296,12 @@ class Sales {
 		$exist_columns = $wpdb->get_col("DESC ". $this->getTableName(). ";", 0);
 		foreach ($exist_columns as $i => $col) {
 			if(!is_null($post->$col)) {
-				$data[$col] = $post->$col;
+				if ($col !== 'qty') {
+					$data[$col] = $post->$col;
+				} else {
+					$select->qty = $this->getPartsQty();
+					$data[$col] = $select->qty[$post->$col];
+				}
 			}
 		}
 
@@ -363,7 +371,12 @@ class Sales {
 		$exist_columns = $wpdb->get_col("DESC ". $this->getTableName(). ";", 0);
 		foreach ($exist_columns as $i => $col) {
 			if(!is_null($post->$col)) {
-				$data[$col] = $post->$col;
+				if ($col !== 'qty') {
+					$data[$col] = $post->$col;
+				} else {
+					$select->qty = $this->getPartsQty();
+					$data[$col] = $select->qty[$post->$col];
+				}
 			}
 		}
 
@@ -729,10 +742,10 @@ class Sales {
 	private function getPartsQty() {
 		return array(
 			0 => '', 
-			1 => '0.5', 
-			2 => '1.0', 
-			3 => '1.5', 
-			4 => '2.0',
+			'0.5' => '0.5', 
+			'1.0' => '1.0', 
+			'1.5' => '1.5', 
+			'2.0' => '2.0',
 		);
 	}
 
