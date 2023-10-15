@@ -614,30 +614,29 @@ class Sales {
 //$this->vd($rows);exit;
 
 //TODO:20231013
+$sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail group by sales,goods,tank;'; // 0.5t/TB
+/*
 		$sql = 'SELECT * FROM yc_goods_detail AS gd WHERE gd.id is not null ';
 		foreach ($rows as $day => $list) {
 			foreach ($list as $sales => $d) {
 				$sql .= sprintf('(gd.sales = "%s" AND gd.goods = "%s") OR ', $sales, current($d)->goods);
-/*
+
 				$data[$sales] = array(
 					'sales' => $sales, 
 					'goods' => current($d)->goods
 				);
-*/
+
 			}
 		}
-$this->vd($sql);exit;
-		$rows = $wpdb->get_results($sql);
-$this->vd($data);exit;
-
-		foreach ($data as $sales => $d) {
-			$ret[] = $wpdb->update(
-				$this->getTableName(), 
-				$d, 
-				array('sales' => $sales)
-			);
+*/
+//$this->vd($sql);exit;
+		$ret = $wpdb->get_results($sql);
+//$this->vd($ret);exit;
+		foreach ($ret as $i => $d) {
+			$tanks[$d->sales][$d->goods][] = array($d->tank, $d->tb_qty);
 		}
-		return true;
+//$this->vd($tanks);exit;
+		return $tanks;
 	}
 
 	/**
