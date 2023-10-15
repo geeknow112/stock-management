@@ -334,22 +334,33 @@ $g = $_GET;
 	}
 </style>
 
-<?php	function innerTable($list, $class) {	?>
+<?php	function innerTable($list, $class, $sumTanks = null, $carsTank = null) {	?>
 		<div style="width: 40rem;">
 <!--	<div class="card" style="width: 40rem;">-->
 		<?php foreach ($list as $sales => $d) { ?>
 			<?php foreach ($d as $id => $row) { ?>
-				<?php if ($row->class == $class) { ?>
+				<?php if ($row->class == $class && $row->cars_tank == $carsTank) { ?>
 					<div class="d-flex flex-row bd-highlight mb-3">
 	<!--					<div class="text-wrap text-center inner_box" style="width: 8rem;"><?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></div>-->
 						@if ($row->repeat_fg != 1)
-						<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->id}}&action=edit'>{{$row->goods_name}}</a></div>
+						<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&action=edit'>{{$row->goods_name}}</a></div>
 						@else
 						<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;">{{$row->goods_name}}</div>
 						@endif
 						<div class="text-wrap text-center inner_box" style="width: 3.5rem;"><?php echo $row->qty; ?></div>
 <!--						<div class="text-wrap text-center inner_box" style="width: 9rem;"><?php echo $row->ship_addr; ?></div>	-->
-						<div class="text-wrap text-center inner_box" style="width: 9rem;"><?php echo sprintf('(%s, %s)', $row->ship_addr, $row->tank); ?></div>
+						<div class="text-wrap text-center inner_box" style="width: 9rem;">
+						<?php
+//							echo sprintf('[ ');
+//							echo sprintf('(%s', $row->ship_addr);
+							foreach ($sumTanks[$row->sales][$row->goods] as $i => $d) {
+								if (!empty(current($d))) {
+									echo sprintf(' %s (t) <br>', implode(' : ', $d));
+								}
+							}
+//							echo sprintf(' ]');
+						?>
+						</div>
 						<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo $row->arrival_dt; ?></div>
 						<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo $row->name; ?></div>
 						@if ($row->lot_fg == 0)
@@ -402,51 +413,51 @@ $g = $_GET;
 
 						<!-- 6t 0 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 0); @endphp
+							@php innerTable($list, 0, $sumTanks, 1); @endphp
 						</td>
 
 						<!-- 6t 1 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 1); @endphp
+							@php innerTable($list, 1, $sumTanks, 1); @endphp
 						</td>
 
 						<!-- 6t 2 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 2); @endphp
+							@php innerTable($list, 2, $sumTanks, 1); @endphp
 						</td>
 
 						<!-- 6t 3 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 3); @endphp
+							@php innerTable($list, 3, $sumTanks, 1); @endphp
 						</td>
 
 						<!-- 6t 4 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 4); @endphp
+							@php innerTable($list, 4, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 5 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 5); @endphp
+							@php innerTable($list, 5, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 6 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 6); @endphp
+							@php innerTable($list, 6, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 7 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 7); @endphp
+							@php innerTable($list, 7, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 8); @endphp
+							@php innerTable($list, 8, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 9); @endphp
+							@php innerTable($list, 9, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 10); @endphp
+							@php innerTable($list, 10, $sumTanks, 1); @endphp
 						</td>
 					</tr>
 					<tr id="user-1">
@@ -456,51 +467,51 @@ $g = $_GET;
 
 						<!-- 6t 0 -->
 						<td colspan="6">
-							@php innerTable(null, 0); @endphp
+							@php innerTable($list, 0, $sumTanks, 2); @endphp
 						</td>
 
 						<!-- 6t 1 -->
 						<td colspan="6">
-							@php innerTable(null, 1); @endphp
+							@php innerTable($list, 1, $sumTanks, 2); @endphp
 						</td>
 
 						<!-- 6t 2 -->
 						<td colspan="6">
-							@php innerTable(null, 2); @endphp
+							@php innerTable($list, 2, $sumTanks, 2); @endphp
 						</td>
 
 						<!-- 6t 3 -->
 						<td colspan="6">
-							@php innerTable(null, 3); @endphp
+							@php innerTable($list, 3, $sumTanks, 2); @endphp
 						</td>
 
 						<!-- 6t 4 -->
 						<td colspan="6">
-							@php innerTable(null, 4); @endphp
+							@php innerTable($list, 4, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 5 -->
 						<td colspan="6">
-							@php innerTable(null, 5); @endphp
+							@php innerTable($list, 5, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 6 -->
 						<td colspan="6">
-							@php innerTable(null, 6); @endphp
+							@php innerTable($list, 6, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 7 -->
 						<td colspan="6">
-							@php innerTable(null, 7); @endphp
+							@php innerTable($list, 7, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">
-							@php innerTable(null, 8); @endphp
+							@php innerTable($list, 8, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td colspan="6">
-							@php innerTable(null, 9); @endphp
+							@php innerTable($list, 9, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td colspan="6">
-							@php innerTable(null, 10); @endphp
+							@php innerTable($list, 10, $sumTanks, 2); @endphp
 						</td>
 					</tr>
 					<tr id="user-1">
@@ -510,51 +521,51 @@ $g = $_GET;
 
 						<!-- 6t 0 -->
 						<td colspan="6">
-							@php innerTable(null, 0); @endphp
+							@php innerTable($list, 0, $sumTanks, 3); @endphp
 						</td>
 
 						<!-- 6t 1 -->
 						<td colspan="6">
-							@php innerTable(null, 1); @endphp
+							@php innerTable($list, 1, $sumTanks, 3); @endphp
 						</td>
 
 						<!-- 6t 2 -->
 						<td colspan="6">
-							@php innerTable(null, 2); @endphp
+							@php innerTable($list, 2, $sumTanks, 3); @endphp
 						</td>
 
 						<!-- 6t 3 -->
 						<td colspan="6">
-							@php innerTable(null, 3); @endphp
+							@php innerTable($list, 3, $sumTanks, 3); @endphp
 						</td>
 
 						<!-- 6t 4 -->
 						<td colspan="6">
-							@php innerTable(null, 4); @endphp
+							@php innerTable($list, 4, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 5 -->
 						<td colspan="6">
-							@php innerTable(null, 5); @endphp
+							@php innerTable($list, 5, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 6 -->
 						<td colspan="6">
-							@php innerTable(null, 6); @endphp
+							@php innerTable($list, 6, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 7 -->
 						<td colspan="6">
-							@php innerTable(null, 7); @endphp
+							@php innerTable($list, 7, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">
-							@php innerTable(null, 8); @endphp
+							@php innerTable($list, 8, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td colspan="6">
-							@php innerTable(null, 9); @endphp
+							@php innerTable($list, 9, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td colspan="6">
-							@php innerTable(null, 10); @endphp
+							@php innerTable($list, 10, $sumTanks, 3); @endphp
 						</td>
 					</tr>
 					@endforeach
