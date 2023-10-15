@@ -155,10 +155,23 @@ class Sales {
 
 		} else {
 		// delivery-graphの処理
+
+$sdt = $get->s['sdt'];
+$dt = new DateTime($sdt. ' +1 days');
+//$this->vd($dt->format('Y-m-d'));
+
+			for ($i = 0; $i<11; $i++) { // 表示は11日分
+				$dt = new DateTime($sdt. ' +'. $i. ' days');
+				$days10[] = $dt->format('Y-m-d');
+			}
+//$this->vd($days10);
+/*
 			$days10 = array(
 				'2023-07-17', '2023-07-18', '2023-07-19', '2023-07-20', '2023-07-21', '2023-07-22',
 				'2022-12-20', '2022-12-21', '2022-12-22', '2022-12-23', '2022-12-24', '2022-12-25'
 			);
+*/
+
 //$this->vd($rows);exit;
 			// convert: 配送番号順にソート
 			foreach ($rows as $i => $row) {
@@ -178,6 +191,8 @@ class Sales {
 					foreach ($tmp[$day] as $sales => $list) {
 						$result[$day][$sales] = $list;
 					}
+				} else {
+					$result[$day] = '';
 				}
 			}
 //$this->vd($result);exit;

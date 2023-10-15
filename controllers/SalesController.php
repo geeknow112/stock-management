@@ -280,9 +280,10 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 		$this->setTb('Sales');
 
-		$get->action = 'search';
+//		$get->action = 'search';
 		switch($get->action) {
 			case 'search':
+//$this->vd($get);
 			default:
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList($get);

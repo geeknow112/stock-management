@@ -159,30 +159,36 @@ $g = $_GET;
 
 		<hr class="wp-header-end">
 
-		<form method="get">
+		<form name="forms" id="forms" action="" method="" enctype="multipart/form-data">
 			@if ($tb->getCurUser()->roles[0] == 'administrator')
 			<div class="search-box">
 				<label class="screen-reader-text" for="user-search-input">申込者を検索:</label>
+<!--
 				No. ：<input type="search" id="user-search-input" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>">&emsp;&emsp;&emsp;
 				社名：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
-				開始：<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
-				終了：<input type="date" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($g['s']['edt']); ?>" placeholder="2022-12-01">&emsp;
-<!--
-				<input type="submit" id="search-submit" class="button" value="申込者を検索">
 -->
-				<button type="button" class="btn btn-primary">Primary</button>
+				開始：<input type="date" id="user-search-input" name="s[sdt]" value="2022-12-18" placeholder="2020-11-01">&emsp;～&emsp;
+<!--				開始：<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;	-->
+				終了：<input type="date" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($g['s']['edt']); ?>" placeholder="2022-12-01">&emsp;
+
+				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
+
+				<script>
+				function cmd_search() {
+					document.forms.method = 'get';
+					document.forms.action = "/wp-admin/admin.php?page=delivery-graph&action=search"
+					document.forms.cmd.value = 'search';
+					document.forms.submit();
+				}
+				</script>
+
 			</div>
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
-			<input type="hidden" name="page" value="shop-list">
+			<input type="hidden" name="page" value="delivery-graph">
 			<input type="hidden" name="action" value="search">
+			<input type="hidden" name="cmd" value="">
 			@endif
-
-			<div class="tablenav top">
-				<br class="clear">
-			</div>
-			
-			<h2 class="screen-reader-text">ユーザー一覧</h2>
 
 		<div class="table-responsive">
 <!--
@@ -359,6 +365,7 @@ $g = $_GET;
 								}
 							}
 //							echo sprintf(' ]');
+							echo ($row->outgoing_warehouse == 1) ? '<span style="color: red;">(内)</span>' : '';
 						?>
 						</div>
 						<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo $row->arrival_dt; ?></div>
