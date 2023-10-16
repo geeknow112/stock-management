@@ -12,8 +12,12 @@
 	<div class="row mb-3">
 		<label for="customer" class="col-sm-2 col-form-label w-5">氏名</label>
 		<select class="form-select w-75" aria-label="customer" id="customer" name="customer" onchange="createSelectBox(); createSelectBoxGoods();">
-			@foreach($initForm['select']['customer'] as $i => $d)
-				<option value="{{$i}}" @if ($i == $rows->customer) selected @endif >{{$d}}</option>
+			@foreach($initForm['select']['customer'] as $customer => $d)
+				@if ($customer == '')
+				<option value=""></option>
+				@else
+				<option value="{{$customer}}" @if ($customer == $rows->customer) selected @endif >{{$customer}} : {{$d}}</option>
+				@endif
 			@endforeach
 		</select>
 <!--		<div id="orderName" class="form-text">氏名を入力してください。</div>-->
@@ -117,7 +121,9 @@ function createSelectBoxGoods(){
 		for (let goods in arr) {
 			let op = document.createElement("option");
 			op.value = goods;  //value値
-			op.text = arr[goods];   //テキスト値
+			if (goods != 0) {
+				op.text = goods + ' : ' + arr[goods];   //テキスト値
+			}
 			document.getElementById("goods").appendChild(op);
 		}
 	}
