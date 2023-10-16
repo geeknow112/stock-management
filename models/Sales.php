@@ -82,9 +82,10 @@ class Sales {
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name ";
+		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, c.* ";
 //		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, gd.* ";
 		$sql .= "FROM yc_sales AS s ";
+		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
 		$sql .= "LEFT JOIN yc_schedule_repeat AS sc ON s.sales = sc.sales ";
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
 //		$sql .= "LEFT JOIN yc_goods_detail AS gd ON g.goods = gd.goods ";
@@ -568,7 +569,7 @@ $dt = new DateTime($sdt. ' +1 days');
 	public function updLotFg($rows = null) {
 		global $wpdb;
 		foreach ($rows as $tmp_lot_id => $d) {
-			$sales = $d->id;
+			$sales = $d->sales;
 			$check_arr[] = $d->lot;
 		}
 
@@ -579,13 +580,14 @@ $dt = new DateTime($sdt. ' +1 days');
 			$lot_fg = 2;
 		}
 
+//		$this->vd($lot_fg);
 		$ret = $wpdb->update(
 			$this->getTableName(), 
 			array(
-				'id' => $sales,
+				'sales' => $sales,
 				'lot_fg' => $lot_fg,
 			), 
-			array('id' => $sales)
+			array('sales' => $sales)
 		);
 
 		return $ret;
@@ -729,6 +731,8 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 			3 => '6t-3',
 			4 => '6t-4',
 			5 => '6t-5',
+			6 => '6t-6',
+			7 => '6t-7',
 		);
 	}
 
@@ -803,8 +807,8 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 	private function getPartsOutgoingWarehouse() {
 		return array(
 			0 => '', 
-			1 => '出庫倉庫①', 
-			2 => '出庫倉庫②',
+			1 => '内藤SP', 
+			2 => '丹波SP',
 		);
 	}
 

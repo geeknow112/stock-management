@@ -220,17 +220,17 @@ $g = $_GET;
 						<th class="fixed01"></th>
 						<th class="fixed01"></th>
 						<th class="fixed01"></th>
-						<th class="fixed02" colspan="6">6t 0</th>
-						<th class="fixed02" colspan="6">6t 1</th>
-						<th class="fixed02" colspan="6">6t 2</th>
-						<th class="fixed02" colspan="6">6t 3</th>
-						<th class="fixed02" colspan="6">6t 4</th>
-						<th class="fixed02" colspan="6">6t 5</th>
-						<th class="fixed02" colspan="6">6t 6</th>
-						<th class="fixed02" colspan="6">6t 7</th>
-						<th class="fixed02" colspan="6">6t 8</th>
-						<th class="fixed02" colspan="6">6t 9</th>
-						<th class="fixed02" colspan="6">6t 10</th>
+						<th class="fixed02" colspan="6">6t ⓪</th>
+						<th class="fixed02" colspan="6">6t ①</th>
+						<th class="fixed02" colspan="6">6t ②</th>
+						<th class="fixed02" colspan="6">6t ③</th>
+						<th class="fixed02" colspan="6">6t ④</th>
+						<th class="fixed02" colspan="6">6t ⑤</th>
+						<th class="fixed02" colspan="6">6t ⑥</th>
+						<th class="fixed02" colspan="6">6t ⑦</th>
+						<th class="fixed02" colspan="6">6t ⑧ (太田畜産 専用：結果入力欄)</th>
+						<th class="fixed02" colspan="6">7.5t ⑨ (村上畜産 専用：結果入力欄)</th>
+						<th class="fixed02" colspan="6">6t ⑩ (山忠商事(直取) 専用：結果入力欄)</th>
 					</tr>
 
 					<tr>
@@ -521,7 +521,7 @@ $g = $_GET;
 							@php innerTable($list, 10, $sumTanks, 2); @endphp
 						</td>
 					</tr>
-					<tr id="user-1">
+					<tr id="user-1" style="border-bottom: solid 1px gray;">
 						<td class="fixed01" colspan="3">
 							<p>　3槽</p>
 						</td>

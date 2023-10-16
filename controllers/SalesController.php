@@ -265,6 +265,12 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 						$rows->messages = $msg;
 					}
 				}
+				$initForm = $this->getTb()->getInitForm();
+				$rows = $this->getTb()->getLotNumberListBySales($get);
+
+				// lot_fg�̕ύX
+				$this->getTb()->updLotFg($rows);
+
 				echo $this->get_blade()->run("lot-regist", compact('rows', 'get', 'post', 'msg'));
 				break;
 
@@ -288,7 +294,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList($get);
 				$sumTanks = $this->getTb()->sumTanks($rows);
-//$this->vd($sumTanks);
+//$this->vd($rows);
 				$formPage = 'delivery-graph';
 //$this->vd($rows['2023-07-17']);
 /*
