@@ -182,6 +182,12 @@ $g = $_GET;
 				}
 				</script>
 
+				<div class="mesasge">
+					@foreach($msg as $k => $error)
+						<p style="color: red;">【 {{$k}} 】 {{$error}}</p>
+					@endforeach
+				</div>
+
 			</div>
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
