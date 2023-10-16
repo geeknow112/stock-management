@@ -314,7 +314,11 @@ $r = array(
 	(array) current(current(current($rows['2023-07-17'])))
 );
 */
-				echo $this->get_blade()->run("delivery-graph", compact('rows', 'formPage', 'initForm', 'r', 'sumTanks'));
+
+$msg[] = 'test';
+$msg[] = 'test2';
+$msg[] = 'test3';
+				echo $this->get_blade()->run("delivery-graph", compact('rows', 'formPage', 'initForm', 'r', 'sumTanks', 'msg'));
 				break;
 		}
 	}
