@@ -109,6 +109,7 @@ global $wpdb;
 				} else {
 				}
 
+//$this->vd($post);
 				if ($post->cmd == 'cmd_confirm') { $rows_addrs = $this->sortData($post); }
 //$this->vd($rows_addrs);
 				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_goods'));
@@ -175,9 +176,12 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 					}
 				}
 //$this->vd($rows);
-				if ($post->cmd == 'cmd_update' ) { $rows_addrs = $this->convertData($rows); }
+				if ($post->cmd == 'cmd_update' ) {
+					$rows_addrs = $this->convertData($rows);
+					$rows_addrs_count = $this->countObject($rows_addrs);
+				}
 //$this->vd($rows_addrs);
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_goods'));
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_addrs_count', 'rows_goods'));
 				break;
 		}
 	}
@@ -187,19 +191,18 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 	 * 
 	 **/
 	private function sortData($post = null) {
-		if ($post->pref) {
-			foreach ($post->pref as $i => $d) {
-				$tmp[$i] = (object) array(
-					'customer' => $post->customer, 
-					'name' => $post->customer_name, 
-					'pref' => $post->pref[$i], 
-					'addr1' => $post->addr1[$i], 
-					'addr2' => $post->addr2[$i], 
-					'addr3' => $post->addr3[$i], 
-				);
-			}
-			return (object) $tmp;
+		foreach ($post->pref as $i => $d) {
+			if (empty($d)) { continue; }
+			$tmp[$i] = (object) array(
+				'customer' => $post->customer, 
+				'name' => $post->customer_name, 
+				'pref' => $post->pref[$i], 
+				'addr1' => $post->addr1[$i], 
+				'addr2' => $post->addr2[$i], 
+				'addr3' => $post->addr3[$i], 
+			);
 		}
+		return (object) $tmp;
 	}
 
 	/**
@@ -212,6 +215,18 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 		unset($r->customer_name);
 		unset($r->cmd);
 		return (object) $r;
+	}
+
+	/**
+	 * objectをカウントする
+	 * PHP::contでは正常にカウントできなかったため、これを自作
+	 **/
+	private function countObject($obj = null) {
+		$cnt = 0;
+		foreach ($obj as $i) {
+			$cnt = $cnt + 1;
+		}
+		return (int) $cnt;
 	}
 }
 ?>
