@@ -89,14 +89,12 @@ global $wpdb;
 				
 			case 'confirm':
 				if (!empty($post)) {
-$this->vd($post);
+//$this->vd($post);
 					switch ($post->cmd) {
 						default:
 						case 'cmd_confirm':
 							$msg = $this->getValidMsg();
 							$rows = $post;
-							$rows->name = $post->customer_name;
-							$rows->id = $rows->customer;
 							if ($rows->customer) { $post->btn = 'update'; }
 							if ($msg['msg'] !== 'success') {
 								$rows->messages = $msg;
@@ -111,6 +109,7 @@ $this->vd($post);
 				} else {
 				}
 if ($post->pref) { $rows = $this->sortData($post); }
+//$this->vd($rows);
 				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
 				break;
 
@@ -157,9 +156,9 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 				if (!empty($get->customer)) {
 					$rows = $this->getTb()->getDetailByCustomerCode($get->customer);
 					$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
-					$post->customer = current($rows)->customer;
-					$post->customer_name = current($rows)->name;
-					$post->cmd = 'cmd_update';
+					$rows->customer = $post->customer = current($rows)->customer;
+					$rows->customer_name = $post->customer_name = current($rows)->name;
+					$rows->cmd = $post->cmd = 'cmd_update';
 
 				} else {
 					$msg = $this->getValidMsg();
@@ -193,6 +192,7 @@ if ($post->pref) { $rows = $this->sortData($post); }
 					'addr3' => $post->addr3[$i], 
 				);
 			}
+			$tmp['customer'] = $post->customer;
 			return (object) $tmp;
 		}
 	}

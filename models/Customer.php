@@ -190,7 +190,7 @@ class Customer {
 	public function getDetailByCustomerCode($customer = null) {
 		global $wpdb;
 
-		$sql  = "SELECT c.*, cd.* FROM ". $this->getTableName(). " as c LEFT JOIN yc_customer_detail AS cd ON c.customer = cd.customer ";
+		$sql  = "SELECT c.*, cd.*, c.customer AS customer FROM ". $this->getTableName(). " as c LEFT JOIN yc_customer_detail AS cd ON c.customer = cd.customer ";
 		$sql .= sprintf("WHERE c.customer = '%s' ", $customer);
 		$sql .= ";";
 
@@ -300,6 +300,9 @@ $post->name = $post->customer_name;
 				$data[$col] = $post->$col;
 			}
 		}
+
+		$data['updt'] = date('Y-m-d H:i:s');
+
 		$ret = $wpdb->update(
 			$this->getTableName(), 
 			$data, 
@@ -309,6 +312,7 @@ $post->name = $post->customer_name;
 		// upsert
 		if ($post->list) {
 			foreach ($post->list as $i => $d) {
+				if (!$d->pref) { continue; } // 必須項目がなければ処理を抜ける
 				$detail = $i+1;
 				$targetId = $wpdb->get_var($wpdb->prepare("SELECT customer FROM yc_customer_detail WHERE customer = %s AND detail = %s", $post->customer, $detail));
 				if (is_null($targetId)) {
