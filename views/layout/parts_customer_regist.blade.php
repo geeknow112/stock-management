@@ -2,12 +2,12 @@
 	<legend>【顧客登録】</legend>
 	</p>
 
-	@if ($get->action != '')
+{{--	@if ($get->action != '')	--}}
 	<div class="row mb-3">
 		<label for="customer" class="col-sm-2 col-form-label w-5">顧客番号</label>
-		<input type="text" class="col-sm-2 col-form-control w-auto" id="customer" name="customer" aria-describedby="customerHelp" value="{{$post->customer}}" readonly>
+		<input type="text" class="col-sm-2 col-form-control w-auto" id="customer" name="customer" aria-describedby="customerHelp" value="{{$rows->customer}}" readonly>
 	</div>
-	@endif
+{{--	@endif	--}}
 
 	<div class="row mb-3">
 		<label for="customer_name" class="col-sm-2 col-form-label w-5">顧客名</label>
@@ -25,8 +25,7 @@
 				<input type="text" class="col-sm-2 col-form-control w-auto" id="addr1_{{$i}}" name="addr1[]" aria-describedby="addr1Help" value="{{$d->addr1}}">&emsp;
 				<input type="text" class="col-sm-2 col-form-control w-auto" id="addr2_{{$i}}" name="addr2[]" aria-describedby="addr2Help" value="{{$d->addr2}}">&emsp;
 				<input type="text" class="col-sm-2 col-form-control w-auto" id="addr3_{{$i}}" name="addr3[]" aria-describedby="addr3Help" value="{{$d->addr3}}">&emsp;
-				<input type="button" class="col-sm-2 col-form-control w-auto" id="add" name="add" value="追加" onclick="addCustomerAddrRow({{$i}})">
-				<input type="hidden" id="cnt" name="cnt" value="">
+				<input type="button" class="col-sm-2 col-form-control w-auto" id="add0" name="add0" value="追加" onclick="addCustomerAddrRow({{$i}})">
 			</div>
 		@endforeach
 	@else
@@ -43,25 +42,27 @@
 /**
  * addCustomerAddrRow: テーブルに行を追加
  **/
-function addCustomerAddrRow()
+function addCustomerAddrRow(cnt = null)
 {
 	const cRow = document.getElementById("customerAddrRow");
 	if (!cRow) return;
 
-	const oCnt = document.getElementById("cnt");
-	cnt = (oCnt.value) ? oCnt.value : 5;
 	cnt = parseInt(cnt) + 1;
 	console.log(cnt);
-console.log(document.getElementById("customerAddr"));
 
 	cRow.innerHTML += '<div class="row mb-3" id="customerAddr" name="customerAddr[]">';
-	cRow.innerHTML += '	<label class="col-sm-2 col-form-label w-5" id="label_1">住所: {{$d->detail}}</label>';
-	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_1" name="pref[]" aria-describedby="prefHelp" value="{{$d->pref}}">&emsp;';
-	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr1_1" name="addr1[]" aria-describedby="addr1Help" value="{{$d->addr1}}">&emsp;';
-	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr2_1" name="addr2[]" aria-describedby="addr2Help" value="{{$d->addr2}}">&emsp;';
-	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr3_1" name="addr3[]" aria-describedby="addr3Help" value="{{$d->addr3}}">&emsp;';
-	cRow.innerHTML += '	<input type="button" class="col-sm-2 col-form-control w-auto" id="delBtn1" name="" value="削除" onclick="delCustomerAddrRow(this)">&emsp;';
+	cRow.innerHTML += '	<label class="col-sm-2 col-form-label w-5" id="label_' + cnt + '">住所: ' + cnt + '</label>';
+	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_' + cnt + '" name="pref[]" aria-describedby="prefHelp" value="{{$d->pref}}">&emsp;';
+	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr1_' + cnt + '" name="addr1[]" aria-describedby="addr1Help" value="{{$d->addr1}}">&emsp;';
+	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr2_' + cnt + '" name="addr2[]" aria-describedby="addr2Help" value="{{$d->addr2}}">&emsp;';
+	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr3_' + cnt + '" name="addr3[]" aria-describedby="addr3Help" value="{{$d->addr3}}">&emsp;';
+	cRow.innerHTML += '	<input type="button" class="col-sm-2 col-form-control w-auto" id="add' + cnt + '" name="add' + cnt + '" value="追加" onclick="addCustomerAddrRow(' + cnt + ')">&emsp;';
+	cRow.innerHTML += '	<input type="button" class="col-sm-2 col-form-control w-auto" id="delBtn' + cnt + '" name="" value="削除" onclick="delCustomerAddrRow(this)">&emsp;';
 	cRow.innerHTML += '</div>';
+
+	did = parseInt(cnt) - 1;
+	console.log(did);
+	document.getElementById("add" + did).remove();
 
 	oCnt.value = cnt;
 
