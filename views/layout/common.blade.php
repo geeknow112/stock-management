@@ -6,7 +6,7 @@
 		var page = "{{$get->page}}";
 		switch (cmd) {
 			case 'edit':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$post->sales}}&goods={{$post->goods}}&action=edit";
+				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$post->sales}}&goods={{$post->goods}}&customer={{$post->customer}}&action=edit";
 				document.forms.cmd.value = 'edit';
 				document.forms.target = '';
 				document.forms.submit();
