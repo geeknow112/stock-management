@@ -26,10 +26,12 @@
 				<input type="text" class="col-sm-2 col-form-control w-auto" id="addr1_{{$i}}" name="addr1[]" aria-describedby="addr1Help" value="{{$d->addr1}}">&emsp;
 				<input type="text" class="col-sm-2 col-form-control w-auto" id="addr2_{{$i}}" name="addr2[]" aria-describedby="addr2Help" value="{{$d->addr2}}">&emsp;
 				<input type="text" class="col-sm-2 col-form-control w-auto" id="addr3_{{$i}}" name="addr3[]" aria-describedby="addr3Help" value="{{$d->addr3}}">&emsp;
+				@if ($i == $rows_addrs_count - 1)
+				<input type="button" class="col-sm-2 col-form-control w-auto" id="add{{$rows_addrs_count}}" name="add{{$rows_addrs_count}}" value="追加" onclick="addCustomerAddrRow({{$rows_addrs_count}})">
+				@endif
 				</div>
 		@endforeach
 			</div>
-				<input type="button" class="col-sm-2 col-form-control w-auto" id="add0" name="add0" value="追加" onclick="addCustomerAddrRow(6)">
 	@else
 		<div class="row mb-3">
 			<label class="col-sm-2 col-form-label w-5">住所: 追加 * </label>
@@ -52,47 +54,46 @@ function addCustomerAddrRow(cnt = null)
 	cnt = parseInt(cnt) + 1;
 	console.log(cnt);
 
-	cRow.innerHTML += '<div>';
-	cRow.innerHTML += '	<label class="col-sm-2 col-form-label w-5" id="label_' + cnt + '">住所: ' + cnt + '</label>';
-	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_' + cnt + '" name="pref[]" aria-describedby="prefHelp" value="{{$d->pref}}">&emsp;';
-	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr1_' + cnt + '" name="addr1[]" aria-describedby="addr1Help" value="{{$d->addr1}}">&emsp;';
-	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr2_' + cnt + '" name="addr2[]" aria-describedby="addr2Help" value="{{$d->addr2}}">&emsp;';
-	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr3_' + cnt + '" name="addr3[]" aria-describedby="addr3Help" value="{{$d->addr3}}">&emsp;';
-	cRow.innerHTML += '	<input type="button" class="col-sm-2 col-form-control w-auto" id="add' + cnt + '" name="add' + cnt + '" value="追加" onclick="addCustomerAddrRow(' + cnt + ')">&emsp;';
-	cRow.innerHTML += '	<input type="button" class="col-sm-2 col-form-control w-auto" id="delBtn' + cnt + '" name="" value="削除" onclick="delCustomerAddrRow(this)">&emsp;';
-	cRow.innerHTML += '</div>';
+	cRow.innerHTML += '<div id="addRow"></div>';
+
+	const addRow = document.getElementById("addRow");
+	addRow.innerHTML += '	<label class="col-sm-2 col-form-label w-5" id="label_' + cnt + '">住所: ' + cnt + '</label>';
+	addRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_' + cnt + '" name="pref[]" aria-describedby="prefHelp" value="">&emsp;';
+	addRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr1_' + cnt + '" name="addr1[]" aria-describedby="addr1Help" value="">&emsp;';
+	addRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr2_' + cnt + '" name="addr2[]" aria-describedby="addr2Help" value="">&emsp;';
+	addRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr3_' + cnt + '" name="addr3[]" aria-describedby="addr3Help" value="">&emsp;';
+//	addRow.innerHTML += '	<input type="button" class="col-sm-2 col-form-control w-auto" id="del' + cnt + '" name="del' + cnt + '" value="削除" onclick="delCustomerAddrRow(' + cnt + ')">&emsp;';
+	addRow.innerHTML += '	<input type="button" class="col-sm-2 col-form-control w-auto" id="add' + cnt + '" name="add' + cnt + '" value="追加" onclick="addCustomerAddrRow(' + cnt + ')">&emsp;';
 
 	did = parseInt(cnt) - 1;
 	console.log(did);
 	document.getElementById("add" + did).remove();
-
-	oCnt.value = cnt;
-
 }
 
 /**
  * delCustomerAddrRow: 削除ボタン該当行を削除
  **/
-function delCustomerAddrRow(obj)
+function delCustomerAddrRow(cnt)
 {
     // 確認
 	if (!confirm("この行を削除しますか？")) { return; }
-	const cAddr = document.getElementById("customerAddr");
+//	const cAddr = document.getElementById("customerAddr");
 
 	var e = [];
-	e.push(document.getElementById("customerAddr"));
-	e.push(document.getElementById("label_1"));
-	e.push(document.getElementById("pref_1"));
-	e.push(document.getElementById("addr1_1"));
-	e.push(document.getElementById("addr2_1"));
-	e.push(document.getElementById("addr3_1"));
-	e.push(document.getElementById("delBtn1"));
+//	e.push(document.getElementById("customerAddr"));
+	e.push(document.getElementById("label_" + cnt));
+	e.push(document.getElementById("pref_" + cnt));
+	e.push(document.getElementById("addr1_" + cnt));
+	e.push(document.getElementById("addr2_" + cnt));
+	e.push(document.getElementById("addr3_" + cnt));
+	e.push(document.getElementById("add" + cnt));
+	e.push(document.getElementById("del" + cnt));
 
-	if (!cAddr) { return; }
-console.log(cAddr);
+//	if (!cAddr) { return; }
+//console.log(cAddr);
 
-	if (!obj) { return; }
-console.log(obj);
+//	if (!obj) { return; }
+//console.log(obj);
 
 	//console.log(e);
 	e.forEach((element) => element.remove());
