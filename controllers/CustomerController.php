@@ -108,9 +108,10 @@ global $wpdb;
 						$get->action = 'save';
 				} else {
 				}
-if ($post->pref) { $rows = $this->sortData($post); }
-//$this->vd($rows);
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
+
+				if ($post->cmd == 'cmd_confirm') { $rows_addrs = $this->sortData($post); }
+//$this->vd($rows_addrs);
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_goods'));
 				break;
 
 			case 'save':
@@ -149,7 +150,10 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 						}
 					}
 				}
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
+//$this->vd($post);
+				if ($post->cmd == 'update' ) { $rows_addrs = $this->convertData($rows); }
+//$this->vd($rows_addrs);
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_goods'));
 				break;
 
 			case 'edit':
@@ -170,8 +174,10 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 						$rows->messages = $msg;
 					}
 				}
-if ($post->pref) { $rows = $this->sortData($post); }
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_goods'));
+//$this->vd($rows);
+				if ($post->cmd == 'cmd_update' ) { $rows_addrs = $this->convertData($rows); }
+//$this->vd($rows_addrs);
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_goods'));
 				break;
 		}
 	}
@@ -192,9 +198,20 @@ if ($post->pref) { $rows = $this->sortData($post); }
 					'addr3' => $post->addr3[$i], 
 				);
 			}
-			$tmp['customer'] = $post->customer;
 			return (object) $tmp;
 		}
+	}
+
+	/**
+	 * rows’l‚ð•\Ž¦—p‚É•ÏŠ·
+	 * 
+	 **/
+	private function convertData($rows = null) {
+		$r = clone $rows;
+		unset($r->customer);
+		unset($r->customer_name);
+		unset($r->cmd);
+		return (object) $r;
 	}
 }
 ?>

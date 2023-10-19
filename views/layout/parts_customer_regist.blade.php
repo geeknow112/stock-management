@@ -17,20 +17,22 @@
 
 <br />
 <hr>
-	@if ($rows)
-		@foreach($rows as $i => $d)
+	@if ($rows_addrs)
 			<div class="row mb-3" id="customerAddrRow">
+		@foreach($rows_addrs as $i => $d)
+				<div>
 				<label class="col-sm-2 col-form-label w-5">住所: {{$d->detail}}</label>
 				<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_{{$i}}" name="pref[]" aria-describedby="prefHelp" value="{{$d->pref}}">&emsp;
 				<input type="text" class="col-sm-2 col-form-control w-auto" id="addr1_{{$i}}" name="addr1[]" aria-describedby="addr1Help" value="{{$d->addr1}}">&emsp;
 				<input type="text" class="col-sm-2 col-form-control w-auto" id="addr2_{{$i}}" name="addr2[]" aria-describedby="addr2Help" value="{{$d->addr2}}">&emsp;
 				<input type="text" class="col-sm-2 col-form-control w-auto" id="addr3_{{$i}}" name="addr3[]" aria-describedby="addr3Help" value="{{$d->addr3}}">&emsp;
-				<input type="button" class="col-sm-2 col-form-control w-auto" id="add0" name="add0" value="追加" onclick="addCustomerAddrRow({{$i}})">
-			</div>
+				</div>
 		@endforeach
+			</div>
+				<input type="button" class="col-sm-2 col-form-control w-auto" id="add0" name="add0" value="追加" onclick="addCustomerAddrRow(6)">
 	@else
 		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label w-5">住所: 追加</label>
+			<label class="col-sm-2 col-form-label w-5">住所: 追加 * </label>
 			<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_0" name="pref[]" aria-describedby="prefHelp" value="">&emsp;
 			<input type="text" class="col-sm-2 col-form-control w-auto" id="addr1_0" name="addr1[]" aria-describedby="addr1Help" value="">&emsp;
 			<input type="text" class="col-sm-2 col-form-control w-auto" id="addr2_0" name="addr2[]" aria-describedby="addr2Help" value="">&emsp;
@@ -50,7 +52,7 @@ function addCustomerAddrRow(cnt = null)
 	cnt = parseInt(cnt) + 1;
 	console.log(cnt);
 
-	cRow.innerHTML += '<div class="row mb-3" id="customerAddr" name="customerAddr[]">';
+	cRow.innerHTML += '<div>';
 	cRow.innerHTML += '	<label class="col-sm-2 col-form-label w-5" id="label_' + cnt + '">住所: ' + cnt + '</label>';
 	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_' + cnt + '" name="pref[]" aria-describedby="prefHelp" value="{{$d->pref}}">&emsp;';
 	cRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr1_' + cnt + '" name="addr1[]" aria-describedby="addr1Help" value="{{$d->addr1}}">&emsp;';
