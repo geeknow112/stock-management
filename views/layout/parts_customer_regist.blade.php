@@ -17,8 +17,8 @@
 
 <br />
 <hr>
+	<div class="row mb-3" id="customerAddrRow">
 	@if ($rows_addrs)
-			<div class="row mb-3" id="customerAddrRow">
 		@foreach($rows_addrs as $i => $d)
 				<div>
 				<label class="col-sm-2 col-form-label w-5">住所: {{$d->detail}}</label>
@@ -31,16 +31,17 @@
 				@endif
 				</div>
 		@endforeach
-			</div>
 	@else
-		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label w-5">住所: 追加 * </label>
+		<div>
+			<label class="col-sm-2 col-form-label w-5">住所: 新規登録 </label>
 			<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_0" name="pref[]" aria-describedby="prefHelp" value="">&emsp;
 			<input type="text" class="col-sm-2 col-form-control w-auto" id="addr1_0" name="addr1[]" aria-describedby="addr1Help" value="">&emsp;
 			<input type="text" class="col-sm-2 col-form-control w-auto" id="addr2_0" name="addr2[]" aria-describedby="addr2Help" value="">&emsp;
 			<input type="text" class="col-sm-2 col-form-control w-auto" id="addr3_0" name="addr3[]" aria-describedby="addr3Help" value="">&emsp;
+			<input type="button" class="col-sm-2 col-form-control w-auto" id="add0" name="add0" value="追加" onclick="addCustomerAddrRow(0)">
 		</div>
 	@endif
+	</div>
 
 <script>
 /**
@@ -54,9 +55,9 @@ function addCustomerAddrRow(cnt = null)
 	cnt = parseInt(cnt) + 1;
 	console.log(cnt);
 
-	cRow.innerHTML += '<div id="addRow"></div>';
+	cRow.innerHTML += '<div id="addRow' + cnt + '"></div>';
 
-	const addRow = document.getElementById("addRow");
+	const addRow = document.getElementById("addRow" + cnt);
 	addRow.innerHTML += '	<label class="col-sm-2 col-form-label w-5" id="label_' + cnt + '">住所: ' + cnt + '</label>';
 	addRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_' + cnt + '" name="pref[]" aria-describedby="prefHelp" value="">&emsp;';
 	addRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="addr1_' + cnt + '" name="addr1[]" aria-describedby="addr1Help" value="">&emsp;';
