@@ -103,7 +103,7 @@ function delCustomerAddrRow(cnt)
 
 <br />
 <hr>
-
+{{--
 	@if (current($rows_goods)->goods)
 		@foreach($rows_goods as $i => $goods)
 			<div class="row mb-3">
@@ -114,6 +114,29 @@ function delCustomerAddrRow(cnt)
 				<input type="text" class="col-sm-2 col-form-control w-auto" id="remark_{{$i}}" name="remark[]" aria-describedby="addr3Help" value="{{$goods->remark}}">&emsp;
 			</div>
 		@endforeach
+	@else
+		<div class="row mb-3">
+			<label class="col-sm-2 col-form-label">商品: </label>
+			関連する商品がありません。
+		</div>
+	@endif
+--}}
+
+	@if ($goods_list)
+		<div class="row mb-3">
+			<div>
+			<label class="col-sm-2 col-form-label w-5">商品:</label>
+			@foreach($goods_list as $goods => $goods_name)
+				<label>
+				<input type="checkbox" class="" id="goods" name="goods[]" aria-describedby="prefHelp" value="{{$goods}}" checked>{{$goods_name}} &emsp;
+				</label>
+				@if ($loop->index != 0 && $loop->index % 5 == 0)
+					<br />
+					<label class="col-sm-2 col-form-label w-5">&emsp;</label>
+				@endif
+			@endforeach
+			</div>
+		</div>
 	@else
 		<div class="row mb-3">
 			<label class="col-sm-2 col-form-label">商品: </label>
