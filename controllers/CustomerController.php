@@ -161,6 +161,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 				if (!empty($get->customer)) {
 					$rows = $this->getTb()->getDetailByCustomerCode($get->customer);
 					$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
+					$cust_goods = $this->objectColumn($rows_goods, 'goods');
 
 					// goods_listの取得
 					$this->setTb('Goods');
@@ -188,8 +189,8 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 					$rows_addrs = $this->convertData($rows);
 					$rows_addrs_count = $this->countObject($rows_addrs);
 				}
-//$this->vd($rows_addrs);
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list'));
+
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
 				break;
 		}
 	}
@@ -235,6 +236,17 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 			$cnt = $cnt + 1;
 		}
 		return (int) $cnt;
+	}
+
+	/**
+	 * objectのkeyのみを一覧にする
+	 * PHP::array_columnのオブジェクト版
+	 **/
+	private function objectColumn($obj = null, $key = null) {
+		foreach ($obj as $i => $d) {
+			$ret[] = $d->$key;
+		}
+		return $ret;
 	}
 }
 ?>
