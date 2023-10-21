@@ -161,6 +161,14 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 				if (!empty($get->customer)) {
 					$rows = $this->getTb()->getDetailByCustomerCode($get->customer);
 					$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
+
+					// goods_list�̎擾
+					$this->setTb('Goods');
+					$Goods = $this->getTb();
+					$initFormGoods = $Goods->getInitForm();
+					$goods_list = $initFormGoods['select']['goods_name'];
+					//$this->vd($goods_list);
+
 					$rows->customer = $post->customer = current($rows)->customer;
 					$rows->customer_name = $post->customer_name = current($rows)->name;
 					$rows->cmd = $post->cmd = 'cmd_update';
@@ -181,7 +189,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 					$rows_addrs_count = $this->countObject($rows_addrs);
 				}
 //$this->vd($rows_addrs);
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_addrs_count', 'rows_goods'));
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list'));
 				break;
 		}
 	}
