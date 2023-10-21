@@ -103,25 +103,6 @@ function delCustomerAddrRow(cnt)
 
 <br />
 <hr>
-{{--
-	@if (current($rows_goods)->goods)
-		@foreach($rows_goods as $i => $goods)
-			<div class="row mb-3">
-				<label class="col-sm-2 col-form-label w-5">商品: {{$d->detail}}</label>
-				<input type="text" class="col-sm-2 col-form-control w-auto" id="goods_{{$i}}" name="goods[]" aria-describedby="prefHelp" value="{{$goods->goods}}">&emsp;
-				<input type="text" class="col-sm-2 col-form-control w-auto" id="goods_name_{{$i}}" name="goods_name[]" aria-describedby="addr1Help" value="{{$goods->name}}">&emsp;
-				<input type="text" class="col-sm-2 col-form-control w-auto" id="qty_{{$i}}" name="qty[]" aria-describedby="addr2Help" value="{{$goods->qty}}">&emsp;
-				<input type="text" class="col-sm-2 col-form-control w-auto" id="remark_{{$i}}" name="remark[]" aria-describedby="addr3Help" value="{{$goods->remark}}">&emsp;
-			</div>
-		@endforeach
-	@else
-		<div class="row mb-3">
-			<label class="col-sm-2 col-form-label">商品: </label>
-			関連する商品がありません。
-		</div>
-	@endif
---}}
-
 	@if ($goods_list)
 		<div class="row mb-3">
 			<div>
@@ -140,6 +121,6 @@ function delCustomerAddrRow(cnt)
 	@else
 		<div class="row mb-3">
 			<label class="col-sm-2 col-form-label">商品: </label>
-			関連する商品がありません。
+			商品がありません。
 		</div>
 	@endif
