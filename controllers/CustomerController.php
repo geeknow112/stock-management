@@ -70,6 +70,12 @@ global $wpdb;
 		$this->setTb('Customer');
 		$page = 'customer-detail';
 
+		// goods_list‚ÌŽæ“¾
+		$Goods = new Goods;
+		$initFormGoods = $Goods->getInitForm();
+		$goods_list = $initFormGoods['select']['goods_name'];
+		//$this->vd($goods_list);
+
 		$rows = null;
 		switch($get->action) {
 			default:
@@ -112,7 +118,12 @@ global $wpdb;
 //$this->vd($post);
 				if ($post->cmd == 'cmd_confirm') { $rows_addrs = $this->sortData($post); }
 //$this->vd($rows_addrs);
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_goods'));
+
+				$goods_list = $this->delUnSelectGoods($post->goods, $goods_list);
+				$this->vd($goods_list);
+				$cust_goods = $post->goods;
+
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_goods', 'goods_list', 'cust_goods'));
 				break;
 
 			case 'save':
@@ -162,13 +173,6 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 					$rows = $this->getTb()->getDetailByCustomerCode($get->customer);
 					$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
 					$cust_goods = $this->objectColumn($rows_goods, 'goods');
-
-					// goods_list‚ÌŽæ“¾
-					$this->setTb('Goods');
-					$Goods = $this->getTb();
-					$initFormGoods = $Goods->getInitForm();
-					$goods_list = $initFormGoods['select']['goods_name'];
-					//$this->vd($goods_list);
 
 					$rows->customer = $post->customer = current($rows)->customer;
 					$rows->customer_name = $post->customer_name = current($rows)->name;
@@ -247,6 +251,20 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 			$ret[] = $d->$key;
 		}
 		return $ret;
+	}
+
+	/**
+	 * goods_list‚©‚ç–¢‘I‘ð•ª‚ðíœ
+	 * $cust_goods : ŒÚ‹q‚É•R‚Ã‚­¤•iˆê——
+	 * $goods_list : ¤•iˆê——
+	 **/
+	private function delUnSelectGoods($cust_goods = null, $goods_list = null) {
+		foreach ($goods_list as $goods => $goods_name) {
+			if (!in_array($goods, $cust_goods)) {
+				unset($goods_list[$goods]);
+			}
+		}
+		return $goods_list;
 	}
 }
 ?>
