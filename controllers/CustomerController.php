@@ -81,7 +81,7 @@ global $wpdb;
 			default:
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList();
-				echo $this->get_blade()->run("customer-detail");
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_goods', 'goods_list', 'cust_goods'));
 				break;
 
 			case 'search' :
@@ -120,7 +120,6 @@ global $wpdb;
 //$this->vd($rows_addrs);
 
 				$goods_list = $this->delUnSelectGoods($post->goods, $goods_list);
-				$this->vd($goods_list);
 				$cust_goods = $post->goods;
 
 				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_goods', 'goods_list', 'cust_goods'));
@@ -165,7 +164,11 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 //$this->vd($post);
 				if ($post->cmd == 'update' ) { $rows_addrs = $this->convertData($rows); }
 //$this->vd($rows_addrs);
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_goods'));
+
+				$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
+				$cust_goods = $this->objectColumn($rows_goods, 'goods');
+
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_goods', 'goods_list', 'cust_goods'));
 				break;
 
 			case 'edit':

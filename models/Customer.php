@@ -281,6 +281,25 @@ class Customer {
 			);
 		}
 
+		// goods insert
+		if ($post->goods) {
+			// 全insert
+			foreach ($post->goods as $i => $goods) {
+				$targetId = $wpdb->get_var($wpdb->prepare("SELECT goods FROM yc_customer_goods WHERE customer = %s AND goods = %s", $customer, $goods));
+				if (is_null($targetId)) {
+					$ret[] = $wpdb->insert(
+						'yc_customer_goods', 
+						array(
+							'customer' => $customer, 
+							'goods' => $goods, 
+							'rgdt' => date('Y-m-d H:i:s')
+						)
+						//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+					);
+				}
+			}
+		}
+
 		// 登録情報を再取得
 		$rows = $this->getDetailByCustomerCode($customer);
 		return $rows;
@@ -343,6 +362,33 @@ $post->name = $post->customer_name;
 							'customer' => $post->customer, 
 							'detail' => $detail
 						)
+					);
+				}
+			}
+		}
+
+		// goods delsert : 一度customerに紐づく商品の関連を全削除して、再度全insertする(checkboxで登録・削除を実現するため)
+		if ($post->goods) {
+			// customerに紐づく商品の関連を全削除
+			$ret_del[] = $wpdb->delete(
+				'yc_customer_goods', 
+				array(
+					'customer' => $post->customer, 
+				)
+			);
+
+			// 削除後、全insert
+			foreach ($post->goods as $i => $goods) {
+				$targetId = $wpdb->get_var($wpdb->prepare("SELECT goods FROM yc_customer_goods WHERE customer = %s AND goods = %s", $post->customer, $goods));
+				if (is_null($targetId)) {
+					$ret[] = $wpdb->insert(
+						'yc_customer_goods', 
+						array(
+							'customer' => $post->customer, 
+							'goods' => $goods, 
+							'rgdt' => date('Y-m-d H:i:s')
+						)
+						//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
 					);
 				}
 			}
