@@ -137,7 +137,7 @@ class ScheduleRepeat {
 			$sdt->modify('+1 day');
 			$sdts[] = $sdt->format('Y-m-d');
 		}
-$this->vd($sdts);
+//$this->vd($sdts);
 
 		foreach ($repeat_items as $i => $r) {
 			if (!isset($r->sales)) { continue; }
