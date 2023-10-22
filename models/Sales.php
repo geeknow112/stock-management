@@ -82,7 +82,7 @@ class Sales {
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, c.* ";
+		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, c.*, c.name AS customer_name ";
 //		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, gd.* ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
