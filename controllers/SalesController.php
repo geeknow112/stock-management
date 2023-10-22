@@ -303,7 +303,7 @@ $ScheduleRepeat = new ScheduleRepeat;
 $repeat_list = $ScheduleRepeat->getList($get);
 
 //$this->vd($rows);
-//$this->vd($repeat_list);
+//$this->vd(array_keys($repeat_list));
 
 
 //$this->vd($rows['2023-07-17']);

@@ -376,7 +376,7 @@ $g = $_GET;
 						?>
 						</div>
 						<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo $row->arrival_dt; ?></div>
-						<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo $row->name; ?></div>
+						<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo $row->customer_name; ?></div>
 						@if ($row->lot_fg == 0)
 						<a href="" class="btn btn-secondary text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未作成</a>
 						@elseif ($row->lot_fg == 1)
@@ -427,7 +427,7 @@ $g = $_GET;
 
 						<!-- 6t 0 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($repeat_list, 0, $sumTanks, 1); @endphp
+							@php innerTable($repeat_list[$delivery_dt], 0, $sumTanks, 1); @endphp
 						</td>
 
 						<!-- 6t 1 -->
@@ -481,7 +481,7 @@ $g = $_GET;
 
 						<!-- 6t 0 -->
 						<td colspan="6">
-							@php innerTable($repeat_list, 0, $sumTanks, 2); @endphp
+							@php innerTable($repeat_list[$delivery_dt], 0, $sumTanks, 2); @endphp
 						</td>
 
 						<!-- 6t 1 -->
@@ -535,7 +535,7 @@ $g = $_GET;
 
 						<!-- 6t 0 -->
 						<td colspan="6">
-							@php innerTable($repeat_list, 0, $sumTanks, 3); @endphp
+							@php innerTable($repeat_list[$delivery_dt], 0, $sumTanks, 3); @endphp
 						</td>
 
 						<!-- 6t 1 -->
