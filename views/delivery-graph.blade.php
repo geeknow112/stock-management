@@ -352,12 +352,13 @@ $g = $_GET;
 		<?php foreach ($list as $sales => $d) { ?>
 			<?php foreach ($d as $id => $row) { ?>
 				<?php if ($row->class == $class && $row->cars_tank == $carsTank) { ?>
+<?php // if ($row->class == 0) { echo '<pre>'; print_r($row->goods_name); echo '</pre>'; } ?>
 					<div class="d-flex flex-row bd-highlight mb-3">
 	<!--					<div class="text-wrap text-center inner_box" style="width: 8rem;"><?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></div>-->
 						@if ($row->repeat_fg != 1)
 						<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&action=edit'>{{$row->goods_name}}</a></div>
 						@else
-						<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;">{{$row->goods_name}}</div>
+						<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;">{{$row->goods}}:{{$row->goods_name}}:{{$row->sales}}:{{$row->repeat}}</div>
 						@endif
 						<div class="text-wrap text-center inner_box" style="width: 3.5rem;"><?php echo $row->qty; ?></div>
 <!--						<div class="text-wrap text-center inner_box" style="width: 9rem;"><?php echo $row->ship_addr; ?></div>	-->
@@ -426,7 +427,7 @@ $g = $_GET;
 
 						<!-- 6t 0 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 0, $sumTanks, 1); @endphp
+							@php innerTable($repeat_list, 0, $sumTanks, 1); @endphp
 						</td>
 
 						<!-- 6t 1 -->
@@ -480,7 +481,7 @@ $g = $_GET;
 
 						<!-- 6t 0 -->
 						<td colspan="6">
-							@php innerTable($list, 0, $sumTanks, 2); @endphp
+							@php innerTable($repeat_list, 0, $sumTanks, 2); @endphp
 						</td>
 
 						<!-- 6t 1 -->
@@ -534,7 +535,7 @@ $g = $_GET;
 
 						<!-- 6t 0 -->
 						<td colspan="6">
-							@php innerTable($list, 0, $sumTanks, 3); @endphp
+							@php innerTable($repeat_list, 0, $sumTanks, 3); @endphp
 						</td>
 
 						<!-- 6t 1 -->

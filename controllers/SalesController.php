@@ -296,6 +296,16 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				$sumTanks = $this->getTb()->sumTanks($rows);
 //$this->vd($rows);
 				$formPage = 'delivery-graph';
+
+// 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
+$this->vd($get->s['sdt']);
+$ScheduleRepeat = new ScheduleRepeat;
+$repeat_list = $ScheduleRepeat->getList($get);
+
+//$this->vd($rows);
+//$this->vd($repeat_list);
+
+
 //$this->vd($rows['2023-07-17']);
 /*
 $t = (array) current(current(current($rows['2023-07-17'])));
@@ -318,7 +328,7 @@ $r = array(
 $msg[] = 'test';
 $msg[] = 'test2';
 $msg[] = 'test3';
-				echo $this->get_blade()->run("delivery-graph", compact('rows', 'formPage', 'initForm', 'r', 'sumTanks', 'msg'));
+				echo $this->get_blade()->run("delivery-graph", compact('rows', 'formPage', 'initForm', 'r', 'sumTanks', 'msg', 'repeat_list'));
 				break;
 		}
 	}
