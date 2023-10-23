@@ -133,11 +133,12 @@ class ScheduleRepeat {
 	public function makeRepeatItems($repeat_items = null, $get = null) {
 		// sdtから表示用にOUTPUT_LIMIT数分、日付を生成
 		$sdt = new DateTime($get->s['sdt']);
+		$sdts[] = $sdt->format('Y-m-d');
 		for ($i = 0; $i<self::OUTPUT_LIMIT; $i++) {
 			$sdt->modify('+1 day');
 			$sdts[] = $sdt->format('Y-m-d');
 		}
-$this->vd($sdts);
+//$this->vd($sdts);
 
 		foreach ($repeat_items as $i => $r) {
 			if (!isset($r->sales)) { continue; }
@@ -170,31 +171,18 @@ $this->vd($sdts);
 					break;
 			}
 
-// 繰り返し注文の生成
+			// 繰り返し注文の生成
 			$r_sdt = new DateTime($r->repeat_s_dt);
-//			for ($i = 0; $i<100; $i++) {
-			$delivery_dt = $r->repeat_s_dt;
+			$r_sdt->modify($period);
+			$delivery_dt = $r_sdt->format('Y-m-d');
+
 			while ($delivery_dt < $r->repeat_e_dt) {
 				$r_sdt->modify($period);
 				$delivery_dt = $r_sdt->format('Y-m-d');
 				if (!in_array($delivery_dt, $sdts)) { continue; }
+				if ($delivery_dt > $r->repeat_e_dt) { continue; }
 				$ret_repeat_items[$delivery_dt][$r->sales][] = $r;
 			}
-/*
-			$delivery_dt = new DateTime($r->delivery_dt);
-			for ($i = 0; $i<self::OUTPUT_LIMIT; $i++) {
-				$delivery_dt->modify($period);
-				$r->delivery_dt = $delivery_dt->format('Y-m-d');
-				if (!in_array($r->delivery_dt, $sdts)) { continue; }
-				$ret_repeat_items[$r->delivery_dt][$r->sales][] = $r;
-			}
-*/
-/*
-			$arrival_dt = new DateTime($r->arrival_dt);
-			$arrival_dt->modify($period);
-			$r->arrival_dt = $arrival_dt->format('Y-m-d');
-*/
-//			$ret_repeat_items[] = $r;
 		}
 		return $ret_repeat_items;
 	}
