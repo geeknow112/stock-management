@@ -133,11 +133,12 @@ class ScheduleRepeat {
 	public function makeRepeatItems($repeat_items = null, $get = null) {
 		// sdtから表示用にOUTPUT_LIMIT数分、日付を生成
 		$sdt = new DateTime($get->s['sdt']);
+		$sdts[] = $sdt->format('Y-m-d');
 		for ($i = 0; $i<self::OUTPUT_LIMIT; $i++) {
 			$sdt->modify('+1 day');
 			$sdts[] = $sdt->format('Y-m-d');
 		}
-$this->vd($sdts);
+//$this->vd($sdts);
 
 		foreach ($repeat_items as $i => $r) {
 			if (!isset($r->sales)) { continue; }
@@ -170,32 +171,22 @@ $this->vd($sdts);
 					break;
 			}
 
-// 繰り返し注文の生成
+			// 繰り返し注文の生成
 			$r_sdt = new DateTime($r->repeat_s_dt);
-//			for ($i = 0; $i<100; $i++) {
-			$delivery_dt = $r->repeat_s_dt;
-			while ($delivery_dt < $r->repeat_e_dt) {
-				$r_sdt->modify($period);
+//			$r_sdt->modify($period);
+			$delivery_dt = $r_sdt->format('Y-m-d');
+
+			$i = 0;
+			while ($delivery_dt <= $r->repeat_e_dt) {
+				if ($i != 0) { $r_sdt->modify($period); } // (初回のみ不処理): 繰り返し配送日==繰り返し開始日(repeat_s_dt)の場合、日付加算されるため
 				$delivery_dt = $r_sdt->format('Y-m-d');
-				if (!in_array($delivery_dt, $sdts)) { continue; }
+				$i++; // continueの後では加算されないため、この位置に置く。
+				if (!in_array($delivery_dt, $sdts)) { continue; } // (メモリ節約制御): 繰り返しの配送日が、表示範囲にない場合、不処理。
+				if ($delivery_dt > $r->repeat_e_dt) { continue; } // (メモリ節約制御): 繰り返しの配送日が、繰り返し終了日を超えた場合、不処理。
 				$ret_repeat_items[$delivery_dt][$r->sales][] = $r;
 			}
-/*
-			$delivery_dt = new DateTime($r->delivery_dt);
-			for ($i = 0; $i<self::OUTPUT_LIMIT; $i++) {
-				$delivery_dt->modify($period);
-				$r->delivery_dt = $delivery_dt->format('Y-m-d');
-				if (!in_array($r->delivery_dt, $sdts)) { continue; }
-				$ret_repeat_items[$r->delivery_dt][$r->sales][] = $r;
-			}
-*/
-/*
-			$arrival_dt = new DateTime($r->arrival_dt);
-			$arrival_dt->modify($period);
-			$r->arrival_dt = $arrival_dt->format('Y-m-d');
-*/
-//			$ret_repeat_items[] = $r;
 		}
+
 		return $ret_repeat_items;
 	}
 
