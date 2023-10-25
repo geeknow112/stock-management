@@ -173,17 +173,20 @@ class ScheduleRepeat {
 
 			// 繰り返し注文の生成
 			$r_sdt = new DateTime($r->repeat_s_dt);
-			$r_sdt->modify($period);
+//			$r_sdt->modify($period);
 			$delivery_dt = $r_sdt->format('Y-m-d');
 
-			while ($delivery_dt < $r->repeat_e_dt) {
-				$r_sdt->modify($period);
+			$i = 0;
+			while ($delivery_dt <= $r->repeat_e_dt) {
+				if ($i != 0) { $r_sdt->modify($period); } // (初回のみ不処理): 繰り返し配送日==繰り返し開始日(repeat_s_dt)の場合、日付加算されるため
 				$delivery_dt = $r_sdt->format('Y-m-d');
-				if (!in_array($delivery_dt, $sdts)) { continue; }
-				if ($delivery_dt > $r->repeat_e_dt) { continue; }
+				$i++; // continueの後では加算されないため、この位置に置く。
+				if (!in_array($delivery_dt, $sdts)) { continue; } // (メモリ節約制御): 繰り返しの配送日が、表示範囲にない場合、不処理。
+				if ($delivery_dt > $r->repeat_e_dt) { continue; } // (メモリ節約制御): 繰り返しの配送日が、繰り返し終了日を超えた場合、不処理。
 				$ret_repeat_items[$delivery_dt][$r->sales][] = $r;
 			}
 		}
+
 		return $ret_repeat_items;
 	}
 
