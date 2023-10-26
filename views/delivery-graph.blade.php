@@ -358,7 +358,10 @@ $g = $_GET;
 						@if ($row->repeat_fg != 1)
 						<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&action=edit'>{{$row->goods_name}}</a></div>
 						@else
-						<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;">{{$row->goods}}:{{$row->goods_name}}:{{$row->sales}}:{{$row->repeat}}</div>
+						<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;">
+							<a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&action=edit'>{{$row->goods_name}}</a><br />
+							gid:({{$row->goods}})<br />sid: ({{$row->sales}})<br />rid: ({{$row->repeat}})
+						</div>
 						@endif
 						<div class="text-wrap text-center inner_box" style="width: 3.5rem;"><?php echo $row->qty; ?></div>
 <!--						<div class="text-wrap text-center inner_box" style="width: 9rem;"><?php echo $row->ship_addr; ?></div>	-->
