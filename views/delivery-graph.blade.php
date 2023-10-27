@@ -382,7 +382,22 @@ $g = $_GET;
 						<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo $row->customer_name; ?></div>
 						@if ($row->lot_fg == 0)
 							@if (isset($row->base_sales))
-							<a href="" class="btn btn-secondary text-center" onClick="window.prompt('車種、槽を入力してください。', ''); return false;">未注文</a>
+	<div>
+		<select class="" id="class" name="class">
+				<option value="">6t-1</option>
+				<option value="">6t-2</option>
+				<option value="">6t-3</option>
+		</select>
+		<br />
+		<select class="" id="tank" name="class">
+				<option value="">1</option>
+				<option value="">2</option>
+				<option value="">3</option>
+		</select>
+		<br />
+		<input type="button" class="btn btn-primary text-center" value="注文">
+	</div>
+<!--							<a href="" class="btn btn-secondary text-center" onClick="window.prompt('車種、槽を入力してください。', ''); return false;">未注文</a>	-->
 							@else
 							<a href="" class="btn btn-secondary text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未作成</a>
 							@endif
