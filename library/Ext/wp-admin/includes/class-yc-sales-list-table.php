@@ -853,7 +853,13 @@ $initForm = $s->getInitForm();
 				'arrival_dt' => mb_convert_encoding('ˆøæ(“üŒÉ)—\’è“ú', 'UTF-8', 'SJIS'), 
 				'' => mb_convert_encoding('”z‘——\’è“ú', 'UTF-8', 'SJIS'), 
 				'status' => mb_convert_encoding('ó‘Ô(Šm’èb–¢Šm’èbíœ)', 'UTF-8', 'SJIS')
-			)
+			),
+			array(
+			),
+			array(
+			),
+			array(
+			),
 		);
 	}
 
