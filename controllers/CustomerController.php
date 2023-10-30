@@ -75,6 +75,7 @@ global $wpdb;
 		$initFormGoods = $Goods->getInitForm();
 		$goods_list = $initFormGoods['select']['goods_name'];
 		//$this->vd($goods_list);
+		$cust_goods = array();
 
 		$rows = null;
 		switch($get->action) {
