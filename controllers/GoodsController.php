@@ -45,6 +45,7 @@ if ( $pagenum > $total_pages && $total_pages > 0 ) {
 global $wpdb;
 //$this->vd(preg_replace('/^'. $wpdb->prefix. '/', '', $wpdb->yc_goods));
 //$this->vd($wp_list_table->items);
+//$this->vd(phpinfo());exit;
 //$d = $wpdb->get_results( "SELECT * FROM yc_goods limit 20;" );
 //$this->vd($d);
 //$this->vd($this->screen->render_screen_reader_content( 'heading_list' ));
@@ -58,7 +59,7 @@ global $wpdb;
 				$rows = $tb->getList($get, $un_convert = true);
 				$formPage = 'goods-list';
 //$this->vd($rows);
-				echo $this->get_blade()->run("goods-list", compact('rows', 'formPage', 'initForm', 'wp_list_table'));
+				echo $this->get_blade()->run("goods-list", compact('get', 'post', 'rows', 'formPage', 'initForm', 'wp_list_table'));
 				break;
 		}
 	}

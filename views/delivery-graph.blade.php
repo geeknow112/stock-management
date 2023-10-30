@@ -147,9 +147,9 @@ console.log(r);
 
 <div id="wpbody-content">
 <?php
-$tb = new Postmeta;
+//$tb = new Postmeta;
 
-$g = $_GET;
+//$g = $_GET;
 //var_dump($g['s']);
 ?>
 	<div class="wrap">
@@ -160,7 +160,7 @@ $g = $_GET;
 		<hr class="wp-header-end">
 
 		<form name="forms" id="forms" action="" method="" enctype="multipart/form-data">
-			@if ($tb->getCurUser()->roles[0] == 'administrator')
+{{--			@if ($tb->getCurUser()->roles[0] == 'administrator')	--}}
 			<div class="search-box">
 				<label class="screen-reader-text" for="user-search-input">申込者を検索:</label>
 <!--
@@ -194,7 +194,7 @@ $g = $_GET;
 			<input type="hidden" name="page" value="delivery-graph">
 			<input type="hidden" name="action" value="search">
 			<input type="hidden" name="cmd" value="">
-			@endif
+{{--			@endif	--}}
 
 		<div class="table-responsive">
 <!--

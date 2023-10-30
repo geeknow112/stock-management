@@ -692,7 +692,13 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_customer;
 				'rgdt' => mb_convert_encoding('登録日', 'UTF-8', 'SJIS'), 
 				'updt' => mb_convert_encoding('最終更新日', 'UTF-8', 'SJIS'), 
 				'upuser' => mb_convert_encoding('最終更新者', 'UTF-8', 'SJIS')
-			)
+			),
+			array(
+			),
+			array(
+			),
+			array(
+			),
 		);
 	}
 

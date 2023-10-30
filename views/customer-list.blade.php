@@ -3,9 +3,9 @@
 
 <div id="wpbody-content">
 <?php
-$tb = new Postmeta;
+//$tb = new Postmeta;
 
-$g = $_GET;
+//$g = $_GET;
 //var_dump($g['s']);
 ?>
 	<div class="wrap">
@@ -16,7 +16,7 @@ $g = $_GET;
 		<hr class="wp-header-end">
 
 		<form method="get">
-			@if ($tb->getCurUser()->roles[0] == 'administrator')
+{{--			@if ($tb->getCurUser()->roles[0] == 'administrator')	--}}
 			<div class="search-box">
 				<label for="customer" class="col-sm-2 col-form-label">顧客番号：</label>
 					<input type="search" id="customer" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>"><br /><br />
@@ -36,7 +36,7 @@ $g = $_GET;
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
 			<input type="hidden" name="page" value="customer-list">
 			<input type="hidden" name="action" value="search">
-			@endif
+{{--			@endif	--}}
 
 			<div class="tablenav top">
 				<br class="clear">

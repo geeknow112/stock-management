@@ -1,7 +1,7 @@
 <?php
-//require(__DIR__. '/library/rakit/rakid/vendor/autoload.php');
+require(__DIR__. '/library/rakit/rakid/vendor/autoload.php');
 use Rakit\Validation\Validator;
-//require(__DIR__. '/library/vendor/autoload.php');
+require(__DIR__. '/library/vendor/autoload.php');
 use eftec\bladeone\BladeOne;
 
 require_once(dirname(__DIR__). '/stock-management/models/model.php');
@@ -27,9 +27,9 @@ date_default_timezone_set('Asia/Tokyo');
 Plugin Name:Stock Management
 Plugin URI: http://www.example.com/plugin
 Description: 商品の在庫数を集計し、発注スケジュールの管理をする。
-Author: gk12
+Author: myu
 Version: 0.1
-Author URI: http://hack-note.com
+Author URI: http://www.example.com
 */
 
 class StockManagement {

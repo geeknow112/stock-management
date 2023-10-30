@@ -2,12 +2,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <div id="wpbody-content">
-<?php
-$tb = new Postmeta;
-
-$g = $_GET;
-//var_dump($g['s']);
-?>
 	<div class="wrap">
 		<h1 class="wp-heading-inline">【注文検索】</h1>
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page={{$formPage}}&action=regist" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
@@ -16,7 +10,7 @@ $g = $_GET;
 		<hr class="wp-header-end">
 
 		<form name="forms" id="forms" action="" method="" enctype="multipart/form-data">
-			@if ($tb->getCurUser()->roles[0] == 'administrator')
+{{--			@if ($tb->getCurUser()->roles[0] == 'administrator')	--}}
 			<div class="search-box">
 				<label for="sales" class="col-sm-2 col-form-label">No. ：</label>
 					<input type="search" id="sales" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>"><br /><br />
@@ -96,7 +90,7 @@ $g = $_GET;
 			<input type="hidden" name="page" value="sales-list">
 			<input type="hidden" name="action" value="search">
 			<input type="hidden" name="cmd" value="">
-			@endif
+{{--			@endif	--}}
 
 
 {{ $wp_list_table->display() }}

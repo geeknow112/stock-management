@@ -688,6 +688,27 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_goods;" )
 	}
 
 	public function get_column_info() {
+
+/*
+ *  ./includes/class-wp-list-table.php
+                        $data = (array) $data;
+                        // Descending initial sorting.
+                        if ( ! isset( $data[1] ) ) {
+                                $data[1] = false;
+                        }
+                        // Current sorting translatable string.
+                        if ( ! isset( $data[2] ) ) {
+                                $data[2] = '';
+                        }
+                        // Initial view sorted column and asc/desc order, default: false.
+                        if ( ! isset( $data[3] ) ) {
+                                $data[3] = false;
+                        }
+                        // Initial order for the initial sorted column, default: false.
+                        if ( ! isset( $data[4] ) ) {
+                                $data[4] = false;
+                        }
+*/
 		return array(
 			array(
 				'goods' => mb_convert_encoding('è§ïiî‘çÜ', 'UTF-8', 'SJIS'), 
@@ -696,6 +717,13 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_goods;" )
 				'qty' => mb_convert_encoding('å¬êî', 'UTF-8', 'SJIS'), 
 				'sum' => mb_convert_encoding('êîó (kg)', 'UTF-8', 'SJIS'), 
 				'remark' => mb_convert_encoding('îıçl', 'UTF-8', 'SJIS')
+			), 
+			array(
+			),
+			array(
+			),
+			array(
+				'goods'
 			)
 		);
 	}
