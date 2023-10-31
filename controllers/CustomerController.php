@@ -248,6 +248,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 	 * PHP::array_columnのオブジェクト版
 	 **/
 	private function objectColumn($obj = null, $key = null) {
+		if (is_null($obj) || is_null($key)) { return null; }
 		foreach ($obj as $i => $d) {
 			$ret[] = $d->$key;
 		}
