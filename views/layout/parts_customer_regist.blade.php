@@ -109,7 +109,11 @@ function delCustomerAddrRow(cnt)
 			<label class="col-sm-2 col-form-label w-5">商品:</label>
 			@foreach($goods_list as $goods => $goods_name)
 				<label>
+				@if (!is_null($cust_goods))
 				<input type="checkbox" class="" id="goods" name="goods[]" aria-describedby="prefHelp" value="{{$goods}}" @if (in_array($goods, $cust_goods)) checked @endif>{{$goods_name}}&emsp;
+				@else
+				<input type="checkbox" class="" id="goods" name="goods[]" aria-describedby="prefHelp" value="{{$goods}}">{{$goods_name}}&emsp;
+				@endif
 				</label>
 				@if ($loop->index != 0 && $loop->index % 5 == 0)
 					<br />
