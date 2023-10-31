@@ -96,7 +96,6 @@ global $wpdb;
 				
 			case 'confirm':
 				if (!empty($post)) {
-//$this->vd($post);
 					switch ($post->cmd) {
 						default:
 						case 'cmd_confirm':
@@ -116,9 +115,7 @@ global $wpdb;
 				} else {
 				}
 
-//$this->vd($post);
 				if ($post->cmd == 'cmd_confirm') { $rows_addrs = $this->sortData($post); }
-//$this->vd($rows_addrs);
 
 				$goods_list = $this->delUnSelectGoods($post->goods, $goods_list);
 				$cust_goods = $post->goods;
@@ -263,6 +260,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 	 * $goods_list : ¤•iˆê——
 	 **/
 	private function delUnSelectGoods($cust_goods = null, $goods_list = null) {
+		if (is_null($cust_goods) || is_null($goods_list)) { return null; }
 		foreach ($goods_list as $goods => $goods_name) {
 			if (!in_array($goods, $cust_goods)) {
 				unset($goods_list[$goods]);
