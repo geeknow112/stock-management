@@ -117,10 +117,11 @@ global $wpdb;
 
 				if ($post->cmd == 'cmd_confirm') { $rows_addrs = $this->sortData($post); }
 
-				$goods_list = $this->delUnSelectGoods($post->goods, $goods_list);
-				$cust_goods = $post->goods;
-
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_goods', 'goods_list', 'cust_goods'));
+				$goods_list = $this->delUnSelectGoods($post->goods_s, $goods_list);
+				$cust_goods = $post->goods_s;
+//$this->vd($goods_list);
+//$this->vd($cust_goods);
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'goods_list', 'cust_goods'));
 				break;
 
 			case 'save':
@@ -205,6 +206,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 	 * 
 	 **/
 	private function sortData($post = null) {
+		if (!isset($post->pref)) { return null; }
 		foreach ($post->pref as $i => $d) {
 			if (empty($d)) { continue; }
 			$tmp[$i] = (object) array(
