@@ -28,7 +28,11 @@
 	</div>
 	<div class="mb-3">
 		@foreach($initForm['select']['week'] as $i => $d)
+			@if ($rows->week)
 			<input type="checkbox" name="week[{{$i}}]" id="week_{{$i}}" class="form-check-imput" @if (in_array($i, $rows->week)) checked @endif />
+			@else
+			<input type="checkbox" name="week[{{$i}}]" id="week_{{$i}}" class="form-check-imput" />
+			@endif
 			<label class="form-check-label" for="week_{{$i}}">{{$d}}</label>
 		@endforeach
 
