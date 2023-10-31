@@ -329,13 +329,14 @@ $post->name = $post->customer_name;
 		);
 
 		// upsert
+		$ret_addrs = array();
 		if ($post->list) {
 			foreach ($post->list as $i => $d) {
 				if (!$d->pref) { continue; } // 必須項目がなければ処理を抜ける
 				$detail = $i+1;
 				$targetId = $wpdb->get_var($wpdb->prepare("SELECT customer FROM yc_customer_detail WHERE customer = %s AND detail = %s", $post->customer, $detail));
 				if (is_null($targetId)) {
-					$ret[] = $wpdb->insert(
+					$ret_addrs[] = $wpdb->insert(
 						'yc_customer_detail', 
 						array(
 							'customer' => $post->customer, 
@@ -349,7 +350,7 @@ $post->name = $post->customer_name;
 						//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
 					);
 				} else {
-					$ret[] = $wpdb->update(
+					$ret_addrs[] = $wpdb->update(
 						'yc_customer_detail', 
 						array(
 							'pref' => $d->pref, 
@@ -367,8 +368,9 @@ $post->name = $post->customer_name;
 			}
 		}
 
+		$ret_goods_s = array();
 		// goods delsert : 一度customerに紐づく商品の関連を全削除して、再度全insertする(checkboxで登録・削除を実現するため)
-		if ($post->goods) {
+		if ($post->goods_s) {
 			// customerに紐づく商品の関連を全削除
 			$ret_del[] = $wpdb->delete(
 				'yc_customer_goods', 
@@ -378,10 +380,10 @@ $post->name = $post->customer_name;
 			);
 
 			// 削除後、全insert
-			foreach ($post->goods as $i => $goods) {
+			foreach ($post->goods_s as $i => $goods) {
 				$targetId = $wpdb->get_var($wpdb->prepare("SELECT goods FROM yc_customer_goods WHERE customer = %s AND goods = %s", $post->customer, $goods));
 				if (is_null($targetId)) {
-					$ret[] = $wpdb->insert(
+					$ret_goods_s[] = $wpdb->insert(
 						'yc_customer_goods', 
 						array(
 							'customer' => $post->customer, 
@@ -395,8 +397,9 @@ $post->name = $post->customer_name;
 		}
 
 		// 更新情報を再取得
-		$rows = $this->getDetailByCustomerCode($post->customer);
-		return $rows;
+		$ret_rows = array();
+		$ret_rows = $this->getDetailByCustomerCode($post->customer);
+		return $ret_rows;
 	}
 
 	public function vd($d) {
