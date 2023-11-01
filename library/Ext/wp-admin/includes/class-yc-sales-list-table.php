@@ -163,63 +163,63 @@ if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND s.arrival_dt <= '%
 		 *  4. pagerのために、mergeした配列を調整する。
 		 **/
 
-		$sql_r = sprintf("select * from yc_sales as s LEFT JOIN yc_schedule_repeat AS sr ON s.sales = sr.sales WHERE s.repeat_fg = 1;");
-		//print_r($sql_r);
-		$repeat_items = $wpdb->get_results( $sql_r );
-//		$r = $repeat_items[0];
+//				$sql_r = sprintf("select * from yc_sales as s LEFT JOIN yc_schedule_repeat AS sr ON s.sales = sr.sales WHERE s.repeat_fg = 1;");
+				//print_r($sql_r);
+//				$repeat_items = $wpdb->get_results( $sql_r );
+		//		$r = $repeat_items[0];
 
-		// repeat itemsの生成
-		$ret_repeat_items = $this->makeRepeatItems($repeat_items);
+				// repeat itemsの生成
+//				$ret_repeat_items = $this->makeRepeatItems($repeat_items);
 
-//$this->vd($ret_repeat_items);
-//$this->vd(count($ret_repeat_items));
+		//$this->vd($ret_repeat_items);
+		//$this->vd(count($ret_repeat_items));
 
-$count_repeat_item = count($ret_repeat_items);
-$users_per_page = $users_per_page - $count_repeat_item; //repeat対象注文カウント数分減ずる
-
-
-/**
- * 受注情報をLIMITで取得して、後でpager用にrepert分を追加する方法
- **/
-$limit = ($paged -1) * $users_per_page;
-$sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM yc_sales AS s ");
-$sql .= sprintf("LEFT JOIN yc_goods AS g ON s.goods = g.goods ");
-$sql .= sprintf("LEFT JOIN yc_customer AS c ON s.customer = c.customer ");
-$sql .= sprintf("%s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
-//print_r($sql);
-$this->items = $wpdb->get_results( $sql );
+//		$count_repeat_item = count($ret_repeat_items);
+//		$users_per_page = $users_per_page - $count_repeat_item; //repeat対象注文カウント数分減ずる
 
 
-/**
- * 受注情報を全取得して、repeat分をpushして、delivery_dtでsortした上で、phpでpager用limitを設定する方法
- **/
-/*
-$limit = ($paged -1) * $users_per_page;
-$sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM yc_sales AS s LEFT JOIN yc_goods AS g ON s.goods = g.goods LEFT JOIN yc_customer AS c ON s.customer = c.customer %s", $where);
-$this->items = $wpdb->get_results( $sql );
-*/
+		/**
+		 * 受注情報をLIMITで取得して、後でpager用にrepert分を追加する方法
+		 **/
+		$limit = ($paged -1) * $users_per_page;
+		$sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM yc_sales AS s ");
+		$sql .= sprintf("LEFT JOIN yc_goods AS g ON s.goods = g.goods ");
+		$sql .= sprintf("LEFT JOIN yc_customer AS c ON s.customer = c.customer ");
+		$sql .= sprintf("%s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
+		//print_r($sql);
+		$this->items = $wpdb->get_results( $sql );
 
-// repeat分を追加
-foreach ($ret_repeat_items as $i => $d) {
-	array_push($this->items, $d);
-}
 
-/*
-foreach ($this->items as $i => $d) {
-	$sort[$i] = (array) $d;
-}
-*/
+		/**
+		 * 受注情報を全取得して、repeat分をpushして、delivery_dtでsortした上で、phpでpager用limitを設定する方法
+		 **/
+		/*
+		$limit = ($paged -1) * $users_per_page;
+		$sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM yc_sales AS s LEFT JOIN yc_goods AS g ON s.goods = g.goods LEFT JOIN yc_customer AS c ON s.customer = c.customer %s", $where);
+		$this->items = $wpdb->get_results( $sql );
+		*/
 
-/*
-echo '<pre>';
-//	print_r(array_column($sort, 'sales'));
-//	print_r(array_multisort(array_column($sort, 'sales'), SORT_ASC, $sort));
-echo '</pre>';
-*/
+		// repeat分を追加
+//		foreach ($ret_repeat_items as $i => $d) {
+//			array_push($this->items, $d);
+//		}
 
-echo '<pre>';
-//print_r($this->items);
-echo '</pre>';
+		/*
+		foreach ($this->items as $i => $d) {
+			$sort[$i] = (array) $d;
+		}
+		*/
+
+		/*
+		echo '<pre>';
+		//	print_r(array_column($sort, 'sales'));
+		//	print_r(array_multisort(array_column($sort, 'sales'), SORT_ASC, $sort));
+		echo '</pre>';
+		*/
+
+//		echo '<pre>';
+		//print_r($this->items);
+//		echo '</pre>';
 $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" ));
 
 		$this->set_pagination_args(
