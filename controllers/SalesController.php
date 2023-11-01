@@ -87,7 +87,7 @@ $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 						case 'cmd_confirm':
 							$msg = $this->getValidMsg();
 							$rows = $post;
-							$rows->week = array_keys($rows->week); // post値[week]をcheckbox形式に変換
+							if (!empty($rows->week)) { $rows->week = array_keys($rows->week); } // post値[week]をcheckbox形式に変換
 							if ($rows->sales) { $rows->btn = 'update'; }
 
 							if ($msg['msg'] !== 'success') {
