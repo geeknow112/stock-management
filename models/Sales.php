@@ -310,11 +310,11 @@ $dt = new DateTime($sdt. ' +1 days');
 		$exist_columns = $wpdb->get_col("DESC ". $this->getTableName(). ";", 0);
 		foreach ($exist_columns as $i => $col) {
 			if(!is_null($post->$col)) {
-				if ($col !== 'qty') {
+				if ($col != 'qty') {
 					$data[$col] = $post->$col;
 				} else {
-					$select->qty = $this->getPartsQty();
-					$data[$col] = $select->qty[$post->$col];
+					$select_qty = $this->getPartsQty();
+					$data[$col] = $select_qty[$post->$col];
 				}
 			}
 		}
@@ -330,6 +330,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		// 登録したIDを取得
 		$sales = $wpdb->insert_id;
 
+/*
 		// schedule_repeat関連値登録
 		// upsert
 		$targetId = $wpdb->get_var($wpdb->prepare("SELECT sales FROM yc_schedule_repeat WHERE sales = %s", $sales));
@@ -364,7 +365,7 @@ $dt = new DateTime($sdt. ' +1 days');
 				)
 			);
 		}
-
+*/
 		// 登録情報を再取得
 		$rows = $this->getDetailBySalesCode($sales);
 		$rows->sales = $rows->sales;
