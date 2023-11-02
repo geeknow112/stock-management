@@ -25,30 +25,16 @@ class GoodsController extends Ext_Controller_Action
 		$get = (object) $_GET;
 		$post = (object) $_POST;
 
+		try {
+			// pagination
+			$this->setPager('Goods');
+			$wp_list_table = $this->getPager();
 
+		} catch (Exception $e) {
+			echo '<b>'. $e->getMessage(). '</b>';
+		}
 
-// pagination
-require_once(dirname(__DIR__). '/library/Ext/wp-admin/includes/class-yc-goods-list-table.php');
-//$wp_list_table = _get_list_table( 'YC_Goods_List_Table' );
-$wp_list_table = new YC_Goods_List_Table;
-//$this->vd($wp_list_table);exit;
-
-$pagenum       = $wp_list_table->get_pagenum();
-$wp_list_table->prepare_items();
-/*
-$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
-if ( $pagenum > $total_pages && $total_pages > 0 ) {
-        wp_redirect( add_query_arg( 'paged', $total_pages ) );
-        exit;
-}
-*/
-global $wpdb;
-//$this->vd(preg_replace('/^'. $wpdb->prefix. '/', '', $wpdb->yc_goods));
-//$this->vd($wp_list_table->items);
-//$this->vd(phpinfo());exit;
-//$d = $wpdb->get_results( "SELECT * FROM yc_goods limit 20;" );
-//$this->vd($d);
-//$this->vd($this->screen->render_screen_reader_content( 'heading_list' ));
+		global $wpdb;
 
 		$get->action = 'search';
 		switch($get->action) {
