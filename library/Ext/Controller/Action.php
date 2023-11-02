@@ -63,6 +63,61 @@ abstract class Ext_Controller_Action
 	}
 
 	/**
+	 * 
+	 *
+	 **/
+	protected $_pager;
+
+	/**
+	 * pagination
+	 *
+	 **/
+	public function setPager($modelName = null) {
+		if (is_null($modelName)) { throw new Exception('Empty Model Name in function set Pager...'); }
+		switch ($modelName) {
+			case 'Goods' :
+				require_once(dirname(__DIR__). '/wp-admin/includes/class-yc-goods-list-table.php');
+				$wp_list_table = new YC_Goods_List_Table;
+				break;
+
+			case 'Customer' :
+				require_once(dirname(__DIR__). '/wp-admin/includes/class-yc-customer-list-table.php');
+				$wp_list_table = new YC_Customer_List_Table;
+				break;
+
+			case 'Sales' :
+				require_once(dirname(__DIR__). '/wp-admin/includes/class-yc-sales-list-table.php');
+				$wp_list_table = new YC_Sales_List_Table;
+				break;
+		}
+		$pagenum       = $wp_list_table->get_pagenum();
+		$wp_list_table->prepare_items();
+		/*
+		$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
+		if ( $pagenum > $total_pages && $total_pages > 0 ) {
+		        wp_redirect( add_query_arg( 'paged', $total_pages ) );
+		        exit;
+		}
+		*/
+global $wpdb;
+//$this->vd(preg_replace('/^'. $wpdb->prefix. '/', '', $wpdb->yc_goods));
+//$this->vd($wp_list_table->items);
+//$this->vd(phpinfo());exit;
+//$d = $wpdb->get_results( "SELECT * FROM yc_goods limit 20;" );
+//$this->vd($d);
+//$this->vd($this->screen->render_screen_reader_content( 'heading_list' ));
+		$this->_pager = $wp_list_table;
+	}
+
+	/**
+	 * 
+	 *
+	 **/
+	public function getPager() {
+		return $this->_pager;
+	}
+
+	/**
 	 * バリデーション実行
 	 * 
 	 **/

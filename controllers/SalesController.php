@@ -24,20 +24,16 @@ class SalesController extends Ext_Controller_Action
 		$get = (object) $_GET;
 		$post = (object) $_POST;
 
-// pagination
-require_once(dirname(__DIR__). '/library/Ext/wp-admin/includes/class-yc-sales-list-table.php');
-$wp_list_table = new YC_Sales_List_Table;
+		try {
+			// pagination
+			$this->setPager('Sales');
+			$wp_list_table = $this->getPager();
 
-$pagenum       = $wp_list_table->get_pagenum();
-$wp_list_table->prepare_items();
-/*
-$total_pages = $wp_list_table->get_pagination_arg( 'total_pages' );
-if ( $pagenum > $total_pages && $total_pages > 0 ) {
-        wp_redirect( add_query_arg( 'paged', $total_pages ) );
-        exit;
-}
-*/
-global $wpdb;
+		} catch (Exception $e) {
+			echo '<b>'. $e->getMessage(). '</b>';
+		}
+
+		global $wpdb;
 
 		$this->setTb('Sales');
 
