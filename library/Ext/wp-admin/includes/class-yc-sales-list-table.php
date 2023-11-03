@@ -84,7 +84,18 @@ class YC_Sales_List_Table extends WP_List_Table {
 	public function prepare_items() {
 		global $role, $usersearch;
 
+if (!is_array($_REQUEST['s'])) {
 		$usersearch = isset( $_REQUEST['s'] ) ? wp_unslash( trim( $_REQUEST['s'] ) ) : '';
+} else {
+	if (isset( $_REQUEST['s'] )) {
+		foreach ($_REQUEST['s'] as $k => $v) {
+			$tmp[$k] = wp_unslash( trim( $v ) );
+		}
+		$usersearch = $tmp;
+	} else {
+		$usersearch = '';
+	}
+}
 
 		$role = isset( $_REQUEST['role'] ) ? $_REQUEST['role'] : '';
 
