@@ -47,7 +47,7 @@ class SalesController extends Ext_Controller_Action
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList($get, $un_convert = true);
 				$formPage = 'sales-list';
-				echo $this->get_blade()->run("sales-list", compact('rows', 'formPage', 'initForm', 'wp_list_table'));
+				echo $this->get_blade()->run("sales-list", compact('rows', 'get', 'post', 'formPage', 'initForm', 'wp_list_table'));
 				break;
 		}
 	}
