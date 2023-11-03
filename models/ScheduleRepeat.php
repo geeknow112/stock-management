@@ -120,6 +120,26 @@ class ScheduleRepeat {
 
 		// repeat情報から、繰り返し注文を生成
 		$ret = $this->makeRepeatItems($rows, $get);
+
+		// 既に注文確定したものを除外する
+		$r_ex_sql = 'select * from yc_repeat_exclude;';
+		$r_excludes = $wpdb->get_results($r_ex_sql);
+//$this->vd($ret);
+//$this->vd($r_excludes);
+		// 照合しやすいように成形
+		foreach ($r_excludes as $i => $d) {
+			$r_ex[$d->delivery_dt][$d->sales] = $d;
+		}
+//$this->vd($r_ex);
+		foreach ($ret as $delivery_dt => $list) {
+			foreach ($list as $sales => $d) {
+//				if ($delivery_dt == '2022-12-23') {
+				if (!empty($r_ex[$delivery_dt][$sales])) {
+//					$this->vd($r_ex[$delivery_dt][$sales]);
+					unset($ret[$delivery_dt][$sales]);
+				}
+			}
+		}
 		return $ret;
 	}
 

@@ -287,8 +287,17 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 		$this->setTb('Sales');
 
-//		$get->action = 'search';
+		if (!isset($get->action)) { $get->action = $post->action; }
+
 		switch($get->action) {
+			case 'regist':
+				$this->vd($get);
+				$this->vd($post);
+				$post->delivery_dt = $post->r_delivery_dt;
+				$post->class = $post->r_class;
+				$post->cars_tank = $post->r_tank;
+//				$rows = $this->getTb()->regDetail($get, $post);
+
 			case 'search':
 //$this->vd($get);
 			default:
