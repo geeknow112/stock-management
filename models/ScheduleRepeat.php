@@ -361,35 +361,12 @@ class ScheduleRepeat {
 	}
 
 	/**
-	 * 受注情報更新
+	 * 繰り返し情報更新
+	 * 
 	 **/
 	public function updDetail($get = null, $post = null) {
 		$post = (object) $post;
 		global $wpdb;
-
-		// checkboxの初期化
-		$post->use_stock = ($post->use_stock == 'on') ? 1 : 0;
-		$post->repeat_fg = ($post->repeat_fg == 'on') ? 1 : 0;
-
-		$exist_columns = $wpdb->get_col("DESC ". $this->getTableName(). ";", 0);
-		foreach ($exist_columns as $i => $col) {
-			if(!is_null($post->$col)) {
-				if ($col !== 'qty') {
-					$data[$col] = $post->$col;
-				} else {
-					$select->qty = $this->getPartsQty();
-					$data[$col] = $select->qty[$post->$col];
-				}
-			}
-		}
-
-		$data['updt'] = date('Y-m-d H:i:s');
-
-		$ret = $wpdb->update(
-			$this->getTableName(), 
-			$data, 
-			array('sales' => $post->sales)
-		);
 
 		// schedule_repeat関連値登録
 		// upsert
@@ -402,7 +379,8 @@ class ScheduleRepeat {
 					'sales' => $post->sales, 
 					'period' => $post->period, 
 					'span' => $post->span, 
-					'week' => implode(',', array_keys($post->week)), 
+					'week' => (!empty($post->week)) ? implode(',', array_keys($post->week)) : null, 
+					'week' => null, 
 					'repeat_s_dt' => $post->repeat_s_dt, 
 					'repeat_e_dt' => $post->repeat_e_dt, 
 					'rgdt' => date('Y-m-d H:i:s')
@@ -415,7 +393,7 @@ class ScheduleRepeat {
 				array(
 					'period' => $post->period, 
 					'span' => $post->span, 
-					'week' => implode(',', array_keys($post->week)), 
+					'week' => (!empty($post->week)) ? implode(',', array_keys($post->week)) : null, 
 					'repeat_s_dt' => $post->repeat_s_dt, 
 					'repeat_e_dt' => $post->repeat_e_dt, 
 					'updt' => date('Y-m-d H:i:s')
@@ -427,8 +405,8 @@ class ScheduleRepeat {
 		}
 
 		// 更新情報を再取得
-		$rows = $this->getDetailBySalesCode($post->sales);
-		return $rows;
+		$result = $this->getDetailBySalesCode($post->sales);
+		return $result;
 	}
 
 	/**
