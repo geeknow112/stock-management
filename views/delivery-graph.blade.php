@@ -194,6 +194,11 @@ console.log(r);
 			<input type="hidden" name="page" value="delivery-graph">
 			<input type="hidden" name="action" value="search">
 			<input type="hidden" name="cmd" value="">
+
+			<input type="hidden" name="r_delivery_dt" value="">
+			<input type="hidden" name="r_class" value="">
+			<input type="hidden" name="r_tank" value="">
+			<input type="hidden" name="base_sales" value="">
 {{--			@endif	--}}
 
 		<div class="table-responsive">
@@ -395,8 +400,23 @@ console.log(r);
 				<option value="">3</option>
 		</select>
 		<br />
-		<input type="button" class="btn btn-primary text-center" value="注文">
+		<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order();">
 	</div>
+
+<script>
+function change_repeat_order() {
+	alert('class, tank 変更');
+	document.forms.method = 'post';
+	document.forms.action.value = 'regist';
+	document.forms.r_delivery_dt.value = <?php echo $row->delivery_dt; ?>;
+	document.forms.r_class.value = <?php echo $row->class; ?>;
+	document.forms.r_tank.value = <?php echo $row->cars_tank; ?>;
+	document.forms.base_sales.value = '1';
+	document.forms.cmd.value = 'regist';
+	document.forms.submit();
+}
+</script>
+
 <!--							<a href="" class="btn btn-secondary text-center" onClick="window.prompt('車種、槽を入力してください。', ''); return false;">未注文</a>	-->
 							@else
 							<a href="" class="btn btn-secondary text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未作成</a>
