@@ -133,6 +133,11 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 						if ($msg['msg'] == 'success') {
 							$rows = $this->getTb()->updDetail($get, $post);
 //							$rows->order_name = $rows->name;
+
+							// ŒJ‚è•Ô‚µî•ñ“o˜^
+							$ScheduleRepeat = new ScheduleRepeat();
+							$repeat = $ScheduleRepeat->updDetail($get, $post);
+
 							$get->action = 'complete';
 
 						} else {
