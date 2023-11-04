@@ -197,7 +197,7 @@ console.log(r);
 
 			<input type="hidden" name="r_delivery_dt" value="">
 			<input type="hidden" name="r_class" value="">
-			<input type="hidden" name="r_tank" value="">
+
 			<input type="hidden" name="base_sales" value="">
 {{--			@endif	--}}
 
@@ -351,7 +351,7 @@ console.log(r);
 	}
 </style>
 
-<?php	function innerTable($list, $class, $sumTanks = null, $carsTank = null) {	?>
+<?php	function innerTable($delivery_dt, $list, $class, $sumTanks = null, $carsTank = null) {	?>
 		<div style="width: 40rem;">
 <!--	<div class="card" style="width: 40rem;">-->
 		<?php foreach ($list as $sales => $d) { ?>
@@ -400,20 +400,27 @@ console.log(r);
 				<option value="">3</option>
 		</select>
 		<br />
-		<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order();">
+		<input type="hidden" id="r_order_{{$row->sales}}_{{$row->goods}}_<?php echo str_replace('-', '', $delivery_dt); ?>" name="r_order[]" value="">
+		<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order('r_order_{{$row->sales}}_{{$row->goods}}_<?php echo str_replace('-', '', $delivery_dt); ?>');">
 	</div>
 
 <script>
-function change_repeat_order() {
+function change_repeat_order(obj) {
+	console.log(obj);
+
 	alert('class, tank 変更');
 	document.forms.method = 'post';
 	document.forms.action.value = 'regist';
+	//document.forms.oid.value = '1';
+	document.getElementById(obj).value = obj;
+/*
 	document.forms.r_delivery_dt.value = <?php echo $row->delivery_dt; ?>;
 	document.forms.r_class.value = <?php echo $row->class; ?>;
-	document.forms.r_tank.value = <?php echo $row->cars_tank; ?>;
+	document.forms.r_tank.value = '{{$row->cars_tank}}';
 	document.forms.base_sales.value = '1';
 	document.forms.cmd.value = 'regist';
-	document.forms.submit();
+*/	document.forms.submit();
+
 }
 </script>
 
@@ -469,7 +476,7 @@ function change_repeat_order() {
 
 						<!-- 6t 0 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($repeat_list[$delivery_dt], 0, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, $sumTanks, 1); @endphp
 						</td>
 
 						<!-- 6t 1 -->
@@ -523,7 +530,7 @@ function change_repeat_order() {
 
 						<!-- 6t 0 -->
 						<td colspan="6">
-							@php innerTable($repeat_list[$delivery_dt], 0, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, $sumTanks, 2); @endphp
 						</td>
 
 						<!-- 6t 1 -->
@@ -577,7 +584,7 @@ function change_repeat_order() {
 
 						<!-- 6t 0 -->
 						<td colspan="6">
-							@php innerTable($repeat_list[$delivery_dt], 0, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, $sumTanks, 3); @endphp
 						</td>
 
 						<!-- 6t 1 -->

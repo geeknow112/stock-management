@@ -287,15 +287,24 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 		$this->setTb('Sales');
 
-		if (!isset($get->action)) { $get->action = $post->action; }
+		if (!isset($get->action) || $post->action == 'regist') { $get->action = $post->action; }
 
 		switch($get->action) {
 			case 'regist':
-				$this->vd($get);
-				$this->vd($post);
+//				$this->vd($get);
+//				$this->vd($post);
+//				$this->vd($post->r_order);
+				foreach ($post->r_order as $i => $oid) {
+					if (isset($oid)) {
+						$this->vd(explode('_', $oid));
+						break;
+					}
+				}
+/*
 				$post->delivery_dt = $post->r_delivery_dt;
 				$post->class = $post->r_class;
 				$post->cars_tank = $post->r_tank;
+*/
 //				$rows = $this->getTb()->regDetail($get, $post);
 
 			case 'search':
