@@ -297,13 +297,15 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				// salesƒe[ƒuƒ‹‚Ö“o˜^‚Ì‚½‚ß‚Ì¬Œ`
 				$r_order = array();
 				foreach ($post->r_order as $i => $oid) {
-					if (isset($oid)) {
+					if (!empty($oid)) {
 						$r_order = explode('_', $oid);
 						break;
 					}
 				}
 				$post->delivery_dt = substr($r_order[4], 0, 4). '-'. substr($r_order[4], 4, 2). '-'. substr($r_order[4], 6, 2);
 				$post->goods = $r_order[3];
+				$post->class = 1;
+				$post->cars_tank = 1;
 /*
 				$post->delivery_dt = $post->r_delivery_dt;
 				$post->class = $post->r_class;
@@ -312,7 +314,12 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				// salesƒe[ƒuƒ‹‚Ö“o˜^
 				$rows = $this->getTb()->regDetail($get, $post);
 
+				// repeat_excludeƒe[ƒuƒ‹‚É•K—v‚Èî•ñ‚ğ’Ç‰Á
+				$post->sales = $r_order[2];
+				$post->repeat = 1;
 				// repeat_excludeƒe[ƒuƒ‹‚Ö“o˜^
+				$RepeatExclude = new RepeatExclude;
+				$RepeatExclude->updDetail($get, $post);
 
 			case 'search':
 //$this->vd($get);
