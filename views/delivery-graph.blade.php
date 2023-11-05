@@ -481,46 +481,46 @@ function change_repeat_order(obj) {
 
 						<!-- 6t 1 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 1, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 1, $sumTanks, 1); @endphp
 						</td>
 
 						<!-- 6t 2 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 2, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 2, $sumTanks, 1); @endphp
 						</td>
 
 						<!-- 6t 3 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 3, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 3, $sumTanks, 1); @endphp
 						</td>
 
 						<!-- 6t 4 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 4, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 4, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 5 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 5, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 5, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 6 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 6, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 6, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 7 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 7, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 7, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 8, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 8, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 9, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 9, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($list, 10, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 10, $sumTanks, 1); @endphp
 						</td>
 					</tr>
 					<tr id="user-1">
@@ -535,46 +535,46 @@ function change_repeat_order(obj) {
 
 						<!-- 6t 1 -->
 						<td colspan="6">
-							@php innerTable($list, 1, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 1, $sumTanks, 2); @endphp
 						</td>
 
 						<!-- 6t 2 -->
 						<td colspan="6">
-							@php innerTable($list, 2, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 2, $sumTanks, 2); @endphp
 						</td>
 
 						<!-- 6t 3 -->
 						<td colspan="6">
-							@php innerTable($list, 3, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 3, $sumTanks, 2); @endphp
 						</td>
 
 						<!-- 6t 4 -->
 						<td colspan="6">
-							@php innerTable($list, 4, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 4, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 5 -->
 						<td colspan="6">
-							@php innerTable($list, 5, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 5, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 6 -->
 						<td colspan="6">
-							@php innerTable($list, 6, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 6, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 7 -->
 						<td colspan="6">
-							@php innerTable($list, 7, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 7, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">
-							@php innerTable($list, 8, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 8, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td colspan="6">
-							@php innerTable($list, 9, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 9, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td colspan="6">
-							@php innerTable($list, 10, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 10, $sumTanks, 2); @endphp
 						</td>
 					</tr>
 					<tr id="user-1" style="border-bottom: solid 1px gray;">
@@ -589,46 +589,46 @@ function change_repeat_order(obj) {
 
 						<!-- 6t 1 -->
 						<td colspan="6">
-							@php innerTable($list, 1, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 1, $sumTanks, 3); @endphp
 						</td>
 
 						<!-- 6t 2 -->
 						<td colspan="6">
-							@php innerTable($list, 2, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 2, $sumTanks, 3); @endphp
 						</td>
 
 						<!-- 6t 3 -->
 						<td colspan="6">
-							@php innerTable($list, 3, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 3, $sumTanks, 3); @endphp
 						</td>
 
 						<!-- 6t 4 -->
 						<td colspan="6">
-							@php innerTable($list, 4, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 4, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 5 -->
 						<td colspan="6">
-							@php innerTable($list, 5, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 5, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 6 -->
 						<td colspan="6">
-							@php innerTable($list, 6, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 6, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 7 -->
 						<td colspan="6">
-							@php innerTable($list, 7, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 7, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">
-							@php innerTable($list, 8, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 8, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td colspan="6">
-							@php innerTable($list, 9, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 9, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td colspan="6">
-							@php innerTable($list, 10, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 10, $sumTanks, 3); @endphp
 						</td>
 					</tr>
 					@endforeach
