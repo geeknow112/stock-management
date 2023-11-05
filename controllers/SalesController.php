@@ -294,18 +294,25 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 //				$this->vd($get);
 //				$this->vd($post);
 //				$this->vd($post->r_order);
+				// salesƒe[ƒuƒ‹‚Ö“o˜^‚Ì‚½‚ß‚Ì¬Œ`
+				$r_order = array();
 				foreach ($post->r_order as $i => $oid) {
 					if (isset($oid)) {
-						$this->vd(explode('_', $oid));
+						$r_order = explode('_', $oid);
 						break;
 					}
 				}
+				$post->delivery_dt = substr($r_order[4], 0, 4). '-'. substr($r_order[4], 4, 2). '-'. substr($r_order[4], 6, 2);
+				$post->goods = $r_order[3];
 /*
 				$post->delivery_dt = $post->r_delivery_dt;
 				$post->class = $post->r_class;
 				$post->cars_tank = $post->r_tank;
 */
-//				$rows = $this->getTb()->regDetail($get, $post);
+				// salesƒe[ƒuƒ‹‚Ö“o˜^
+				$rows = $this->getTb()->regDetail($get, $post);
+
+				// repeat_excludeƒe[ƒuƒ‹‚Ö“o˜^
 
 			case 'search':
 //$this->vd($get);
