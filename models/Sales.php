@@ -659,6 +659,15 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 	}
 
 	/**
+	 * 注文情報のコピー登録
+	 * 
+	 **/
+	public function copyDetail($get = null, $post = null) {
+		$ret = $this->regDetail($get, $post);
+		return $ret;
+	}
+
+	/**
 	 * 
 	 **/
 	public function vd($d) {

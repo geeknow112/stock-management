@@ -291,43 +291,26 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 		switch($get->action) {
 			case 'regist':
-//				$this->vd($get);
-//				$this->vd($post);
-//				$this->vd($post->r_order);
 				// salesテーブルへ登録のための成形
-				$r_order = array();
-				foreach ($post->r_order as $i => $oid) {
-					if (!empty($oid)) {
-						$r_order = explode('_', $oid);
-						break;
-					}
-				}
-				$post->delivery_dt = substr($r_order[4], 0, 4). '-'. substr($r_order[4], 4, 2). '-'. substr($r_order[4], 6, 2);
-				$post->goods = $r_order[3];
-				$post->class = 1;
-				$post->cars_tank = 1;
-/*
-				$post->delivery_dt = $post->r_delivery_dt;
-				$post->class = $post->r_class;
-				$post->cars_tank = $post->r_tank;
-*/
+				$this->convertSalesData($post);
+				//$this->vd($post);
+
 				// salesテーブルへ登録
-				$rows = $this->getTb()->regDetail($get, $post);
+				$rows = $this->getTb()->copyDetail($get, $post);
 
 				// repeat_excludeテーブルに必要な情報を追加
-				$post->sales = $r_order[2];
-				$post->repeat = 1;
+				$post->sales = $post->base_sales;
+				//$this->vd($post);exit;
+
 				// repeat_excludeテーブルへ登録
 				$RepeatExclude = new RepeatExclude;
 				$RepeatExclude->updDetail($get, $post);
 
 			case 'search':
-//$this->vd($get);
 			default:
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList($get);
 				$sumTanks = $this->getTb()->sumTanks($rows);
-//$this->vd($rows);
 				$formPage = 'delivery-graph';
 
 // 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
@@ -365,6 +348,28 @@ $msg[] = 'test3';
 				echo $this->get_blade()->run("delivery-graph", compact('rows', 'formPage', 'initForm', 'r', 'sumTanks', 'msg', 'repeat_list'));
 				break;
 		}
+	}
+
+	/**
+	 * salesテーブルへ登録のための成形
+	 * 
+	 **/
+	private function convertSalesData($post = null) {
+		$r_order = array();
+		foreach ($post->r_order as $i => $oid) {
+			if (!empty($oid)) {
+				$r_order = explode('_', $oid);
+			} else {
+				unset($post->r_order[$i]);
+			}
+		}
+		$ddt = $r_order[5];
+		$post->delivery_dt = substr($ddt, 0, 4). '-'. substr($ddt, 4, 2). '-'. substr($ddt, 6, 2);
+		$post->goods = $r_order[3];
+		$post->class = 1; // TODO
+		$post->cars_tank = 1; // TODO
+		$post->base_sales = $r_order[2];
+		$post->repeat = $r_order[4];;
 	}
 
 	/**
