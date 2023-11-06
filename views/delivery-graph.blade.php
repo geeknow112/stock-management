@@ -318,8 +318,8 @@ console.log(r);
 				<option value="">3</option>
 		</select>
 		<br />
-		<input type="hidden" id="r_order_{{$row->sales}}_{{$row->goods}}_<?php echo str_replace('-', '', $delivery_dt); ?>" name="r_order[]" value="">
-		<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order('r_order_{{$row->sales}}_{{$row->goods}}_<?php echo str_replace('-', '', $delivery_dt); ?>');">
+		<input type="hidden" id="r_order_{{$row->sales}}_{{$row->goods}}_{{$row->repeat}}_<?php echo str_replace('-', '', $delivery_dt); ?>" name="r_order[]" value="">
+		<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order('r_order_{{$row->sales}}_{{$row->goods}}_{{$row->repeat}}_<?php echo str_replace('-', '', $delivery_dt); ?>');">
 	</div>
 
 <script>
