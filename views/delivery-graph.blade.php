@@ -167,9 +167,9 @@ console.log(r);
 				No. ：<input type="search" id="user-search-input" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>">&emsp;&emsp;&emsp;
 				社名：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
 -->
-				開始：<input type="date" id="user-search-input" name="s[sdt]" value="2022-12-18" placeholder="2020-11-01">&emsp;～&emsp;
+				開始：<input type="date" id="user-search-input" name="s[sdt]" value="2022-12-18" placeholder="2020-11-01">&emsp;
 <!--				開始：<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;	-->
-				終了：<input type="date" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($g['s']['edt']); ?>" placeholder="2022-12-01">&emsp;
+<!--				終了：<input type="date" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($g['s']['edt']); ?>" placeholder="2022-12-01">&emsp;	-->
 
 				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 
@@ -258,88 +258,6 @@ console.log(r);
 						@endfor
 					</tr>
 				</thead>
-
-<?php	function innerTables($rows) {
-			foreach ($rows as $deli_dt => $list) {
-				foreach ($list as $i => $row) {
-					$ret[$deli_dt][$row->class][] = $row;
-				}
-			}
-
-//			echo '<pre>';			print_r($ret);			echo '</pre>';
-
-
-			foreach ($ret as $deli_dt => $list) {
-				foreach ($list as $class => $row) {
-					echo '<tr>';
-//					echo '<td class="" colspan="3" rowspan="'. count($list). '">'. $deli_dt. ' : '. count($list). '</td>';
-
-//			echo '<pre>';			print_r($row);			echo '</pre>';
-
-					for ($j = 0; $j < count($row); $j++) {
-						echo '<td class="" colspan="3">'. $deli_dt. ' : '. count($list). '</td>';
-						for ($i = 0; $i < 7; $i++) {
-							$obj = $row[$j];
-
-							$setClass = $i + 1;
-							if ($obj->class == $setClass) {
-								echo '<td class="">'. $obj->goods. ':'. $obj->class. ':'. $setClass. '</td>';
-								echo '<td class="">'. $obj->ship_addr. '</td>';
-								echo '<td class="">'. $obj->qty. '</td>';
-								echo '<td class="">'. $obj->arrival_dt. '</td>';
-								echo '<td class="">'. $obj->name. '</td>';
-							} else {
-								echo '<td class=""></td>';
-								echo '<td class=""></td>';
-								echo '<td class=""></td>';
-								echo '<td class=""></td>';
-								echo '<td class=""></td>';
-							}
-						}
-						echo '</tr>';
-					}
-					echo '</tr>';
-				}
-/*
-				for ($class = 0; $class <= count($list); $class++) {
-//echo '<pre>';	print_r($list);			echo '</pre>';
-					echo '<td class="">';
-					echo '<td class="">';
-					echo '<td class="">'. $deli_dt. ' : '. count($list). '</td>';
-					for ($i = 0; $i < 7; $i++) {
-							$obj = $list[$class][$i];
-							$setClass = $i + 1;
-							if ($obj->class == $setClass) {
-								echo '<td class="">'. $obj->goods. ':'. $obj->class. ':'. $setClass. '</td>';
-								echo '<td class="">'. $obj->ship_addr. '</td>';
-								echo '<td class="">'. $obj->qty. '</td>';
-								echo '<td class="">'. $obj->arrival_dt. '</td>';
-								echo '<td class="">'. $obj->name. '</td>';
-							} else {
-								echo '<td class=""></td>';
-								echo '<td class=""></td>';
-								echo '<td class=""></td>';
-								echo '<td class=""></td>';
-								echo '<td class=""></td>';
-							}
-					}
-					echo '</tr>';
-				}
-*/
-				echo '</tr>';
-			}
-		}
-?>
-
-{{--
-			@if (isset($rows) && count($rows))
-				<tbody id="the-list" data-wp-lists="list:user">
-				@php innerTables($rows); @endphp
-			@else
-				<td class="colspanchange" colspan="7">検索対象は見つかりませんでした。</td>
-			@endif
-				</tbody>
---}}
 
 <style>
 	.inner_box {

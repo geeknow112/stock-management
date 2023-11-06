@@ -331,7 +331,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				$formPage = 'delivery-graph';
 
 // 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
-$this->vd($get->s['sdt']);
+//$this->vd($get->s['sdt']);
 $ScheduleRepeat = new ScheduleRepeat;
 $repeat_list = $ScheduleRepeat->getList($get);
 
