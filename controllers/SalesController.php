@@ -369,7 +369,7 @@ $msg[] = 'test3';
 		$post->class = 1; // TODO
 		$post->cars_tank = 1; // TODO
 		$post->base_sales = $r_order[2];
-		$post->repeat = $r_order[4];;
+		$post->repeat = $r_order[4];
 	}
 
 	/**

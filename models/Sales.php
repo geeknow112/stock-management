@@ -663,6 +663,28 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 	 * 
 	 **/
 	public function copyDetail($get = null, $post = null) {
+		$rows = $this->getDetailBySalesCode($post->base_sales);
+//$this->vd($rows);exit;
+		$post->sales = null;
+		$post->goods = $rows->goods;
+		$post->ship_addr = $rows->ship_addr;
+
+		$select_qty = $this->getPartsQty();
+		$post->qty = $select_qty[sprintf('%.1f', $rows->qty)];
+
+		$post->customer = $rows->customer;
+		$post->repeat_fg = 0;
+		$post->lot_fg = 0;
+		$post->status = 0;
+		$post->rgdt = null;
+		$post->updt = null;
+		$post->upuser = null;
+		$post->period= null;
+		$post->span= null;
+		$post->week= null;
+		$post->repeat_s_dt= null;
+		$post->repeat_e_dt= null;
+//$this->vd($post);exit;
 		$ret = $this->regDetail($get, $post);
 		return $ret;
 	}
