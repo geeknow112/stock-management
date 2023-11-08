@@ -195,8 +195,9 @@ console.log(r);
 			<input type="hidden" name="action" value="search">
 			<input type="hidden" name="cmd" value="">
 
-			<input type="hidden" name="r_delivery_dt" value="">
-			<input type="hidden" name="r_class" value="">
+			<input type="hidden" name="delivery_dt" value="">
+			<input type="hidden" name="class" value="">
+			<input type="hidden" name="cars_tank" value="">
 
 			<input type="hidden" name="base_sales" value="">
 {{--			@endif	--}}
@@ -269,7 +270,7 @@ console.log(r);
 	}
 </style>
 
-<?php	function innerTable($delivery_dt, $list, $class, $sumTanks = null, $carsTank = null) {	?>
+<?php	function innerTable($delivery_dt, $list, $class, $sumTanks = null, $carsTank = null, $initForm = null) {	?>
 		<div style="width: 40rem;">
 <!--	<div class="card" style="width: 40rem;">-->
 		<?php foreach ($list as $sales => $d) { ?>
@@ -305,42 +306,34 @@ console.log(r);
 						<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo $row->customer_name; ?></div>
 						@if ($row->lot_fg == 0)
 							@if (isset($row->base_sales))
-	<div>
-		<select class="" id="class" name="class">
-				<option value="">6t-1</option>
-				<option value="">6t-2</option>
-				<option value="">6t-3</option>
-		</select>
-		<br />
-		<select class="" id="tank" name="class">
-				<option value="">1</option>
-				<option value="">2</option>
-				<option value="">3</option>
-		</select>
-		<br />
-		<input type="hidden" id="r_order_{{$row->sales}}_{{$row->goods}}_{{$row->repeat}}_<?php echo str_replace('-', '', $delivery_dt); ?>" name="r_order[]" value="">
-		<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order('r_order_{{$row->sales}}_{{$row->goods}}_{{$row->repeat}}_<?php echo str_replace('-', '', $delivery_dt); ?>');">
-	</div>
-
-<script>
-function change_repeat_order(obj) {
-	console.log(obj);
-
-	alert('class, tank 変更');
-	document.forms.method = 'post';
-	document.forms.action.value = 'regist';
-	//document.forms.oid.value = '1';
-	document.getElementById(obj).value = obj;
-/*
-	document.forms.r_delivery_dt.value = <?php echo $row->delivery_dt; ?>;
-	document.forms.r_class.value = <?php echo $row->class; ?>;
-	document.forms.r_tank.value = '{{$row->cars_tank}}';
-	document.forms.base_sales.value = '1';
-	document.forms.cmd.value = 'regist';
-*/	document.forms.submit();
-
-}
-</script>
+							<div>
+						<?php
+						$oid = $row->sales. "_". $row->goods. "_". $row->repeat. "_". str_replace('-', '', $delivery_dt);
+						?>
+								<select class="" id="cars_class_{{$oid}}" name="">
+						{{--
+									@foreach($initForm['select']['car_model'] as $i => $d)
+										<option value="{{$i}}">{{$d}}</option>
+									@endforeach
+						--}}
+										<option value="1">6t-1</option>
+										<option value="2">6t-2</option>
+										<option value="3">6t-3</option>
+										<option value="4">6t-4</option>
+										<option value="5">6t-5</option>
+										<option value="6">6t-6</option>
+										<option value="7">6t-7</option>
+								</select>
+								<br />
+								<select class="" id="cars_tank_{{$oid}}" name="">
+										<option value="1">1</option>
+										<option value="2">2</option>
+										<option value="3">3</option>
+								</select>
+								<br />
+								<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
+								<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order('{{$oid}}');">
+							</div>
 
 <!--							<a href="" class="btn btn-secondary text-center" onClick="window.prompt('車種、槽を入力してください。', ''); return false;">未注文</a>	-->
 							@else
@@ -383,6 +376,36 @@ function change_repeat_order(obj) {
 		<?php }	?>
 	</div>
 <?php	}	?>
+
+<script>
+function change_repeat_order(oid) {
+	var r_order_id = 'r_order_' + oid;
+	var cars_class_id = 'cars_class_' + oid;
+	var cars_tank_id = 'cars_tank_' + oid;
+
+	var cars_class = document.getElementById(cars_class_id).value;
+	var cars_tank = document.getElementById(cars_tank_id).value;
+
+	if (window.confirm('class, tank 変更')) {
+		document.forms.method = 'post';
+		document.forms.action.value = 'regist';
+		//document.forms.oid.value = '1';
+		document.getElementById(r_order_id).value = r_order_id;
+		document.forms.class.value = cars_class;
+		document.forms.cars_tank.value = cars_tank;
+
+	/*
+		document.forms.r_delivery_dt.value = <?php echo $row->delivery_dt; ?>;
+		document.forms.r_class.value = <?php echo $row->class; ?>;
+		document.forms.r_tank.value = '{{$row->cars_tank}}';
+		document.forms.base_sales.value = '1';
+		document.forms.cmd.value = 'regist';
+	*/	document.forms.submit();
+	}
+
+}
+</script>
+
 			@if (isset($rows) && count($rows))
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($rows as $delivery_dt => $list)
@@ -394,7 +417,7 @@ function change_repeat_order(obj) {
 
 						<!-- 6t 0 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, $sumTanks, 1, $initForm); @endphp
 						</td>
 
 						<!-- 6t 1 -->

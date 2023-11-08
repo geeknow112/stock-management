@@ -345,6 +345,7 @@ $r = array(
 $msg[] = 'test';
 $msg[] = 'test2';
 $msg[] = 'test3';
+
 				echo $this->get_blade()->run("delivery-graph", compact('rows', 'formPage', 'initForm', 'r', 'sumTanks', 'msg', 'repeat_list'));
 				break;
 		}
@@ -366,8 +367,8 @@ $msg[] = 'test3';
 		$ddt = $r_order[5];
 		$post->delivery_dt = substr($ddt, 0, 4). '-'. substr($ddt, 4, 2). '-'. substr($ddt, 6, 2);
 		$post->goods = $r_order[3];
-		$post->class = 1; // TODO
-		$post->cars_tank = 1; // TODO
+		$post->class = $post->class;
+		$post->cars_tank = $post->cars_tank;
 		$post->base_sales = $r_order[2];
 		$post->repeat = $r_order[4];
 	}
