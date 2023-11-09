@@ -406,6 +406,19 @@ function change_repeat_order(oid) {
 }
 </script>
 
+<?php	function innerTableFixed($delivery_dt, $list, $class, $sumTanks = null, $carsTank = null, $initForm = null) {	?>
+		<div style="width: 40rem;">
+					<div class="d-flex flex-row bd-highlight mb-3">
+						<input type="text" class="text-wrap text-center inner_box" style="width: 8rem;" placeholder="商品名" value="">
+						<input type="text" class="text-wrap text-center inner_box" style="width: 3.5rem;" placeholder="量(t)" value="">
+						<input type="text" class="text-wrap text-center inner_box" style="width: 9rem;" placeholder="配送先" value="">
+						<input type="text" class="text-wrap text-center inner_box" style="width: 7.5rem;" placeholder="入庫予定日" value="">
+						<input type="text" class="text-wrap text-center inner_box" style="width: 6.5rem;" placeholder="氏名" value="">
+						<a href="" class="btn btn-primary text-center" onClick="">入力</a>
+					</div>
+	</div>
+<?php	}	?>
+
 			@if (isset($rows) && count($rows))
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($rows as $delivery_dt => $list)
@@ -453,15 +466,15 @@ function change_repeat_order(oid) {
 						</td>
 						<!-- 6t 8 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($delivery_dt, $list, 8, $sumTanks, 1); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($delivery_dt, $list, 9, $sumTanks, 1); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td class="fixed02" colspan="6">
-							@php innerTable($delivery_dt, $list, 10, $sumTanks, 1); @endphp
+							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 1); @endphp
 						</td>
 					</tr>
 					<tr id="user-1">
@@ -507,15 +520,15 @@ function change_repeat_order(oid) {
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 8, $sumTanks, 2); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 9, $sumTanks, 2); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 10, $sumTanks, 2); @endphp
+							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 2); @endphp
 						</td>
 					</tr>
 					<tr id="user-1" style="border-bottom: solid 1px gray;">
@@ -561,15 +574,15 @@ function change_repeat_order(oid) {
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 8, $sumTanks, 3); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 9, $sumTanks, 3); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 10, $sumTanks, 3); @endphp
+							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 3); @endphp
 						</td>
 					</tr>
 					@endforeach
