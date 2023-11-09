@@ -276,19 +276,13 @@ console.log(r);
 		<?php foreach ($list as $sales => $d) { ?>
 			<?php foreach ($d as $id => $row) { ?>
 				<?php if ($row->class == $class && $row->cars_tank == $carsTank) { ?>
-<?php // if ($row->class == 0) { echo '<pre>'; print_r($row->goods_name); echo '</pre>'; } ?>
 					<div class="d-flex flex-row bd-highlight mb-3">
-	<!--					<div class="text-wrap text-center inner_box" style="width: 8rem;"><?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></div>-->
 						@if ($row->repeat_fg != 1)
-						<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&action=edit'>{{$row->goods_name}}</a></div>
+							<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}}</a></div>
 						@else
-						<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;">
-							<a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&action=edit'>{{$row->goods_name}}</a><br />
-							gid:({{$row->goods}})<br />sid: ({{$row->sales}})<br />rid: ({{$row->repeat}})
-						</div>
+							<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}}</a></div>
 						@endif
 						<div class="text-wrap text-center inner_box" style="width: 3.5rem;"><?php echo $row->qty; ?></div>
-<!--						<div class="text-wrap text-center inner_box" style="width: 9rem;"><?php echo $row->ship_addr; ?></div>	-->
 						<div class="text-wrap text-center inner_box" style="width: 9rem;">
 						<?php
 //							echo sprintf('[ ');
