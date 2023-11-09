@@ -1,41 +1,6 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-<style>
-	table {
-#		width: 1800px;
-	}
-	th,td {
-#		width: 300px;
-#		height: 100px;
-#		vertical-align: middle;
-#		padding: 0 15px;
-#		border: 1px solid #ccc;
-	}
-	.fixed01,
-	.fixed02 {
-		position: sticky;
-		top: 0;
-		left: 0;
-		background: #333;
-		&:before{
-			content: "";
-			position: absolute;
-			top: -1px;
-			left: -1px;
-			width: 100%;
-			height: 100%;
-#			border: 1px solid #ccc;
-		}
-	}
-	.fixed01{
-		z-index: 2;
-	}
-	.fixed02{
-		z-index: 1;
-	}
-</style>
-
 <div id="wpbody-content">
 <?php
 //$tb = new Postmeta;
@@ -120,26 +85,26 @@
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
 					<tr>
-						<th class="fixed01"></th>
-						<th class="fixed01"></th>
-						<th class="fixed01"></th>
-						<th class="fixed02" colspan="6">6t ⓪</th>
-						<th class="fixed02" colspan="6">6t ①</th>
-						<th class="fixed02" colspan="6">6t ②</th>
-						<th class="fixed02" colspan="6">6t ③</th>
-						<th class="fixed02" colspan="6">6t ④</th>
-						<th class="fixed02" colspan="6">6t ⑤</th>
-						<th class="fixed02" colspan="6">6t ⑥</th>
-						<th class="fixed02" colspan="6">6t ⑦</th>
-						<th class="fixed02" colspan="6">6t ⑧ (太田畜産 専用：結果入力欄)</th>
-						<th class="fixed02" colspan="6">7.5t ⑨ (村上畜産 専用：結果入力欄)</th>
-						<th class="fixed02" colspan="6">6t ⑩ (山忠商事(直取) 専用：結果入力欄)</th>
+						<th class=""></th>
+						<th class=""></th>
+						<th class=""></th>
+						<th class="" colspan="6">6t ⓪</th>
+						<th class="" colspan="6">6t ①</th>
+						<th class="" colspan="6">6t ②</th>
+						<th class="" colspan="6">6t ③</th>
+						<th class="" colspan="6">6t ④</th>
+						<th class="" colspan="6">6t ⑤</th>
+						<th class="" colspan="6">6t ⑥</th>
+						<th class="" colspan="6">6t ⑦</th>
+						<th class="" colspan="6">6t ⑧ (太田畜産 専用：結果入力欄)</th>
+						<th class="" colspan="6">7.5t ⑨ (村上畜産 専用：結果入力欄)</th>
+						<th class="" colspan="6">6t ⑩ (山忠商事(直取) 専用：結果入力欄)</th>
 					</tr>
 
 					<tr>
-						<th class="fixed01" scope="col" id="username"></th>
-						<th class="fixed01" scope="col" id="username">曜</th>
-						<th class="fixed01" scope="col" id="username">日</th>
+						<th class="" scope="col" id="username"></th>
+						<th class="" scope="col" id="username">曜</th>
+						<th class="" scope="col" id="username">日</th>
 						@for ($i = 0; $i <= 10; $i++)
 						<th class="" style="width: 7rem;">品名</th>
 						<th class="" style="width: 3rem;">量(t)</th>
@@ -309,62 +274,62 @@ function change_repeat_order(oid) {
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($rows as $delivery_dt => $list)
 					<tr id="user-1">
-						<td class="fixed01" colspan="3">
+						<td class="" colspan="3">
 							<a href="/wp-admin/admin.php?page=sum-day-goods">{{$delivery_dt}}</a><br />
 							<p>　1槽</p>
 						</td>
 
 						<!-- 6t 0 -->
-						<td class="fixed02" colspan="6">
+						<td class="" colspan="6">
 							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, $sumTanks, 1, $initForm); @endphp
 						</td>
 
 						<!-- 6t 1 -->
-						<td class="fixed02" colspan="6">
+						<td class="" colspan="6">
 							@php innerTable($delivery_dt, $list, 1, $sumTanks, 1); @endphp
 						</td>
 
 						<!-- 6t 2 -->
-						<td class="fixed02" colspan="6">
+						<td class="" colspan="6">
 							@php innerTable($delivery_dt, $list, 2, $sumTanks, 1); @endphp
 						</td>
 
 						<!-- 6t 3 -->
-						<td class="fixed02" colspan="6">
+						<td class="" colspan="6">
 							@php innerTable($delivery_dt, $list, 3, $sumTanks, 1); @endphp
 						</td>
 
 						<!-- 6t 4 -->
-						<td class="fixed02" colspan="6">
+						<td class="" colspan="6">
 							@php innerTable($delivery_dt, $list, 4, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 5 -->
-						<td class="fixed02" colspan="6">
+						<td class="" colspan="6">
 							@php innerTable($delivery_dt, $list, 5, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 6 -->
-						<td class="fixed02" colspan="6">
+						<td class="" colspan="6">
 							@php innerTable($delivery_dt, $list, 6, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 7 -->
-						<td class="fixed02" colspan="6">
+						<td class="" colspan="6">
 							@php innerTable($delivery_dt, $list, 7, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 8 -->
-						<td class="fixed02" colspan="6">
+						<td class="" colspan="6">
 							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 9 -->
-						<td class="fixed02" colspan="6">
+						<td class="" colspan="6">
 							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 10 -->
-						<td class="fixed02" colspan="6">
+						<td class="" colspan="6">
 							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 1); @endphp
 						</td>
 					</tr>
 					<tr id="user-1">
-						<td class="fixed01" colspan="3">
+						<td class="" colspan="3">
 							<p>　2槽</p>
 						</td>
 
@@ -418,7 +383,7 @@ function change_repeat_order(oid) {
 						</td>
 					</tr>
 					<tr id="user-1" style="border-bottom: solid 1px gray;">
-						<td class="fixed01" colspan="3">
+						<td class="" colspan="3">
 							<p>　3槽</p>
 						</td>
 
