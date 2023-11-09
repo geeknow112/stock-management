@@ -323,9 +323,9 @@ $repeat_list = $ScheduleRepeat->getList($get);
 //$this->vd($repeat_list);
 
 
-//$this->vd($rows['2023-07-17']);
-/*
-$t = (array) current(current(current($rows['2023-07-17'])));
+//$this->vd($repeat_list['2023-11-09']);
+
+//$t = (array) current(current(current($rows['2023-07-17'])));
 //$this->vd($t);
 $r = array(
 	array(
@@ -338,9 +338,9 @@ $r = array(
 		'goods_name' => 'g-2',
 		'categoryNo' => '2'
 	),
-	(array) current(current(current($rows['2023-07-17'])))
+
 );
-*/
+
 
 $msg[] = 'test';
 $msg[] = 'test2';

@@ -1,144 +1,5 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
-<!--
-<style>
-	table {
-#		width: 1800px;
-	}
-	th,td {
-#		width: 300px;
-#		height: 100px;
-#		vertical-align: middle;
-#		padding: 0 15px;
-#		border: 1px solid #ccc;
-	}
-	.fixed01,
-	.fixed02 {
-		position: sticky;
-		top: 0;
-		left: 0;
-		background: #333;
-		&:before{
-			content: "";
-			position: absolute;
-			top: -1px;
-			left: -1px;
-			width: 100%;
-			height: 100%;
-#			border: 1px solid #ccc;
-		}
-	}
-	.fixed01{
-		z-index: 2;
-	}
-	.fixed02{
-		z-index: 1;
-	}
-</style>
-
-
-
-<style>
-.vbox {
-  width: 50%;
-  float: left;
-  padding: 20px 0;
-}
-#vbox1 {
-  background-color: #fdd;
-}
-#vbox2 {
-  background-color: #ddf;
-}
-.ul_tag {
-  list-style-type: none;
-      padding-right: 2rem;
-}
-.li_tag {
-  cursor:pointer;
-  padding: 10px;
-  border: solid #ddd 1px;
-  background-color: #fff;
-}
-</style>
-
-<table>
-<tr><td width="2000px;">
-<div id="app" class="container">
-  <div id="vbox1" class="vbox">
-    <draggable v-model="items" item-key="no" tag="ul" group="ITEMS" class="ul_tag">
-      <template #item="{ element, index }">
-        <li class="li_tag">@{{element.goods_name}}-(No.@{{element.id}})</li>
-      </template>
-    </draggable>
-  </div>
-  <div id="vbox2" class="vbox">
-    <draggable v-model="items2" item-key="no" tag="ul" group="ITEMS" class="ul_tag">
-      <template #item="{ element, index }">
-        <li class="li_tag">@{{element.goods_name}}-(No.@{{element.id}})</li>
-      </template>
-    </draggable>
-  </div>
-</div>
-</td></tr>
-
-<tr><td>
-<div id="app1" class="container">
-  <div id="vbox1" class="vbox">
-    <draggable v-model="items" item-key="no" tag="ul" group="ITEMS" class="ul_tag">
-      <template #item="{ element, index }">
-        <li class="li_tag">@{{element.goods_name}}-(No.@{{element.id}})</li>
-      </template>
-    </draggable>
-  </div>
-  <div id="vbox2" class="vbox">
-    <draggable v-model="items2" item-key="no" tag="ul" group="ITEMS" class="ul_tag">
-      <template #item="{ element, index }">
-        <li class="li_tag">@{{element.goods_name}}-(No.@{{element.id}})</li>
-      </template>
-    </draggable>
-  </div>
-</div>
-</td></tr>
-</table>
--->
-
-<!-- bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<!-- bootstrap end -->
-<!-- Vue 3.2.26 -->
-<script src="https://unpkg.com/vue@3.2.26/dist/vue.global.js"></script>
-<!-- Vue 3.2.26 end -->
-<!-- CDNJS :: Sortable (https://cdnjs.com/) -->
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
-<!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
-<script src="https://cdn.jsdelivr.net/npm/vuedraggable@4.0.2/dist/vuedraggable.umd.min.js"></script>
-
-<script>
-var r = @json($r);
-const draggable = window['vuedraggable'];
-const App = {
-    data() {
-      return {
-        items:r,
-//        items:[ 
-//          {no:1, name:'goods1', categoryNo:'1'}, 
-//          {no:2, name:'goods2', categoryNo:'2'} 
-//        ], 
-        items2:[ 
-          {id:5, goods_name:'goods3', categoryNo:'1'},
-          {id:6, goods_name:'goods4', categoryNo:'2'} 
-        ] 
-      }
-    },
-    components: {
-      draggable: draggable
-    },
-  }
-
-  Vue.createApp(App).mount('#app');
-  Vue.createApp(App).mount('#app1');
-</script>
 
 <script>
 var r = @json($r);
@@ -401,16 +262,17 @@ function change_repeat_order(oid) {
 </script>
 
 <?php	function innerTableFixed($delivery_dt, $list, $class, $sumTanks = null, $carsTank = null, $initForm = null) {	?>
-		<div style="width: 40rem;">
-					<div class="d-flex flex-row bd-highlight mb-3">
-						<input type="text" class="text-wrap text-center inner_box" style="width: 8rem;" placeholder="商品名" value="">
-						<input type="text" class="text-wrap text-center inner_box" style="width: 3.5rem;" placeholder="量(t)" value="">
-						<input type="text" class="text-wrap text-center inner_box" style="width: 9rem;" placeholder="配送先" value="">
-						<input type="text" class="text-wrap text-center inner_box" style="width: 7.5rem;" placeholder="入庫予定日" value="">
-						<input type="text" class="text-wrap text-center inner_box" style="width: 6.5rem;" placeholder="氏名" value="">
-						<a href="" class="btn btn-primary text-center" onClick="">入力</a>
-					</div>
-	</div>
+{{$delivery_dt}}_{{$class}}_{{$carsTank}}
+		<div style="width: 40rem;" id="app1" class="container">
+			<div class="d-flex flex-row bd-highlight mb-3">
+				<input type="text" class="text-wrap text-center inner_box" style="width: 8rem;" placeholder="商品名" value="">
+				<input type="text" class="text-wrap text-center inner_box" style="width: 3.5rem;" placeholder="量(t)" value="">
+				<input type="text" class="text-wrap text-center inner_box" style="width: 9rem;" placeholder="配送先" value="">
+				<input type="text" class="text-wrap text-center inner_box" style="width: 7.5rem;" placeholder="入庫予定日" value="">
+				<input type="text" class="text-wrap text-center inner_box" style="width: 6.5rem;" placeholder="氏名" value="">
+				<a href="" class="btn btn-primary text-center" onClick="">入力</a>
+			</div>
+		</div>
 <?php	}	?>
 
 			@if (isset($rows) && count($rows))
@@ -614,4 +476,148 @@ function init_status(applicant = null) {
 		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=shop-list&post=" + applicant + "&action=init-status";
 	}
 }
+</script>
+
+<!--
+<table>
+<tr>
+<td>
+<div id="app" class="container">
+  <div id="vbox1" class="vbox">
+    <draggable v-model="items" item-key="no" tag="ul" group="ITEMS" class="ul_tag">
+      <template #item="{ element, index }">
+        <li class="li_tag">@{{element.goods_name}}-(No.@{{element.id}})</li>
+      </template>
+    </draggable>
+  </div>
+  <div id="vbox2" class="vbox">
+    <draggable v-model="items2" item-key="no" tag="ul" group="ITEMS" class="ul_tag">
+      <template #item="{ element, index }">
+        <li class="li_tag">@{{element.goods_name}}-(No.@{{element.id}})</li>
+      </template>
+    </draggable>
+  </div>
+</div>
+</td>
+</tr>
+
+<tr>
+<td>
+<div id="app1" class="container">
+  <div id="vbox1" class="vbox">
+    <draggable v-model="items" item-key="no" tag="ul" group="ITEMS" class="ul_tag">
+      <template #item="{ element, index }">
+        <li class="li_tag">@{{element.goods_name}}-(No.@{{element.id}})</li>
+      </template>
+    </draggable>
+  </div>
+  <div id="vbox2" class="vbox">
+    <draggable v-model="items2" item-key="no" tag="ul" group="ITEMS" class="ul_tag">
+      <template #item="{ element, index }">
+        <li class="li_tag">@{{element.goods_name}}-(No.@{{element.id}})</li>
+      </template>
+    </draggable>
+  </div>
+</div>
+</td>
+</tr>
+</table>
+-->
+
+<style>
+	table {
+#		width: 1800px;
+	}
+	th,td {
+#		width: 300px;
+#		height: 100px;
+#		vertical-align: middle;
+#		padding: 0 15px;
+#		border: 1px solid #ccc;
+	}
+	.fixed01,
+	.fixed02 {
+		position: sticky;
+		top: 0;
+		left: 0;
+		background: #333;
+		&:before{
+			content: "";
+			position: absolute;
+			top: -1px;
+			left: -1px;
+			width: 100%;
+			height: 100%;
+#			border: 1px solid #ccc;
+		}
+	}
+	.fixed01{
+		z-index: 2;
+	}
+	.fixed02{
+		z-index: 1;
+	}
+</style>
+
+
+
+<style>
+.vbox {
+  width: 50%;
+  float: left;
+  padding: 20px 0;
+}
+#vbox1 {
+  background-color: #fdd;
+}
+#vbox2 {
+  background-color: #ddf;
+}
+.ul_tag {
+  list-style-type: none;
+      padding-right: 2rem;
+}
+.li_tag {
+  cursor:pointer;
+  padding: 10px;
+  border: solid #ddd 1px;
+  background-color: #fff;
+}
+</style>
+
+<!-- bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<!-- bootstrap end -->
+<!-- Vue 3.2.26 -->
+<script src="https://unpkg.com/vue@3.2.26/dist/vue.global.js"></script>
+<!-- Vue 3.2.26 end -->
+<!-- CDNJS :: Sortable (https://cdnjs.com/) -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
+<!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
+<script src="https://cdn.jsdelivr.net/npm/vuedraggable@4.0.2/dist/vuedraggable.umd.min.js"></script>
+
+<script>
+var r = @json($r);
+const draggable = window['vuedraggable'];
+const App = {
+    data() {
+      return {
+        items:r,
+//        items:[ 
+//          {no:1, name:'goods1', categoryNo:'1'}, 
+//          {no:2, name:'goods2', categoryNo:'2'} 
+//        ], 
+        items2:[ 
+          {id:5, goods_name:'goods3', categoryNo:'1'},
+          {id:6, goods_name:'goods4', categoryNo:'2'} 
+        ] 
+      }
+    },
+    components: {
+      draggable: draggable
+    },
+  }
+
+  Vue.createApp(App).mount('#app');
+  Vue.createApp(App).mount('#app1');
 </script>
