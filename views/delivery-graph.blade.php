@@ -1,10 +1,40 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
-<script>
-var r = @json($r);
-console.log(r);
-</script>
+<style>
+	table {
+#		width: 1800px;
+	}
+	th,td {
+#		width: 300px;
+#		height: 100px;
+#		vertical-align: middle;
+#		padding: 0 15px;
+#		border: 1px solid #ccc;
+	}
+	.fixed01,
+	.fixed02 {
+		position: sticky;
+		top: 0;
+		left: 0;
+		background: #333;
+		&:before{
+			content: "";
+			position: absolute;
+			top: -1px;
+			left: -1px;
+			width: 100%;
+			height: 100%;
+#			border: 1px solid #ccc;
+		}
+	}
+	.fixed01{
+		z-index: 2;
+	}
+	.fixed02{
+		z-index: 1;
+	}
+</style>
 
 <div id="wpbody-content">
 <?php
@@ -523,43 +553,6 @@ function init_status(applicant = null) {
 </tr>
 </table>
 -->
-
-<style>
-	table {
-#		width: 1800px;
-	}
-	th,td {
-#		width: 300px;
-#		height: 100px;
-#		vertical-align: middle;
-#		padding: 0 15px;
-#		border: 1px solid #ccc;
-	}
-	.fixed01,
-	.fixed02 {
-		position: sticky;
-		top: 0;
-		left: 0;
-		background: #333;
-		&:before{
-			content: "";
-			position: absolute;
-			top: -1px;
-			left: -1px;
-			width: 100%;
-			height: 100%;
-#			border: 1px solid #ccc;
-		}
-	}
-	.fixed01{
-		z-index: 2;
-	}
-	.fixed02{
-		z-index: 1;
-	}
-</style>
-
-
 
 <style>
 .vbox {
