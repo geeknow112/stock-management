@@ -181,6 +181,8 @@
 										<option value="3">3</option>
 								</select>
 								<br />
+								<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt_{{$oid}}" name="" value="">
+								<br />
 								<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
 								<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order('{{$oid}}');">
 							</div>
@@ -232,17 +234,20 @@ function change_repeat_order(oid) {
 	var r_order_id = 'r_order_' + oid;
 	var cars_class_id = 'cars_class_' + oid;
 	var cars_tank_id = 'cars_tank_' + oid;
+	var delivery_dt_id = 'delivery_dt_' + oid;
 
 	var cars_class = document.getElementById(cars_class_id).value;
 	var cars_tank = document.getElementById(cars_tank_id).value;
+	var delivery_dt = document.getElementById(delivery_dt_id).value;
 
-	if (window.confirm('class, tank 変更')) {
+	if (window.confirm('車種、槽、配送予定日 を変更しますか？')) {
 		document.forms.method = 'post';
 		document.forms.action.value = 'regist';
 		//document.forms.oid.value = '1';
 		document.getElementById(r_order_id).value = r_order_id;
 		document.forms.class.value = cars_class;
 		document.forms.cars_tank.value = cars_tank;
+		document.forms.delivery_dt.value = delivery_dt;
 
 	/*
 		document.forms.r_delivery_dt.value = <?php echo $row->delivery_dt; ?>;

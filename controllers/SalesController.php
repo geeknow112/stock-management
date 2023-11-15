@@ -369,7 +369,7 @@ $msg[] = mb_convert_encoding('202X-XX-03 ƒƒbƒg”Ô†‚ª–¢ˆ—‚Ì’•¶‚ª‚ ‚è‚Ü‚·B', 
 			}
 		}
 		$ddt = $r_order[5];
-		$post->delivery_dt = substr($ddt, 0, 4). '-'. substr($ddt, 4, 2). '-'. substr($ddt, 6, 2);
+		$post->delivery_dt = (empty($post->delivery_dt)) ? substr($ddt, 0, 4). '-'. substr($ddt, 4, 2). '-'. substr($ddt, 6, 2) : $post->delivery_dt;
 		$post->goods = $r_order[3];
 		$post->class = $post->class;
 		$post->cars_tank = $post->cars_tank;
