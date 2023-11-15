@@ -345,6 +345,10 @@ $r = array(
 $msg[] = 'test';
 $msg[] = 'test2';
 $msg[] = 'test3';
+$msg[] = mb_convert_encoding('202X-XX-01 ロット番号が未処理の注文があります。', 'UTF-8', 'SJIS');
+$msg[] = mb_convert_encoding('202X-XX-02 ロット番号が未処理の注文があります。', 'UTF-8', 'SJIS');
+$msg[] = mb_convert_encoding('202X-XX-03 ロット番号が未処理の注文があります。', 'UTF-8', 'SJIS');
+
 
 				echo $this->get_blade()->run("delivery-graph", compact('rows', 'formPage', 'initForm', 'r', 'sumTanks', 'msg', 'repeat_list'));
 				break;
