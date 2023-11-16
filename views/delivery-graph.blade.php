@@ -7,7 +7,6 @@
 
 //$g = $_GET;
 //var_dump($g['s']);
-print_r($cur_user->roles[0]);
 ?>
 	<div class="wrap">
 		<h1 class="wp-heading-inline">【配送予定表③】</h1>
@@ -147,7 +146,11 @@ print_r($cur_user->roles[0]);
 				<?php if ($row->class == $class && $row->cars_tank == $carsTank) { ?>
 					<div class="d-flex flex-row bd-highlight mb-3">
 						@if ($row->repeat_fg != 1)
+							@if ($row->upuser != 'ceo')
 							<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}}</a></div>
+							@else
+							<div class="text-wrap text-center inner_box" style="width: 8rem; background: yellow;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}}</a></div>
+							@endif
 						@else
 							<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}}</a></div>
 						@endif
