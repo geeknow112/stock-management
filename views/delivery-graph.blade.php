@@ -202,6 +202,7 @@
 						<a href="" class="btn btn-warning text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未登録</a>
 						@else
 						<a href="" class="btn btn-success text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=edit'; return false;">登録済</a>
+						<input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off"><label class="btn btn-outline-primary" for="btn-check-outlined">受領書</label><!-- 受領書の受取確認用 -->
 						@endif
 					</div>
 	<!--
