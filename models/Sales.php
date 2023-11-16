@@ -82,7 +82,7 @@ class Sales {
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, c.*, c.name AS customer_name ";
+		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, c.*, c.name AS customer_name, s.rgdt AS rgdt, s.updt AS updt, s.upuser AS upuser ";
 //		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, gd.* ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
@@ -144,6 +144,7 @@ class Sales {
 			}
 		}
 */
+
 		// sales-listの処理
 		if ($un_convert == true) {
 			// 配送予定日でソート
@@ -396,6 +397,8 @@ $dt = new DateTime($sdt. ' +1 days');
 		}
 
 		$data['updt'] = date('Y-m-d H:i:s');
+		$cur_user = wp_get_current_user();
+		$data['upuser'] = $cur_user->user_login;
 
 		$ret = $wpdb->update(
 			$this->getTableName(), 
