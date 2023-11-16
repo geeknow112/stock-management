@@ -300,6 +300,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 				// repeat_excludeテーブルに必要な情報を追加
 				$post->sales = $post->base_sales;
+				if (!empty($post->base_delivery_dt)) { $post->delivery_dt = $post->base_delivery_dt; }
 				//$this->vd($post);exit;
 
 				// repeat_excludeテーブルへ登録
@@ -369,7 +370,9 @@ $msg[] = mb_convert_encoding('202X-XX-03 ロット番号が未処理の注文があります。', 
 			}
 		}
 		$ddt = $r_order[5];
-		$post->delivery_dt = (empty($post->delivery_dt)) ? substr($ddt, 0, 4). '-'. substr($ddt, 4, 2). '-'. substr($ddt, 6, 2) : $post->delivery_dt;
+		$delivery_dt = substr($ddt, 0, 4). '-'. substr($ddt, 4, 2). '-'. substr($ddt, 6, 2);
+		$post->base_delivery_dt = $delivery_dt; // スケジュール変更前のdelivery_dt
+		$post->delivery_dt = (empty($post->change_delivery_dt)) ? $delivery_dt : $post->change_delivery_dt;
 		$post->goods = $r_order[3];
 		$post->class = $post->class;
 		$post->cars_tank = $post->cars_tank;

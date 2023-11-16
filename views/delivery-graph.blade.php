@@ -54,6 +54,7 @@
 			<input type="hidden" name="delivery_dt" value="">
 			<input type="hidden" name="class" value="">
 			<input type="hidden" name="cars_tank" value="">
+			<input type="hidden" name="change_delivery_dt" value="">
 
 			<input type="hidden" name="base_sales" value="">
 {{--			@endif	--}}
@@ -247,7 +248,7 @@ function change_repeat_order(oid) {
 		document.getElementById(r_order_id).value = r_order_id;
 		document.forms.class.value = cars_class;
 		document.forms.cars_tank.value = cars_tank;
-		document.forms.delivery_dt.value = delivery_dt;
+		document.forms.change_delivery_dt.value = delivery_dt;
 
 	/*
 		document.forms.r_delivery_dt.value = <?php echo $row->delivery_dt; ?>;
