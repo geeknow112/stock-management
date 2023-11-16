@@ -60,7 +60,8 @@ class StockManagement {
 
 		switch ($cur_user->roles[0]) {
 			case 'administrator':
-				if (in_array($cur_user->user_login, array('admin', 'yamachu'))) {
+			case 'editor':
+				if (in_array($cur_user->user_login, array('admin', 'ceo'))) {
 					// 登録画面
 					add_submenu_page('stock-management', '商品登録','🔷商品登録', 'read', 'goods-detail', array(&$this, 'goods_detail'));
 					add_submenu_page('stock-management', '顧客登録','🔷顧客登録', 'read', 'customer-detail', array(&$this, 'customer_detail'));
@@ -79,9 +80,17 @@ class StockManagement {
 					$this->remove_menus();
 				}
 				break;
+
+			case 'subscriber' :
+				if (in_array($cur_user->user_login, array('naitou'))) {
+					add_submenu_page('stock-management', '配送予定表③','配送予定表③', 'read', 'delivery-graph', array(&$this, 'delivery_graph'));
+				} else {
+					$this->remove_menus();
+				}
+
 			default:
 				$this->remove_menus();
-				add_action( 'admin_bar_menu', 'remove_admin_bar_menus', 999 );
+				//add_action( 'admin_bar_menu', 'remove_admin_bar_menus', 999 );
 				break;
 		}
 	}
