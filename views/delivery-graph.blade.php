@@ -7,6 +7,7 @@
 
 //$g = $_GET;
 //var_dump($g['s']);
+print_r($cur_user->roles[0]);
 ?>
 	<div class="wrap">
 		<h1 class="wp-heading-inline">【配送予定表③】</h1>
@@ -89,7 +90,9 @@
 						<th class=""></th>
 						<th class=""></th>
 						<th class=""></th>
+						@if ($cur_user->roles[0] != 'subscriber')
 						<th class="" colspan="6">6t ⓪</th>
+						@endif
 						<th class="" colspan="6">6t ①</th>
 						<th class="" colspan="6">6t ②</th>
 						<th class="" colspan="6">6t ③</th>
@@ -107,6 +110,9 @@
 						<th class="" scope="col" id="username">曜</th>
 						<th class="" scope="col" id="username">日</th>
 						@for ($i = 0; $i <= 10; $i++)
+							@if ($cur_user->roles[0] == 'subscriber' && $i == 0)
+								@php continue; @endphp
+							@endif
 						<th class="" style="width: 7rem;">品名</th>
 						<th class="" style="width: 3rem;">量(t)</th>
 						<th class="" style="width: 7rem;">配送先</th>
@@ -293,9 +299,11 @@ function change_repeat_order(oid) {
 						</td>
 
 						<!-- 6t 0 -->
+						@if ($cur_user->roles[0] != 'subscriber')
 						<td class="" colspan="6">
 							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, $sumTanks, 1, $initForm); @endphp
 						</td>
+						@endif
 
 						<!-- 6t 1 -->
 						<td class="" colspan="6">
@@ -347,9 +355,11 @@ function change_repeat_order(oid) {
 						</td>
 
 						<!-- 6t 0 -->
+						@if ($cur_user->roles[0] != 'subscriber')
 						<td colspan="6">
 							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, $sumTanks, 2); @endphp
 						</td>
+						@endif
 
 						<!-- 6t 1 -->
 						<td colspan="6">
@@ -401,9 +411,11 @@ function change_repeat_order(oid) {
 						</td>
 
 						<!-- 6t 0 -->
+						@if ($cur_user->roles[0] != 'subscriber')
 						<td colspan="6">
 							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, $sumTanks, 3); @endphp
 						</td>
+						@endif
 
 						<!-- 6t 1 -->
 						<td colspan="6">
