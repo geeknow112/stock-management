@@ -285,6 +285,8 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 		$get = (object) $_GET;
 		$post = (object) $_POST;
 
+		$cur_user = wp_get_current_user();
+
 		$this->setTb('Sales');
 
 		if (!isset($get->action) || $post->action == 'regist') { $get->action = $post->action; }
@@ -350,8 +352,7 @@ $msg[] = mb_convert_encoding('202X-XX-01 ロット番号が未処理の注文があります。', 
 $msg[] = mb_convert_encoding('202X-XX-02 ロット番号が未処理の注文があります。', 'UTF-8', 'SJIS');
 $msg[] = mb_convert_encoding('202X-XX-03 ロット番号が未処理の注文があります。', 'UTF-8', 'SJIS');
 
-
-				echo $this->get_blade()->run("delivery-graph", compact('rows', 'formPage', 'initForm', 'r', 'sumTanks', 'msg', 'repeat_list'));
+				echo $this->get_blade()->run("delivery-graph", compact('cur_user', 'rows', 'formPage', 'initForm', 'r', 'sumTanks', 'msg', 'repeat_list'));
 				break;
 		}
 	}
