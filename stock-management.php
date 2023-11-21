@@ -17,6 +17,7 @@ require_once(dirname(__DIR__). '/stock-management/controllers/CustomerController
 require_once(dirname(__DIR__). '/stock-management/controllers/GoodsController.php');
 require_once(dirname(__DIR__). '/stock-management/controllers/SalesController.php');
 require_once(dirname(__DIR__). '/stock-management/controllers/MenuController.php');
+require_once(dirname(__DIR__). '/stock-management/controllers/StockController.php');
 
 //require(__DIR__. '/library/vendor/vendor_phpspreadsheet/autoload.php');
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
@@ -71,6 +72,7 @@ class StockManagement {
 					add_submenu_page('stock-management', '商品検索','🔶商品検索', 'read', 'goods-list', array(&$this, 'goods_list'));
 					add_submenu_page('stock-management', '顧客検索','🔶顧客検索', 'read', 'customer-list', array(&$this, 'customer_list'));
 					add_submenu_page('stock-management', '注文検索','🔶注文検索', 'read', 'sales-list', array(&$this, 'sales_list'));
+					add_submenu_page('stock-management', '入庫予定日検索','🔶入庫予定日検索', 'read', 'stock-receive', array(&$this, 'stock_receive'));
 
 					// その他
 					add_submenu_page('stock-management', 'ロット番号登録','ロット番号登録', 'read', 'lot-regist', array(&$this, 'lot_regist'));
@@ -165,6 +167,14 @@ class StockManagement {
 	function sales_list() {
 		$s = new SalesController();
 		$s->listAction();
+	}
+
+	/**
+	 * 入庫予定日検索
+	 **/
+	function stock_receive() {
+		$s = new StockController();
+		$s->receiveAction();
 	}
 
 	/**
