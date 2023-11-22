@@ -59,6 +59,8 @@ class SalesController extends Ext_Controller_Action
 		$get = (object) $_GET;
 		$post = (object) $_POST;
 
+		$cur_user = wp_get_current_user();
+
 		$this->setTb('Sales');
 		$page = 'sales-detail';
 		$initForm = $this->getTb()->getInitForm($post);
@@ -73,7 +75,7 @@ class SalesController extends Ext_Controller_Action
 				$rows = $this->getTb()->getList();
 $gnames = json_encode($initForm['select']['goods_name']);
 $test_ship_addr = json_encode($initForm['select']['ship_addr']);
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr'));
+				echo $this->get_blade()->run("sales-detail", compact('cur_user', 'rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr'));
 				break;
 
 			case 'confirm':
@@ -100,7 +102,7 @@ $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 $gnames = json_encode($initForm['select']['goods_name']);
 $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['ship_addr'][$post->customer][$post->ship_addr] : null;
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr'));
+				echo $this->get_blade()->run("sales-detail", compact('cur_user', 'rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr'));
 				break;
 
 			case 'save':
@@ -123,7 +125,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 $gnames = json_encode($initForm['select']['goods_name']);
 $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['ship_addr'][$post->customer][$post->ship_addr] : null;
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr'));
+				echo $this->get_blade()->run("sales-detail", compact('cur_user', 'rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr'));
 				break;
 
 			case 'edit-exe':
@@ -151,7 +153,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 $gnames = json_encode($initForm['select']['goods_name']);
 $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['ship_addr'][$post->customer][$post->ship_addr] : null;
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr'));
+				echo $this->get_blade()->run("sales-detail", compact('cur_user', 'rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr'));
 				break;
 
 			case 'edit':
@@ -173,7 +175,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 $gnames = json_encode($initForm['select']['goods_name']);
 $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['ship_addr'][$post->customer][$post->ship_addr] : null;
-				echo $this->get_blade()->run("sales-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr'));
+				echo $this->get_blade()->run("sales-detail", compact('cur_user', 'rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr'));
 				break;
 		}
 	}

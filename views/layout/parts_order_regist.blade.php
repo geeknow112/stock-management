@@ -164,14 +164,20 @@ function createSelectBoxGoods(){
 <!--		<div id="qtyHelp" class="form-text">量(t)を入力してください。</div>-->
 	</div>
 
-	<div class="row mb-3">
-		<label for="use_stock" class="col-sm-2 col-form-label">在庫から配送</label>
-		<input type="checkbox" class="col-sm-2 form-check-input" id="use_stock" name="use_stock" onchange="check_use_stock();">
+	<div class="">
+		<label for="use_stock" class="col-sm-2 col-form-label"><!--在庫から配送--></label>
+		<!--<input type="checkbox" class="col-sm-2 form-check-input" id="use_stock" name="use_stock" onchange="check_use_stock();" @if ($cur_user->roles[0] != 'administrator') disabled @endif>-->
+
+		<input type="checkbox" class="btn-check" id="use_stock" name="use_stock" autocomplete="off" onchange="check_use_stock();" @if ($cur_user->roles[0] != 'administrator') disabled @endif>
+		<label class="btn btn-outline-primary" for="use_stock">在庫から配送</label>
+<br>
+<br>
+
 	</div>
 
 	<div class="row mb-3">
 		<label for="arrival_dt" class="col-sm-2 col-form-label">入庫予定日</label>
-		<input type="date" class="col-sm-6 col-form-control w-auto" id="arrival_dt" name="arrival_dt" aria-describedby="arrivalDtHelp" value="{{$rows->arrival_dt}}">
+		<input type="date" class="col-sm-6 col-form-control w-auto" id="arrival_dt" name="arrival_dt" aria-describedby="arrivalDtHelp" value="{{$rows->arrival_dt}}" @if ($cur_user->roles[0] != 'administrator') disabled @endif>
 <!--		<div id="arrivalDtHelp" class="form-text">入庫予定日を入力してください。</div>-->
 	</div>
 
@@ -183,7 +189,7 @@ function createSelectBoxGoods(){
 
 	<div class="row mb-3">
 		<label for="outgoing_warehouse" class="col-sm-2 col-form-label">出庫倉庫　<span class="badge text-bg-danger">必須</span></label>
-		<select class="form-select w-75" aria-label="outgoing_warehouse" id="outgoing_warehouse" name="outgoing_warehouse">
+		<select class="form-select w-75" aria-label="outgoing_warehouse" id="outgoing_warehouse" name="outgoing_warehouse" @if ($cur_user->roles[0] != 'administrator') disabled @endif>
 			@foreach($initForm['select']['outgoing_warehouse'] as $i => $d)
 				@if ($i == '0')
 				<option value=""></option>
@@ -194,10 +200,13 @@ function createSelectBoxGoods(){
 		</select>
 	</div>
 
-	<div class="row mb-3">
-		<label for="repeat_fg" class="col-sm-2 col-form-label">繰り返し予定を設定する</label>
+	<div class="">
+		<label for="repeat_fg" class="col-sm-2 col-form-label"><!--繰り返し予定を設定する--></label>
 <!--		<input type="checkbox" class="col-sm-2 form-check-input" id="repeat" name="repeat" onchange="changeCheckBox('repeat') && checkRepeat();">-->
-		<input type="checkbox" class="col-sm-2 form-check-input" id="repeat_fg" name="repeat_fg" onchange="check_repeat();">
+		<!--<input type="checkbox" class="col-sm-2 form-check-input" id="repeat_fg" name="repeat_fg" onchange="check_repeat();">-->
+
+		<input type="checkbox" class="btn-check" id="repeat_fg" name="repeat_fg" autocomplete="off" onchange="check_repeat();" @if ($cur_user->roles[0] != 'administrator') disabled @endif>
+		<label class="btn btn-outline-primary" for="repeat_fg">繰り返し予定を設定する</label>
 	</div>
 
 <br /><br /><hr>
