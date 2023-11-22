@@ -10,10 +10,10 @@
 {{--	@endif	--}}
 
 	<div class="row mb-3">
-		<label for="customer" class="col-sm-2 col-form-label w-5">氏名</label>
+		<label for="customer" class="col-sm-2 col-form-label w-5">氏名　<span class="badge text-bg-danger">必須</span></label>
 		<select class="form-select w-75" aria-label="customer" id="customer" name="customer" onchange="createSelectBox(); createSelectBoxGoods();">
 			@foreach($initForm['select']['customer'] as $customer => $d)
-				@if ($customer == '')
+				@if ($customer == '0')
 				<option value=""></option>
 				@else
 				<option value="{{$customer}}" @if ($customer == $rows->customer) selected @endif >{{$customer}} : {{$d}}</option>
@@ -24,10 +24,14 @@
 	</div>
 
 	<div class="row mb-3">
-		<label for="carModel" class="col-sm-2 col-form-label">車種</label>
+		<label for="carModel" class="col-sm-2 col-form-label">車種　<span class="badge text-bg-danger">必須</span></label>
 		<select class="form-select w-75" aria-label="carModel" id="class" name="class">
 			@foreach($initForm['select']['car_model'] as $i => $d)
+				@if ($i == '0')
+				<option value=""></option>
+				@else
 				<option value="{{$i}}" @if ($i == $rows->class) selected @endif >{{$d}}</option>
+				@endif
 			@endforeach
 		</select>
 	</div>
@@ -42,7 +46,7 @@
 	</div>
 
 	<div class="row mb-3">
-		<label for="goodsName" class="col-sm-2 col-form-label">品名</label>
+		<label for="goodsName" class="col-sm-2 col-form-label">品名　<span class="badge text-bg-danger">必須</span></label>
 		<select class="form-select w-75" aria-label="goodsName" id="goods" name="goods">
 			@if ($post->customer)
 				@foreach($initForm['select']['goods_name'][$post->customer] as $i => $d)
@@ -120,8 +124,8 @@ function createSelectBoxGoods(){
 		//連想配列をループ処理で値を取り出してセレクトボックスにセットする
 		for (let goods in arr) {
 			let op = document.createElement("option");
-			op.value = goods;  //value値
 			if (goods != 0) {
+				op.value = goods;  //value値
 				op.text = goods + ' : ' + arr[goods];   //テキスト値
 			}
 			document.getElementById("goods").appendChild(op);
@@ -147,10 +151,14 @@ function createSelectBoxGoods(){
 	</div>
 
 	<div class="row mb-3">
-		<label for="qty" class="col-sm-2 col-form-label">量(t)</label>
+		<label for="qty" class="col-sm-2 col-form-label">量(t)　<span class="badge text-bg-danger">必須</span></label>
 		<select class="form-select w-75" aria-label="qty" id="qty" name="qty">
 			@foreach($initForm['select']['qty'] as $i => $d)
+				@if ($i == '0')
+				<option value=""></option>
+				@else
 				<option value="{{$i}}" @if ($i == $rows->qty) selected @endif >{{$d}}</option>
+				@endif
 			@endforeach
 		</select>
 <!--		<div id="qtyHelp" class="form-text">量(t)を入力してください。</div>-->
@@ -168,16 +176,20 @@ function createSelectBoxGoods(){
 	</div>
 
 	<div class="row mb-3">
-		<label for="delivery_dt" class="col-sm-2 col-form-label">配送予定日</label>
+		<label for="delivery_dt" class="col-sm-2 col-form-label">配送予定日　<span class="badge text-bg-danger">必須</span></label>
 		<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt" name="delivery_dt" aria-describedby="deliveryDtHelp" value="{{$rows->delivery_dt}}">
 <!--		<div id="arrivalDtHelp" class="form-text">入庫予定日を入力してください。</div>-->
 	</div>
 
 	<div class="row mb-3">
-		<label for="outgoing_warehouse" class="col-sm-2 col-form-label">出庫倉庫</label>
+		<label for="outgoing_warehouse" class="col-sm-2 col-form-label">出庫倉庫　<span class="badge text-bg-danger">必須</span></label>
 		<select class="form-select w-75" aria-label="outgoing_warehouse" id="outgoing_warehouse" name="outgoing_warehouse">
 			@foreach($initForm['select']['outgoing_warehouse'] as $i => $d)
+				@if ($i == '0')
+				<option value=""></option>
+				@else
 				<option value="{{$i}}" @if ($i == $rows->outgoing_warehouse) selected @endif >{{$d}}</option>
+				@endif
 			@endforeach
 		</select>
 	</div>
