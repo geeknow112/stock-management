@@ -85,6 +85,7 @@ $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 						case 'cmd_confirm':
 							$msg = $this->getValidMsg();
 							$rows = $post;
+							if (!empty($rows->delivery_dt) && empty($rows->arrival_dt)) { $rows->arrival_dt = $this->setArrivalDt($rows->delivery_dt); } // post値[arrival_dt]が空の場合、[delivery_dt]の3日前に自動設定
 							if (!empty($rows->week)) { $rows->week = array_keys($rows->week); } // post値[week]をcheckbox形式に変換
 							if ($rows->sales) { $rows->btn = 'update'; }
 
@@ -375,6 +376,17 @@ $r = array(
 		$post->cars_tank = $post->cars_tank;
 		$post->base_sales = $r_order[2];
 		$post->repeat = $r_order[4];
+	}
+
+	/**
+	 * 入庫予定日の初期設定
+	 *   - 配送予定日の3日前に設定する
+	 * 
+	 * $delivery_dt: 配送予定日
+	 **/
+	private function setArrivalDt($delivery_dt = null) {
+		$arrival_dt = new DateTime($delivery_dt. ' -3 days');
+		return $arrival_dt->format('Y-m-d');;
 	}
 
 	/**
