@@ -343,14 +343,8 @@ $r = array(
 	),
 
 );
-
-
-$msg[] = 'test';
-$msg[] = 'test2';
-$msg[] = 'test3';
-$msg[] = mb_convert_encoding('202X-XX-01 ロット番号が未処理の注文があります。', 'UTF-8', 'SJIS');
-$msg[] = mb_convert_encoding('202X-XX-02 ロット番号が未処理の注文があります。', 'UTF-8', 'SJIS');
-$msg[] = mb_convert_encoding('202X-XX-03 ロット番号が未処理の注文があります。', 'UTF-8', 'SJIS');
+				// ロット番号アラートの作成
+				$msg = $this->getTb()->checkLotNumberStatus();
 
 				echo $this->get_blade()->run("delivery-graph", compact('cur_user', 'rows', 'formPage', 'initForm', 'r', 'sumTanks', 'msg', 'repeat_list'));
 				break;
