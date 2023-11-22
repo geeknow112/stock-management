@@ -22,7 +22,7 @@
 		@foreach($rows_tanks as $i => $d)
 				<div>
 				<label class="col-sm-2 col-form-label w-5">配送先 槽（タンク）: {{$d->detail}}</label>
-				<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_{{$i}}" name="pref[]" aria-describedby="prefHelp" value="{{$d->pref}}">&emsp;
+				<input type="text" class="col-sm-2 col-form-control w-auto" id="tank_{{$i}}" name="tank[]" aria-describedby="tankHelp" value="{{$d->tank}}">&emsp;
 				@if ($i == $rows_tanks_count - 1)
 				<input type="button" class="col-sm-2 col-form-control w-auto" id="add{{$rows_tanks_count}}" name="add{{$rows_tanks_count}}" value="追加" onclick="addCustomerTankRow(1)">
 				@endif
@@ -31,7 +31,7 @@
 	@else
 		<div>
 			<label class="col-sm-2 col-form-label w-5">配送先 槽（タンク）: 新規登録 </label>
-			<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_0" name="pref[]" aria-describedby="prefHelp" value="">&emsp;
+			<input type="text" class="col-sm-2 col-form-control w-auto" id="tank_0" name="tank[]" aria-describedby="tankHelp" value="">&emsp;
 			<input type="button" class="col-sm-2 col-form-control w-auto" id="add0" name="add0" value="追加" onclick="addCustomerTankRow(0)">
 		</div>
 	@endif
@@ -81,7 +81,7 @@ function addCustomerTankRow(cnt = null)
 
 	const addRow = document.getElementById("addRow" + cnt);
 	addRow.innerHTML += '	<label class="col-sm-2 col-form-label w-5" id="label_' + cnt + '">配送先 槽（タンク）: ' + cnt + '</label>';
-	addRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="pref_' + cnt + '" name="pref[]" aria-describedby="prefHelp" value="">&emsp;';
+	addRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="tank_' + cnt + '" name="tank[]" aria-describedby="tankHelp" value="">&emsp;';
 //	addRow.innerHTML += '	<input type="button" class="col-sm-2 col-form-control w-auto" id="del' + cnt + '" name="del' + cnt + '" value="削除" onclick="delCustomerTankRow(' + cnt + ')">&emsp;';
 	addRow.innerHTML += '	<input type="button" class="col-sm-2 col-form-control w-auto" id="add' + cnt + '" name="add' + cnt + '" value="追加" onclick="addCustomerTankRow(' + cnt + ')">&emsp;';
 

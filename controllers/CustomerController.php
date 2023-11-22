@@ -106,13 +106,14 @@ class CustomerController extends Ext_Controller_Action
 				} else {
 				}
 
+				if ($post->cmd == 'cmd_confirm') { $rows_tanks = $this->sortDataTanks($post); }
 				if ($post->cmd == 'cmd_confirm') { $rows_addrs = $this->sortData($post); }
 
 				$goods_list = $this->delUnSelectGoods($post->goods_s, $goods_list);
 				$cust_goods = $post->goods_s;
 //$this->vd($goods_list);
 //$this->vd($cust_goods);
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'goods_list', 'cust_goods'));
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_tanks', 'rows_addrs', 'goods_list', 'cust_goods'));
 				break;
 
 			case 'save':
@@ -139,6 +140,7 @@ class CustomerController extends Ext_Controller_Action
 					if ($post->cmd == 'update') {
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
+if ($post->tank) { $post->list = $this->sortData($post); }
 if ($post->pref) { $post->list = $this->sortData($post); }
 							$rows = $this->getTb()->updDetail($get, $post);
 //							$rows->customer_name = $rows->name;
@@ -152,13 +154,14 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 					}
 				}
 //$this->vd($post);
+				if ($post->cmd == 'update' ) { $rows_tanks = $this->convertData($rows); }
 				if ($post->cmd == 'update' ) { $rows_addrs = $this->convertData($rows); }
 //$this->vd($rows_addrs);
 
 				$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
 				$cust_goods = $this->objectColumn($rows_goods, 'goods');
 
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_goods', 'goods_list', 'cust_goods'));
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_tanks', 'rows_addrs', 'rows_goods', 'goods_list', 'cust_goods'));
 				break;
 
 			case 'edit':
@@ -183,13 +186,31 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 				}
 //$this->vd($rows);
 				if ($post->cmd == 'cmd_update' ) {
+					$rows_tanks = $this->convertData($rows);
 					$rows_addrs = $this->convertData($rows);
 					$rows_addrs_count = $this->countObject($rows_addrs);
 				}
 
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_tanks', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
 				break;
 		}
+	}
+
+	/**
+	 * post’l[tank]‚ğrows‚ÌŒ`®‚É•ÏŠ·
+	 * 
+	 **/
+	private function sortDataTanks($post = null) {
+		if (!isset($post->tank)) { return null; }
+		foreach ($post->tank as $i => $d) {
+			if (empty($d)) { continue; }
+			$tmp[$i] = (object) array(
+				'customer' => $post->customer, 
+				'name' => $post->customer_name, 
+				'tank' => $post->tank[$i], 
+			);
+		}
+		return (object) $tmp;
 	}
 
 	/**
@@ -203,6 +224,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 			$tmp[$i] = (object) array(
 				'customer' => $post->customer, 
 				'name' => $post->customer_name, 
+				'tank' => $post->tank[$i], 
 				'pref' => $post->pref[$i], 
 				'addr1' => $post->addr1[$i], 
 				'addr2' => $post->addr2[$i], 

@@ -340,7 +340,8 @@ $post->name = $post->customer_name;
 						'yc_customer_detail', 
 						array(
 							'customer' => $post->customer, 
-							'detail' => $detail, 
+							'detail' => $detail,
+							'tank' => $d->tank, 
 							'pref' => $d->pref, 
 							'addr1' => $d->addr1, 
 							'addr2' => $d->addr2, 
@@ -353,6 +354,7 @@ $post->name = $post->customer_name;
 					$ret_addrs[] = $wpdb->update(
 						'yc_customer_detail', 
 						array(
+							'tank' => $d->tank, 
 							'pref' => $d->pref, 
 							'addr1' => $d->addr1, 
 							'addr2' => $d->addr2, 
