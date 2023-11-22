@@ -17,6 +17,13 @@
 
 		<form name="forms" id="forms" action="" method="" enctype="multipart/form-data">
 {{--			@if ($tb->getCurUser()->roles[0] == 'administrator')	--}}
+
+			<div class="message">
+				@foreach($msg as $k => $error)
+					<p>【 {{$k}} 】 {{$error}}</p>
+				@endforeach
+			</div>
+
 			<div class="search-box">
 				<label class="screen-reader-text" for="user-search-input">申込者を検索:</label>
 <!--
@@ -37,14 +44,8 @@
 					document.forms.submit();
 				}
 				</script>
-
-				<div class="message">
-					@foreach($msg as $k => $error)
-						<p>【 {{$k}} 】 {{$error}}</p>
-					@endforeach
-				</div>
-
 			</div>
+
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
 			<input type="hidden" name="page" value="delivery-graph">
