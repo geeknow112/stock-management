@@ -122,6 +122,15 @@
 					</tr>
 				</thead>
 <style>
+	.message {
+		width: 70%;
+		height: 150px;
+		margin-top: 1.5em;
+		margin-bottom: 1.5em;
+		border: 1px solid #c0c0c0;
+		overflow: auto;
+	}
+
 	.message p {
 		color: red;
 		font-size: 24px;
