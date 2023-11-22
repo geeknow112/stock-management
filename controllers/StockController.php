@@ -25,19 +25,20 @@ class StockController extends Ext_Controller_Action
 		$get = (object) $_GET;
 		$post = (object) $_POST;
 
+		$this->setTb('Sales');
+
 		$get->action = 'search';
 		switch($get->action) {
 			case 'search':
 			default:
-				$tb = new Customer;
 //				$initForm = $tb->getInitForm();
 //				$rows = $tb->getList($get, $un_convert = true);
-				$formPage = 'menu-top';
+				$formPage = 'stock-list';
 //$this->vd($rows);
-				echo $this->get_blade()->run("menu-top", compact('rows', 'formPage', 'initForm'));
+				echo $this->get_blade()->run("stock-list", compact('rows', 'formPage', 'initForm'));
 				break;
 		}
-		return $this->_test;
+//		return $this->_test;
 	}
 
 	/**
