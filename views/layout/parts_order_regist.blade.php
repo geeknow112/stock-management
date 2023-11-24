@@ -37,7 +37,7 @@
 	</div>
 
 	<div class="row mb-3">
-		<label for="carsTank" class="col-sm-2 col-form-label">槽</label>
+		<label for="carsTank" class="col-sm-2 col-form-label">槽　（※ ６ｔ車のタンクの番号）</label>
 		<select class="form-select w-75" aria-label="carsTank" id="cars_tank" name="cars_tank">
 			@foreach($initForm['select']['cars_tank'] as $i => $d)
 				<option value="{{$i}}" @if ($i == $rows->cars_tank) selected @endif >{{$d}}</option>
@@ -135,7 +135,7 @@ function createSelectBoxGoods(){
 </script>
 
 	<div class="row mb-3">
-		<label for="shipAddr" class="col-sm-2 col-form-label">配送先</label>
+		<label for="shipAddr" class="col-sm-2 col-form-label">配送先　（※ 顧客の槽（タンク））</label>
 		<select class="form-select w-75" aria-label="shipAddr" id="ship_addr" name="ship_addr">
 			@if ($post->customer)
 				@foreach($initForm['select']['ship_addr'][$post->customer] as $i => $d)
