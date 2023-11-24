@@ -18,16 +18,34 @@
 				<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_e_dt']); ?>" placeholder="2022-12-01">&emsp;--><br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">出庫倉庫：</label>
-					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($g['s']['outgoing_warehouse']); ?>" disabled>&emsp;&emsp;&emsp;&emsp;
+<!--					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($g['s']['outgoing_warehouse']); ?>">-->
+					<select class="" aria-label="outgoing_warehouse" id="outgoing_warehouse" name="s[outgoing_warehouse]">
+						@foreach($initForm['select']['outgoing_warehouse'] as $i => $d)
+							@if ($i == '0')
+							<option value=""></option>
+							@else
+							<option value="{{$i}}" @if ($i == $rows->outgoing_warehouse) selected @endif >{{$d}}</option>
+							@endif
+						@endforeach
+					</select>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 
 				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 
+				<script>
+				function cmd_search() {
+					document.forms.method = 'get';
+					document.forms.action = "/wp-admin/admin.php?page=stock-receive&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
+					document.forms.cmd.value = 'search';
+					document.forms.submit();
+				}
+				</script>
 			</div>
 			<br />
 
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
-			<input type="hidden" name="page" value="sales-list">
+			<input type="hidden" name="page" value="stock-receive">
 			<input type="hidden" name="action" value="search">
 			<input type="hidden" name="cmd" value="">
 {{--			@endif	--}}
@@ -46,7 +64,6 @@
 		<div class="table-responsive">
 
 		<div>
-			<b>日時：2022-12-**</b>
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
 					<tr>
@@ -56,36 +73,18 @@
 					</tr>
 				</thead>
 
+				@if (isset($rows) && count($rows))
 				<tbody id="the-list" data-wp-lists="list:user">
-					<tr>
-						<td class="">1</td>
-						<td class="">みやび仕上</td>
-						<td class="">6.5</td>
-					</tr>
-					<tr>
-						<td class="">2</td>
-						<td class="">みやび育成</td>
-						<td class="">2.0</td>
-					</tr>
-					<tr>
-						<td class="">3</td>
-						<td class="">ミルククイーン</td>
-						<td class="">5.5</td>
-					</tr>
-
-{{--
-			@if (isset($rows) && count($rows))
-				<tbody id="the-list" data-wp-lists="list:user">
-					@foreach ($rows as $delivery_dt => $list)
-					<tr id="user-1">
-						<td>
-						</td>
+					@foreach ($rows as $i => $row)
+					<tr id="">
+						<td class="">{{$i+1}}</td>
+						<td class="">{{$row->goods_name}}</td>
+						<td class="">{{$row->sum_qty}}</td>
 					</tr>
 					@endforeach
-			@else
+				@else
 				<td class="colspanchange" colspan="7">検索対象は見つかりませんでした。</td>
-			@endif
---}}
+				@endif
 				</tbody>
 
 				<tfoot>

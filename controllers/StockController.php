@@ -25,17 +25,17 @@ class StockController extends Ext_Controller_Action
 		$get = (object) $_GET;
 		$post = (object) $_POST;
 
+		global $wpdb;
+
 		$this->setTb('Sales');
 
-		$get->action = 'search';
-		switch($get->action) {
+		switch($post->cmd) {
 			case 'search':
 			default:
-//				$initForm = $tb->getInitForm();
-//				$rows = $tb->getList($get, $un_convert = true);
+				$initForm = $this->getTb()->getInitForm();
+				$rows = $this->getTb()->getList($get, $un_convert = true);
 				$formPage = 'stock-list';
-//$this->vd($rows);
-				echo $this->get_blade()->run("stock-list", compact('rows', 'formPage', 'initForm'));
+				echo $this->get_blade()->run("stock-list", compact('rows', 'get', 'post', 'formPage', 'initForm', 'wp_list_table'));
 				break;
 		}
 //		return $this->_test;
@@ -53,7 +53,23 @@ class StockController extends Ext_Controller_Action
 	 *
 	 **/
 	public function receiveAction() {
-		echo $this->get_blade()->run("stock-receive");
+		$get = (object) $_GET;
+		$post = (object) $_POST;
+
+		global $wpdb;
+
+		$this->setTb('Sales');
+
+		switch($post->cmd) {
+			case 'search':
+			default:
+				$initForm = $this->getTb()->getInitForm();
+				$rows = $this->getTb()->getListByArrivalDt($get, $post);
+$this->vd($get);
+				$formPage = 'stock-list';
+				echo $this->get_blade()->run("stock-receive", compact('rows', 'get', 'post', 'formPage', 'initForm', 'wp_list_table'));
+				break;
+		}
 	}
 }
 ?>

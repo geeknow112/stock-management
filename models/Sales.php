@@ -742,6 +742,46 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 	}
 
 	/**
+	 * 入庫一覧取得
+	 * 
+	 **/
+	public function getListByArrivalDt($get = null, $post = null) {
+		$get = (object) $get;
+		global $wpdb;
+		$cur_user = wp_get_current_user();
+
+		$sql  = "SELECT s.goods, g.name AS goods_name, s.arrival_dt, sum(s.qty) AS sum_qty ";
+		$sql .= "FROM yc_sales AS s ";
+		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
+		$sql .= "WHERE s.sales is not null ";
+
+		if (current($cur_user->roles) != 'administrator') {
+//			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
+		}
+
+		if (empty($get->action)) {
+//			$sql .= "ORDER BY ap.rgdt desc";
+			$sql .= ";";
+
+		} else {
+			if ($get->action == 'search') {
+				if (!empty($get->s['arrival_s_dt'])) { $sql .= sprintf("AND s.arrival_dt = '%s' ", $get->s['arrival_s_dt']); }
+
+				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", $get->s['outgoing_warehouse']); }
+
+				$sql .= "GROUP BY s.goods";
+				$sql .= ";";
+
+			} else {
+//				$sql .= "AND ap.applicant = '". $prm->post. "';";
+			}
+		}
+
+		$rows = $wpdb->get_results($sql);
+		return $rows;
+	}
+
+	/**
 	 * 
 	 **/
 	public function vd($d) {
