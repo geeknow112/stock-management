@@ -65,7 +65,7 @@ class StockController extends Ext_Controller_Action
 			default:
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getListByArrivalDt($get, $post);
-$this->vd($get);
+
 				$formPage = 'stock-list';
 				echo $this->get_blade()->run("stock-receive", compact('rows', 'get', 'post', 'formPage', 'initForm', 'wp_list_table'));
 				break;

@@ -14,17 +14,17 @@
 			<div class="search-box">
 
 				<label for="carModel" class="col-sm-2 col-form-label">引取(入庫)予定日：</label>
-					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_s_dt']); ?>" placeholder="2020-11-01"><!--&emsp;～&emsp;
+					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="<?php echo htmlspecialchars($get->s['arrival_s_dt']); ?>" placeholder="2020-11-01"><!--&emsp;～&emsp;
 				<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_e_dt']); ?>" placeholder="2022-12-01">&emsp;--><br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">出庫倉庫：</label>
-<!--					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($g['s']['outgoing_warehouse']); ?>">-->
+<!--					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($get->s['outgoing_warehouse']); ?>">-->
 					<select class="" aria-label="outgoing_warehouse" id="outgoing_warehouse" name="s[outgoing_warehouse]">
 						@foreach($initForm['select']['outgoing_warehouse'] as $i => $d)
 							@if ($i == '0')
 							<option value=""></option>
 							@else
-							<option value="{{$i}}" @if ($i == $rows->outgoing_warehouse) selected @endif >{{$d}}</option>
+							<option value="{{$i}}" @if ($i == $get->s['outgoing_warehouse']) selected @endif >{{$d}}</option>
 							@endif
 						@endforeach
 					</select>
