@@ -271,6 +271,7 @@ class Customer {
 				array(
 					'customer' => $customer, 
 					'detail' => $detail, 
+					'tank' => $post->tank[$i], 
 					'pref' => $post->pref[$i], 
 					'addr1' => $post->addr1[$i], 
 					'addr2' => $post->addr2[$i], 
