@@ -47,7 +47,7 @@
 
 	<div class="row mb-3">
 		<label for="goodsName" class="col-sm-2 col-form-label">品名　<span class="badge text-bg-danger">必須</span></label>
-		<select class="form-select w-75" aria-label="goodsName" id="goods" name="goods">
+		<select class="form-select w-75" aria-label="goodsName" id="goods" name="goods" onchange="createSelectBox();" @if ($get->action == '') disabled @endif>
 			@if ($post->customer)
 				@foreach($initForm['select']['goods_name'][$post->customer] as $i => $d)
 					<option value="{{$i}}" @if ($i == $rows->goods) selected @endif >{{$d}}</option>
@@ -58,6 +58,7 @@
 				@endforeach
 			@endif
 		</select>
+		<span id="" class="manual-text form-text">※ 「<b>氏名</b>」を選択後、プルダウンが有効になります。</span>
 	</div>
 <script>
 var unescapeHtml = function(str) {
@@ -79,7 +80,10 @@ var unescapeHtml = function(str) {
 
 function createSelectBox(){
 	var customer = document.forms.customer.value;
-	console.log(customer);
+	var goods = document.forms.goods.value;
+	//console.log('c: ' + customer);
+	//console.log('g: ' + goods);
+
 	//連想配列の配列
 	var ar = "{{$test_ship_addr}}";
 	var json = JSON.parse(unescapeHtml(ar));
@@ -88,6 +92,7 @@ function createSelectBox(){
 
 	// selectの初期化
 	const sel = document.getElementById("ship_addr");
+	sel.disabled = (goods) ? (customer) ? false : true : true; // 非活性化
 	console.log(sel.childNodes.length);
 	for (var i=sel.childNodes.length-1; i>=0; i--) {
 		sel.removeChild(sel.childNodes[i]);
@@ -115,6 +120,7 @@ function createSelectBoxGoods(){
 
 	// selectの初期化
 	const sel = document.getElementById("goods");
+	sel.disabled = (customer) ? false : true; // 非活性化
 	console.log(sel.childNodes.length);
 	for (var i=sel.childNodes.length-1; i>=0; i--) {
 		sel.removeChild(sel.childNodes[i]);
@@ -136,7 +142,7 @@ function createSelectBoxGoods(){
 
 	<div class="row mb-3">
 		<label for="shipAddr" class="col-sm-2 col-form-label">配送先　（※ 顧客の槽（タンク））</label>
-		<select class="form-select w-75" aria-label="shipAddr" id="ship_addr" name="ship_addr">
+		<select class="form-select w-75" aria-label="shipAddr" id="ship_addr" name="ship_addr" @if ($get->action == '') disabled @endif>
 			@if ($post->customer)
 				@foreach($initForm['select']['ship_addr'][$post->customer] as $i => $d)
 					<option value="{{$i}}" @if ($i == $rows->ship_addr) selected @endif >{{$d}}</option>
@@ -147,7 +153,7 @@ function createSelectBoxGoods(){
 				@endforeach
 			@endif
 		</select>
-<!--		<div id="shipAddHelp" class="form-text">配送先を入力してください。</div>-->
+		<span id="" class="manual-text form-text">※ 「<b>品名</b>」を選択後、プルダウンが有効になります。</span>
 	</div>
 
 	<div class="row mb-3">
@@ -178,7 +184,7 @@ function createSelectBoxGoods(){
 	<div class="row mb-3">
 		<label for="arrival_dt" class="col-sm-2 col-form-label">入庫予定日</label>
 		<input type="date" class="col-sm-6 col-form-control w-auto" id="arrival_dt" name="arrival_dt" aria-describedby="arrivalDtHelp" value="{{$rows->arrival_dt}}" @if ($cur_user->roles[0] != 'administrator') disabled @endif>
-		<p id="arrivalDtHelp" class="form-text">※ 入力がない場合、「配送予定日」の<b>3日前</b>の日付を自動入力します。</p>
+		<span id="" class="manual-text form-text">※ 入力がない場合、「配送予定日」の<b>3日前</b>の日付を自動入力します。</span>
 	</div>
 
 	<div class="row mb-3">
@@ -237,3 +243,11 @@ function check_repeat() {
 	}
 }
 </script>
+
+<style>
+.manual-text {
+	width: 400px;
+	padding-left: 10px;
+	#background: gray;
+}
+</style>
