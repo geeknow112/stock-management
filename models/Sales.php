@@ -867,7 +867,7 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 		// 配列整形
 		foreach ($rows as $i => $d) {
 			$ret[$d->customer][0] = '';
-			$ret[$d->customer][$d->detail] = sprintf("%s %s %s %s", $d->pref, $d->addr1, $d->addr2, $d->addr3);
+			$ret[$d->customer][$d->detail] = sprintf("%s", $d->tank);
 		}
 
 		return $ret;
