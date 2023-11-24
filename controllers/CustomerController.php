@@ -187,11 +187,12 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 //$this->vd($rows);
 				if ($post->cmd == 'cmd_update' ) {
 					$rows_tanks = $this->convertData($rows);
+					$rows_tanks_count = $this->countObject($rows_tanks);
 					$rows_addrs = $this->convertData($rows);
 					$rows_addrs_count = $this->countObject($rows_addrs);
 				}
 
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_tanks', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'rows_tanks', 'rows_tanks_count', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
 				break;
 		}
 	}
