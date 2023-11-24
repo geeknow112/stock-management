@@ -24,7 +24,7 @@
 				<label class="col-sm-2 col-form-label w-5">配送先 槽（タンク）: {{$d->detail}}</label>
 				<input type="text" class="col-sm-2 col-form-control w-auto" id="tank_{{$i}}" name="tank[]" aria-describedby="tankHelp" value="{{$d->tank}}">&emsp;
 				@if ($i == $rows_tanks_count - 1)
-				<input type="button" class="col-sm-2 col-form-control w-auto" id="add{{$rows_tanks_count}}" name="add{{$rows_tanks_count}}" value="追加" onclick="addCustomerTankRow(1)">
+				<input type="button" class="col-sm-2 col-form-control w-auto" id="add_tank_{{$rows_tanks_count}}" name="add_tank_{{$rows_tanks_count}}" value="追加" onclick="addCustomerTankRow({{$rows_tanks_count}})">
 				@endif
 				</div>
 		@endforeach
@@ -32,11 +32,12 @@
 		<div>
 			<label class="col-sm-2 col-form-label w-5">配送先 槽（タンク）: 新規登録 </label>
 			<input type="text" class="col-sm-2 col-form-control w-auto" id="tank_0" name="tank[]" aria-describedby="tankHelp" value="">&emsp;
-			<input type="button" class="col-sm-2 col-form-control w-auto" id="add0" name="add0" value="追加" onclick="addCustomerTankRow(0)">
+			<input type="button" class="col-sm-2 col-form-control w-auto" id="add_tank_0" name="add_tank_0" value="追加" onclick="addCustomerTankRow(0)">
 		</div>
 	@endif
 	</div>
 
+<!--
 <br />
 <hr>
 	<div class="row mb-3" id="customerAddrRow">
@@ -64,6 +65,7 @@
 		</div>
 	@endif
 	</div>
+-->
 
 <script>
 /**
@@ -82,12 +84,11 @@ function addCustomerTankRow(cnt = null)
 	const addRow = document.getElementById("addRow" + cnt);
 	addRow.innerHTML += '	<label class="col-sm-2 col-form-label w-5" id="label_' + cnt + '">配送先 槽（タンク）: ' + cnt + '</label>';
 	addRow.innerHTML += '	<input type="text" class="col-sm-2 col-form-control w-auto" id="tank_' + cnt + '" name="tank[]" aria-describedby="tankHelp" value="">&emsp;';
-//	addRow.innerHTML += '	<input type="button" class="col-sm-2 col-form-control w-auto" id="del' + cnt + '" name="del' + cnt + '" value="削除" onclick="delCustomerTankRow(' + cnt + ')">&emsp;';
-	addRow.innerHTML += '	<input type="button" class="col-sm-2 col-form-control w-auto" id="add' + cnt + '" name="add' + cnt + '" value="追加" onclick="addCustomerTankRow(' + cnt + ')">&emsp;';
+	addRow.innerHTML += '	<input type="button" class="col-sm-2 col-form-control w-auto" id="add_tank_' + cnt + '" name="add_tank_' + cnt + '" value="追加" onclick="addCustomerTankRow(' + cnt + ')">&emsp;';
 
 	did = parseInt(cnt) - 1;
 	console.log(did);
-	document.getElementById("add" + did).remove();
+	document.getElementById("add_tank_" + did).remove();
 }
 
 /**
