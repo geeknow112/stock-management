@@ -13,21 +13,21 @@
 {{--			@if ($tb->getCurUser()->roles[0] == 'administrator')	--}}
 			<div class="search-box">
 				<label for="sales" class="col-sm-2 col-form-label">No. ：</label>
-					<input type="search" id="sales" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>"><br /><br />
+					<input type="search" id="sales" name="s[no]" value="<?php echo htmlspecialchars($get->s['no']); ?>"><br /><br />
 
 				<label for="goods_name" class="col-sm-2 col-form-label">商品名：</label>
-					<input type="search" id="goods_name" name="s[goods_name]" value="<?php echo htmlspecialchars($g['s']['goods_name']); ?>"><br /><br />
+					<input type="search" id="goods_name" name="s[goods_name]" value="<?php echo htmlspecialchars($get->s['goods_name']); ?>"><br /><br />
 
 				<label for="lot" class="col-sm-2 col-form-label">ロット番号：</label>
-					<input type="search" id="lot" name="s[lot]" value="<?php echo htmlspecialchars($g['s']['lot']); ?>" disabled><br /><br />
+					<input type="search" id="lot" name="s[lot]" value="<?php echo htmlspecialchars($get->s['lot']); ?>" disabled><br /><br />
 <?php 
-//print_r($g['s']['status']); 
+//print_r($get->s['status']); 
 //print_r($initForm['select']['status']); 
 ?>
 				<label for="carModel" class="col-sm-2 col-form-label">状態：</label>
 					<select type="search" id="user-search-input" name="s[status]" class="col-form-select" aria-label="status" id="status" disabled>
 						@foreach($initForm['select']['status'] as $i => $d)
-							@if (isset($g['s']['status']))
+							@if (isset($get->s['status']))
 								<option value="{{$i}}" selected>{{$d}}</option>
 							@else
 								<option value="{{$i}}">{{$d}}</option>
@@ -37,15 +37,15 @@
 					<br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">出庫倉庫：</label>
-					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($g['s']['outgoing_warehouse']); ?>" disabled><br /><br />
+					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($get->s['outgoing_warehouse']); ?>" disabled><br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">注文日：</label>
-					<input type="date" id="user-search-input" name="s[order_s_dt]" value="<?php echo htmlspecialchars($g['s']['order_s_dt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
-				<input type="date" id="user-search-input" name="s[order_e_dt]" value="<?php echo htmlspecialchars($g['s']['order_e_dt']); ?>" placeholder="2022-12-01"><br /><br />
+					<input type="date" id="user-search-input" name="s[order_s_dt]" value="<?php echo htmlspecialchars($get->s['order_s_dt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
+				<input type="date" id="user-search-input" name="s[order_e_dt]" value="<?php echo htmlspecialchars($get->s['order_e_dt']); ?>" placeholder="2022-12-01"><br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">引取(入庫)予定日：</label>
-					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_s_dt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
-				<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_e_dt']); ?>" placeholder="2022-12-01">&emsp;
+					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="<?php echo htmlspecialchars($get->s['arrival_s_dt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
+				<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($get->s['arrival_e_dt']); ?>" placeholder="2022-12-01">&emsp;
 <!--
 				<input type="submit" id="search-submit" class="button" value="申込者を検索">
 -->
