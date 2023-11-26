@@ -124,7 +124,7 @@
 				</thead>
 <style>
 	.message {
-		width: 70%;
+		width: 100%;
 		height: 150px;
 		margin-top: 1.5em;
 		margin-bottom: 1.5em;
