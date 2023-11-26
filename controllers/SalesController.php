@@ -349,7 +349,7 @@ $r = array(
 				// ロット番号アラートの作成
 				$msg = $this->getTb()->checkLotNumberStatus();
 
-				echo $this->get_blade()->run("delivery-graph", compact('cur_user', 'rows', 'formPage', 'initForm', 'r', 'sumTanks', 'msg', 'repeat_list'));
+				echo $this->get_blade()->run("delivery-graph", compact('cur_user', 'rows', 'get', 'post', 'formPage', 'initForm', 'r', 'sumTanks', 'msg', 'repeat_list'));
 				break;
 		}
 	}

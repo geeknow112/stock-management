@@ -2,12 +2,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <div id="wpbody-content">
-<?php
-//$tb = new Postmeta;
-
-//$g = $_GET;
-//var_dump($g['s']);
-?>
 	<div class="wrap">
 		<h1 class="wp-heading-inline">【配送予定表③】</h1>
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page={{$formPage}}&action=regist" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
@@ -27,12 +21,12 @@
 			<div class="search-box">
 				<label class="screen-reader-text" for="user-search-input">申込者を検索:</label>
 <!--
-				No. ：<input type="search" id="user-search-input" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>">&emsp;&emsp;&emsp;
-				社名：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($g['s']['company_name']); ?>"><br /><br />
+				No. ：<input type="search" id="user-search-input" name="s[no]" value="<?php echo htmlspecialchars($get->s['no']); ?>">&emsp;&emsp;&emsp;
+				社名：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($get->s['company_name']); ?>"><br /><br />
 -->
-				開始：<input type="date" id="user-search-input" name="s[sdt]" value="2022-12-18" placeholder="2020-11-01">&emsp;
-<!--				開始：<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($g['s']['sdt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;	-->
-<!--				終了：<input type="date" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($g['s']['edt']); ?>" placeholder="2022-12-01">&emsp;	-->
+				開始：<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($get->s['sdt']); ?>" placeholder="2020-11-01">&emsp;
+<!--				開始：<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($get->s['sdt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;	-->
+<!--				終了：<input type="date" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($get->s['edt']); ?>" placeholder="2022-12-01">&emsp;	-->
 
 				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 
