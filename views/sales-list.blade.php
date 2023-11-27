@@ -34,7 +34,16 @@
 					<br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">出庫倉庫：</label>
-					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($get->s['outgoing_warehouse']); ?>" disabled><br /><br />
+					<select type="search" id="user-search-input" name="s[outgoing_warehouse]" class="col-form-select" aria-label="outgoing_warehouse" id="outgoing_warehouse">
+						@foreach($initForm['select']['outgoing_warehouse'] as $i => $d)
+							@if (isset($get->s['outgoing_warehouse']))
+								<option value="{{$i}}" @if($i == $get->s['outgoing_warehouse']) selected @endif>{{$d}}</option>
+							@else
+								<option value="{{$i}}">{{$d}}</option>
+							@endif
+						@endforeach
+					</select>
+					<br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">注文日：</label>
 					<input type="date" id="user-search-input" name="s[order_s_dt]" value="<?php echo htmlspecialchars($get->s['order_s_dt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
