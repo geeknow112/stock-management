@@ -45,7 +45,7 @@ class CustomerController extends Ext_Controller_Action
 //				$rows = $tb->getList($get, $un_convert = true);
 				$formPage = 'customer-list';
 //$this->vd($rows);
-				echo $this->get_blade()->run("customer-list", compact('rows', 'formPage', 'initForm', 'wp_list_table'));
+				echo $this->get_blade()->run("customer-list", compact('rows', 'get', 'post', 'formPage', 'initForm', 'wp_list_table'));
 				break;
 		}
 		return $this->_test;

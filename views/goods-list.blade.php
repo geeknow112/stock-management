@@ -2,12 +2,6 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 
 <div id="wpbody-content">
-<?php
-//$tb = new Postmeta;
-
-//$g = $_GET;
-//var_dump($g['s']);
-?>
 	<div class="wrap">
 		<h1 class="wp-heading-inline">【商品検索】</h1>
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page={{$formPage}}&action=regist" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
@@ -19,16 +13,16 @@
 {{--			@if ($tb->getCurUser()->roles[0] == 'administrator')	--}}
 			<div class="search-box">
 				<label for="goods" class="col-sm-2 col-form-label">商品番号：</label>
-					<input type="search" id="goods" name="s[no]" value="<?php echo htmlspecialchars($g['s']['no']); ?>"><br /><br />
+					<input type="search" id="goods" name="s[no]" value="<?php echo htmlspecialchars($get->s['no']); ?>"><br /><br />
 
 				<label for="goods_name" class="col-sm-2 col-form-label">商品名：</label>
-					<input type="search" id="goods_name" name="s[goods_name]" value="<?php echo htmlspecialchars($g['s']['goods_name']); ?>"><br /><br />
+					<input type="search" id="goods_name" name="s[goods_name]" value="<?php echo htmlspecialchars($get->s['goods_name']); ?>"><br /><br />
 
 				<label for="qty" class="col-sm-2 col-form-label">荷姿・容量：</label>
-					<input type="search" id="qty" name="s[qty]" value="<?php echo htmlspecialchars($g['s']['qty']); ?>"><br /><br />
+					<input type="search" id="qty" name="s[qty]" value="<?php echo htmlspecialchars($get->s['qty']); ?>"><br /><br />
 
 				<label for="lot" class="col-sm-2 col-form-label">ロット番号：</label>
-					<input type="search" id="lot" name="s[lot]" value="<?php echo htmlspecialchars($g['s']['lot']); ?>"><br /><br />
+					<input type="search" id="lot" name="s[lot]" value="<?php echo htmlspecialchars($get->s['lot']); ?>"><br /><br />
 <!--
 				<input type="submit" id="search-submit" class="button" value="申込者を検索">
 -->
