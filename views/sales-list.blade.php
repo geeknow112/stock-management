@@ -20,15 +20,12 @@
 
 				<label for="lot" class="col-sm-2 col-form-label">ロット番号：</label>
 					<input type="search" id="lot" name="s[lot]" value="<?php echo htmlspecialchars($get->s['lot']); ?>" disabled><br /><br />
-<?php 
-//print_r($get->s['status']); 
-//print_r($initForm['select']['status']); 
-?>
+
 				<label for="carModel" class="col-sm-2 col-form-label">状態：</label>
-					<select type="search" id="user-search-input" name="s[status]" class="col-form-select" aria-label="status" id="status" disabled>
+					<select type="search" id="user-search-input" name="s[status]" class="col-form-select" aria-label="status" id="status">
 						@foreach($initForm['select']['status'] as $i => $d)
 							@if (isset($get->s['status']))
-								<option value="{{$i}}" selected>{{$d}}</option>
+								<option value="{{$i}}" @if($i == $get->s['status']) selected @endif>{{$d}}</option>
 							@else
 								<option value="{{$i}}">{{$d}}</option>
 							@endif
@@ -58,7 +55,11 @@
 				<label for="cmd-select" class="col-sm-2 col-form-label">一括操作：</label>
 				<select class="col-form-select" aria-label="orderName" id="change_status" name="change_status">
 					@foreach($initForm['select']['status'] as $i => $d)
-						<option value="{{$i}}">{{$d}}</option>
+						@if (isset($get->s['change_status']))
+							<option value="{{$i}}" @if($i == $get->s['change_status']) selected @endif>{{$d}}</option>
+						@else
+							<option value="{{$i}}">{{$d}}</option>
+						@endif
 					@endforeach
 				</select>
 
