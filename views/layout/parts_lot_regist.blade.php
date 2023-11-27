@@ -32,7 +32,7 @@
 						<td>{{$d->ship_addr}}</td>
 						<td>{{$d->goods_qty}}</td>
 						<td>{{$d->arrival_dt}}</td>
-						<td>{{$d->name}}</td>
+						<td>{{$d->customer_name}}</td>
 						<td class="">
 						<input type="text" class="" id="tank" name="tank[{{$d->lot_tmp_id}}]" value="{{$d->tank}}">
 						</td>

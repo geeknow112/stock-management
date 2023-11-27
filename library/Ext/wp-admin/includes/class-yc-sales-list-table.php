@@ -594,7 +594,7 @@ $initForm = $s->getInitForm();
 			if ($object->status == '0') {
 				echo ': '. $qty. ' :';
 			} else {
-				echo '<a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save"> [ '. $qty. ' ] </a>';
+				echo '<a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&customer='. $object->customer. '&action=save"> [ '. $qty. ' ] </a>';
 			}
 			echo '</td>';
 			echo '<td>'. $object->delivery_dt. '</td>';
