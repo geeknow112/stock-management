@@ -159,6 +159,7 @@ $req = (object) $_REQUEST;
 $where = sprintf("WHERE s.sales is not null ");
 if (!empty($req->s['no'])) { $where .= sprintf("AND s.sales = '%s'", $req->s['no']); }
 if (!empty($req->s['goods_name'])) { $where .= "AND g.name LIKE '%". $req->s['goods_name']. "%'"; }
+if (isset($req->s['status']) && $req->s['status'] != '') { $where .= sprintf("AND s.status = '%s'", $req->s['status']); }
 //if (!empty($req->s['lot'])) { $where .= sprintf("AND gd.lot = '%s'", $req->s['lot']); }
 if (!empty($req->s['order_s_dt'])) { $where .= sprintf("AND s.rgdt >= '%s 00:00:00' ", $req->s['order_s_dt']); }
 if (!empty($req->s['order_e_dt'])) { $where .= sprintf("AND s.rgdt <= '%s 23:59:59' ", $req->s['order_e_dt']); }
@@ -197,7 +198,7 @@ if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND s.arrival_dt <= '%
 		$sql .= sprintf("LEFT JOIN yc_goods AS g ON s.goods = g.goods ");
 		$sql .= sprintf("LEFT JOIN yc_customer AS c ON s.customer = c.customer ");
 		$sql .= sprintf("%s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
-		//print_r($sql);
+//		print_r($sql);
 		$this->items = $wpdb->get_results( $sql );
 
 
