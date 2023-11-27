@@ -160,6 +160,7 @@ $where = sprintf("WHERE s.sales is not null ");
 if (!empty($req->s['no'])) { $where .= sprintf("AND s.sales = '%s'", $req->s['no']); }
 if (!empty($req->s['goods_name'])) { $where .= "AND g.name LIKE '%". $req->s['goods_name']. "%'"; }
 if (isset($req->s['status']) && $req->s['status'] != '') { $where .= sprintf("AND s.status = '%s'", $req->s['status']); }
+if (isset($req->s['outgoing_warehouse']) && $req->s['outgoing_warehouse'] != '') { $where .= sprintf("AND s.outgoing_warehouse = '%s'", $req->s['outgoing_warehouse']); }
 //if (!empty($req->s['lot'])) { $where .= sprintf("AND gd.lot = '%s'", $req->s['lot']); }
 if (!empty($req->s['order_s_dt'])) { $where .= sprintf("AND s.rgdt >= '%s 00:00:00' ", $req->s['order_s_dt']); }
 if (!empty($req->s['order_e_dt'])) { $where .= sprintf("AND s.rgdt <= '%s 23:59:59' ", $req->s['order_e_dt']); }
