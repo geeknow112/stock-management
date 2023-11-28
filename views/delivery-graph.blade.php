@@ -172,7 +172,7 @@
 							echo ($row->outgoing_warehouse == 1) ? '<span style="color: red;">(内)</span>' : '';
 						?>
 						</div>
-						<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo $row->delivery_dt; ?></div>
+						<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo $row->arrival_dt; ?></div>
 						<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo $row->customer_name; ?></div>
 						@if ($row->lot_fg == 0)
 							@if (isset($row->base_sales))
