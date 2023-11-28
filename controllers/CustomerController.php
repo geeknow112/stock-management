@@ -140,7 +140,7 @@ class CustomerController extends Ext_Controller_Action
 					if ($post->cmd == 'update') {
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
-if ($post->tank) { $post->list = $this->sortData($post); }
+if ($post->tank) { $post->list = $this->sortDataTanks($post); }
 if ($post->pref) { $post->list = $this->sortData($post); }
 							$rows = $this->getTb()->updDetail($get, $post);
 //							$rows->customer_name = $rows->name;
