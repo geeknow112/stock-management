@@ -333,7 +333,7 @@ $post->name = $post->customer_name;
 		$ret_addrs = array();
 		if ($post->list) {
 			foreach ($post->list as $i => $d) {
-				if (!$d->pref) { continue; } // 必須項目がなければ処理を抜ける
+//				if (!$d->pref) { continue; } // 必須項目がなければ処理を抜ける
 				$detail = $i+1;
 				$targetId = $wpdb->get_var($wpdb->prepare("SELECT customer FROM yc_customer_detail WHERE customer = %s AND detail = %s", $post->customer, $detail));
 				if (is_null($targetId)) {
@@ -343,10 +343,12 @@ $post->name = $post->customer_name;
 							'customer' => $post->customer, 
 							'detail' => $detail,
 							'tank' => $d->tank, 
+/*
 							'pref' => $d->pref, 
 							'addr1' => $d->addr1, 
 							'addr2' => $d->addr2, 
 							'addr3' => $d->addr3, 
+*/
 							'rgdt' => date('Y-m-d H:i:s')
 						)
 						//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
@@ -356,10 +358,12 @@ $post->name = $post->customer_name;
 						'yc_customer_detail', 
 						array(
 							'tank' => $d->tank, 
+/*
 							'pref' => $d->pref, 
 							'addr1' => $d->addr1, 
 							'addr2' => $d->addr2, 
 							'addr3' => $d->addr3, 
+*/
 							'updt' => date('Y-m-d H:i:s')
 						),
 						array(
