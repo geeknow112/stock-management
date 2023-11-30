@@ -68,18 +68,19 @@ class StockManagement {
 					add_submenu_page('stock-management', '商品登録','🔷商品登録', 'read', 'goods-detail', array(&$this, 'goods_detail'));
 					add_submenu_page('stock-management', '顧客登録','🔷顧客登録', 'read', 'customer-detail', array(&$this, 'customer_detail'));
 					add_submenu_page('stock-management', '注文登録','🔷注文登録', 'read', 'sales-detail', array(&$this, 'sales_detail'));
+					add_submenu_page('stock-management', '在庫登録','🌟在庫登録', 'read', 'stock-detail', array(&$this, 'stock_detail'));
 
 					// 検索画面
 					add_submenu_page('stock-management', '商品検索','🔶商品検索', 'read', 'goods-list', array(&$this, 'goods_list'));
 					add_submenu_page('stock-management', '顧客検索','🔶顧客検索', 'read', 'customer-list', array(&$this, 'customer_list'));
 					add_submenu_page('stock-management', '注文検索','🔶注文検索', 'read', 'sales-list', array(&$this, 'sales_list'));
+					add_submenu_page('stock-management', '在庫検索','🌟在庫検索', 'read', 'stock-list', array(&$this, 'stock_list'));
 					add_submenu_page('stock-management', '入庫予定日検索','🌟入庫予定日検索', 'read', 'stock-receive', array(&$this, 'stock_receive'));
 
 					// その他
 					add_submenu_page('stock-management', 'ロット番号登録','ロット番号登録', 'read', 'lot-regist', array(&$this, 'lot_regist'));
 					add_submenu_page('stock-management', '配送予定表③','配送予定表③', 'read', 'delivery-graph', array(&$this, 'delivery_graph'));
 					add_submenu_page('stock-management', '日別商品集計','日別商品集計', 'read', 'sum-day-goods', array(&$this, 'sum_day_goods'));
-					add_submenu_page('stock-management', '在庫管理','🌟在庫管理', 'read', 'stock-list', array(&$this, 'stock_list'));
 
 				} else {
 					$this->remove_menus();
@@ -133,6 +134,14 @@ class StockManagement {
 	}
 
 	/**
+	 * 在庫詳細
+	 **/
+	function stock_detail() {
+		$s = new StockController();
+		$s->detailAction();
+	}
+
+	/**
 	 * ロット管理
 	 **/
 	function lot_regist() {
@@ -173,7 +182,7 @@ class StockManagement {
 	}
 
 	/**
-	 * 在庫管理
+	 * 在庫検索
 	 **/
 	function stock_list() {
 		$s = new StockController();
