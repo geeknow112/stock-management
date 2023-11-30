@@ -25,9 +25,18 @@ class StockController extends Ext_Controller_Action
 		$get = (object) $_GET;
 		$post = (object) $_POST;
 
+		try {
+			// pagination
+			$this->setPager('Stock');
+			$wp_list_table = $this->getPager();
+
+		} catch (Exception $e) {
+			echo '<b>'. $e->getMessage(). '</b>';
+		}
+
 		global $wpdb;
 
-		$this->setTb('Sales');
+		$this->setTb('Stock');
 
 		switch($post->cmd) {
 			case 'search':

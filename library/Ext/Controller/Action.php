@@ -89,6 +89,11 @@ abstract class Ext_Controller_Action
 				require_once(dirname(__DIR__). '/wp-admin/includes/class-yc-sales-list-table.php');
 				$wp_list_table = new YC_Sales_List_Table;
 				break;
+
+			case 'Stock' :
+				require_once(dirname(__DIR__). '/wp-admin/includes/class-yc-stock-list-table.php');
+				$wp_list_table = new YC_Stock_List_Table;
+				break;
 		}
 		$pagenum       = $wp_list_table->get_pagenum();
 		$wp_list_table->prepare_items();

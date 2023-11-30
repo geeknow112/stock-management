@@ -12,6 +12,7 @@ require_once(dirname(__DIR__). '/stock-management/models/Goods.php');
 require_once(dirname(__DIR__). '/stock-management/models/Customer.php');
 require_once(dirname(__DIR__). '/stock-management/models/ScheduleRepeat.php');
 require_once(dirname(__DIR__). '/stock-management/models/RepeatExclude.php');
+require_once(dirname(__DIR__). '/stock-management/models/Stock.php');
 
 require_once(dirname(__DIR__). '/stock-management/controllers/CustomerController.php');
 require_once(dirname(__DIR__). '/stock-management/controllers/GoodsController.php');
