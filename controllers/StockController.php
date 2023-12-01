@@ -86,7 +86,17 @@ class StockController extends Ext_Controller_Action
 	 *
 	 **/
 	public function exportAction() {
-		echo $this->get_blade()->run("stock-export");
+		$get = (object) $_GET;
+		$post = (object) $_POST;
+
+		global $wpdb;
+
+		$this->setTb('Stock');
+
+		$rows = $this->getTb()->getStockExportList($get);
+//		$this->vd($rows);
+
+		echo $this->get_blade()->run("stock-export", compact('rows', 'get', 'post', 'formPage', 'initForm'));
 	}
 
 	/**
