@@ -316,7 +316,7 @@ $value5
 		} else {
 			if ($get->action == 'search') {
 				if (!empty($get->s['delivery_s_dt'])) { $sql .= sprintf("AND s.delivery_dt = '%s' ", $get->s['delivery_s_dt']); }
-				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", $get->s['goods_name']); }
+				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", $get->s['outgoing_warehouse']); }
 				$sql .= "GROUP BY s.goods, s.customer ";
 //				$sql .= "ORDER BY g.goods desc";
 				$sql .= ";";
