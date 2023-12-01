@@ -262,6 +262,7 @@ $value5
 		$sql .= "LEFT JOIN yc_stock_detail AS std ON st.stock = std.stock ";
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = st.goods ";
 		$sql .= "WHERE st.stock is not null ";
+		$sql .= "AND st.warehouse = '2' ";
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
