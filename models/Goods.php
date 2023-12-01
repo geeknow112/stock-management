@@ -1,5 +1,18 @@
 <?php
-class Goods {
+/**
+ * Goods.php short discription
+ *
+ * long discription
+ *
+ */
+require_once(dirname(__DIR__). '/library/Ext/Model/Base.php');
+/**
+ * GoodsClass short discription
+ *
+ * long discription
+ *
+ */
+class Goods extends Ext_Model_Base {
 	protected $_name = 'yc_goods';
 
 	/**
@@ -249,21 +262,6 @@ $value5
 		// 更新情報を再取得
 		$rows = $this->getDetailByGoodsCode($post->goods);
 		return $rows;
-	}
-
-	/**
-	 * 
-	 **/
-	public function vd($d) {
-		$cur_user = wp_get_current_user();
-		//var_dump($cur_user->user_login);
-		//var_dump($cur_user->user_email);
-
-		if (current($cur_user->roles) == 'administrator') {
-			echo '<pre>';
-			var_dump($d);
-			echo '</pre>';
-		}
 	}
 
 	/**

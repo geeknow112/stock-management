@@ -1,5 +1,18 @@
 <?php
-class Sales {
+/**
+ * Sales.php short discription
+ *
+ * long discription
+ *
+ */
+require_once(dirname(__DIR__). '/library/Ext/Model/Base.php');
+/**
+ * SalesClass short discription
+ *
+ * long discription
+ *
+ */
+class Sales extends Ext_Model_Base {
 	protected $_name = 'yc_sales';
 
 	/**
@@ -780,23 +793,6 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 
 		$rows = $wpdb->get_results($sql);
 		return $rows;
-	}
-
-	/**
-	 * 
-	 **/
-	public function vd($d) {
-//return false;
-		global $wpdb;
-		$cur_user = wp_get_current_user();
-		if (current($cur_user->roles) == 'administrator') {
-			echo '<div class="border border-success mb-3">';
-			echo '<pre>';
-//			var_dump($d);
-			print_r($d);
-			echo '</pre>';
-			echo '</div>';
-		}
 	}
 
 	/**

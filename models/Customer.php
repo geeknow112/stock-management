@@ -1,5 +1,18 @@
 <?php
-class Customer {
+/**
+ * Customer.php short discription
+ *
+ * long discription
+ *
+ */
+require_once(dirname(__DIR__). '/library/Ext/Model/Base.php');
+/**
+ * CustomerClass short discription
+ *
+ * long discription
+ *
+ */
+class Customer extends Ext_Model_Base {
 	protected $_name = 'yc_customer';
 
 	/**
@@ -407,18 +420,6 @@ $post->name = $post->customer_name;
 		$ret_rows = array();
 		$ret_rows = $this->getDetailByCustomerCode($post->customer);
 		return $ret_rows;
-	}
-
-	public function vd($d) {
-		$cur_user = wp_get_current_user();
-		//var_dump($cur_user->user_login);
-		//var_dump($cur_user->user_email);
-
-		if (current($cur_user->roles) == 'administrator') {
-			echo '<pre>';
-			var_dump($d);
-			echo '</pre>';
-		}
 	}
 
 	/**
