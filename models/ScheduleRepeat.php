@@ -16,21 +16,6 @@ class ScheduleRepeat extends Ext_Model_Base {
 	protected $_name = 'yc_schedule_repeat';
 
 	/**
-	 *
-	 **/
-	function getTableName() {
-		return $this->_name;
-	}
-
-	/**
-	 *
-	 **/
-	public function getCurUser() {
-		$cur_user = wp_get_current_user();
-		return $cur_user;
-	}
-
-	/**
 	 * 
 	 **/
 	public function getValidElement($step_num = null) {
