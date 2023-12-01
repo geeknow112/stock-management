@@ -80,5 +80,21 @@ class StockController extends Ext_Controller_Action
 				break;
 		}
 	}
+
+	/**
+	 * ÝŒÉØ–¾‘ o—Í
+	 *
+	 **/
+	public function exportAction() {
+		echo $this->get_blade()->run("stock-export");
+	}
+
+	/**
+	 * ‘qo“`•[ o—Í
+	 *
+	 **/
+	public function exportDayAction() {
+		echo $this->get_blade()->run("stock-export-day");
+	}
 }
 ?>

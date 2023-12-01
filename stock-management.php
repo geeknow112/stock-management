@@ -204,7 +204,7 @@ class StockManagement {
 	 **/
 	function stock_export() {
 		$s = new StockController();
-		$s->receiveAction();
+		$s->exportAction();
 	}
 
 	/**
@@ -212,7 +212,7 @@ class StockManagement {
 	 **/
 	function stock_export_day() {
 		$s = new StockController();
-		$s->receiveAction();
+		$s->exportDayAction();
 	}
 
 	/**
