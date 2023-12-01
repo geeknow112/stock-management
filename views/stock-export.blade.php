@@ -92,7 +92,13 @@
 				@endif
 				</tbody>
 
-				<tfoot>
+				<tfoot class="table-light">
+					<tr>
+						<th class="" colspan="3">合計</th>
+						<th class="">{{$stock_cnt}}</th>
+						<th class="">{{$stock_sum}}</th>
+						<th class=""></th>
+					</tr>
 				</tfoot>
 			</table>
 </div>

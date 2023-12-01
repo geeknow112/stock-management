@@ -94,9 +94,14 @@ class StockController extends Ext_Controller_Action
 		$this->setTb('Stock');
 
 		$rows = $this->getTb()->getStockExportList($get);
-//		$this->vd($rows);
 
-		echo $this->get_blade()->run("stock-export", compact('rows', 'get', 'post', 'formPage', 'initForm'));
+		// ÝŒÉTBŒÂ”‚Ì‘‡Œv
+		$stock_cnt = array_sum(array_column((array) $rows, 'cnt'));
+
+		// ÝŒÉ”—Ê‚Ì‘‡Œv
+		$stock_sum = array_sum(array_column((array) $rows, 'stock_total'));
+
+		echo $this->get_blade()->run("stock-export", compact('rows', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum'));
 	}
 
 	/**
