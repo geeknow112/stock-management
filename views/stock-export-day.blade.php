@@ -13,12 +13,10 @@
 {{--			@if ($tb->getCurUser()->roles[0] == 'administrator')	--}}
 			<div class="search-box">
 
-				<label for="carModel" class="col-sm-2 col-form-label">引取(入庫)予定日：</label>
-					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="<?php echo htmlspecialchars($get->s['arrival_s_dt']); ?>" placeholder="2020-11-01"><!--&emsp;～&emsp;
-				<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_e_dt']); ?>" placeholder="2022-12-01">&emsp;--><br /><br />
+				<label for="carModel" class="col-sm-2 col-form-label">配送日：</label>
+					<input type="date" id="user-search-input" name="s[delivery_s_dt]" value="<?php echo htmlspecialchars($get->s['delivery_s_dt']); ?>" placeholder="2020-11-01"><br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">出庫倉庫：</label>
-<!--					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($get->s['outgoing_warehouse']); ?>">-->
 					<select class="" aria-label="outgoing_warehouse" id="outgoing_warehouse" name="s[outgoing_warehouse]">
 						@foreach($initForm['select']['outgoing_warehouse'] as $i => $d)
 							@if ($i == '0')
@@ -35,7 +33,7 @@
 				<script>
 				function cmd_search() {
 					document.forms.method = 'get';
-					document.forms.action = "/wp-admin/admin.php?page=stock-receive&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
+					document.forms.action = "/wp-admin/admin.php?page=stock-export-day&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
 					document.forms.cmd.value = 'search';
 					document.forms.submit();
 				}
@@ -45,7 +43,7 @@
 
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
-			<input type="hidden" name="page" value="stock-receive">
+			<input type="hidden" name="page" value="stock-export-day">
 			<input type="hidden" name="action" value="search">
 			<input type="hidden" name="cmd" value="">
 {{--			@endif	--}}
@@ -69,7 +67,11 @@
 					<tr>
 						<th class="">No.</th>
 						<th class="">品名</th>
-						<th class="">量(t)</th>
+						<th class="">容量</th>
+						<th class="">解袋数</th>
+						<th class="">個数</th>
+						<th class="">量目</th>
+						<th class="">備考</th>
 					</tr>
 				</thead>
 
@@ -79,7 +81,11 @@
 					<tr id="">
 						<td class="">{{$i+1}}</td>
 						<td class="">{{$row->goods_name}}</td>
-						<td class="">{{$row->sum_qty}}</td>
+						<th class="">（T）</th>
+						<th class=""></th>
+						<th class=""></th>
+						<td class="">{{$row->qty}}</td>
+						<th class="">{{$row->customer_name}}</th>
 					</tr>
 					@endforeach
 				@else

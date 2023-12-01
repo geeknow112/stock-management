@@ -109,7 +109,17 @@ class StockController extends Ext_Controller_Action
 	 *
 	 **/
 	public function exportDayAction() {
-		echo $this->get_blade()->run("stock-export-day");
+		$get = (object) $_GET;
+		$post = (object) $_POST;
+
+		global $wpdb;
+
+		$this->setTb('Stock');
+
+		$initForm = $this->getTb()->getInitForm();
+		$rows = $this->getTb()->getStockExportListDay($get);
+
+		echo $this->get_blade()->run("stock-export-day", compact('rows', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum'));
 	}
 }
 ?>

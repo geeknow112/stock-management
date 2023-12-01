@@ -251,6 +251,7 @@ $value5
 
 	/**
 	 * 在庫証明書 情報一覧取得
+	 * 
 	 **/
 	public function getStockExportList($get = null) {
 		$get = (object) $get;
@@ -290,29 +291,65 @@ $value5
 	}
 
 	/**
+	 * 倉出伝票 情報一覧取得
+	 * 
+	 **/
+	public function getStockExportListDay($get = null) {
+		$get = (object) $get;
+		global $wpdb;
+		$cur_user = wp_get_current_user();
+
+		$sql  = "SELECT delivery_dt, s.goods, sum(s.qty) AS qty, g.name AS goods_name, s.customer AS customer, c.name AS customer_name ";
+		$sql .= "FROM yc_sales AS s ";
+		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = s.goods ";
+		$sql .= "LEFT JOIN yc_customer AS c ON c.customer = s.customer ";
+		$sql .= "WHERE s.sales is not null ";
+
+		if (current($cur_user->roles) != 'administrator') {
+//			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
+		}
+
+		if (empty($get->action)) {
+//			$sql .= "ORDER BY ap.rgdt desc";
+			$sql .= ";";
+
+		} else {
+			if ($get->action == 'search') {
+				if (!empty($get->s['delivery_s_dt'])) { $sql .= sprintf("AND s.delivery_dt = '%s' ", $get->s['delivery_s_dt']); }
+				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", $get->s['goods_name']); }
+				$sql .= "GROUP BY s.goods, s.customer ";
+//				$sql .= "ORDER BY g.goods desc";
+				$sql .= ";";
+
+			} else {
+//				$sql .= "AND ap.applicant = '". $prm->post. "';";
+			}
+		}
+
+		$rows = $wpdb->get_results($sql);
+		return $rows;
+	}
+
+	/**
 	 * 
 	 **/
 	public function getInitForm() {
 		return array(
 			'select' => array(
-				'goods_name' => $this->getPartsGoodsName(), 
+				'outgoing_warehouse' => $this->getPartsOutgoingWarehouse(), 
 			)
 		);
 	}
 
 	/**
-	 * 「品名」一覧用
+	 * 「出庫倉庫」
 	 **/
-	private function getPartsGoodsName() {
-		global $wpdb;
-		$rows = $this->getList();
-
-		// 配列整形
-		foreach ($rows as $i => $d) {
-			if (!isset($d->name)) { continue; }
-			$ret[$d->goods] = sprintf("%s", $d->name);
-		}
-		return $ret;
+	private function getPartsOutgoingWarehouse() {
+		return array(
+			0 => '', 
+			1 => '内藤SP', 
+			2 => '丹波SP',
+		);
 	}
 }
 ?>
