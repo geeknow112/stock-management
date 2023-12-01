@@ -3,7 +3,7 @@
 
 <div id="wpbody-content">
 	<div class="wrap">
-		<h1 class="wp-heading-inline">【在庫証明書】</h1>
+		<h1 class="wp-heading-inline">【在庫証明書】 (丹波SP)</h1>
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page={{$formPage}}&action=regist" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page=agreement" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
 
