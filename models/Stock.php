@@ -250,6 +250,45 @@ $value5
 	}
 
 	/**
+	 * 在庫証明書 情報一覧取得
+	 **/
+	public function getStockExportList($get = null) {
+		$get = (object) $get;
+		global $wpdb;
+		$cur_user = wp_get_current_user();
+
+		$sql  = "SELECT st.goods, g.name AS goods_name, (g.qty * 1000) AS qty, count(*) AS cnt, (count(*) * 500) AS stock_total ";
+		$sql .= "FROM yc_stock AS st ";
+		$sql .= "LEFT JOIN yc_stock_detail AS std ON st.stock = std.stock ";
+		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = st.goods ";
+		$sql .= "WHERE st.stock is not null ";
+
+		if (current($cur_user->roles) != 'administrator') {
+//			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
+		}
+
+		if (empty($get->action)) {
+			$sql .= "GROUP BY st.goods ";
+//			$sql .= "ORDER BY ap.rgdt desc";
+			$sql .= ";";
+
+		} else {
+			if ($get->action == 'search') {
+//				if (!empty($get->s['no'])) { $sql .= sprintf("AND g.goods = '%s' ", $get->s['no']); }
+//				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
+//				$sql .= "ORDER BY g.goods desc";
+				$sql .= ";";
+
+			} else {
+//				$sql .= "AND ap.applicant = '". $prm->post. "';";
+			}
+		}
+
+		$rows = $wpdb->get_results($sql);
+		return $rows;
+	}
+
+	/**
 	 * 
 	 **/
 	public function getInitForm() {

@@ -8,17 +8,15 @@
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page=agreement" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
 
 		<hr class="wp-header-end">
-
+<!--
 		<form name="forms" id="forms" action="" method="" enctype="multipart/form-data">
 {{--			@if ($tb->getCurUser()->roles[0] == 'administrator')	--}}
 			<div class="search-box">
 
 				<label for="carModel" class="col-sm-2 col-form-label">引取(入庫)予定日：</label>
 					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="<?php echo htmlspecialchars($get->s['arrival_s_dt']); ?>" placeholder="2020-11-01"><!--&emsp;～&emsp;
-				<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_e_dt']); ?>" placeholder="2022-12-01">&emsp;--><br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">出庫倉庫：</label>
-<!--					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($get->s['outgoing_warehouse']); ?>">-->
 					<select class="" aria-label="outgoing_warehouse" id="outgoing_warehouse" name="s[outgoing_warehouse]">
 						@foreach($initForm['select']['outgoing_warehouse'] as $i => $d)
 							@if ($i == '0')
@@ -42,6 +40,7 @@
 				</script>
 			</div>
 			<br />
+-->
 
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
@@ -68,8 +67,11 @@
 				<thead class="table-light">
 					<tr>
 						<th class="">No.</th>
-						<th class="">品名</th>
-						<th class="">量(t)</th>
+						<th class="">製品名</th>
+						<th class="">荷姿・容量(kgTB)</th>
+						<th class="">個数</th>
+						<th class="">数量(kg)</th>
+						<th class="">備考</th>
 					</tr>
 				</thead>
 
@@ -79,7 +81,10 @@
 					<tr id="">
 						<td class="">{{$i+1}}</td>
 						<td class="">{{$row->goods_name}}</td>
-						<td class="">{{$row->sum_qty}}</td>
+						<td class="">{{$row->qty}}</td>
+						<td class="">{{$row->cnt}}</td>
+						<td class="">{{$row->stock_total}}</td>
+						<td class="">{{$row->remarks}}</td>
 					</tr>
 					@endforeach
 				@else
