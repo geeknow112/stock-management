@@ -24,6 +24,21 @@ abstract class Ext_Model_Base
 	/**
 	 *
 	 **/
+	public function getTableName() {
+		return $this->_name;
+	}
+
+	/**
+	 *
+	 **/
+	public function getCurUser() {
+		$cur_user = wp_get_current_user();
+		return $cur_user;
+	}
+
+	/**
+	 *
+	 **/
 	public function vd($d) {
 //return false;
 		global $wpdb;
