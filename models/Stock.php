@@ -22,8 +22,8 @@ class Stock extends Ext_Model_Base {
 
 		$step1 = array(
 			'rules' => array(
-				'goods_name'				=> 'required|max:100',
-				'qty'						=> 'required|max:100',
+				'arrival_dt'				=> 'required|max:100',
+				'outgoing_warehouse'		=> 'required|max:100',
 /*
 				'apply_service'				=> 'required|max:100',
 				'apply_plan'				=> 'required|max:100',
