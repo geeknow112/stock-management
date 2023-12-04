@@ -54,7 +54,7 @@ class StockController extends Ext_Controller_Action
 	 *
 	 **/
 	public function detailAction() {
-		echo $this->get_blade()->run("customer-detail");
+		echo $this->get_blade()->run("stock-detail");
 	}
 
 	/**
