@@ -68,6 +68,117 @@ class StockController extends Ext_Controller_Action
 				$formPage = 'stock-detail';
 				echo $this->get_blade()->run("stock-detail", compact('get', 'post', 'formPage', 'initForm', 'wp_list_table'));
 				break;
+
+			case 'confirm':
+$this->vd($post);exit;
+				if (!empty($post)) {
+					switch ($post->cmd) {
+						default:
+						case 'cmd_confirm':
+							$msg = $this->getValidMsg();
+							$rows = $post;
+							if ($rows->customer) { $post->btn = 'update'; }
+							if ($msg['msg'] !== 'success') {
+								$rows->messages = $msg;
+							}
+							break;
+					}
+				}
+
+				if($rows->messages) {
+						$msg = $rows->messages;
+						$get->action = 'save';
+				} else {
+				}
+
+				if ($post->cmd == 'cmd_confirm') { $rows_tanks = $this->sortDataTanks($post); }
+				if ($post->cmd == 'cmd_confirm') { $rows_addrs = $this->sortData($post); }
+
+				$goods_list = $this->delUnSelectGoods($post->goods_s, $goods_list);
+				$cust_goods = $post->goods_s;
+//$this->vd($goods_list);
+//$this->vd($cust_goods);
+				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'post', 'msg', 'rows_tanks', 'rows_addrs', 'goods_list', 'cust_goods'));
+				break;
+
+			case 'save':
+				if (!empty($post)) {
+					if ($post->cmd == 'save') {
+						$msg = $this->getValidMsg();
+						if ($msg['msg'] == 'success') {
+							$rows = $this->getTb()->regDetail($get, $post);
+//							$rows->customer_name = $rows->name;
+							$get->action = 'complete';
+
+						} else {
+							$rows = $post;
+							$rows->name = $post->customer_name;
+							$rows->messages = $msg;
+						}
+					}
+				}
+				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'post', 'msg'));
+				break;
+
+			case 'edit-exe':
+				if (!empty($post)) {
+					if ($post->cmd == 'update') {
+						$msg = $this->getValidMsg();
+						if ($msg['msg'] == 'success') {
+if ($post->tank) { $post->list = $this->sortDataTanks($post); }
+if ($post->pref) { $post->list = $this->sortData($post); }
+							$rows = $this->getTb()->updDetail($get, $post);
+//							$rows->customer_name = $rows->name;
+							$get->action = 'complete';
+
+						} else {
+							$rows = $post;
+							$rows->name = $post->customer_name;
+							$rows->messages = $msg;
+						}
+					}
+				}
+//$this->vd($post);
+				if ($post->cmd == 'update' ) { $rows_tanks = $this->convertData($rows); }
+				if ($post->cmd == 'update' ) { $rows_addrs = $this->convertData($rows); }
+//$this->vd($rows_addrs);
+
+				$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
+				$cust_goods = $this->objectColumn($rows_goods, 'goods');
+
+				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'post', 'msg', 'rows_tanks', 'rows_addrs', 'rows_goods', 'goods_list', 'cust_goods'));
+				break;
+
+			case 'edit':
+				if (!empty($get->customer)) {
+					$rows = $this->getTb()->getDetailByCustomerCode($get->customer);
+					$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
+					$cust_goods = $this->objectColumn($rows_goods, 'goods');
+
+					$rows->customer = $post->customer = current($rows)->customer;
+					$rows->customer_name = $post->customer_name = current($rows)->name;
+					$rows->cmd = $post->cmd = 'cmd_update';
+
+				} else {
+					$msg = $this->getValidMsg();
+
+					$rows = $post;
+					$rows->name = $post->customer_name;
+
+					if ($msg['msg'] !== 'success') {
+						$rows->messages = $msg;
+					}
+				}
+//$this->vd($rows);
+				if ($post->cmd == 'cmd_update' ) {
+					$rows_tanks = $this->convertData($rows);
+					$rows_tanks_count = $this->countObject($rows_tanks);
+					$rows_addrs = $this->convertData($rows);
+					$rows_addrs_count = $this->countObject($rows_addrs);
+				}
+
+				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'post', 'msg', 'rows_tanks', 'rows_tanks_count', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
+				break;
 		}
 	}
 
