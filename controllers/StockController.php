@@ -60,17 +60,16 @@ class StockController extends Ext_Controller_Action
 		global $wpdb;
 
 		$this->setTb('Stock');
+		$initForm = $this->getTb()->getInitForm();
 
-		switch($post->cmd) {
+		switch($get->action) {
 			case 'search':
 			default:
-				$initForm = $this->getTb()->getInitForm();
 				$formPage = 'stock-detail';
 				echo $this->get_blade()->run("stock-detail", compact('get', 'post', 'formPage', 'initForm', 'wp_list_table'));
 				break;
 
 			case 'confirm':
-$this->vd($post);exit;
 				if (!empty($post)) {
 					switch ($post->cmd) {
 						default:
@@ -91,14 +90,7 @@ $this->vd($post);exit;
 				} else {
 				}
 
-				if ($post->cmd == 'cmd_confirm') { $rows_tanks = $this->sortDataTanks($post); }
-				if ($post->cmd == 'cmd_confirm') { $rows_addrs = $this->sortData($post); }
-
-				$goods_list = $this->delUnSelectGoods($post->goods_s, $goods_list);
-				$cust_goods = $post->goods_s;
-//$this->vd($goods_list);
-//$this->vd($cust_goods);
-				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'post', 'msg', 'rows_tanks', 'rows_addrs', 'goods_list', 'cust_goods'));
+				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'initForm', 'post', 'msg'));
 				break;
 
 			case 'save':
@@ -177,7 +169,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 					$rows_addrs_count = $this->countObject($rows_addrs);
 				}
 
-				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'post', 'msg', 'rows_tanks', 'rows_tanks_count', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
+				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'rows_tanks', 'rows_tanks_count', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
 				break;
 		}
 	}
