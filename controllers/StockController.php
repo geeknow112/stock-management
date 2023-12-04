@@ -54,7 +54,21 @@ class StockController extends Ext_Controller_Action
 	 *
 	 **/
 	public function detailAction() {
-		echo $this->get_blade()->run("stock-detail");
+		$get = (object) $_GET;
+		$post = (object) $_POST;
+
+		global $wpdb;
+
+		$this->setTb('Stock');
+
+		switch($post->cmd) {
+			case 'search':
+			default:
+				$initForm = $this->getTb()->getInitForm();
+				$formPage = 'stock-detail';
+				echo $this->get_blade()->run("stock-detail", compact('get', 'post', 'formPage', 'initForm', 'wp_list_table'));
+				break;
+		}
 	}
 
 	/**

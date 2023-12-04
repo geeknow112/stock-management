@@ -337,6 +337,7 @@ $value5
 		return array(
 			'select' => array(
 				'outgoing_warehouse' => $this->getPartsOutgoingWarehouse(), 
+				'goods_name' => $this->getPartsGoodsName(), 
 			)
 		);
 	}
@@ -350,6 +351,25 @@ $value5
 			1 => '内藤SP', 
 			2 => '丹波SP',
 		);
+	}
+
+	/**
+	 * 「品名」
+	 **/
+	private function getPartsGoodsName() {
+		global $wpdb;
+		$sql  = "SELECT g.goods, g.name FROM yc_goods as g ";
+		$sql .= ";";
+		$rows = $wpdb->get_results($sql);
+
+		// 配列整形
+		$ret[0] = '';
+		foreach ($rows as $i => $d) {
+			$ret[$d->goods][0] = '';
+			$ret[$d->goods] = sprintf("%s", $d->name);
+		}
+
+		return $ret;
 	}
 }
 ?>
