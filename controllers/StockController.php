@@ -162,7 +162,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 //					$rows_tanks_count = $this->countObject($rows_tanks);
 				}
 
-$this->vd($rows);
+//$this->vd($rows);
 				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'rows_tanks', 'rows_tanks_count', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
 				break;
 		}
