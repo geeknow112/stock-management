@@ -19,3 +19,19 @@
 		<label for="qty" class="col-sm-2 col-form-label w-5">内容量(t)</label>
 		<input type="text" class="col-sm-2 col-form-control w-auto" id="qty" name="qty" aria-describedby="qtyHelp" value="{{$rows->qty}}" @if ($get->action != '' && $get->action != 'save' && $get->action != 'edit') readonly @endif>
 	</div>
+
+<script>
+/**
+ * 確認画面でform要素をreadOnlyにする
+ *
+ **/
+window.onload = function() {
+	const action = "{{$get->action}}";
+	if (action == 'confirm') {
+		document.getElementById('goods').readOnly = true;
+		document.getElementById('goods_name').readOnly = true;
+		document.getElementById('qty').readOnly = true;
+	}
+}
+
+</script>

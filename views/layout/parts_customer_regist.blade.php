@@ -69,6 +69,18 @@
 
 <script>
 /**
+ * 確認画面でform要素をreadOnlyにする
+ *
+ **/
+window.onload = function() {
+	const action = "{{$get->action}}";
+	if (action == 'confirm') {
+		document.getElementById('customer').readOnly = true;
+		document.getElementById('customer_name').readOnly = true;
+	}
+}
+
+/**
  * addCustomerTankRow: テーブルに行を追加
  **/
 function addCustomerTankRow(cnt = null)
