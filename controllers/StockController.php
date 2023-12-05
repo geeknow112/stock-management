@@ -142,13 +142,8 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 				break;
 
 			case 'edit':
-				if (!empty($get->customer)) {
-					$rows = $this->getTb()->getDetailByCustomerCode($get->customer);
-					$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
-					$cust_goods = $this->objectColumn($rows_goods, 'goods');
-
-					$rows->customer = $post->customer = current($rows)->customer;
-					$rows->customer_name = $post->customer_name = current($rows)->name;
+				if (!empty($get->stock)) {
+					$rows = $this->getTb()->getDetailByStockCode($get->stock);
 					$rows->cmd = $post->cmd = 'cmd_update';
 
 				} else {
@@ -161,14 +156,13 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 						$rows->messages = $msg;
 					}
 				}
-//$this->vd($rows);
+
 				if ($post->cmd == 'cmd_update' ) {
-					$rows_tanks = $this->convertData($rows);
-					$rows_tanks_count = $this->countObject($rows_tanks);
-					$rows_addrs = $this->convertData($rows);
-					$rows_addrs_count = $this->countObject($rows_addrs);
+//					$rows_tanks = $this->convertData($rows);
+//					$rows_tanks_count = $this->countObject($rows_tanks);
 				}
 
+$this->vd($rows);
 				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'rows_tanks', 'rows_tanks_count', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
 				break;
 		}

@@ -140,18 +140,21 @@ class Stock extends Ext_Model_Base {
 	}
 
 	/**
-	 * 商品情報詳細取得
-	 * - 商品コード(goods)から抽出
+	 * 在庫情報詳細取得
+	 * - 在庫コード(stock)から抽出
 	 **/
-	public function getDetailByGoodsCode($goods = null) {
+	public function getDetailByStockCode($goods = null) {
 		global $wpdb;
 
-		$sql  = "SELECT g.* FROM ". $this->getTableName(). " as g ";
-		$sql .= sprintf("WHERE g.goods = '%s' ", $goods);
-		$sql .= "LIMIT 1;";
+		$sql  = "SELECT st.* FROM ". $this->getTableName(). " as st ";
+		$sql .= sprintf("WHERE st.stock = '%s' ", $goods);
 
 		$rows = $wpdb->get_results($sql);
-		return $rows[0];
+
+
+		$ret['arrival_dt'] = $rows[0]->arrival_dt;
+
+		return (object) $rows;
 	}
 
 	/**
