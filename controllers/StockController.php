@@ -18,7 +18,7 @@ class StockController extends Ext_Controller_Action
 	protected $_test = 'test';
 
 	/**
-	 * ç›å…ìoò^
+	 * ç›å…åüçı
 	 * 
 	 **/
 	public function listAction() {
@@ -47,10 +47,10 @@ class StockController extends Ext_Controller_Action
 				echo $this->get_blade()->run("stock-list", compact('rows', 'get', 'post', 'formPage', 'initForm', 'wp_list_table'));
 				break;
 		}
-//		return $this->_test;
 	}
 
 	/**
+	 * ç›å…ìoò^
 	 *
 	 **/
 	public function detailAction() {
