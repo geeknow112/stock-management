@@ -46,31 +46,19 @@
 			<input type="hidden" name="page" value="stock-export-day">
 			<input type="hidden" name="action" value="search">
 			<input type="hidden" name="cmd" value="">
+		</form>
 {{--			@endif	--}}
 
-
-{{-- $wp_list_table->display() --}}
-<!-- start -->
-<div id="wpbody-content">
-	<div class="wrap">
-
-		<form method="get">
-			<div class="tablenav top">
-				<br class="clear">
-			</div>
-			
+		<!-- start -->
 		<div class="table-responsive">
-
-		<div>
+			<div class="title-box">■ ※①～⑥、⑧、⑨ （※配送予定表の①～⑥、⑧、⑨を集計します。）</div>
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
 					<tr>
 						<th class="">No.</th>
 						<th class="">品名</th>
 						<th class="">容量</th>
-						<th class="">解袋数</th>
-						<th class="">個数</th>
-						<th class="">量目</th>
+						<th class="">量目(t)</th>
 						<th class="">備考</th>
 					</tr>
 				</thead>
@@ -81,10 +69,8 @@
 					<tr id="">
 						<td class="">{{$i+1}}</td>
 						<td class="">{{$row->goods_name}}</td>
-						<th class="">（T）</th>
-						<th class=""></th>
-						<th class=""></th>
-						<td class="">{{$row->qty}}</td>
+						<th class="tx-center">（T）</th>
+						<td class="tx-right">{{number_format($row->qty,1)}}</td>
 						<th class="">{{$row->customer_name}}</th>
 					</tr>
 					@endforeach
@@ -93,22 +79,72 @@
 				@endif
 				</tbody>
 
-				<tfoot>
+				<tfoot class="">
+					<tr>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+					</tr>
+					<tr>
+						<th class="table-light">運送会社</th>
+						<th class="">内藤運送</th>
+						<th class="" colspan="3"></th>
+					</tr>
 				</tfoot>
 			</table>
-</div>
-<!-- end -->
-			<div class="tablenav top">
-				<br class="clear">
-			</div>
-			
-			<div class="tablenav bottom">
-				<br class="clear">
-			</div>
-		</form>
-		<div class="clear"></div>
+		</div>
+		<!-- end -->
+
+		<!-- start -->
+		<div class="table-responsive">
+			<div class="title-box">■ 【直取】　※⑩ （※配送予定表の⑩を集計します。）</div>
+			<table class="table table-bordered text-nowrap">
+				<thead class="table-light">
+					<tr>
+						<th class="">No.</th>
+						<th class="">品名</th>
+						<th class="">容量</th>
+						<th class="">量目(t)</th>
+						<th class="">備考</th>
+					</tr>
+				</thead>
+
+				@if (isset($jks) && count($jks))
+				<tbody id="the-list" data-wp-lists="list:user">
+					@foreach ($jks as $i => $jk)
+					<tr id="">
+						<td class="">{{$i+1}}</td>
+						<td class="">{{$jk->goods_name}}</td>
+						<th class="tx-center">（T）</th>
+						<td class="tx-right">{{number_format($jk->qty,1)}}</td>
+						<th class="">{{$jk->customer_name}}</th>
+					</tr>
+					@endforeach
+				@else
+				<td class="colspanchange" colspan="7">検索対象は見つかりませんでした。</td>
+				@endif
+				</tbody>
+
+				<tfoot class="">
+					<tr>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+					</tr>
+					<tr>
+						<th class="table-light">運送会社</th>
+						<th class="">山忠商事</th>
+						<th class="" colspan="3"></th>
+					</tr>
+				</tfoot>
+			</table>
+		</div>
+		<!-- end -->
 	</div>
-	<div class="clear"></div>
 </div>
 
 <script>
@@ -125,3 +161,16 @@ function init_status(applicant = null) {
 	}
 }
 </script>
+<style>
+.tx-right {
+	text-align: right;
+}
+
+.tx-center {
+	text-align: center;
+}
+
+.title-box {
+	margin-top: 30px;
+}
+</style>

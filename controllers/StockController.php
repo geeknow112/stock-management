@@ -230,7 +230,9 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 		$initForm = $this->getTb()->getInitForm();
 		$rows = $this->getTb()->getStockExportListDay($get);
 
-		echo $this->get_blade()->run("stock-export-day", compact('rows', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum'));
+		$jks = $this->getTb()->getStockExportListDay($get, true); // u’¼Žæv•ª
+
+		echo $this->get_blade()->run("stock-export-day", compact('rows', 'jks', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum'));
 	}
 }
 ?>
