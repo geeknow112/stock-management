@@ -186,6 +186,7 @@ class Stock extends Ext_Model_Base {
 	 **/
 	public function regDetail($get = null, $post = null) {
 		global $wpdb;
+$this->vd($post);exit;
 
 /*
 $wpdb->query($wpdb->prepare(
