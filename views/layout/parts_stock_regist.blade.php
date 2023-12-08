@@ -39,7 +39,7 @@
 				<table class="table table-bordered text-nowrap">
 					<thead class="table-light">
 						<tr>
-							<th class="">コード</th>
+							<th class=""></th>
 							<th class="">品名</th>
 							<th class="">容量(kg)</th>
 							<th class="">個数</th>
