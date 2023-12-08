@@ -49,7 +49,7 @@
 					</thead>
 
 					<tbody id="the-list" data-wp-lists="list:user">
-						@for($i = 0; $i<5; $i++)
+						@for($i = 0; $i<20; $i++)
 						<tr>
 							<td class=""></td>
 							<td class="">
