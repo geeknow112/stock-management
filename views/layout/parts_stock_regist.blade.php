@@ -123,18 +123,13 @@
 window.onload = function() {
 	const action = "{{$get->action}}";
 	if (action == 'confirm') {
-		document.getElementById('text_outgoing_warehouse').readOnly = true;
-		document.getElementById('text_goods_list_0').readOnly = true;
-		document.getElementById('text_goods_list_1').readOnly = true;
-		document.getElementById('text_goods_list_2').readOnly = true;
-		document.getElementById('text_goods_list_3').readOnly = true;
-		document.getElementById('text_goods_list_4').readOnly = true;
 
-		document.getElementById('qty_0').readOnly = true;
-		document.getElementById('qty_1').readOnly = true;
-		document.getElementById('qty_2').readOnly = true;
-		document.getElementById('qty_3').readOnly = true;
-		document.getElementById('qty_4').readOnly = true;
+		document.getElementById('text_outgoing_warehouse').readOnly = true;
+
+		for (let i = 0; i < 20; i++) {
+				document.getElementById('text_goods_list_' + i).readOnly = true;
+				document.getElementById('qty_' + i).readOnly = true;
+		}
 	}
 }
 
@@ -177,17 +172,11 @@ function calcWeight(num = null) {
  **/
 function sumRows() {
 	const qtys = [];
-	q_0 = parseInt(document.getElementById('qty_0').value);
-	q_1 = parseInt(document.getElementById('qty_1').value);
-	q_2 = parseInt(document.getElementById('qty_2').value);
-	q_3 = parseInt(document.getElementById('qty_3').value);
-	q_4 = parseInt(document.getElementById('qty_4').value);
 
-	if (!isNaN(q_0)) { qtys.push(q_0); }
-	if (!isNaN(q_1)) { qtys.push(q_1); }
-	if (!isNaN(q_2)) { qtys.push(q_2); }
-	if (!isNaN(q_3)) { qtys.push(q_3); }
-	if (!isNaN(q_4)) { qtys.push(q_4); }
+	for (let i = 0; i < 20; i++) {
+			var q = parseInt(document.getElementById('qty_' + i).value);
+			if (!isNaN(q)) { qtys.push(q); }
+	}
 
 	let sum_qty = qtys.reduce(function(a, b) {
 	  return a + b;
