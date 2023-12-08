@@ -189,7 +189,7 @@ function createSelectBoxGoods(){
 
 	<div class="row mb-3">
 		<label for="delivery_dt" class="col-sm-2 col-form-label">配送予定日　<span class="badge text-bg-danger">必須</span></label>
-		<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt" name="delivery_dt" aria-describedby="deliveryDtHelp" value="{{$rows->delivery_dt}}">
+		<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt" name="delivery_dt" aria-describedby="deliveryDtHelp" value="{{$rows->delivery_dt}}" onchange="setArrivalDt();">
 <!--		<div id="arrivalDtHelp" class="form-text">入庫予定日を入力してください。</div>-->
 	</div>
 
@@ -218,6 +218,32 @@ function createSelectBoxGoods(){
 <br /><br /><hr>
 
 <script>
+/**
+ * 「入庫予定日」の自動入力
+ *    - 「配送予定日」の3日前
+ **/
+function setArrivalDt() {
+	const delivery_dt = document.getElementById('delivery_dt').value;
+	//console.log('delivery_dt : ' + delivery_dt);
+
+	const dt = new Date(delivery_dt);
+	dt.setMonth(dt.getMonth() + 1); // TODO: なぜか月が-1減算されるため、+1で設定
+	dt.setDate(dt.getDate() -3); // 3日後に設定
+
+	const month = dt.getMonth().toString().padStart(2, "0"); // 0埋め
+	//console.log(month);
+	const date = dt.getDate().toString().padStart(2, "0"); // 0埋め
+	//console.log(date);
+
+	const arrival_dt = dt.getFullYear() + '-' + month + '-' + date;
+	//console.log(arrival_dt);
+
+	document.getElementById('arrival_dt').value = arrival_dt;
+}
+
+/**
+ * 
+ **/
 initCheckbox();
 function initCheckbox() {
 	const use_stock = '{{$rows->use_stock}}';
