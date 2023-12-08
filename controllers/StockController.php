@@ -169,6 +169,28 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 	}
 
 	/**
+	 * İŒÉ“o˜^: ƒƒbƒg“o˜^
+	 *
+	 **/
+	public function lotRegistAction() {
+		$get = (object) $_GET;
+		$post = (object) $_POST;
+
+		global $wpdb;
+
+		$this->setTb('Stock');
+		$initForm = $this->getTb()->getInitForm();
+
+		switch($get->action) {
+			case 'search':
+			default:
+				$formPage = 'stock-lot-regist';
+				echo $this->get_blade()->run("stock-lot-regist", compact('get', 'post', 'formPage', 'initForm'));
+				break;
+		}
+	}
+
+	/**
 	 * “üŒÉ—\’è“úŒŸõ
 	 *
 	 **/
