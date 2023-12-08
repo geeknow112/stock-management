@@ -296,8 +296,9 @@ $value5
 	/**
 	 * 倉出伝票 情報一覧取得
 	 * 
+	 * @ $jk_flag: 「直取」フラグ: yc_sales.class = 10 を除外する
 	 **/
-	public function getStockExportListDay($get = null) {
+	public function getStockExportListDay($get = null, $jk_flag = null) {
 		$get = (object) $get;
 		global $wpdb;
 		$cur_user = wp_get_current_user();
@@ -307,6 +308,13 @@ $value5
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = s.goods ";
 		$sql .= "LEFT JOIN yc_customer AS c ON c.customer = s.customer ";
 		$sql .= "WHERE s.sales is not null ";
+
+		if (is_null($jk_flag)) {
+			$sql .= "AND s.class NOT IN (0, 10) ";
+		} else {
+			$sql .= "AND s.class IN (10) ";
+		}
+
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
