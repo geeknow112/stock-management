@@ -79,11 +79,11 @@
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($rows as $i => $row)
 					<tr id="">
-						<td class="">{{$i+1}}</td>
+						<td class="tx-center">{{$i+1}}</td>
 						<td class="">{{$row->goods_name}}</td>
-						<td class="">{{$row->qty}}</td>
-						<td class="">{{$row->cnt}}</td>
-						<td class="">{{$row->stock_total}}</td>
+						<td class="tx-right">{{$row->qty}}</td>
+						<td class="tx-right">{{number_format($row->cnt)}}</td>
+						<td class="tx-right">{{number_format($row->stock_total)}}</td>
 						<td class="">{{$row->remarks}}</td>
 					</tr>
 					@endforeach
@@ -94,9 +94,9 @@
 
 				<tfoot class="table-light">
 					<tr>
-						<th class="" colspan="3">合計</th>
-						<th class="">{{$stock_cnt}}</th>
-						<th class="">{{$stock_sum}}</th>
+						<th class="tx-right" colspan="3">合計</th>
+						<th class="tx-right">{{number_format($stock_cnt)}}</th>
+						<th class="tx-right">{{number_format($stock_sum)}}</th>
 						<th class=""></th>
 					</tr>
 				</tfoot>
@@ -130,3 +130,12 @@ function init_status(applicant = null) {
 	}
 }
 </script>
+<style>
+.tx-right {
+	text-align: right;
+}
+
+.tx-center {
+	text-align: center;
+}
+</style>
