@@ -67,7 +67,7 @@
 							<td class="tx-right">500</td>
 							<td class="tx-right"><input type="number" min="0" class="tx-center w-50" id="qty_{{$i}}" name="qty_list[]" value="{{$rows->qty_list[$i]}}" onchange="calcWeight({{$i}}); sumRows();"></td>
 							<td class="tx-right"><input type="text" class="tx-right w-75" id="weight_{{$i}}" name="weight_list[]" value="{{$rows->weight_list[$i]}}" readonly></td>
-							<td class="tx-right"><a href="/wp-admin/admin.php?page=stock-lot-regist">ロット番号入力画面へ</a></td>
+							<td class="tx-right"><a href="/wp-admin/admin.php?page=stock-lot-regist">入力画面へ</a></td>
 						</tr>
 						@endfor
 					</tbody>
@@ -86,6 +86,7 @@
 							<th class="table-light">合計</th>
 							<td class="tx-right"><input type="text" class="tx-center w-50" id="sum_qty" name="sum_qty" value="{{$rows->sum_qty}}" readonly></td>
 							<td class="tx-right"><input type="text" class="tx-right w-75" id="sum_weight" name="sum_weight" value="{{$rows->sum_weight}}" readonly></td>
+							<td class="">&emsp;</td>
 						</tr>
 					</tfoot>
 				</table>
