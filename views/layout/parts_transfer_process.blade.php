@@ -33,6 +33,45 @@
 				break;
 		}
 	}
+
+/**
+ * 重量の計算 : 「転送処理」用
+ * 
+ * 「個数」* 500(kg) = 重量(kg)
+ **/
+function calcTransferWeight(num = null) {
+	const obj_qty = "t_qty_" + num;
+	const obj_weight = "t_weight_" + num;
+	const qty = document.getElementById(obj_qty).value;
+	const weight = qty * 500;
+	document.getElementById(obj_weight).value = weight.toLocaleString(); // 3桁カンマ区切り
+}
+
+/**
+ * 入庫倉庫の表示 : 「転送処理」用
+ * 
+ * 「出庫倉庫」の反対の倉庫を表示
+ **/
+function setReceiveWarehouse(num = null) {
+	const out_sp = document.getElementById('t_outgoing_warehouse_' + num).value;
+
+	var rec_sp = '';
+	switch (out_sp) {
+		default :
+			rec_sp = '';
+			break;
+
+		case '1' :
+			rec_sp = '丹波SP';
+			break;
+
+		case '2' :
+			rec_sp = '内藤SP';
+			break;
+	}
+
+	document.getElementById('t_receive_warehouse_' + num).value = rec_sp; // 3桁カンマ区切り
+}
 </script>
 
 <div class="mesasge">
@@ -66,12 +105,13 @@
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
 					<tr>
+						<th class=""></th>
 						<th class="">品名</th>
 						<th class="">荷姿・容量(kgTB)</th>
 						<th class="">個数</th>
 						<th class="">数量(kg)</th>
 						<th class="">出庫倉庫</th>
-						<th class="">→ 入庫倉庫</th>
+						<th class="">入庫倉庫</th>
 						<th class="">ロット番号</th>
 					</tr>
 				</thead>
@@ -81,6 +121,7 @@
 					<input type="hidden" id="goods" name="goods" value="{{$get->goods}}">
 					@for ($i = 0; $i < 5; $i++)
 					<tr id="user-1">
+						<td class="">&emsp;</td>
 						<td class="">
 							@if(!$rows->goods_list)
 							<select class="form-select w-75" aria-label="goodsName" id="goods_{{$i}}" name="goods_list[]">
@@ -94,10 +135,17 @@
 							@endif
 						</td>
 						<td class="tx-right">500</td>
-							<td class="tx-right"><input type="number" min="0" class="tx-center w-50" id="qty_{{$i}}" name="qty_list[]" value="{{$rows->qty_list[$i]}}" onchange="calcWeight({{$i}}); sumRows();"></td>
-							<td class="tx-right"><input type="text" class="tx-right w-75" id="weight_{{$i}}" name="weight_list[]" value="{{$rows->weight_list[$i]}}" readonly></td>
-						<td class="">
-						<input type="text" class="" id="lot" name="lot[{{$d->lot_tmp_id}}]" value="{{$d->lot}}">
+						<td class="tx-right"><input type="number" min="0" class="tx-center w-75" id="t_qty_{{$i}}" name="t_qty_list[]" value="{{$rows->t_qty_list[$i]}}" onchange="calcTransferWeight({{$i}});"></td>
+						<td class="tx-right"><input type="text" class="tx-right w-75" id="t_weight_{{$i}}" name="t_weight_list[]" value="{{$rows->t_weight_list[$i]}}" readonly></td>
+						<td class="tx-right">
+							<select class="form-select w-75" id="t_outgoing_warehouse_{{$i}}" name="t_outgoing_warehouse[]" onchange="setReceiveWarehouse({{$i}});">
+								<option value=""></option>
+								<option value="1">内藤SP</option>
+								<option value="2">丹波SP</option>
+							</select>
+						</td>
+						<td class="tx-right"><input type="text" class="tx-right w-75" id="t_receive_warehouse_{{$i}}" name="t_receive_warehouse[]" value="" readonly></td>
+						<td class="tx-right"><a href="/wp-admin/admin.php?page=stock-lot-regist">入力画面へ</a></td>
 						</td>
 					</tr>
 					@endfor
