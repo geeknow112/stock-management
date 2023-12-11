@@ -54,7 +54,6 @@ function calcTransferWeight(num = null) {
  **/
 function setReceiveWarehouse(num = null) {
 	const out_sp = document.getElementById('t_outgoing_warehouse_' + num).value;
-	console.log(out_sp);
 
 	var rec_sp = '';
 	switch (out_sp) {
@@ -70,7 +69,7 @@ function setReceiveWarehouse(num = null) {
 			rec_sp = '内藤SP';
 			break;
 	}
-	console.log(rec_sp);
+
 	document.getElementById('t_receive_warehouse_' + num).value = rec_sp; // 3桁カンマ区切り
 }
 </script>
