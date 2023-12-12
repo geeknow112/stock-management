@@ -110,7 +110,11 @@
 						<th class="" style="width: 7rem;">品名</th>
 						<th class="" style="width: 3rem;">量(t)</th>
 						<th class="" style="width: 7rem;">配送先</th>
+							@if ($i != 8 && $i != 9 && $i != 10)
 						<th class="" style="width: 5rem;">入庫予定日</th>
+							@else
+						<th class="" style="width: 5rem;">出庫倉庫</th>
+							@endif
 						<th class="" style="width: 5rem;">氏名</th>
 						<th class="" style="width: 5rem;">確認</th>
 						@endfor
@@ -289,7 +293,7 @@ function change_repeat_order(oid) {
 				<input type="text" class="text-wrap text-center inner_box" style="width: 8rem;" placeholder="商品名" value="">
 				<input type="text" class="text-wrap text-center inner_box" style="width: 3.5rem;" placeholder="量(t)" value="">
 				<input type="text" class="text-wrap text-center inner_box" style="width: 9rem;" placeholder="配送先" value="">
-				<input type="text" class="text-wrap text-center inner_box" style="width: 7.5rem;" placeholder="入庫予定日" value="">
+				<input type="text" class="text-wrap text-center inner_box" style="width: 7.5rem;" placeholder="出庫倉庫" value="">
 				<input type="text" class="text-wrap text-center inner_box" style="width: 6.5rem;" placeholder="氏名" value="">
 				<a href="" class="btn btn-primary text-center" onClick="">入力</a>
 			</div>
