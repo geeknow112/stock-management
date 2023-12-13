@@ -74,20 +74,25 @@
 					</tr>
 				</thead>
 
-				@if (isset($rows) && count($rows))
+				@if (isset($sum_list) && count($sum_list))
 				<tbody id="the-list" data-wp-lists="list:user">
-					@foreach ($rows as $i => $row)
+					@foreach ($sum_list as $goods => $row)
 					<tr id="">
-						<td class="">{{$i+1}}</td>
-						<td class=""><a href="#">{{$row->goods_name}}</a></td>
-						<td class="tx-right">{{number_format($row->qty,1)}}</td>
+						<td class=""></td>
+						<td class=""><a href="#">{{$goods}} : {{$row->goods_name}}</a></td>
+						<td class="tx-center">{{number_format(array_sum($row->qty),1)}}</td>
 						<td class="">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</td>
 					</tr>
-					<tr id="">
-						<td class="">&emsp;</td>
-						<td class="table-light tx-center">　- 顧客：<a href="#">{{$row->customer}}</a></td>
-						<td class="tx-right">{{number_format($row->qty,1)}}</td>
-					</tr>
+						@foreach ($detail[$goods] as $customer => $data)
+							@foreach ($data as $i => $d)
+							<tr id="">
+								<td class="">&emsp;</td>
+								<td class="table-light tx-center">　- 顧客：<a href="#">{{$customer}}</a></td>
+								<td class="tx-right">{{number_format($d->qty,1)}}</td>
+								<td class=""></td>
+							</tr>
+							@endforeach
+						@endforeach
 					@endforeach
 				@else
 				<td class="colspanchange" colspan="7">検索対象は見つかりませんでした。</td>

@@ -785,11 +785,19 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 	 **/
 	public function sumReceiveListByGoods($rows = null) {
 		foreach ($rows as $i => $d) {
-//			$ret[$d->goods][$d->customer][] = $d;
-			$sum_qty[$d->goods][] = $d->qty;
+			$ret[$d->goods][$d->customer][] = $d;
+
+			$sum_tmp[$d->goods]['goods'] = $d->goods;
+			$sum_tmp[$d->goods]['goods_name'] = $d->goods_name;
+			$sum_tmp[$d->goods]['qty'][] = $d->qty;
+			$sum_tmp[$d->goods]['outgoing_warehouse'] = $d->outgoing_warehouse;
 		}
 
-		return $sum_qty;
+		foreach ($sum_tmp as $goods => $d) {
+			$sum_list[$goods] = (object) $d;
+		}
+
+		return array($ret, $sum_list);
 	}
 
 	/**
