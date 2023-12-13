@@ -209,13 +209,14 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 				$rows = $this->getTb()->getListByArrivalDt($get, $post);
 //$this->vd($rows);
 
-				$sum = $this->getTb()->sumReceiveListByGoods($rows);
-//$this->vd($sum);
+				list($detail, $sum_list) = $this->getTb()->sumReceiveListByGoods($rows);
+$this->vd($detail);
+$this->vd($sum_list);
 
 				$total = $this->getTb()->sumReceiveList($rows);
 
 				$formPage = 'stock-list';
-				echo $this->get_blade()->run("stock-receive", compact('rows', 'get', 'post', 'formPage', 'initForm', 'total'));
+				echo $this->get_blade()->run("stock-receive", compact('rows', 'get', 'post', 'formPage', 'initForm', 'detail', 'sum_list', 'total'));
 				break;
 		}
 	}
