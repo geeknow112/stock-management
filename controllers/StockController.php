@@ -210,8 +210,8 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 //$this->vd($rows);
 
 				list($detail, $sum_list) = $this->getTb()->sumReceiveListByGoods($rows);
-$this->vd($detail);
-$this->vd($sum_list);
+//$this->vd($detail);
+//$this->vd($sum_list);
 
 				$total = $this->getTb()->sumReceiveList($rows);
 
