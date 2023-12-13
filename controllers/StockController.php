@@ -207,9 +207,15 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 			default:
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getListByArrivalDt($get, $post);
+//$this->vd($rows);
+
+				$sum = $this->getTb()->sumReceiveListByGoods($rows);
+//$this->vd($sum);
+
+				$total = $this->getTb()->sumReceiveList($rows);
 
 				$formPage = 'stock-list';
-				echo $this->get_blade()->run("stock-receive", compact('rows', 'get', 'post', 'formPage', 'initForm', 'wp_list_table'));
+				echo $this->get_blade()->run("stock-receive", compact('rows', 'get', 'post', 'formPage', 'initForm', 'total'));
 				break;
 		}
 	}

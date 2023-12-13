@@ -70,6 +70,7 @@
 						<th class="">No.</th>
 						<th class="">品名</th>
 						<th class="">量(t)</th>
+						<th class="">倉庫</th>
 					</tr>
 				</thead>
 
@@ -78,8 +79,14 @@
 					@foreach ($rows as $i => $row)
 					<tr id="">
 						<td class="">{{$i+1}}</td>
-						<td class="">{{$row->goods_name}}</td>
-						<td class="">{{$row->sum_qty}}</td>
+						<td class=""><a href="#">{{$row->goods_name}}</a></td>
+						<td class="tx-right">{{number_format($row->qty,1)}}</td>
+						<td class="">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</td>
+					</tr>
+					<tr id="">
+						<td class="">&emsp;</td>
+						<td class="table-light tx-center">　- 顧客：<a href="#">{{$row->customer}}</a></td>
+						<td class="tx-right">{{number_format($row->qty,1)}}</td>
 					</tr>
 					@endforeach
 				@else
@@ -88,6 +95,17 @@
 				</tbody>
 
 				<tfoot>
+					<tr>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+					</tr>
+					<tr>
+						<th class="table-light tx-right" colspan="2">合計</th>
+						<td class="tx-right">{{number_format($total,1)}}</td>
+						<td class="">&emsp;</td>
+					</tr>
 				</tfoot>
 			</table>
 </div>
@@ -119,3 +137,12 @@ function init_status(applicant = null) {
 	}
 }
 </script>
+<style>
+.tx-right {
+	text-align: right;
+}
+
+.tx-center {
+	text-align: center;
+}
+</style>

@@ -749,7 +749,7 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.goods, g.name AS goods_name, s.arrival_dt, sum(s.qty) AS sum_qty ";
+		$sql  = "SELECT s.goods, g.name AS goods_name, s.arrival_dt, s.customer, s.qty, s.outgoing_warehouse ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
 		$sql .= "WHERE s.sales is not null ";
@@ -768,7 +768,6 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 
 				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", $get->s['outgoing_warehouse']); }
 
-				$sql .= "GROUP BY s.goods";
 				$sql .= ";";
 
 			} else {
@@ -778,6 +777,31 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 
 		$rows = $wpdb->get_results($sql);
 		return $rows;
+	}
+
+	/**
+	 * 入庫一覧情報の商品単位の集計
+	 * 
+	 **/
+	public function sumReceiveListByGoods($rows = null) {
+		foreach ($rows as $i => $d) {
+//			$ret[$d->goods][$d->customer][] = $d;
+			$sum_qty[$d->goods][] = $d->qty;
+		}
+
+		return $sum_qty;
+	}
+
+	/**
+	 * 入庫一覧情報の集計
+	 * 
+	 **/
+	public function sumReceiveList($rows = null) {
+		foreach ($rows as $i => $d) {
+			$sum_qty[] = $d->qty;
+		}
+
+		return array_sum($sum_qty);
 	}
 
 	/**
