@@ -78,14 +78,14 @@
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($sum_list as $goods => $row)
 					<tr id="">
-						<td class=""></td>
-						<td class=""><a href="#">{{$goods}} : {{$row->goods_name}}</a></td>
+						<td class="">&emsp;</td>
+						<td class=""><a href="#" onclick="changeDisplay({{$goods}});">{{$goods}} : {{$row->goods_name}}</a></td>
 						<td class="tx-center">{{number_format(array_sum($row->qty),1)}}</td>
 						<td class="">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</td>
 					</tr>
 						@foreach ($detail[$goods] as $customer => $data)
 							@foreach ($data as $i => $d)
-							<tr id="">
+							<tr class="detail d_{{$goods}}" id="detail_{{$goods}}_{{$i}}">
 								<td class="">&emsp;</td>
 								<td class="table-light tx-center">　- 顧客：<a href="#">{{$customer}}</a></td>
 								<td class="tx-right">{{number_format($d->qty,1)}}</td>
@@ -98,6 +98,41 @@
 				<td class="colspanchange" colspan="7">検索対象は見つかりませんでした。</td>
 				@endif
 				</tbody>
+
+<script>
+/**
+ * 初期状態: 非表示
+ * 
+ **/
+window.onload = function () {
+	const className = 'detail';
+	const targets = document.getElementsByClassName(className);
+	Array.from(targets).forEach(target => {
+		if (target.style.display == "none") {
+			target.style.display = "";
+		} else {
+			target.style.display = "none";
+		}
+	});
+}
+
+/**
+ * クリックで詳細を表示
+ * 
+ **/
+function changeDisplay(goods = null) {
+	console.log(goods);
+	const className = 'd_' + goods;
+	const targets = document.getElementsByClassName(className);
+	Array.from(targets).forEach(target => {
+		if (target.style.display == "none") {
+			target.style.display = "";
+		} else {
+			target.style.display = "none";
+		}
+	});
+}
+</script>
 
 				<tfoot>
 					<tr>
