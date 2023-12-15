@@ -297,7 +297,7 @@ $value5
 	/**
 	 * 倉出伝票 情報一覧取得
 	 * 
-	 * @ $jk_flag: 「直取」フラグ: yc_sales.class = 10 を除外する
+	 * @ $jk_flag: 「直取」フラグ: yc_sales.class = 10 のみを抽出
 	 **/
 	public function getStockExportListDay($get = null, $jk_flag = null) {
 		$get = (object) $get;
