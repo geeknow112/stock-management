@@ -749,9 +749,10 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.goods, g.name AS goods_name, s.arrival_dt, s.customer, s.qty, s.outgoing_warehouse ";
+		$sql  = "SELECT s.goods, g.name AS goods_name, s.arrival_dt, s.customer AS customer, s.qty, s.outgoing_warehouse, c.name AS customer_name ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
+		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
 		$sql .= "WHERE s.sales is not null ";
 
 		if (current($cur_user->roles) != 'administrator') {

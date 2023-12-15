@@ -68,7 +68,7 @@
 				<thead class="table-light">
 					<tr>
 						<th class="">No.</th>
-						<th class="">品名</th>
+						<th class="col-md-4">品名</th>
 						<th class="">量(t)</th>
 						<th class="">倉庫</th>
 					</tr>
@@ -79,7 +79,7 @@
 					@foreach ($sum_list as $goods => $row)
 					<tr id="">
 						<td class="">&emsp;</td>
-						<td class=""><a href="#" onclick="changeDisplay({{$goods}});">{{$goods}} : {{$row->goods_name}}</a></td>
+						<td class=""><a href="#" onclick="changeDisplay({{$goods}});">{{$row->goods_name}}</a></td>
 						<td class="tx-center">{{number_format(array_sum($row->qty),1)}}</td>
 						<td class="">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</td>
 					</tr>
@@ -87,8 +87,8 @@
 							@foreach ($data as $i => $d)
 							<tr class="detail d_{{$goods}}" id="detail_{{$goods}}_{{$i}}">
 								<td class="">&emsp;</td>
-								<td class="table-light tx-center">　- 顧客：<a href="#">{{$customer}}</a></td>
-								<td class="tx-right">{{number_format($d->qty,1)}}</td>
+								<td class="table-light tx-center">　<b>- 顧客：</b>( {{$d->customer_name}} )</td>
+								<td class="table-info tx-right">{{number_format($d->qty,1)}}</td>
 								<td class=""></td>
 							</tr>
 							@endforeach
