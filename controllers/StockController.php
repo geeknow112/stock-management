@@ -207,6 +207,41 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 			default:
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getListByArrivalDt($get, $post);
+
+// 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
+$sdt = new DateTime($get->s['arrival_s_dt']);
+$sdt->modify('+3 day');
+$get->s['sdt'] = $sdt->format('Y-m-d'); // delivery_dtに変換 = +3日
+//$this->vd($get);
+$ScheduleRepeat = new ScheduleRepeat;
+$repeats = $ScheduleRepeat->getList($get);
+$repeat_list = $repeats[$get->s['sdt']];
+
+// arrival_dtを初期化
+foreach ($repeat_list as $sales => $d) {
+	current($d)->arrival_dt = $get->s['arrival_s_dt'];
+}
+
+// $repeat_list を $rows の形式に変換
+foreach ($repeat_list as $sales => $d) {
+	$rep = current($d);
+	$r_rows[] = (object) array(
+		'goods' => $rep->goods, 
+		'goods_name' => $rep->goods_name, 
+		'arrival_dt' => $rep->arrival_dt, 
+		'customer' => $rep->customer, 
+		'qty' => $rep->qty, 
+		'outgoing_warehouse' => $rep->outgoing_warehouse, 
+		'customer_name' => $rep->customer_name, 
+		'repeat' => $rep->repeat, 
+		'repeat_fg' => $rep->repeat_fg, 
+	);
+}
+//$this->vd($rows);
+//$this->vd($repeat_list);
+//$this->vd($r_rows);
+
+$rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 //$this->vd($rows);
 
 				if (!empty($rows)) {

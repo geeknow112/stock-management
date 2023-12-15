@@ -79,7 +79,7 @@
 					@foreach ($sum_list as $goods => $row)
 					<tr id="">
 						<td class="">&emsp;</td>
-						<td class=""><a href="#" onclick="changeDisplay({{$goods}});">{{$row->goods_name}}</a></td>
+						<td class="" onclick="changeDisplay({{$goods}});" @if (isset($row->repeat)) style="background: pink;" @endif><a href="#">{{$row->goods_name}}</a></td>
 						<td class="tx-center">{{number_format(array_sum($row->qty),1)}}</td>
 						<td class="">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</td>
 					</tr>
