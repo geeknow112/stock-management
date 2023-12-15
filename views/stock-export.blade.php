@@ -66,11 +66,11 @@
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
 					<tr>
-						<th class="">No.</th>
-						<th class="">製品名</th>
-						<th class="">荷姿・容量(kgTB)</th>
-						<th class="">個数</th>
-						<th class="">数量(kg)</th>
+						<th class="col-md-1">No.</th>
+						<th class="col-md-2">製品名</th>
+						<th class="col-md-1">荷姿・容量(kgTB)</th>
+						<th class="col-md-1">個数</th>
+						<th class="col-md-1">数量(kg)</th>
 						<th class="">備考</th>
 					</tr>
 				</thead>
