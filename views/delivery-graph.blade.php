@@ -178,48 +178,52 @@
 						</div>
 						<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo $row->arrival_dt; ?></div>
 						<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo $row->customer_name; ?></div>
-						@if ($row->lot_fg == 0)
-							@if (isset($row->base_sales))
-							<div>
-						<?php
-						$oid = $row->sales. "_". $row->goods. "_". $row->repeat. "_". str_replace('-', '', $delivery_dt);
-						?>
-								<select class="" id="cars_class_{{$oid}}" name="">
-						{{--
-									@foreach($initForm['select']['car_model'] as $i => $d)
-										<option value="{{$i}}">{{$d}}</option>
-									@endforeach
-						--}}
-										<option value="1">6t-1</option>
-										<option value="2">6t-2</option>
-										<option value="3">6t-3</option>
-										<option value="4">6t-4</option>
-										<option value="5">6t-5</option>
-										<option value="6">6t-6</option>
-										<option value="7">6t-7</option>
-								</select>
-								<br />
-								<select class="" id="cars_tank_{{$oid}}" name="">
-										<option value="1">1</option>
-										<option value="2">2</option>
-										<option value="3">3</option>
-								</select>
-								<br />
-								<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt_{{$oid}}" name="" value="">
-								<br />
-								<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
-								<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order('{{$oid}}');">
-							</div>
+						@if ($row->class != 7)
+							@if ($row->lot_fg == 0)
+								@if (isset($row->base_sales))
+								<div>
+							<?php
+							$oid = $row->sales. "_". $row->goods. "_". $row->repeat. "_". str_replace('-', '', $delivery_dt);
+							?>
+									<select class="" id="cars_class_{{$oid}}" name="">
+							{{--
+										@foreach($initForm['select']['car_model'] as $i => $d)
+											<option value="{{$i}}">{{$d}}</option>
+										@endforeach
+							--}}
+											<option value="1">6t-1</option>
+											<option value="2">6t-2</option>
+											<option value="3">6t-3</option>
+											<option value="4">6t-4</option>
+											<option value="5">6t-5</option>
+											<option value="6">6t-6</option>
+											<option value="7">6t-7</option>
+									</select>
+									<br />
+									<select class="" id="cars_tank_{{$oid}}" name="">
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+									</select>
+									<br />
+									<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt_{{$oid}}" name="" value="">
+									<br />
+									<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
+									<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order('{{$oid}}');">
+								</div>
 
-<!--							<a href="" class="btn btn-secondary text-center" onClick="window.prompt('車種、槽を入力してください。', ''); return false;">未注文</a>	-->
+	<!--							<a href="" class="btn btn-secondary text-center" onClick="window.prompt('車種、槽を入力してください。', ''); return false;">未注文</a>	-->
+								@else
+								<a href="" class="btn btn-secondary text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未作成</a>
+								@endif
+							@elseif ($row->lot_fg == 1)
+							<a href="" class="btn btn-warning text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未登録</a>
 							@else
-							<a href="" class="btn btn-secondary text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未作成</a>
+							<a href="" class="btn btn-success text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=edit'; return false;">登録済</a>
+							<input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off"><label class="btn btn-outline-primary" for="btn-check-outlined">受領書</label><!-- 受領書の受取確認用 -->
 							@endif
-						@elseif ($row->lot_fg == 1)
-						<a href="" class="btn btn-warning text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未登録</a>
 						@else
-						<a href="" class="btn btn-success text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=edit'; return false;">登録済</a>
-						<input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off"><label class="btn btn-outline-primary" for="btn-check-outlined">受領書</label><!-- 受領書の受取確認用 -->
+							<a href="#" class="btn btn-info text-center text-light">直取分</a>
 						@endif
 					</div>
 	<!--
