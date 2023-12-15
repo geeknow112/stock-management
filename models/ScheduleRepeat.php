@@ -106,6 +106,8 @@ class ScheduleRepeat extends Ext_Model_Base {
 //				if (!empty($get->s['sdt'])) { $sql .= sprintf("AND s.delivery_dt >= '%s 00:00:00' ", $get->s['sdt']); }
 //				if (!empty($get->s['edt'])) { $sql .= sprintf("AND s.delivery_dt <= '%s 23:59:59' ", $get->s['edt']); }
 
+				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", $get->s['outgoing_warehouse']); }
+
 //				$sql .= "ORDER BY s.rgdt desc";
 				$sql .= ";";
 
