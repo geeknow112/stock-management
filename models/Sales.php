@@ -792,6 +792,8 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 			$sum_tmp[$d->goods]['goods_name'] = $d->goods_name;
 			$sum_tmp[$d->goods]['qty'][] = $d->qty;
 			$sum_tmp[$d->goods]['outgoing_warehouse'] = $d->outgoing_warehouse;
+			$sum_tmp[$d->goods]['repeat'] = $d->repeat;
+			$sum_tmp[$d->goods]['repeat_fg'] = $d->repeat_fg;
 		}
 
 		foreach ($sum_tmp as $goods => $d) {
