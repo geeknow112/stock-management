@@ -311,7 +311,7 @@ $value5
 		$sql .= "WHERE s.sales is not null ";
 
 		if (is_null($jk_flag)) {
-			$sql .= "AND s.class NOT IN (0, 10) ";
+			$sql .= "AND s.class NOT IN (0, 7, 10) ";
 		} else {
 			$sql .= "AND s.class IN (10) ";
 		}
