@@ -227,10 +227,11 @@ function setArrivalDt() {
 	//console.log('delivery_dt : ' + delivery_dt);
 
 	const dt = new Date(delivery_dt);
-	dt.setMonth(dt.getMonth() + 1); // TODO: なぜか月が-1減算されるため、+1で設定
 	dt.setDate(dt.getDate() -3); // 3日後に設定
 
-	const month = dt.getMonth().toString().padStart(2, "0"); // 0埋め
+	const m = parseInt(dt.getMonth()) + 1; // TODO: dt.getMonth()が、なぜか月が-1減算されるため、+1で設定
+	//console.log(m);
+	const month = m.toString().padStart(2, "0"); // 0埋め
 	//console.log(month);
 	const date = dt.getDate().toString().padStart(2, "0"); // 0埋め
 	//console.log(date);
