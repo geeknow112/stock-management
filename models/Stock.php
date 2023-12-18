@@ -304,7 +304,7 @@ $value5
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT delivery_dt, s.goods, sum(s.qty) AS qty, g.name AS goods_name, s.customer AS customer, c.name AS customer_name ";
+		$sql  = "SELECT s.delivery_dt, s.goods, s.qty, g.name AS goods_name, s.customer AS customer, c.name AS customer_name ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = s.goods ";
 		$sql .= "LEFT JOIN yc_customer AS c ON c.customer = s.customer ";
@@ -329,16 +329,21 @@ $value5
 			if ($get->action == 'search') {
 				if (!empty($get->s['delivery_s_dt'])) { $sql .= sprintf("AND s.delivery_dt = '%s' ", $get->s['delivery_s_dt']); }
 				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", $get->s['outgoing_warehouse']); }
-				$sql .= "GROUP BY s.goods, s.customer ";
+//				$sql .= "GROUP BY s.goods, s.customer ";
 //				$sql .= "ORDER BY g.goods desc";
-				$sql .= ";";
+//				$sql .= ";";
 
 			} else {
 //				$sql .= "AND ap.applicant = '". $prm->post. "';";
 			}
 		}
 
-		$rows = $wpdb->get_results($sql);
+		$sql_sub  = "SELECT *, sum(t.qty) AS qty FROM (". $sql. ") AS t ";
+		$sql_sub .= "GROUP BY t.goods, t.customer ";
+		$sql_sub .= ";";
+
+$this->vd($sql_sub);
+		$rows = $wpdb->get_results($sql_sub);
 		return $rows;
 	}
 

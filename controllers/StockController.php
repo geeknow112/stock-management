@@ -244,7 +244,7 @@ foreach ($repeat_list as $sales => $d) {
 $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 //$this->vd($rows);
 
-				if (!empty($rows)) {
+				if (!empty(current($rows))) {
 					list($detail, $sum_list) = $this->getTb()->sumReceiveListByGoods($rows);
 //$this->vd($detail);
 //$this->vd($sum_list);
