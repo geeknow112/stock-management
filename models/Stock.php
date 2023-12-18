@@ -342,7 +342,6 @@ $value5
 		$sql_sub .= "GROUP BY t.goods, t.customer ";
 		$sql_sub .= ";";
 
-$this->vd($sql_sub);
 		$rows = $wpdb->get_results($sql_sub);
 		return $rows;
 	}
