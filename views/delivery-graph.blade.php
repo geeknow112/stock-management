@@ -309,7 +309,7 @@ function change_repeat_order(oid) {
 					@foreach ($rows as $delivery_dt => $list)
 					<tr id="user-1">
 						<td class="" colspan="3">
-							<a href="/wp-admin/admin.php?page=sum-day-goods">{{$delivery_dt}}</a><br />
+							<a href="#">{{$delivery_dt}}</a><br />
 							<p>　1槽</p>
 						</td>
 
