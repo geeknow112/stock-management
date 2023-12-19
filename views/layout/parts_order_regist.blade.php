@@ -30,7 +30,7 @@
 				@if ($i == '0')
 				<option value=""></option>
 				@else
-				<option value="{{$i}}" @if ($i == $rows->class) selected @endif >{{$d}}</option>
+				<option value="{{$i}}" @if ($i == $rows->class) selected @endif >{{$i}} : {{$d}}</option>
 				@endif
 			@endforeach
 		</select>
