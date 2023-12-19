@@ -22,17 +22,25 @@
 	}
 </script>
 <script>
-//	checkRepeat();
+	checkRepeat();
 	function checkRepeat() {
-		const p1 = document.getElementById("repeat_info");
-		const rep = '{{$rows->repeat_fg}}';
-//		alert(rep);
-		if (p1.style.display == "block" && rep !== 1) {
-			// noneで非表示
-			p1.style.display = "none";
-		} else {
-			// blockで表示
-			p1.style.display = "block";
+		const fg = document.getElementById("repeat_fg");
+
+		if (fg) {
+			console.log(fg.value);
+			const p1 = document.getElementById("repeat_info");
+
+			const rep = '{{$rows->repeat_fg}}';
+			console.log(rep);
+
+			if (p1.style.display == "block" && rep !== 1) {
+				// noneで非表示
+				p1.style.display = "none";
+			} else {
+				// blockで表示
+				p1.style.display = "block";
+			}
+
 		}
 	}
 </script>
