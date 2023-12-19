@@ -211,7 +211,7 @@ function createSelectBoxGoods(){
 <!--		<input type="checkbox" class="col-sm-2 form-check-input" id="repeat" name="repeat" onchange="changeCheckBox('repeat') && checkRepeat();">-->
 		<!--<input type="checkbox" class="col-sm-2 form-check-input" id="repeat_fg" name="repeat_fg" onchange="check_repeat();">-->
 
-		<input type="checkbox" class="btn-check" id="repeat_fg" name="repeat_fg" autocomplete="off" onchange="check_repeat();" @if ($cur_user->roles[0] != 'administrator') disabled @endif>
+		<input type="checkbox" class="btn-check" id="repeat_fg" name="repeat_fg" autocomplete="off" value="" onchange="check_repeat(); checkRepeat();" @if ($cur_user->roles[0] != 'administrator') disabled @endif>
 		<label class="btn btn-outline-primary" for="repeat_fg">繰り返し予定を設定する</label>
 	</div>
 
@@ -267,6 +267,8 @@ function check_use_stock() {
 function check_repeat() {
 	if (document.getElementById('repeat_fg').checked) {
 		document.getElementById('repeat_fg').value = 1; // true
+	} else {
+		document.getElementById('repeat_fg').value = "";
 	}
 }
 </script>
