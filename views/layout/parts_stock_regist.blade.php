@@ -61,7 +61,7 @@
 								</select>
 								@else
 									<input type="text" id="text_goods_list_{{$i}}" name="text_goods_list_{{$i}}" value="{{$rows->goods_list[$i]}} : {{$initForm['select']['goods_name'][$rows->goods_list[$i]]}}" />
-									<input type="hidden" name="goods_list[{{$rows->goods_list[$i]}}]" value="{{$rows->goods_list[$i]}}" />
+									<input type="hidden" name="goods_list[]" value="{{$rows->goods_list[$i]}}" />
 								@endif
 							</td>
 							<td class="tx-right">500</td>

@@ -212,11 +212,18 @@ $value5
 			}
 		}
 
-$this->vd($post);
-$this->vd($exist_columns);
-$this->vd($data);exit;
+//		$data['name'] = $post->goods_name;
 
-		$data['name'] = $post->goods_name;
+//$this->vd($post);
+//$this->vd($exist_columns);
+//$this->vd($data);exit;
+
+		$data['stock']       = null;
+//		$data['arrival_dt']  = $post->arrival_dt;
+//		$data['warehouse']   = $post->warehouse;
+//		$data['goods_total'] = $post->qty_list[0];
+//			$t['subtotal']    = $post->weight_list[$i];
+		$data['rgdt']        = date('Y-m-d H:i:s');
 
 		$ret = $wpdb->insert(
 			$this->getTableName(), 
@@ -225,10 +232,10 @@ $this->vd($data);exit;
 		);
 
 		// 登録したIDを取得
-		$goods = $wpdb->insert_id;
+//		$stock = $wpdb->insert_id;
 
 		// 登録情報を再取得
-		$rows = $this->getDetailByGoodsCode($goods);
+//		$rows = $this->getDetailByGoodsCode($goods);
 		return $rows;
 	}
 
