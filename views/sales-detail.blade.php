@@ -22,7 +22,6 @@
 	}
 </script>
 <script>
-	checkRepeat();
 	function checkRepeat() {
 		const fg = document.getElementById("repeat_fg");
 
@@ -41,6 +40,24 @@
 				p1.style.display = "block";
 			}
 
+		}
+	}
+
+	// 初期状態：繰り返し設定　非表示
+	window.onload = function() {
+		const p1 = document.getElementById("repeat_info");
+
+		const rep = '{{$rows->repeat_fg}}';
+		console.log(rep);
+
+		p1.style.display = "none";
+
+		if (rep != 1) {
+			// noneで非表示
+			p1.style.display = "none";
+		} else {
+			// blockで表示
+			p1.style.display = "block";
 		}
 	}
 </script>
