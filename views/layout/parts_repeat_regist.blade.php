@@ -1,5 +1,5 @@
-<!--<div id="repeat_info">-->
-<div id="repeat_info" style="display: none">
+<div id="repeat_info">
+<!--<div id="repeat_info" style="display: none">-->
 
 	<p class="">
 	<legend>【繰り返し情報登録】</legend>
