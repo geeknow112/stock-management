@@ -182,11 +182,10 @@ class Stock extends Ext_Model_Base {
 	}
 
 	/**
-	 * 商品情報登録
+	 * 在庫情報登録
 	 **/
 	public function regDetail($get = null, $post = null) {
 		global $wpdb;
-$this->vd($post);exit;
 
 /*
 $wpdb->query($wpdb->prepare(
@@ -212,6 +211,10 @@ $value5
 				$data[$col] = $post->$col;
 			}
 		}
+
+$this->vd($post);
+$this->vd($exist_columns);
+$this->vd($data);exit;
 
 		$data['name'] = $post->goods_name;
 

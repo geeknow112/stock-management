@@ -82,7 +82,7 @@ function setReceiveWarehouse(num = null) {
 
 <br />
 
-<form name="forms" id="forms" action="" method="post" enctype="multipart/form-data">
+<form name="forms_transfer" id="forms_transfer" action="" method="post" enctype="multipart/form-data">
 	<span id="msg" style="color: red;"></span>
 	<input type="hidden" name="cmd" value="" />
 	<input type="hidden" name="step" id="step" value="" />
