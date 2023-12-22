@@ -158,6 +158,20 @@ class Stock extends Ext_Model_Base {
 	}
 
 	/**
+	 * 在庫情報詳細 複数取得
+	 * - 在庫コード複数(stocks)から抽出
+	 **/
+	public function getDetailByStockCodes($stocks = null) {
+		global $wpdb;
+
+		$sql  = "SELECT st.* FROM ". $this->getTableName(). " as st ";
+		$sql .= sprintf("WHERE st.stock IN (%s); ", implode(',', $stocks));
+
+		$rows = $wpdb->get_results($sql);
+		return $rows;
+	}
+
+	/**
 	 * 対象注文のロット番号一覧取得
 	 **/
 	public function getLotNumberListByOrder($prm = null) {
@@ -187,24 +201,6 @@ class Stock extends Ext_Model_Base {
 	public function regDetail($get = null, $post = null) {
 		global $wpdb;
 
-/*
-$wpdb->query($wpdb->prepare(
-"
- INSERT INTO $wpdb->table_name
- (column1, column2,column3)
- VALUES(%d,%s,%s)
- ON DUPLICATE KEY UPDATE
- column2 = %s,
- column3 = %s
- ",
-$value1,
-$value2,
-$value3,
-$value4,
-$value5
-));
-*/
-
 		$exist_columns = $wpdb->get_col("DESC ". $this->getTableName(). ";", 0);
 		foreach ($exist_columns as $i => $col) {
 			if(!empty($post->$col)) {
@@ -231,7 +227,7 @@ $value5
 
 //$this->vd($datas);exit;
 
-		foreach ($datas as $i => $data) {
+/*		foreach ($datas as $i => $data) {
 			$ret[] = $wpdb->insert(
 				$this->getTableName(), 
 				$data
@@ -246,8 +242,18 @@ $value5
 //$this->vd($stocks);exit;
 
 		// 登録情報を再取得
-//		$rows = $this->getDetailByGoodsCode($goods);
-		return $rows;
+		$rows = $this->getDetailByStockCodes($stocks);
+
+		// 表示用に整形
+		foreach ($rows as $i => $d) {
+			$ret['goods_list'][] = 3;
+			$ret['goods_list'][] = 2;
+			$ret['goods_list'][] = 1;
+		}
+*/
+		$ret = $post;
+
+		return $ret;
 	}
 
 	/**

@@ -9,7 +9,7 @@
 
 	<div class="row mb-3">
 		<label for="outgoing_warehouse" class="col-sm-2 col-form-label">出庫倉庫</label>
-		@if($get->action != 'confirm')
+		@if($get->action != 'confirm' && $get->action != 'complete')
 		<select class="form-select w-75" aria-label="outgoing_warehouse" id="outgoing_warehouse" name="outgoing_warehouse" onchange="cahngeTitleWarehouse();">
 			@foreach($initForm['select']['outgoing_warehouse'] as $i => $d)
 				@if ($i == '0')
@@ -125,6 +125,17 @@ window.onload = function() {
 	const action = "{{$get->action}}";
 	if (action == 'confirm') {
 
+		document.getElementById('text_outgoing_warehouse').readOnly = true;
+
+		for (let i = 0; i < 20; i++) {
+				document.getElementById('text_goods_list_' + i).readOnly = true;
+				document.getElementById('qty_' + i).readOnly = true;
+		}
+	}
+
+	if (action == 'complete') {
+
+		document.getElementById('arrival_dt').readOnly = true;
 		document.getElementById('text_outgoing_warehouse').readOnly = true;
 
 		for (let i = 0; i < 20; i++) {
