@@ -165,7 +165,7 @@ if (!empty($req->s['lot'])) { $where .= sprintf("AND std.lot = '%s'", $req->s['l
 
 
 $limit = ($paged -1) * $users_per_page;
-$sql = sprintf("SELECT st.stock, st.arrival_dt, g.name AS goods_name, g.qty, std.lot, count(std.lot) AS stock_cnt FROM yc_stock AS st ");
+$sql = sprintf("SELECT st.stock, st.arrival_dt, g.name AS goods_name, g.qty, std.lot, st.goods_total FROM yc_stock AS st ");
 $sql .= sprintf("LEFT JOIN yc_stock_detail AS std ON st.stock = std.stock ");
 $sql .= sprintf("LEFT JOIN yc_goods AS g ON st.goods = g.goods ");
 $sql .= sprintf("%s ", $where);
@@ -450,7 +450,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_stock;" )
 			echo '<td>'. $object->arrival_dt. '</td>';
 			echo '<td>'. $object->goods_name. '</td>';
 			echo '<td>'. $object->qty. '</td>';
-			echo '<td>'. $object->stock_cnt. '</td>';
+			echo '<td>'. $object->goods_total. '</td>';
 			echo '<td>'. $object->lot. '</td>';
 			echo '</tr>';
 		}
