@@ -57,6 +57,11 @@ class StockController extends Ext_Controller_Action
 		$get = (object) $_GET;
 		$post = (object) $_POST;
 
+if ($post->cmd == 'cmd_transfer') {
+	$this->vd('cmd_transfer');
+//	$this->vd($get);
+//	$this->vd($post);
+}
 		global $wpdb;
 
 		$this->setTb('Stock');
