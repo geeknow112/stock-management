@@ -216,23 +216,34 @@ $value5
 
 //$this->vd($post);
 //$this->vd($exist_columns);
-//$this->vd($data);exit;
 
-		$data['stock']       = null;
-//		$data['arrival_dt']  = $post->arrival_dt;
-//		$data['warehouse']   = $post->warehouse;
-//		$data['goods_total'] = $post->qty_list[0];
-//			$t['subtotal']    = $post->weight_list[$i];
-		$data['rgdt']        = date('Y-m-d H:i:s');
+		foreach ($post->goods_list as $i => $goods) {
+			if ($goods == '0') { continue; }
+			$data['stock']       = null;
+			$data['goods']       = $goods;
+			$data['arrival_dt']  = $post->arrival_dt;
+			$data['warehouse']   = $post->outgoing_warehouse;
+			$data['goods_total'] = $post->qty_list[$i];
+			$data['subtotal']    = str_replace(',', '', $post->weight_list[$i]);
+			$data['rgdt']        = date('Y-m-d H:i:s');
+			$datas[] = $data;
+		}
 
-		$ret = $wpdb->insert(
-			$this->getTableName(), 
-			$data
-			//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
-		);
+//$this->vd($datas);exit;
 
-		// 登録したIDを取得
-//		$stock = $wpdb->insert_id;
+		foreach ($datas as $i => $data) {
+			$ret[] = $wpdb->insert(
+				$this->getTableName(), 
+				$data
+				//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+			);
+
+			// 登録したIDを取得
+			$stocks[] = $wpdb->insert_id;
+		}
+
+//$this->vd($ret);
+//$this->vd($stocks);exit;
 
 		// 登録情報を再取得
 //		$rows = $this->getDetailByGoodsCode($goods);
