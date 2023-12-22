@@ -225,8 +225,6 @@ class Stock extends Ext_Model_Base {
 			$datas[] = $data;
 		}
 
-//$this->vd($datas);exit;
-
 		foreach ($datas as $i => $data) {
 			$ret[] = $wpdb->insert(
 				$this->getTableName(), 
@@ -238,18 +236,32 @@ class Stock extends Ext_Model_Base {
 			$stocks[] = $wpdb->insert_id;
 		}
 
-//$this->vd($ret);
-//$this->vd($stocks);exit;
-
 		// 登録情報を再取得
 		$rows = $this->getDetailByStockCodes($stocks);
+
+		foreach ($rows as $i => $d) {
+			$count = $d->goods_total; // 個数 (500kg/個) = ロット番号入力レコード生成数
+			for ($j = 0; $j < $count; $j++) {
+				$ret_detail[] = $wpdb->insert(
+					'yc_stock_detail', 
+					array(
+						'id' => null, 
+						'stock' => $d->stock, 
+						'lot' => null, 
+						'barcode' => null, 
+						'rgdt' => date('Y-m-d H:i:s')
+					)
+					//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+				);
+			}
+		}
 
 		// 表示用に整形
 /*
 		foreach ($rows as $i => $d) {
 		}
 */
-		$ret = $post;
+		$ret = $post; // TODO:
 
 		return $ret;
 	}
