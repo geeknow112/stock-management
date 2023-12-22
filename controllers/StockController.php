@@ -109,7 +109,7 @@ class StockController extends Ext_Controller_Action
 						}
 					}
 				}
-				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'post', 'msg'));
+				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'initForm', 'post', 'msg'));
 				break;
 
 			case 'edit-exe':
