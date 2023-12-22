@@ -227,7 +227,7 @@ class Stock extends Ext_Model_Base {
 
 //$this->vd($datas);exit;
 
-/*		foreach ($datas as $i => $data) {
+		foreach ($datas as $i => $data) {
 			$ret[] = $wpdb->insert(
 				$this->getTableName(), 
 				$data
@@ -245,10 +245,8 @@ class Stock extends Ext_Model_Base {
 		$rows = $this->getDetailByStockCodes($stocks);
 
 		// 表示用に整形
+/*
 		foreach ($rows as $i => $d) {
-			$ret['goods_list'][] = 3;
-			$ret['goods_list'][] = 2;
-			$ret['goods_list'][] = 1;
 		}
 */
 		$ret = $post;
