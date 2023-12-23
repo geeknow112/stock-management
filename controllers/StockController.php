@@ -189,8 +189,10 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 		switch($get->action) {
 			case 'search':
 			default:
+				$rows = $this->getTb()->getDetailLotByStockCode($get->stock);
+//$this->vd($rows);
 				$formPage = 'stock-lot-regist';
-				echo $this->get_blade()->run("stock-lot-regist", compact('get', 'post', 'formPage', 'initForm'));
+				echo $this->get_blade()->run("stock-lot-regist", compact('rows', 'get', 'post', 'formPage', 'initForm'));
 				break;
 		}
 	}
