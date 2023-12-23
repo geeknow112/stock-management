@@ -172,6 +172,23 @@ class Stock extends Ext_Model_Base {
 	}
 
 	/**
+	 * 在庫情報詳細ロット番号欄取得
+	 * - 在庫コード(stock)から抽出
+	 **/
+	public function getDetailLotByStockCode($stock = null) {
+		global $wpdb;
+
+		$sql  = "SELECT st.*, std.*, g.name AS goods_name FROM yc_stock as st ";
+		$sql .= "LEFT JOIN yc_stock_detail as std ON st.stock = std.stock ";
+		$sql .= "LEFT JOIN yc_goods as g ON st.goods = g.goods ";
+		$sql .= sprintf("WHERE std.stock = '%s' ", $stock);
+		$sql .= sprintf("AND std.upuser is null ");
+
+		$rows = $wpdb->get_results($sql);
+		return (object) $rows;
+	}
+
+	/**
 	 * 対象注文のロット番号一覧取得
 	 **/
 	public function getLotNumberListByOrder($prm = null) {
