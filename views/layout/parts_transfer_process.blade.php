@@ -19,6 +19,7 @@
 		
 	<div class="table-responsive">
 		<div id="title">■ 転送処理</div>
+		<div>※ 基本情報を入力後、ロット番号へのリンクが表示されます。</div>
 		<div>
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
@@ -63,7 +64,7 @@
 							</select>
 						</td>
 						<td class="tx-right"><input type="text" class="tx-right w-75" id="t_receive_warehouse_{{$i}}" name="t_receive_warehouse[]" value="" readonly></td>
-						<td class="tx-right"><a href="/wp-admin/admin.php?page=stock-lot-regist">入力画面へ</a></td>
+						<td class="tx-right">@if($get->stock)<a href="/wp-admin/admin.php?page=stock-lot-regist">入力画面へ</a>@else - @endif</td>
 						</td>
 					</tr>
 					@endfor

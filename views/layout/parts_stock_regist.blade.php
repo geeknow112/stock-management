@@ -35,6 +35,7 @@
 		
 		<div class="table-responsive">
 			<div id="title_warehouse">■ </div>
+			<div>※ 基本情報を入力後、ロット番号へのリンクが表示されます。</div>
 			<div>
 				<table class="table table-bordered text-nowrap">
 					<thead class="table-light">
@@ -67,7 +68,7 @@
 							<td class="tx-right">500</td>
 							<td class="tx-right"><input type="number" min="0" class="tx-center w-50" id="qty_{{$i}}" name="qty_list[]" value="{{$rows->qty_list[$i]}}" onchange="calcWeight({{$i}}); sumRows();"></td>
 							<td class="tx-right"><input type="text" class="tx-right w-75" id="weight_{{$i}}" name="weight_list[]" value="{{$rows->weight_list[$i]}}" readonly></td>
-							<td class="tx-right"><a href="/wp-admin/admin.php?page=stock-lot-regist&stock={{$get->stock}}">入力画面へ</a></td>
+							<td class="tx-right">@if($get->stock)<a href="/wp-admin/admin.php?page=stock-lot-regist&stock={{$get->stock}}">入力画面へ</a>@else - @endif</td>
 						</tr>
 						@endfor
 					</tbody>
