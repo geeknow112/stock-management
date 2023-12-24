@@ -113,6 +113,17 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 						if ($msg['msg'] == 'success') {
 							$rows = $this->getTb()->regDetail($get, $post);
 //							$rows->order_name = $rows->name;
+
+							// ŒJ‚è•Ô‚µî•ñ“o˜^
+							if ($rows->repeat_fg == 1) {
+								$post->sales = $rows->sales;
+								$ScheduleRepeat = new ScheduleRepeat();
+								$repeat = $ScheduleRepeat->updDetail($get, $post);
+							}
+
+							// “o˜^î•ñ‚ðÄŽæ“¾
+							$rows = $this->getTb()->getDetailBySalesCode($rows->sales);
+
 							$get->action = 'complete';
 
 						} else {
@@ -138,8 +149,13 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 //							$rows->order_name = $rows->name;
 
 							// ŒJ‚è•Ô‚µî•ñ“o˜^
-							$ScheduleRepeat = new ScheduleRepeat();
-							$repeat = $ScheduleRepeat->updDetail($get, $post);
+							if ($rows->repeat_fg == 1) {
+								$ScheduleRepeat = new ScheduleRepeat();
+								$repeat = $ScheduleRepeat->updDetail($get, $post);
+							}
+
+							// XVî•ñ‚ðÄŽæ“¾
+							$rows = $this->getTb()->getDetailBySalesCode($rows->sales);
 
 							$get->action = 'complete';
 

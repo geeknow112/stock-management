@@ -307,7 +307,7 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		// checkboxの初期化
 		$post->use_stock = ($post->use_stock == 'on') ? 1 : 0;
-		$post->repeat_fg = ($post->repeat_fg == 'on') ? 1 : 0;
+//		$post->repeat_fg = ($post->repeat_fg == 'on') ? 1 : 0;
 
 //		$p->updt = date('Y-m-d H:i:s'); // updt
 
@@ -372,7 +372,6 @@ $dt = new DateTime($sdt. ' +1 days');
 */
 		// 登録情報を再取得
 		$rows = $this->getDetailBySalesCode($sales);
-		$rows->sales = $rows->sales;
 		return $rows;
 	}
 
