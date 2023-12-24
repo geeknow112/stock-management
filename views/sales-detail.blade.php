@@ -46,11 +46,17 @@
 	// 初期状態：繰り返し設定　非表示
 	window.onload = function() {
 		const p1 = document.getElementById("repeat_info");
+		const p2 = document.getElementById("repeat_custom");
 
 		const rep = '{{$rows->repeat_fg}}';
 		console.log(rep);
 
+		const period = '{{$rows->period}}';
+		console.log(period);
+
 		p1.style.display = "none";
+
+		p2.style.display = "none";
 
 		if (rep != 1) {
 			// noneで非表示
@@ -58,6 +64,26 @@
 		} else {
 			// blockで表示
 			p1.style.display = "block";
+		}
+
+		if (period != 9) {
+			// noneで非表示
+			p2.style.display = "none";
+		} else {
+			// blockで表示
+			p2.style.display = "block";
+		}
+	}
+
+	// 繰り返しカスタム設定　表示
+	function displayCustom() {
+		const period = document.getElementById("period").value;
+		console.log(period);
+		const p2 = document.getElementById("repeat_custom");
+		if (period != 9) {
+			p2.style.display = "none";
+		} else {
+			p2.style.display = "block";
 		}
 	}
 </script>

@@ -385,7 +385,7 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		// checkboxの初期化
 		$post->use_stock = ($post->use_stock == 'on') ? 1 : 0;
-		$post->repeat_fg = ($post->repeat_fg == 'on') ? 1 : 0;
+//		$post->repeat_fg = ($post->repeat_fg == 'on') ? 1 : 0;
 
 		$exist_columns = $wpdb->get_col("DESC ". $this->getTableName(). ";", 0);
 		foreach ($exist_columns as $i => $col) {
@@ -990,6 +990,7 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 			1 => '毎週',
 			2 => '毎月',
 			3 => '毎年',
+			9 => 'カスタム',
 		);
 	}
 
