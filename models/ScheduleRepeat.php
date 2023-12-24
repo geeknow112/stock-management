@@ -159,8 +159,11 @@ class ScheduleRepeat extends Ext_Model_Base {
 			$sdts[] = $sdt->format('Y-m-d');
 		}
 //$this->vd($sdts);
+//$this->vd($repeat_items);exit;
 
 		foreach ($repeat_items as $i => $r) {
+$r->repeat_s_dt = $r->delivery_dt; // repeat_s_dtの入力がなければ、delivery_dtを設定し、delivery_dtがバッティングしている部分は表示の際に消す。
+$r->repeat_e_dt = '2024-12-31';
 			if (!isset($r->sales)) { continue; }
 			if (!isset($r->repeat_s_dt) || $r->repeat_s_dt == '0000-00-00') { continue; }
 			if (!isset($r->repeat_e_dt) || $r->repeat_e_dt == '0000-00-00') { continue; }
@@ -189,6 +192,10 @@ class ScheduleRepeat extends Ext_Model_Base {
 				case 3: // 毎年
 					$period = '+1 year';
 					break;
+
+				case 9: // カスタム
+					$period = sprintf('+%d day', $r->span);
+					break;
 			}
 
 			// 繰り返し注文の生成
@@ -208,6 +215,15 @@ class ScheduleRepeat extends Ext_Model_Base {
 			}
 		}
 
+		// delivery_dtがバッティングしている部分を消す。
+		foreach ($ret_repeat_items as $delivery_dt => $d) {
+			foreach ($d as $sales => $v) {
+				if (current($v)->delivery_dt == $delivery_dt) {
+					unset($ret_repeat_items[$delivery_dt][$sales]);
+				}
+			}
+		}
+//$this->vd($ret_repeat_items);
 		return $ret_repeat_items;
 	}
 
