@@ -332,14 +332,17 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 			default:
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList($get);
-				$rows = $this->getTb()->setTankName($rows); // 配送先(タンク)名の取得
 				$sumTanks = $this->getTb()->sumTanks($rows);
 				$formPage = 'delivery-graph';
 
-// 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
-//$this->vd($get->s['sdt']);
-$ScheduleRepeat = new ScheduleRepeat;
-$repeat_list = $ScheduleRepeat->getList($get);
+				// 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
+				//$this->vd($get->s['sdt']);
+				$ScheduleRepeat = new ScheduleRepeat;
+				$repeat_list = $ScheduleRepeat->getList($get);
+
+				// 配送先(タンク)名の取得
+				$rows = $this->getTb()->setTankName($rows);
+				$repeat_list = $this->getTb()->setTankName($repeat_list);
 
 //$this->vd($rows);
 //$this->vd(array_keys($repeat_list));
