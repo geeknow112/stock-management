@@ -167,13 +167,15 @@
 						<?php
 //							echo sprintf('[ ');
 							echo ($row->tank_name) ? sprintf('%s <br>', $row->tank_name) : '- <br>';
+/*
 							foreach ($sumTanks[$row->sales][$row->goods] as $i => $d) {
 								if (!empty(current($d))) {
 									echo sprintf(' %s (t) <br>', implode(' : ', $d));
 								}
 							}
+*/
 //							echo sprintf(' ]');
-							echo ($row->outgoing_warehouse == 1) ? '<span style="color: red;">(内)</span>' : '-';
+							echo ($row->outgoing_warehouse == 1) ? '<span style="color: red;">(内)</span>' : '&emsp;';
 						?>
 						</div>
 						<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
@@ -185,6 +187,8 @@
 							<?php
 							$oid = $row->sales. "_". $row->goods. "_". $row->repeat. "_". str_replace('-', '', $delivery_dt);
 							?>
+									<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt_{{$oid}}" name="" value="">
+									<br />
 									<select class="" id="cars_class_{{$oid}}" name="">
 							{{--
 										@foreach($initForm['select']['car_model'] as $i => $d)
@@ -199,15 +203,11 @@
 											<option value="6">6t-6</option>
 											<option value="7">6t-7</option>
 									</select>
-									<br />
 									<select class="" id="cars_tank_{{$oid}}" name="">
 											<option value="1">1</option>
 											<option value="2">2</option>
 											<option value="3">3</option>
 									</select>
-									<br />
-									<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt_{{$oid}}" name="" value="">
-									<br />
 									<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
 									<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order('{{$oid}}');">
 								</div>
