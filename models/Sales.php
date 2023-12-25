@@ -999,7 +999,7 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 	 * yc_schedule_repeat.span
 	 **/
 	private function getPartsSpan() {
-		$ret = range(0, 31);
+		$ret = range(0, 99);
 		$ret[0] = '';
 		return $ret;
 	}
