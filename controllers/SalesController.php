@@ -332,6 +332,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 			default:
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList($get);
+				$rows = $this->getTb()->setTankName($rows); // ”z‘—æ(ƒ^ƒ“ƒN)–¼‚ÌŽæ“¾
 				$sumTanks = $this->getTb()->sumTanks($rows);
 				$formPage = 'delivery-graph';
 

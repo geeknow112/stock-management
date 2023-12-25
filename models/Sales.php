@@ -815,6 +815,25 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 	}
 
 	/**
+	 * 配送先(タンク)名の取得
+	 * 
+	 **/	
+	public function setTankName($rows) {
+		$initForm = $this->getInitForm();
+		$ship_addr = $initForm['select']['ship_addr'];
+
+		foreach ($rows as $delivery_dt => $d) {
+			foreach ($d as $sales => $v) {
+				$t = current($v);
+				$t->tank_name = $ship_addr[$t->customer][$t->ship_addr];
+				$rows[$delivery_dt][$sales][] = $t;
+			}
+		}
+
+		return $rows;
+	}
+
+	/**
 	 * 
 	 **/
 	public function getInitForm() {
