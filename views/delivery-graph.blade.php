@@ -166,14 +166,14 @@
 						<div class="text-wrap text-center inner_box" style="width: 9rem;">
 						<?php
 //							echo sprintf('[ ');
-//							echo sprintf('(%s', $row->ship_addr);
+							echo ($row->tank_name) ? sprintf('%s <br>', $row->tank_name) : '- <br>';
 							foreach ($sumTanks[$row->sales][$row->goods] as $i => $d) {
 								if (!empty(current($d))) {
 									echo sprintf(' %s (t) <br>', implode(' : ', $d));
 								}
 							}
 //							echo sprintf(' ]');
-							echo ($row->outgoing_warehouse == 1) ? '<span style="color: red;">(内)</span>' : '';
+							echo ($row->outgoing_warehouse == 1) ? '<span style="color: red;">(内)</span>' : '-';
 						?>
 						</div>
 						<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
