@@ -92,11 +92,13 @@
 						<th class="" colspan="6">6t ③</th>
 						<th class="" colspan="6">6t ④</th>
 						<th class="" colspan="6">6t ⑤</th>
+						@if ($cur_user->roles[0] == 'administrator')
 						<th class="" colspan="6">6t ⑥</th>
 						<th class="" colspan="6">6t ⑦</th>
 						<th class="" colspan="6">6t ⑧ (太田畜産 専用：結果入力欄)</th>
 						<th class="" colspan="6">7.5t ⑨ (村上畜産 専用：結果入力欄)</th>
 						<th class="" colspan="6">6t ⑩ (山忠商事(直取) 専用：結果入力欄)</th>
+						@endif
 					</tr>
 
 					<tr>
@@ -105,6 +107,14 @@
 						<th class="" scope="col" id="username">日</th>
 						@for ($i = 0; $i <= 10; $i++)
 							@if ($cur_user->roles[0] == 'subscriber' && $i == 0)
+								@php continue; @endphp
+							@endif
+
+							@if ($cur_user->roles[0] == 'editor' && $i < 5)
+								@php continue; @endphp
+							@endif
+
+							@if ($cur_user->roles[0] == 'subscriber' && $i <= 5)
 								@php continue; @endphp
 							@endif
 						<th class="" style="width: 7rem;">品名</th>
@@ -344,6 +354,7 @@ function change_repeat_order(oid) {
 							@php innerTable($delivery_dt, $list, 5, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 6 -->
+						@if ($cur_user->roles[0] == 'administrator')
 						<td class="" colspan="6">
 							@php innerTable($delivery_dt, $list, 6, $sumTanks, 1); @endphp
 						</td>
@@ -363,6 +374,7 @@ function change_repeat_order(oid) {
 						<td class="" colspan="6">
 							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 1); @endphp
 						</td>
+						@endif
 					</tr>
 					<tr id="user-1">
 						<td class="" colspan="3">
@@ -400,6 +412,7 @@ function change_repeat_order(oid) {
 							@php innerTable($delivery_dt, $list, 5, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 6 -->
+						@if ($cur_user->roles[0] == 'administrator')
 						<td colspan="6">
 							@php innerTable($delivery_dt, $list, 6, $sumTanks, 2); @endphp
 						</td>
@@ -419,6 +432,7 @@ function change_repeat_order(oid) {
 						<td colspan="6">
 							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 2); @endphp
 						</td>
+						@endif
 					</tr>
 					<tr id="user-1" style="border-bottom: solid 1px gray;">
 						<td class="" colspan="3">
@@ -456,6 +470,7 @@ function change_repeat_order(oid) {
 							@php innerTable($delivery_dt, $list, 5, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 6 -->
+						@if ($cur_user->roles[0] == 'administrator')
 						<td colspan="6">
 							@php innerTable($delivery_dt, $list, 6, $sumTanks, 3); @endphp
 						</td>
@@ -475,6 +490,7 @@ function change_repeat_order(oid) {
 						<td colspan="6">
 							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 3); @endphp
 						</td>
+						@endif
 					</tr>
 					@endforeach
 			@else
