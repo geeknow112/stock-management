@@ -346,7 +346,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 //$this->vd($rows);
 //$this->vd(array_keys($repeat_list));
-//$this->vd($repeat_list);
+$this->vd($repeat_list);
 
 
 //$this->vd($repeat_list['2023-11-09']);

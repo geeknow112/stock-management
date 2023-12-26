@@ -162,8 +162,8 @@ class ScheduleRepeat extends Ext_Model_Base {
 //$this->vd($repeat_items);exit;
 
 		foreach ($repeat_items as $i => $r) {
-$r->repeat_s_dt = $r->delivery_dt; // repeat_s_dtの入力がなければ、delivery_dtを設定し、delivery_dtがバッティングしている部分は表示の際に消す。
-$r->repeat_e_dt = '2024-12-31';
+//$r->repeat_s_dt = $r->delivery_dt; // repeat_s_dtの入力がなければ、delivery_dtを設定し、delivery_dtがバッティングしている部分は表示の際に消す。
+//$r->repeat_e_dt = '2024-12-31';
 			if (!isset($r->sales)) { continue; }
 			if (!isset($r->repeat_s_dt) || $r->repeat_s_dt == '0000-00-00') { continue; }
 			if (!isset($r->repeat_e_dt) || $r->repeat_e_dt == '0000-00-00') { continue; }
