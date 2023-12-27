@@ -337,6 +337,10 @@ class Stock extends Ext_Model_Base {
 //				if (!empty($get->s['no'])) { $sql .= sprintf("AND g.goods = '%s' ", $get->s['no']); }
 //				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
 //				$sql .= "ORDER BY g.goods desc";
+
+				if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND st.arrival_dt <= '%s 23:59:59' ", $get->s['arrival_e_dt']); }
+
+				$sql .= "GROUP BY st.goods ";
 				$sql .= ";";
 
 			} else {
