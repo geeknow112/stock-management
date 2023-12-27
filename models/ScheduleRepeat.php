@@ -89,6 +89,7 @@ class ScheduleRepeat extends Ext_Model_Base {
 		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
 		$sql .= "WHERE scr.repeat is not null ";
+		$sql .= "AND s.repeat_fg = 1 ";
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";

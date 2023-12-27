@@ -268,7 +268,7 @@ function check_repeat() {
 	if (document.getElementById('repeat_fg').checked) {
 		document.getElementById('repeat_fg').value = 1; // true
 	} else {
-		document.getElementById('repeat_fg').value = "";
+		document.getElementById('repeat_fg').value = 0; // false
 	}
 }
 </script>
