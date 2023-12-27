@@ -279,7 +279,12 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 
 		$this->setTb('Stock');
 
-		$rows = $this->getTb()->getStockExportList($get);
+		switch($get->cmd) {
+			case 'search':
+			default:
+				$rows = $this->getTb()->getStockExportList($get);
+				break;
+		}
 
 		// İŒÉTBŒÂ”‚Ì‘‡Œv
 		$stock_cnt = array_sum(array_column((array) $rows, 'cnt'));
