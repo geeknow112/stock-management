@@ -52,6 +52,7 @@
 		<!-- start -->
 		<div class="table-responsive">
 			<div class="title-box">■ ※①～⑥、⑧、⑨ （※配送予定表の①～⑥、⑧、⑨を集計します。）</div>
+			@if (isset($rows) && count($rows))
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
 					<tr>
@@ -63,7 +64,6 @@
 					</tr>
 				</thead>
 
-				@if (isset($rows) && count($rows))
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($rows as $i => $row)
 					<tr id="">
@@ -74,9 +74,6 @@
 						<th class="">{{$row->customer_name}}</th>
 					</tr>
 					@endforeach
-				@else
-				<td class="colspanchange" colspan="7">検索対象は見つかりませんでした。</td>
-				@endif
 				</tbody>
 
 				<tfoot class="">
@@ -94,12 +91,14 @@
 					</tr>
 				</tfoot>
 			</table>
+			@endif
 		</div>
 		<!-- end -->
 
 		<!-- start -->
 		<div class="table-responsive">
 			<div class="title-box">■ 【直取】　※⑩ （※配送予定表の⑩を集計します。）</div>
+			@if (isset($jks) && count($jks))
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
 					<tr>
@@ -111,7 +110,6 @@
 					</tr>
 				</thead>
 
-				@if (isset($jks) && count($jks))
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($jks as $i => $jk)
 					<tr id="">
@@ -122,9 +120,6 @@
 						<th class="">{{$jk->customer_name}}</th>
 					</tr>
 					@endforeach
-				@else
-				<td class="colspanchange" colspan="7">検索対象は見つかりませんでした。</td>
-				@endif
 				</tbody>
 
 				<tfoot class="">
@@ -142,6 +137,99 @@
 					</tr>
 				</tfoot>
 			</table>
+			@endif
+		</div>
+		<!-- end -->
+
+		<!-- start -->
+		<div class="table-responsive">
+			<div class="title-box">■ 【転送】　丹波SP ➤ 内藤SP</div>
+			@if (isset($transfers) && count($transfers))
+			<table class="table table-bordered text-nowrap">
+				<thead class="table-light">
+					<tr>
+						<th class="">No.</th>
+						<th class="">品名</th>
+						<th class="">容量</th>
+						<th class="">量目(t)</th>
+						<th class="">備考</th>
+					</tr>
+				</thead>
+
+				<tbody id="the-list" data-wp-lists="list:user">
+					@foreach ($transfers as $i => $tf)
+					<tr id="">
+						<td class="">{{$i+1}}</td>
+						<td class="">{{$tf->goods_name}}</td>
+						<th class="tx-center">（T）</th>
+						<td class="tx-right">{{number_format($tf->qty,1)}}</td>
+						<th class="">{{$tf->customer_name}}</th>
+					</tr>
+					@endforeach
+				</tbody>
+
+				<tfoot class="">
+					<tr>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+					</tr>
+					<tr>
+						<th class="table-light">運送会社</th>
+						<th class="">内藤運送</th>
+						<th class="" colspan="3"></th>
+					</tr>
+				</tfoot>
+			</table>
+			@endif
+		</div>
+		<!-- end -->
+
+		<!-- start -->
+		<div class="table-responsive">
+			<div class="title-box">■ 【転送】　内藤SP ➤ 丹波SP</div>
+			@if (isset($transfers) && count($transfers))
+			<table class="table table-bordered text-nowrap">
+				<thead class="table-light">
+					<tr>
+						<th class="">No.</th>
+						<th class="">品名</th>
+						<th class="">容量</th>
+						<th class="">量目(t)</th>
+						<th class="">備考</th>
+					</tr>
+				</thead>
+
+				<tbody id="the-list" data-wp-lists="list:user">
+					@foreach ($transfers as $i => $tf)
+					<tr id="">
+						<td class="">{{$i+1}}</td>
+						<td class="">{{$tf->goods_name}}</td>
+						<th class="tx-center">（T）</th>
+						<td class="tx-right">{{number_format($tf->qty,1)}}</td>
+						<th class="">{{$tf->customer_name}}</th>
+					</tr>
+					@endforeach
+				</tbody>
+
+				<tfoot class="">
+					<tr>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+					</tr>
+					<tr>
+						<th class="table-light">運送会社</th>
+						<th class="">内藤運送</th>
+						<th class="" colspan="3"></th>
+					</tr>
+				</tfoot>
+			</table>
+			@endif
 		</div>
 		<!-- end -->
 	</div>
