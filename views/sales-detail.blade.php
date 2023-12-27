@@ -44,6 +44,7 @@
 	}
 
 	// 初期状態：繰り返し設定　非表示
+	//  ※windows.onloadは一画面1個制約がある
 	window.onload = function() {
 		const p1 = document.getElementById("repeat_info");
 		const p2 = document.getElementById("repeat_custom");
@@ -72,6 +73,21 @@
 		} else {
 			// blockで表示
 			p2.style.display = "block";
+		}
+
+		/**
+		 * 確認画面でform要素をreadOnlyにする
+		 * 
+		 **/
+		const action = "{{$get->action}}";
+		if (action == 'confirm') {
+			document.getElementById('delivery_dt').readOnly = true;
+			document.getElementById('arrival_dt').readOnly = true;
+		}
+
+		if (action == 'complete') {
+			document.getElementById('delivery_dt').readOnly = true;
+			document.getElementById('arrival_dt').readOnly = true;
 		}
 	}
 
