@@ -94,7 +94,7 @@
 						<th class="" colspan="6">6t ⑤</th>
 						@if ($cur_user->roles[0] == 'administrator')
 						<th class="" colspan="6">6t ⑥</th>
-						<th class="" colspan="6">6t ⑦</th>
+						<th class="" colspan="6">6t ⑦ (山忠商事(直取) 専用：繰り返し注文表示欄)</th>
 						<th class="" colspan="6">6t ⑧ (太田畜産 専用：結果入力欄)</th>
 						<th class="" colspan="6">7.5t ⑨ (村上畜産 専用：結果入力欄)</th>
 						<th class="" colspan="6">6t ⑩ (山忠商事(直取) 専用：結果入力欄)</th>
@@ -299,20 +299,121 @@ function change_repeat_order(oid) {
 
 }
 </script>
+<?php	function innerTableFixed($delivery_dt, $list, $class, $sumTanks = null, $carsTank = null, $initForm = null) { ?>
+	<?php $oid = sprintf("%s%s%s", str_replace('-', '', $delivery_dt), $class, $carsTank); echo $oid; ?>
 
-<?php	function innerTableFixed($delivery_dt, $list, $class, $sumTanks = null, $carsTank = null, $initForm = null) {	?>
-{{$delivery_dt}}_{{$class}}_{{$carsTank}}
 		<div style="width: 40rem;" id="app1" class="container">
 			<div class="d-flex flex-row bd-highlight mb-3">
-				<input type="text" class="text-wrap text-center inner_box" style="width: 8rem;" placeholder="商品名" value="">
-				<input type="text" class="text-wrap text-center inner_box" style="width: 3.5rem;" placeholder="量(t)" value="">
-				<input type="text" class="text-wrap text-center inner_box" style="width: 9rem;" placeholder="配送先" value="">
-				<input type="text" class="text-wrap text-center inner_box" style="width: 7.5rem;" placeholder="出庫倉庫" value="">
-				<input type="text" class="text-wrap text-center inner_box" style="width: 6.5rem;" placeholder="氏名" value="">
+				<select class="w-25" id="goods_{{$oid}}" name="">
+				</select>
+
+				<select class="" id="qty_{{$oid}}" name="">
+					<?php foreach ($initForm['select']['qty'] as $i => $qty) { ?>
+						<option value="<?php echo $i; ?>"><?php echo $qty; ?></option>
+					<?php } ?>
+				</select>
+
+				<select class="w-25" id="ship_addr_{{$oid}}" name="">
+				</select>
+
+				<select class="" id="outgoing_warehouse_{{$oid}}" name="">
+					<?php foreach ($initForm['select']['outgoing_warehouse'] as $i => $outgoing_warehouse) { ?>
+						<option value="<?php echo $i; ?>"><?php echo $outgoing_warehouse; ?></option>
+					<?php } ?>
+				</select>
+
+				<select class="" id="customer_{{$oid}}" name="customer_{{$oid}}" onchange="createSelectBox(<?php echo $oid; ?>); createSelectBoxGoods(<?php echo $oid; ?>);">
+					<?php foreach ($initForm['select']['customer'] as $customer => $customer_name) { ?>
+						<option value="<?php echo $customer; ?>"><?php echo sprintf("%s : %s", $customer, $customer_name); ?></option>
+					<?php } ?>
+				</select>
+
 				<a href="" class="btn btn-primary text-center" onClick="">入力</a>
 			</div>
 		</div>
 <?php	}	?>
+
+<script>
+var unescapeHtml = function(str) {
+	if (typeof str !== 'string') return str;
+
+	var patterns = {
+		'&lt;'   : '<',
+		'&gt;'   : '>',
+		'&amp;'  : '&',
+		'&quot;' : '"',
+		'&#x27;' : '\'',
+		'&#x60;' : '`'
+	};
+
+	return str.replace(/&(lt|gt|amp|quot|#x27|#x60);/g, function(match) {
+		return patterns[match];
+	});
+};
+
+function createSelectBox(oid){
+	console.log(oid);
+	var customer = document.getElementById("customer_" + oid).value;
+//	var goods = document.forms.goods.value;
+	console.log('c: ' + customer);
+//	console.log('g: ' + goods);
+
+	//連想配列の配列
+	var ar = "{{$test_ship_addr}}";
+	var json = JSON.parse(unescapeHtml(ar));
+	console.log(json[customer]);
+	var arr = json[customer];
+
+	// selectの初期化
+	const sel = document.getElementById("ship_addr_" + oid);
+//	sel.disabled = (goods) ? (customer) ? false : true : true; // 非活性化
+	console.log(sel.childNodes.length);
+	for (var i=sel.childNodes.length-1; i>=0; i--) {
+		sel.removeChild(sel.childNodes[i]);
+	}
+
+	if (arr !== undefined) {
+		//連想配列をループ処理で値を取り出してセレクトボックスにセットする
+		for (var i=0; i<arr.length; i++) {
+			if (i != 0 && arr[i] == '') { continue; }
+			let op = document.createElement("option");
+			op.value = i;  //value値
+			op.text = arr[i];   //テキスト値
+			sel.appendChild(op);
+		}
+	}
+}
+
+function createSelectBoxGoods(oid){
+	console.log(oid);
+	var customer = document.getElementById("customer_" + oid).value;
+	//連想配列の配列
+	var ar = "{{$gnames}}";
+	var json = JSON.parse(unescapeHtml(ar));
+	console.log(json[customer]);
+	var arr = json[customer];
+
+	// selectの初期化
+	const sel = document.getElementById("goods_" + oid);
+//	sel.disabled = (customer) ? false : true; // 非活性化
+	console.log(sel.childNodes.length);
+	for (var i=sel.childNodes.length-1; i>=0; i--) {
+		sel.removeChild(sel.childNodes[i]);
+	}
+
+	if (arr !== undefined) {
+		//連想配列をループ処理で値を取り出してセレクトボックスにセットする
+		for (let goods in arr) {
+			let op = document.createElement("option");
+			if (goods != 0) {
+				op.value = goods;  //value値
+				op.text = goods + ' : ' + arr[goods];   //テキスト値
+			}
+			sel.appendChild(op);
+		}
+	}
+};
+</script>
 
 			@if (isset($rows) && count($rows))
 				<tbody id="the-list" data-wp-lists="list:user">
@@ -364,15 +465,15 @@ function change_repeat_order(oid) {
 						</td>
 						<!-- 6t 8 -->
 						<td class="" colspan="6">
-							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 1); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 1, $initForm); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td class="" colspan="6">
-							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 1); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 1, $initForm); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td class="" colspan="6">
-							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 1); @endphp
+							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 1, $initForm); @endphp
 						</td>
 						@endif
 					</tr>
@@ -422,15 +523,15 @@ function change_repeat_order(oid) {
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">
-							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 2); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 2, $initForm); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td colspan="6">
-							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 2); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 2, $initForm); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td colspan="6">
-							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 2); @endphp
+							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 2, $initForm); @endphp
 						</td>
 						@endif
 					</tr>
@@ -480,15 +581,15 @@ function change_repeat_order(oid) {
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">
-							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 3); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 3, $initForm); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td colspan="6">
-							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 3); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 3, $initForm); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td colspan="6">
-							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 3); @endphp
+							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 3, $initForm); @endphp
 						</td>
 						@endif
 					</tr>

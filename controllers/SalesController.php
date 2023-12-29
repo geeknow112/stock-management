@@ -369,7 +369,9 @@ $r = array(
 				// ロット番号アラートの作成
 				$msg = $this->getTb()->checkLotNumberStatus();
 
-				echo $this->get_blade()->run("delivery-graph", compact('cur_user', 'rows', 'get', 'post', 'formPage', 'initForm', 'r', 'sumTanks', 'msg', 'repeat_list'));
+$gnames = json_encode($initForm['select']['goods_name']);
+$test_ship_addr = json_encode($initForm['select']['ship_addr']);
+				echo $this->get_blade()->run("delivery-graph", compact('cur_user', 'rows', 'get', 'post', 'formPage', 'initForm', 'r', 'sumTanks', 'msg', 'repeat_list', 'gnames', 'test_ship_addr'));
 				break;
 		}
 	}
