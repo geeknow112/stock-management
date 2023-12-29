@@ -288,8 +288,6 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 
 		// TODO: 「注文」による在庫の減少
 
-		// TODO: 「転送」による在庫の増減
-
 		// 在庫TB個数の総合計
 		$stock_cnt = array_sum(array_column((array) $rows, 'cnt'));
 
