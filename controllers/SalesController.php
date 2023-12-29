@@ -310,7 +310,30 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 		if (!isset($get->action) || $post->action == 'regist') { $get->action = $post->action; }
 
+		if (!isset($get->action) || $post->action == 'set_result') { $get->action = $post->action; }
+
 		switch($get->action) {
+			case 'set_result':
+
+				$oid = $post->oid;
+				$coid = 'customer_'. $oid;
+				$this->vd($post->$coid);
+
+				$data = str_replace('\"', '', $post->odata);
+				$data = str_replace('{', '', $data);
+				$data = str_replace('}', '', $data);
+				$data = explode(',', $data);
+				foreach ($data as $i => $d) {
+					$v = explode(':', $d);
+					$ret[$v[0]] = $v[1];
+				}
+
+				$this->vd($ret);
+
+				// TODO: yc_sales‚Ö“o˜^
+
+				break;
+
 			case 'regist':
 				// salesƒe[ƒuƒ‹‚Ö“o˜^‚Ì‚½‚ß‚Ì¬Œ`
 				$this->convertSalesData($post);
