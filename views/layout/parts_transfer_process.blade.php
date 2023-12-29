@@ -62,7 +62,8 @@
 								<option value="2" @if ($rows->outgoing_warehouse[$i] == 2) selected @endif>丹波SP</option>
 							</select>
 						</td>
-						<td class="tx-right"><input type="text" class="tx-right w-75" id="receive_warehouse_{{$i}}" name="receive_warehouse[]" value="{{$rows->receive_warehouse[$i]}}" readonly></td>
+						<td class="tx-right"><input type="text" class="tx-right w-75" id="text_receive_warehouse_{{$i}}" name="text_receive_warehouse[]" value="{{$rows->text_receive_warehouse[$i]}}" readonly></td>
+						<input type="hidden" id="receive_warehouse_{{$i}}" name="receive_warehouse[]" value="{{$rows->receive_warehouse[$i]}}">
 						<td class="tx-right">@if($get->stock)<a href="/wp-admin/admin.php?page=stock-lot-regist&stock={{$get->stock}}">入力画面へ</a>@else - @endif</td>
 						</td>
 					</tr>
@@ -164,13 +165,17 @@ function setReceiveWarehouse(num = null) {
 			rec_sp = '';
 			break;
 		case '1' :
-			rec_sp = '丹波SP';
+			rec_sp = '2';
 			break;
 		case '2' :
-			rec_sp = '内藤SP';
+			rec_sp = '1';
 			break;
 	}
+//{{$initForm['select']['outgoing_warehouse'][$rows->receive_warehouse[$i]]}}
+
+	const whs = ['', '内藤SP', '丹波SP'];
 	document.getElementById('receive_warehouse_' + num).value = rec_sp;
+	document.getElementById('text_receive_warehouse_' + num).value = whs[rec_sp];
 }
 </script>
 
