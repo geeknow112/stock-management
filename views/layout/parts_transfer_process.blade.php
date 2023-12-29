@@ -1,21 +1,20 @@
-<div class="mesasge">
-	@foreach($msg as $k => $error)
-		<p style="color: red;">【 {{$k}} 】 {{$error}}</p>
-	@endforeach
-</div>
+	<p class="">
+	<legend>【転送処理】</legend>
+	</p>
+
+	<div class="row mb-3">
+		<label for="arrival_dt" class="col-sm-2 col-form-label">入庫予定日</label>
+		<input type="date" class="col-sm-6 col-form-control w-auto" id="arrival_dt" name="arrival_dt" aria-describedby="arrivalDtHelp" value="{{$rows->arrival_dt}}" @if($get->action == 'confirm') readonly @endif>
+	</div>
+
 
 <br />
-
-	<div class="mesasge">
-		<p style="color: red;"><?php if (!empty($_POST['message']['error'])) { echo htmlspecialchars(current($_POST['message']['error'])); } ?></p>
-	</div>
-	<br />
-
-<div class="container-fluid">
-	<!-- start -->
-	<div class="tablenav top">
-		<br class="clear">
-	</div>
+<hr>
+<div id="wpbody-content">
+	<div class="wrap">
+		<div class="tablenav top">
+			<br class="clear">
+		</div>
 		
 	<div class="table-responsive">
 		<div id="title">■ 転送処理</div>
@@ -78,37 +77,7 @@
 	<!-- end -->
 </div>
 
-<input type="hidden" name="your-subject" id="your-subject" value="" />
-<input type="hidden" name="your-name" id="your-name" value="" />
-<input type="hidden" name="your-email" id="your-email" value="" />
 
-<label for="cmd_confirm">
-<!--<input type="checkbox" name="cmd_confirm" id="cmd_confirm" class=""> 確定（保存後に当ステップの編集ができなくなります）&emsp;&emsp; -->
-</label>
-&emsp;&emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp;
-&emsp;&emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp;
-&emsp;&emsp; &emsp;&emsp; &emsp;&emsp; &emsp;&emsp; 
-<!--<input type="button" name="cmd_regist" id="cmd_regist" class="common_btn" value="登録" onclick="to_next();">-->
-<!--<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="登録" onclick="to_next();">-->
-<!--<button type="submit" class="btn btn-primary">Submit</button>-->
-
-<div class="d-flex flex-column align-items-center">
-<!--<div class="d-flex flex-column align-items-end mx-5">-->
-	{{$get->action}}
-	@if ($get->action == '' || $get->action == 'save' || $get->action == 'edit')
-	<input type="button" name="cmd_regist" id="cmd_regist" class="btn btn-primary" value="確認 🌟" onclick="set_trunsfer(); to_next();">
-	@elseif ($get->action == 'confirm' && ($post->btn == 'update' || $rows->btn == 'update'))
-	<input type="button" name="cmd_update" id="cmd_update" class="mb-3 btn btn-primary" value="更新" onclick="confirm_update();">
-	<input type="button" name="cmd_return" id="cmd_return" class="mb-3 btn btn-primary" value="編集" onclick="exec_action('edit');">
-	@elseif ($get->action == 'confirm')
-	<input type="button" name="cmd_regist" id="cmd_regist" class="mb-3 btn btn-primary" value="登録" onclick="confirm_regist();">
-	<input type="button" name="cmd_return" id="cmd_return" class="mb-3 btn btn-primary" value="編集" onclick="exec_action('edit');">
-	@else
-	<input type="button" name="cmd_return" id="cmd_return" class="mb-3 btn btn-primary" value="編集" onclick="exec_action('edit');">
-	@endif
-
-	<input type="hidden" name="cmd" id="cmd" class="btn btn-primary" value="">
-</div>
 
 <script>
 function set_trunsfer() {

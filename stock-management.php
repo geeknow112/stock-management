@@ -69,6 +69,7 @@ class StockManagement {
 					add_submenu_page('stock-management', '顧客登録','🔷顧客登録', 'read', 'customer-detail', array(&$this, 'customer_detail'));
 					add_submenu_page('stock-management', '注文登録','🔷注文登録', 'read', 'sales-detail', array(&$this, 'sales_detail'));
 					add_submenu_page('stock-management', '在庫登録','🌟在庫登録', 'read', 'stock-detail', array(&$this, 'stock_detail'));
+					add_submenu_page('stock-management', '転送処理','🔁転送', 'read', 'stock-transfer', array(&$this, 'stock_transfer'));
 
 					// 検索画面
 					add_submenu_page('stock-management', '商品検索','🔶商品検索', 'read', 'goods-list', array(&$this, 'goods_list'));
@@ -142,6 +143,14 @@ class StockManagement {
 	function stock_detail() {
 		$s = new StockController();
 		$s->detailAction();
+	}
+
+	/**
+	 * 転送処理
+	 **/
+	function stock_transfer() {
+		$s = new StockController();
+		$s->transferAction();
 	}
 
 	/**

@@ -314,5 +314,129 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 
 		echo $this->get_blade()->run("stock-export-day", compact('rows', 'jks', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum'));
 	}
+
+	/**
+	 * “]‘—ˆ—
+	 *
+	 **/
+	public function transferAction() {
+		$get = (object) $_GET;
+		$post = (object) $_POST;
+
+if ($post->cmd == 'cmd_transfer') {
+	$this->vd('cmd_transfer');
+//	$this->vd($get);
+//	$this->vd($post);
+}
+		global $wpdb;
+
+		$this->setTb('Stock');
+		$initForm = $this->getTb()->getInitForm();
+
+		switch($get->action) {
+			case 'search':
+			default:
+				$formPage = 'stock-transfer';
+				echo $this->get_blade()->run("stock-transfer", compact('get', 'post', 'formPage', 'initForm', 'wp_list_table'));
+				break;
+
+			case 'confirm':
+				if (!empty($post)) {
+					switch ($post->cmd) {
+						default:
+						case 'cmd_confirm':
+							$msg = $this->getValidMsg();
+							$rows = $post;
+							if ($rows->customer) { $post->btn = 'update'; }
+							if ($msg['msg'] !== 'success') {
+								$rows->messages = $msg;
+							}
+							break;
+					}
+				}
+
+				if($rows->messages) {
+						$msg = $rows->messages;
+						$get->action = 'save';
+				} else {
+				}
+
+				echo $this->get_blade()->run("stock-transfer", compact('rows', 'get', 'initForm', 'post', 'msg'));
+				break;
+
+			case 'save':
+				if (!empty($post)) {
+					if ($post->cmd == 'save') {
+						$msg = $this->getValidMsg();
+						if ($msg['msg'] == 'success') {
+							$rows = $this->getTb()->regDetail($get, $post);
+//							$rows->customer_name = $rows->name;
+							$get->action = 'complete';
+
+						} else {
+							$rows = $post;
+							$rows->name = $post->customer_name;
+							$rows->messages = $msg;
+						}
+					}
+				}
+				echo $this->get_blade()->run("stock-transfer", compact('rows', 'get', 'initForm', 'post', 'msg'));
+				break;
+
+			case 'edit-exe':
+				if (!empty($post)) {
+					if ($post->cmd == 'update') {
+						$msg = $this->getValidMsg();
+						if ($msg['msg'] == 'success') {
+if ($post->tank) { $post->list = $this->sortDataTanks($post); }
+if ($post->pref) { $post->list = $this->sortData($post); }
+							$rows = $this->getTb()->updDetail($get, $post);
+//							$rows->customer_name = $rows->name;
+							$get->action = 'complete';
+
+						} else {
+							$rows = $post;
+							$rows->name = $post->customer_name;
+							$rows->messages = $msg;
+						}
+					}
+				}
+//$this->vd($post);
+				if ($post->cmd == 'update' ) { $rows_tanks = $this->convertData($rows); }
+				if ($post->cmd == 'update' ) { $rows_addrs = $this->convertData($rows); }
+//$this->vd($rows_addrs);
+
+				$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
+				$cust_goods = $this->objectColumn($rows_goods, 'goods');
+
+				echo $this->get_blade()->run("stock-transfer", compact('rows', 'get', 'post', 'msg', 'rows_tanks', 'rows_addrs', 'rows_goods', 'goods_list', 'cust_goods'));
+				break;
+
+			case 'edit':
+				if (!empty($get->stock)) {
+					$rows = $this->getTb()->getDetailByStockCode($get->stock);
+					$rows->cmd = $post->cmd = 'cmd_update';
+
+				} else {
+					$msg = $this->getValidMsg();
+
+					$rows = $post;
+					$rows->name = $post->customer_name;
+
+					if ($msg['msg'] !== 'success') {
+						$rows->messages = $msg;
+					}
+				}
+
+				if ($post->cmd == 'cmd_update' ) {
+//					$rows_tanks = $this->convertData($rows);
+//					$rows_tanks_count = $this->countObject($rows_tanks);
+				}
+
+//$this->vd($rows);
+				echo $this->get_blade()->run("stock-transfer", compact('rows', 'get', 'post', 'msg', 'initForm', 'rows_tanks', 'rows_tanks_count', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
+				break;
+		}
+	}
 }
 ?>
