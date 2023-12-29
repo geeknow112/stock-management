@@ -405,6 +405,46 @@ class Stock extends Ext_Model_Base {
 	}
 
 	/**
+	 * 倉出伝票 「転送」処理分 取得
+	 * 
+	 **/
+	public function getStockTransferList($get = null, $warehouse = null) {
+		$get = (object) $get;
+		global $wpdb;
+		$cur_user = wp_get_current_user();
+
+		$sql  = "SELECT st.*, st.goods_total AS qty, g.name AS goods_name ";
+		$sql .= "FROM yc_stock AS st ";
+		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = st.goods ";
+		$sql .= "WHERE st.stock is not null ";
+		$sql .= "AND st.transfer_fg = 1 ";
+		if (!empty($warehouse)) { $sql .= sprintf("AND st.warehouse = %s ", $warehouse); }
+
+		if (current($cur_user->roles) != 'administrator') {
+//			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
+		}
+
+		if (empty($get->action)) {
+//			$sql .= "ORDER BY ap.rgdt desc";
+			$sql .= ";";
+
+		} else {
+			if ($get->action == 'search') {
+				if (!empty($get->s['delivery_s_dt'])) { $sql .= sprintf("AND st.arrival_dt = '%s' ", $get->s['delivery_s_dt']); }
+//				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND st.warehouse = '%s' ", $get->s['outgoing_warehouse']); }
+//				$sql .= "ORDER BY g.goods desc";
+//				$sql .= ";";
+
+			} else {
+//				$sql .= "AND ap.applicant = '". $prm->post. "';";
+			}
+		}
+
+		$rows = $wpdb->get_results($sql);
+		return $rows;
+	}
+
+	/**
 	 * 
 	 **/
 	public function getInitForm() {

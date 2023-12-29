@@ -144,7 +144,7 @@
 		<!-- start -->
 		<div class="table-responsive">
 			<div class="title-box">■ 【転送】　丹波SP ➤ 内藤SP</div>
-			@if (isset($transfers) && count($transfers))
+			@if (isset($trans_t_n) && count($trans_t_n))
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
 					<tr>
@@ -157,7 +157,7 @@
 				</thead>
 
 				<tbody id="the-list" data-wp-lists="list:user">
-					@foreach ($transfers as $i => $tf)
+					@foreach ($trans_t_n as $i => $tf)
 					<tr id="">
 						<td class="">{{$i+1}}</td>
 						<td class="">{{$tf->goods_name}}</td>
@@ -190,7 +190,7 @@
 		<!-- start -->
 		<div class="table-responsive">
 			<div class="title-box">■ 【転送】　内藤SP ➤ 丹波SP</div>
-			@if (isset($transfers) && count($transfers))
+			@if (isset($trans_n_t) && count($trans_n_t))
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
 					<tr>
@@ -203,7 +203,7 @@
 				</thead>
 
 				<tbody id="the-list" data-wp-lists="list:user">
-					@foreach ($transfers as $i => $tf)
+					@foreach ($trans_n_t as $i => $tf)
 					<tr id="">
 						<td class="">{{$i+1}}</td>
 						<td class="">{{$tf->goods_name}}</td>
