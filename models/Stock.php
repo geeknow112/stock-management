@@ -323,6 +323,7 @@ class Stock extends Ext_Model_Base {
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = st.goods ";
 		$sql .= "WHERE st.stock is not null ";
 		$sql .= "AND st.warehouse = '2' ";
+		$sql .= "AND std.transfer_fg != '1' "; // 「転送」処理分の減少
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
