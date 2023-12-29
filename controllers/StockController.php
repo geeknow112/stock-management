@@ -286,6 +286,10 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 				break;
 		}
 
+		// TODO: u’•¶v‚É‚æ‚éÝŒÉ‚ÌŒ¸­
+
+		// TODO: u“]‘—v‚É‚æ‚éÝŒÉ‚Ì‘Œ¸
+
 		// ÝŒÉTBŒÂ”‚Ì‘‡Œv
 		$stock_cnt = array_sum(array_column((array) $rows, 'cnt'));
 
@@ -308,11 +312,20 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 		$this->setTb('Stock');
 
 		$initForm = $this->getTb()->getInitForm();
+
+		// u’•¶v•ª ¦”z‘——\’è•\‚Ì‡@`‡EA‡GA‡H
 		$rows = $this->getTb()->getStockExportListDay($get);
 
-		$jks = $this->getTb()->getStockExportListDay($get, true); // u’¼Žæv•ª
+		// u’¼Žæv•ª
+		$jks = $this->getTb()->getStockExportListDay($get, true);
 
-		echo $this->get_blade()->run("stock-export-day", compact('rows', 'jks', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum'));
+		// u“]‘—v@’O”gSP „ “à“¡SP
+		$trans_t_n = $this->getTb()->getStockTransferList($get, 1);
+
+		// u“]‘—v@“à“¡SP „ ’O”gSP
+		$trans_n_t = $this->getTb()->getStockTransferList($get, 2);
+
+		echo $this->get_blade()->run("stock-export-day", compact('rows', 'jks', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum', 'trans_t_n', 'trans_n_t'));
 	}
 
 	/**
