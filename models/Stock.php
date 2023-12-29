@@ -407,6 +407,7 @@ class Stock extends Ext_Model_Base {
 	/**
 	 * 倉出伝票 「転送」処理分 取得
 	 * 
+	 * @ $warehouse: 「転送」先の倉庫の番号
 	 **/
 	public function getStockTransferList($get = null, $warehouse = null) {
 		$get = (object) $get;
