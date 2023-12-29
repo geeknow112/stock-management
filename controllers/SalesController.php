@@ -369,8 +369,32 @@ $r = array(
 				// ƒƒbƒg”Ô†ƒAƒ‰[ƒg‚Ìì¬
 				$msg = $this->getTb()->checkLotNumberStatus();
 
-$gnames = json_encode($initForm['select']['goods_name']);
-$test_ship_addr = json_encode($initForm['select']['ship_addr']);
+				$initForm['fix_customer'] = array(
+					// ‘¾“c’{ŽY—p
+					'17' => array(
+						'customer' => array(
+							'17' => $initForm['select']['customer'][17]
+						), 
+						'goods' => array(
+							'17' => $initForm['select']['goods_name'][17]
+						), 
+					), 
+					// ‘ºã—{Œ{ê—p
+					'31' => array(
+						'customer' => array(
+							'31' => $initForm['select']['customer'][31]
+						), 
+						'goods' => array(
+							'31' => $initForm['select']['goods_name'][31]
+						), 
+					), 
+				);
+
+//$this->vd($initForm['fix_customer']);
+
+				$gnames = json_encode($initForm['select']['goods_name']);
+				$test_ship_addr = json_encode($initForm['select']['ship_addr']);
+
 				echo $this->get_blade()->run("delivery-graph", compact('cur_user', 'rows', 'get', 'post', 'formPage', 'initForm', 'r', 'sumTanks', 'msg', 'repeat_list', 'gnames', 'test_ship_addr'));
 				break;
 		}

@@ -304,8 +304,29 @@ function change_repeat_order(oid) {
 
 		<div style="width: 40rem;" id="app1" class="container">
 			<div class="d-flex flex-row bd-highlight mb-3">
-				<select class="w-25" id="goods_{{$oid}}" name="">
-				</select>
+
+				<?php if ($class == 8) { // 太田畜産用 ?>
+					<select class="w-25" id="goods_{{$oid}}" name="">
+						<?php foreach ($initForm['fix_customer'][17]['goods'] as $customer => $goods_list) { ?>
+							<?php foreach ($initForm['fix_customer'][17]['goods'][17] as $goods => $goods_name) { ?>
+							<option value="<?php echo $goods; ?>"><?php echo sprintf("%s : %s", $goods, $goods_name); ?></option>
+							<?php } ?>
+						<?php } ?>
+					</select>
+
+				<?php } elseif ($class == 9) { // 村上養鶏場用 ?>
+					<select class="w-25" id="goods_{{$oid}}" name="">
+						<?php foreach ($initForm['fix_customer'][31]['goods'] as $customer => $goods_list) { ?>
+							<?php foreach ($initForm['fix_customer'][31]['goods'][31] as $goods => $goods_name) { ?>
+							<option value="<?php echo $goods; ?>"><?php echo sprintf("%s : %s", $goods, $goods_name); ?></option>
+							<?php } ?>
+						<?php } ?>
+					</select>
+
+				<?php } else { // その他 ?>
+					<select class="w-25" id="goods_{{$oid}}" name="">
+					</select>
+				<?php } ?>
 
 				<select class="" id="qty_{{$oid}}" name="">
 					<?php foreach ($initForm['select']['qty'] as $i => $qty) { ?>
@@ -322,11 +343,27 @@ function change_repeat_order(oid) {
 					<?php } ?>
 				</select>
 
-				<select class="" id="customer_{{$oid}}" name="customer_{{$oid}}" onchange="createSelectBox(<?php echo $oid; ?>); createSelectBoxGoods(<?php echo $oid; ?>);">
-					<?php foreach ($initForm['select']['customer'] as $customer => $customer_name) { ?>
-						<option value="<?php echo $customer; ?>"><?php echo sprintf("%s : %s", $customer, $customer_name); ?></option>
-					<?php } ?>
-				</select>
+				<?php if ($class == 8) { // 太田畜産用 ?>
+					<select class="" id="customer_{{$oid}}" name="customer_{{$oid}}">
+						<?php foreach ($initForm['fix_customer'][17]['customer'] as $customer => $customer_name) { ?>
+							<option value="<?php echo $customer; ?>"><?php echo sprintf("%s : %s", $customer, $customer_name); ?></option>
+						<?php } ?>
+					</select>
+
+				<?php } elseif ($class == 9) { // 村上養鶏場用 ?>
+					<select class="" id="customer_{{$oid}}" name="customer_{{$oid}}">
+						<?php foreach ($initForm['fix_customer'][31]['customer'] as $customer => $customer_name) { ?>
+							<option value="<?php echo $customer; ?>"><?php echo sprintf("%s : %s", $customer, $customer_name); ?></option>
+						<?php } ?>
+					</select>
+
+				<?php } else { // その他 ?>
+					<select class="" id="customer_{{$oid}}" name="customer_{{$oid}}" onchange="createSelectBox(<?php echo $oid; ?>); createSelectBoxGoods(<?php echo $oid; ?>);">
+						<?php foreach ($initForm['select']['customer'] as $customer => $customer_name) { ?>
+							<option value="<?php echo $customer; ?>"><?php echo sprintf("%s : %s", $customer, $customer_name); ?></option>
+						<?php } ?>
+					</select>
+				<?php } ?>
 
 				<a href="" class="btn btn-primary text-center" onClick="">入力</a>
 			</div>
