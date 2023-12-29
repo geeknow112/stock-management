@@ -157,15 +157,16 @@ $req = (object) $_REQUEST;
 
 //print_r($req);
 $where = sprintf("WHERE st.stock is not null ");
-if (!empty($req->s['no'])) { $where .= sprintf("AND g.goods = '%s'", $req->s['no']); }
+if (!empty($req->s['no'])) { $where .= sprintf("AND st.stock = '%s'", $req->s['no']); }
 if (!empty($req->s['goods_name'])) { $where .= "AND g.name LIKE '%". $req->s['goods_name']. "%'"; }
 if (!empty($req->s['qty'])) { $where .= sprintf("AND g.qty = '%s'", $req->s['qty']); }
-if (!empty($req->s['lot'])) { $where .= sprintf("AND std.lot = '%s'", $req->s['lot']); }
+if (!empty($req->s['lot'])) { $where .= "AND std.lot LIKE '%". $req->s['lot']. "%'"; }
+if (!empty($req->s['outgoing_warehouse'])) { $where .= sprintf("AND st.warehouse = '%s'", $req->s['outgoing_warehouse']); }
 //print_r($where);
 
 
 $limit = ($paged -1) * $users_per_page;
-$sql = sprintf("SELECT st.stock, st.arrival_dt, g.name AS goods_name, g.qty, std.lot, st.goods_total FROM yc_stock AS st ");
+$sql = sprintf("SELECT st.stock, st.arrival_dt, g.name AS goods_name, g.qty, std.lot, st.goods_total, st.stock AS stock FROM yc_stock AS st ");
 $sql .= sprintf("LEFT JOIN yc_stock_detail AS std ON st.stock = std.stock ");
 $sql .= sprintf("LEFT JOIN yc_goods AS g ON st.goods = g.goods ");
 $sql .= sprintf("%s ", $where);

@@ -12,7 +12,7 @@
 		<form name="forms" id="forms" action="" method="" enctype="multipart/form-data">
 {{--			@if ($tb->getCurUser()->roles[0] == 'administrator')	--}}
 			<div class="search-box">
-				<label for="goods" class="col-sm-2 col-form-label">商品番号：</label>
+				<label for="goods" class="col-sm-2 col-form-label">在庫番号：</label>
 					<input type="search" id="goods" name="s[no]" value="<?php echo htmlspecialchars($get->s['no']); ?>"><br /><br />
 
 				<label for="goods_name" class="col-sm-2 col-form-label">商品名：</label>
@@ -25,7 +25,16 @@
 					<input type="search" id="lot" name="s[lot]" value="<?php echo htmlspecialchars($get->s['lot']); ?>"><br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">出庫倉庫：</label>
-					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($g['s']['outgoing_warehouse']); ?>" disabled>&emsp;&emsp;&emsp;&emsp;
+					<select type="search" id="user-search-input" name="s[outgoing_warehouse]" class="col-form-select" aria-label="outgoing_warehouse" id="outgoing_warehouse">
+						@foreach($initForm['select']['outgoing_warehouse'] as $i => $d)
+							@if (isset($get->s['outgoing_warehouse']))
+								<option value="{{$i}}" @if($i == $get->s['outgoing_warehouse']) selected @endif>{{$d}}</option>
+							@else
+								<option value="{{$i}}">{{$d}}</option>
+							@endif
+						@endforeach
+					</select>
+					<br /><br />
 
 				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 
