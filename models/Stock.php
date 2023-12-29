@@ -238,6 +238,7 @@ class Stock extends Ext_Model_Base {
 			$data['warehouse']   = $post->outgoing_warehouse;
 			$data['goods_total'] = $post->qty_list[$i];
 			$data['subtotal']    = str_replace(',', '', $post->weight_list[$i]);
+			$data['transfer_fg'] = ($post->transfer_fg == true) ? true : null;
 			$data['rgdt']        = date('Y-m-d H:i:s');
 			$datas[] = $data;
 		}

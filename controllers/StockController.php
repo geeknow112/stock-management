@@ -343,7 +343,7 @@ if ($post->cmd == 'cmd_transfer') {
 }
 		global $wpdb;
 
-		$this->setTb('Stock');
+		$this->setTb('StockTransfer');
 		$initForm = $this->getTb()->getInitForm();
 
 		switch($get->action) {
@@ -373,7 +373,7 @@ if ($post->cmd == 'cmd_transfer') {
 						$get->action = 'save';
 				} else {
 				}
-
+$this->vd($rows);
 				echo $this->get_blade()->run("stock-transfer", compact('rows', 'get', 'initForm', 'post', 'msg'));
 				break;
 
@@ -382,6 +382,9 @@ if ($post->cmd == 'cmd_transfer') {
 					if ($post->cmd == 'save') {
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
+
+$post->transfer_fg = true;
+$this->vd($post);
 							$rows = $this->getTb()->regDetail($get, $post);
 //							$rows->customer_name = $rows->name;
 							$get->action = 'complete';
