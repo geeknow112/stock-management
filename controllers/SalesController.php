@@ -316,9 +316,11 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 			case 'set_result':
 
 				$oid = $post->oid;
-				$coid = 'customer_'. $oid;
-				$this->vd($post->$coid);
+				$ret['delivery_dt'] = sprintf('%s-%s-%s', substr($oid, 0, 4), substr($oid, 4, 2), substr($oid, 6, 2));
+				$ret['class'] = (int) substr($oid, 8, 2);
+				$ret['cars_tank'] = (int) substr($oid, 10, 2);
 
+				// ®Œ`
 				$data = str_replace('\"', '', $post->odata);
 				$data = str_replace('{', '', $data);
 				$data = str_replace('}', '', $data);
@@ -328,10 +330,12 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 					$ret[$v[0]] = $v[1];
 				}
 
-				$this->vd($ret);
+				$pdata = (object) $ret;
+				$this->vd($pdata);
 
 				// TODO: yc_sales‚Ö“o˜^
-
+				$result = $this->getTb()->regDetail($get, $pdata);
+$this->vd($result);
 				break;
 
 			case 'regist':

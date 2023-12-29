@@ -304,7 +304,7 @@ function change_repeat_order(oid) {
 }
 </script>
 <?php	function innerTableFixed($delivery_dt, $list, $class, $sumTanks = null, $carsTank = null, $initForm = null) { ?>
-	<?php $oid = sprintf("%s%s%s", str_replace('-', '', $delivery_dt), $class, $carsTank); echo $oid; ?>
+	<?php $oid = sprintf("%s%02d%02d", str_replace('-', '', $delivery_dt), $class, $carsTank); echo $oid; ?>
 
 		<div style="width: 40rem;" id="app1" class="container">
 			<div class="d-flex flex-row bd-highlight mb-3">
