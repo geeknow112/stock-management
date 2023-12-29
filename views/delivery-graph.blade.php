@@ -52,6 +52,10 @@
 			<input type="hidden" name="change_delivery_dt" value="">
 
 			<input type="hidden" name="base_sales" value="">
+
+			<input type="hidden" name="oid" value="">
+			<input type="hidden" name="odata" value="">
+
 {{--			@endif	--}}
 
 		<div class="table-responsive">
@@ -365,7 +369,7 @@ function change_repeat_order(oid) {
 					</select>
 				<?php } ?>
 
-				<a href="" class="btn btn-primary text-center" onClick="">入力</a>
+				<a href="#" class="btn btn-primary text-center" onClick="setResult(<?php echo $oid; ?>);">入力</a>
 			</div>
 		</div>
 <?php	}	?>
@@ -388,7 +392,7 @@ var unescapeHtml = function(str) {
 	});
 };
 
-function createSelectBox(oid){
+function createSelectBox(oid) {
 	console.log(oid);
 	var customer = document.getElementById("customer_" + oid).value;
 //	var goods = document.forms.goods.value;
@@ -421,7 +425,7 @@ function createSelectBox(oid){
 	}
 }
 
-function createSelectBoxGoods(oid){
+function createSelectBoxGoods(oid) {
 	console.log(oid);
 	var customer = document.getElementById("customer_" + oid).value;
 	//連想配列の配列
@@ -449,7 +453,26 @@ function createSelectBoxGoods(oid){
 			sel.appendChild(op);
 		}
 	}
-};
+}
+
+function setResult(oid) {
+	const data = {
+		oid: oid, 
+		customer: document.getElementById("customer_" + oid).value, 
+		goods: document.getElementById("goods_" + oid).value, 
+		qty: document.getElementById("qty_" + oid).value, 
+		ship_addr: document.getElementById("ship_addr_" + oid).value, 
+		outgoing_warehouse: document.getElementById("outgoing_warehouse_" + oid).value
+	};
+	console.log(data);
+
+	document.forms.cmd.value = 'cmd_set_result';
+	document.forms.method = 'post';
+	document.forms.action.value = 'set_result';
+	document.forms.oid.value = oid;
+	document.forms.odata.value = JSON.stringify(data);
+	document.forms.submit();
+}
 </script>
 
 			@if (isset($rows) && count($rows))
