@@ -235,10 +235,10 @@ class Stock extends Ext_Model_Base {
 			$data['stock']       = null;
 			$data['goods']       = $goods;
 			$data['arrival_dt']  = $post->arrival_dt;
-			$data['warehouse']   = $post->outgoing_warehouse;
+			$data['warehouse']   = ($post->transfer_fg == true) ? $post->receive_warehouse[$i] : $post->outgoing_warehouse;
 			$data['goods_total'] = $post->qty_list[$i];
 			$data['subtotal']    = str_replace(',', '', $post->weight_list[$i]);
-			$data['transfer_fg'] = ($post->transfer_fg == true) ? true : null;
+			$data['transfer_fg'] = ($post->transfer_fg == true) ? true : '';
 			$data['rgdt']        = date('Y-m-d H:i:s');
 			$datas[] = $data;
 		}
@@ -412,6 +412,7 @@ class Stock extends Ext_Model_Base {
 	 **/
 	public function getStockTransferList($get = null, $warehouse = null) {
 		$get = (object) $get;
+		if (empty($get->s['delivery_s_dt'])) { return; }
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
