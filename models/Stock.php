@@ -317,7 +317,8 @@ class Stock extends Ext_Model_Base {
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT st.goods, g.name AS goods_name, (g.qty * 1000) AS qty, count(*) AS cnt, (count(*) * 500) AS stock_total ";
+//		$sql  = "SELECT st.goods, g.name AS goods_name, (g.qty * 1000) AS qty, count(*) AS cnt, (count(*) * 500) AS stock_total ";
+		$sql  = "SELECT st.goods, g.name AS goods_name, g.qty, std.id, std.lot, std.barcode, st.stock AS stock ";
 		$sql .= "FROM yc_stock AS st ";
 		$sql .= "LEFT JOIN yc_stock_detail AS std ON st.stock = std.stock ";
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = st.goods ";
@@ -330,7 +331,7 @@ class Stock extends Ext_Model_Base {
 		}
 
 		if (empty($get->action)) {
-			$sql .= "GROUP BY st.goods ";
+//			$sql .= "GROUP BY st.goods ";
 //			$sql .= "ORDER BY ap.rgdt desc";
 			$sql .= ";";
 
@@ -342,7 +343,7 @@ class Stock extends Ext_Model_Base {
 
 				if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND st.arrival_dt <= '%s 23:59:59' ", $get->s['arrival_e_dt']); }
 
-				$sql .= "GROUP BY st.goods ";
+//				$sql .= "GROUP BY st.goods ";
 				$sql .= ";";
 
 			} else {
@@ -350,6 +351,56 @@ class Stock extends Ext_Model_Base {
 			}
 		}
 
+		$rows = $wpdb->get_results($sql);
+//$this->vd($sql);
+		return $rows;
+	}
+
+	/**
+	 * 在庫証明書 情報一覧取得
+	 * 「注文」で除外(配送済み)分 取得
+	 * 
+	 **/
+	public function getSalesDeliveredList($get = null) {
+		$get = (object) $get;
+		global $wpdb;
+		$cur_user = wp_get_current_user();
+
+//		$sql  = "SELECT st.goods, g.name AS goods_name, (g.qty * 1000) AS qty, count(*) AS cnt, (count(*) * 500) AS stock_total ";
+		$sql  = "SELECT s.*, gd.*, g.name AS goods_name ";
+		$sql .= "FROM yc_sales AS s ";
+		$sql .= "LEFT JOIN yc_goods_detail AS gd ON s.sales = gd.sales ";
+		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = gd.goods ";
+		$sql .= "WHERE s.sales is not null ";
+		$sql .= "AND s.outgoing_warehouse = '2' ";
+		$sql .= "AND s.status = '1' ";
+//		$sql .= "AND std.transfer_fg != '1' "; // 「転送」処理分の減少
+
+		if (current($cur_user->roles) != 'administrator') {
+//			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
+		}
+
+		if (empty($get->action)) {
+//			$sql .= "GROUP BY st.goods ";
+//			$sql .= "ORDER BY ap.rgdt desc";
+			$sql .= ";";
+
+		} else {
+			if ($get->action == 'search') {
+//				if (!empty($get->s['no'])) { $sql .= sprintf("AND g.goods = '%s' ", $get->s['no']); }
+//				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
+//				$sql .= "ORDER BY g.goods desc";
+
+//				if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND st.arrival_dt <= '%s 23:59:59' ", $get->s['arrival_e_dt']); }
+
+//				$sql .= "GROUP BY st.goods ";
+				$sql .= ";";
+
+			} else {
+//				$sql .= "AND ap.applicant = '". $prm->post. "';";
+			}
+		}
+//$this->vd($sql);
 		$rows = $wpdb->get_results($sql);
 		return $rows;
 	}

@@ -331,11 +331,11 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				}
 
 				$pdata = (object) $ret;
-				$this->vd($pdata);
+//				$this->vd($pdata);
 
-				// TODO: yc_sales‚Ö“o˜^
+				// yc_sales‚Ö“o˜^
 				$result = $this->getTb()->regDetail($get, $pdata);
-$this->vd($result);
+//$this->vd($result);
 				break;
 
 			case 'regist':
