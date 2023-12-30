@@ -304,7 +304,7 @@ function change_repeat_order(oid) {
 }
 </script>
 <?php	function innerTableFixed($delivery_dt, $list, $class, $sumTanks = null, $carsTank = null, $initForm = null) { ?>
-	<?php $oid = sprintf("%s%02d%02d", str_replace('-', '', $delivery_dt), $class, $carsTank); echo $oid; ?>
+	<?php $oid = sprintf("%s%02d%02d", str_replace('-', '', $delivery_dt), $class, $carsTank); // echo $oid; ?>
 
 		<div style="width: 40rem;" id="app1" class="container">
 			<div class="d-flex flex-row bd-highlight mb-3">
@@ -466,12 +466,17 @@ function setResult(oid) {
 	};
 	console.log(data);
 
-	document.forms.cmd.value = 'cmd_set_result';
-	document.forms.method = 'post';
-	document.forms.action.value = 'set_result';
-	document.forms.oid.value = oid;
-	document.forms.odata.value = JSON.stringify(data);
-	document.forms.submit();
+	var ret = window.confirm(oid + ' の結果を登録しますか？');
+	if (ret) {
+		document.forms.cmd.value = 'cmd_set_result';
+		document.forms.method = 'post';
+		document.forms.action.value = 'set_result';
+		document.forms.oid.value = oid;
+		document.forms.odata.value = JSON.stringify(data);
+		document.forms.submit();
+	} else {
+	}
+
 }
 </script>
 
