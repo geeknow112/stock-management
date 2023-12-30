@@ -527,6 +527,7 @@ function setResult(oid) {
 						<!-- 6t 7 -->
 						<td class="" colspan="6">
 							@php innerTable($delivery_dt, $list, 7, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, $sumTanks, 1); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td class="" colspan="6">
@@ -585,6 +586,7 @@ function setResult(oid) {
 						<!-- 6t 7 -->
 						<td colspan="6">
 							@php innerTable($delivery_dt, $list, 7, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, $sumTanks, 2); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">
@@ -643,6 +645,7 @@ function setResult(oid) {
 						<!-- 6t 7 -->
 						<td colspan="6">
 							@php innerTable($delivery_dt, $list, 7, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, $sumTanks, 3); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">

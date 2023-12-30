@@ -173,7 +173,8 @@ class ScheduleRepeat extends Ext_Model_Base {
 			// copy不要部分を初期化
 			$r->base_sales = $r->sales;
 //			$r->sales = null;
-			$r->class = $r->lot_fg = $r->status = 0;
+			if ($r->class != 7) { $r->class = 0; } // 「直取」繰り返し=6t-⑦ 以外を初期化
+			$r->lot_fg = $r->status = 0;
 			$r->rgdt = $r->updt = $r->upuser = null;
 
 			switch ($r->period) { 
