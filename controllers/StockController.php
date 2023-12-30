@@ -283,10 +283,43 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 			case 'search':
 			default:
 				$rows = $this->getTb()->getStockExportList($get);
+
+				// TODO: 「注文」による在庫の減少
+				$dlist = $this->getTb()->getSalesDeliveredList($get);
+
+//				$this->vd(count($rows));
+
+				// 「注文」(配送済み) 除外
+				foreach ($rows as $i => $stock) {
+					foreach ($dlist as $j => $del) {
+						if ($stock->goods == $del->goods) {
+							unset($rows[$i]);
+							unset($dlist[$j]);
+							break;
+						}
+					}
+				}
+
+//				$this->vd(count($rows));
+
+				// 再集計
+				foreach ($rows as $i => $stock) {
+					$data[$stock->goods][] = $stock;
+				}
+//				$this->vd($data);
+
+				unset($rows);
+				foreach ($data as $goods => $stocks) {
+					$s['goods'] = $stocks[0]->goods;
+					$s['goods_name'] = $stocks[0]->goods_name;
+					$s['qty'] = $stocks[0]->qty;
+					$s['cnt'] = count($stocks);
+					$s['stock_total'] = count($stocks) * 500;
+					$rows[] = (object) $s;
+				}
+//				$this->vd($rows);
 				break;
 		}
-
-		// TODO: 「注文」による在庫の減少
 
 		// 在庫TB個数の総合計
 		$stock_cnt = array_sum(array_column((array) $rows, 'cnt'));
