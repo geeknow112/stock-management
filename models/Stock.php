@@ -372,6 +372,7 @@ class Stock extends Ext_Model_Base {
 		$sql .= "LEFT JOIN yc_goods_detail AS gd ON s.sales = gd.sales ";
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = gd.goods ";
 		$sql .= "WHERE s.sales is not null ";
+		$sql .= "AND s.class NOT IN (0, 7) "; // 「繰り返し」分を除外
 		$sql .= "AND s.outgoing_warehouse = '2' ";
 		$sql .= "AND s.status = '1' ";
 //		$sql .= "AND std.transfer_fg != '1' "; // 「転送」処理分の減少
