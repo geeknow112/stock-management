@@ -646,6 +646,51 @@ $dt = new DateTime($sdt. ' +1 days');
 	}
 
 	/**
+	 * 受領書の受取状況の確認
+	 * 
+	 * 「現在日付から、2日前の注文を対象として、受領書の受取が未済のもの(=未登録)があれば、アラート表示する。」
+	 * 「アラートは、対象の注文のロット番頭入力を完了(=登録済み)にするまで、表示し続ける。」
+	 * 
+	 **/
+	public function checkReceiptStatus() {
+		$get = (object) $get;
+		global $wpdb;
+		$cur_user = wp_get_current_user();
+
+		// 現在日付から、2日前の日付取得
+		$now = date('Y-m-d');
+		$dt = new DateTime($now. ' -2 days');
+		$alert_dt = $dt->format('Y-m-d');
+
+		$sql  = "SELECT s.sales, s.delivery_dt, s.receipt_fg ";
+		$sql .= "FROM yc_sales as s ";
+		$sql .= "WHERE s.sales is not null ";
+		$sql .= sprintf("AND s.delivery_dt <= '%s' ", $alert_dt);
+		$sql .= "AND s.receipt_fg = 0 ";
+
+		$rows = $wpdb->get_results($sql);
+
+		// convert
+		foreach ($rows as $i => $row) {
+			$conv[$row->delivery_dt][] = $row;
+		}
+
+		// sum
+		foreach ($conv as $delivery_dt => $objs) {
+			$sum[$delivery_dt] = count($objs);
+		}
+
+		// make alert message
+		foreach ($sum as $delivery_dt => $cnt) {
+			$alert_message = sprintf('%s 受領書の受取が未処理の注文が %s 件 あります。', $delivery_dt, $cnt);
+//			$ret[] = mb_convert_encoding($alert_message, 'UTF-8', 'SJIS');
+			$ret[] = $alert_message;
+		}
+
+		return $ret;
+	}
+
+	/**
 	 * 状態変更
 	 * 
 	 * $change_status : 変更後の状態番号
