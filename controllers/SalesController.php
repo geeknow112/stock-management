@@ -312,8 +312,19 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 		if (!isset($get->action) || $post->action == 'set_result') { $get->action = $post->action; }
 
+		if (!isset($get->action) || $post->action == 'set_receipt') { $get->action = $post->action; }
+
 		switch($get->action) {
-			case 'set_result':
+			case 'set_receipt': // 「受領書」フラグの更新
+				$data['sales'] = $post->sales;
+				$data['receipt_fg'] = true;
+				(object) $data;
+				$result = $this->getTb()->updDetail($get, $data);
+				break;
+		}
+
+		switch($get->action) {
+			case 'set_result': // 「結果入力」欄の登録
 
 				$oid = $post->oid;
 				$ret['delivery_dt'] = sprintf('%s-%s-%s', substr($oid, 0, 4), substr($oid, 4, 2), substr($oid, 6, 2));
