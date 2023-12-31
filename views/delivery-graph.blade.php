@@ -228,48 +228,22 @@
 
 	<!--							<a href="" class="btn btn-secondary text-center" onClick="window.prompt('車種、槽を入力してください。', ''); return false;">未注文</a>	-->
 								@else
-								<a href="" class="btn btn-secondary text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未作成</a>
+								<a href="" class="btn btn-secondary text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales={{$row->sales}}&goods={{$row->goods}}&action=save'; return false;">未作成</a>
 								@endif
 							@elseif ($row->lot_fg == 1)
-							<a href="" class="btn btn-warning text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=save'; return false;">未登録</a>
+							<a href="" class="btn btn-warning text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales={{$row->sales}}&goods={{$row->goods}}&action=save'; return false;">未登録</a>
 							@else
-								@if ($row->receipt_fg == 1)
-									<a href="#" class="btn btn-danger text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=edit'; return false;">&emsp;完了&emsp;</a>
-								@else
-									<a href="#" class="btn btn-success text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->sales); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>&action=edit'; return false;">登録済</a>
+								@if ($row->receipt_fg != 1)
+									<a href="#" class="btn btn-success text-center" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales={{$row->sales}}&goods={{$row->goods}}&action=set_receipt'; return false;">登録済</a>
 									<input type="checkbox" class="btn-check" id="btn-check-outlined" autocomplete="off"><label class="btn btn-outline-primary" for="btn-check-outlined">受領書</label><!-- 受領書の受取確認用 -->
+								@else
+									<a href="#" class="btn btn-danger text-center">&emsp;完了&emsp;</a>
 								@endif
 							@endif
 						@else
 							<a href="#" class="btn btn-info text-center text-light">直取分</a>
 						@endif
 					</div>
-	<!--
-					<div class="card-body border mb-1">
-						<h5 class="card-title">品名：<?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></h5>
-						<p class="card-text">配送先：<?php echo $row->ship_addr; ?></p>
-						<a href="" class="btn btn-primary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
-					</div>
-	-->
-	<!--
-					<div class="card mb-3" style="max-width: 540px;">
-						<div class="row no-gutters">
-							<div class="col-md-4">
-								<svg class="bd-placeholder-img" width="100%" height="250" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid slice" focusable="false" role="img" aria-label="Placeholder: Image"><title>Placeholder</title><rect fill="#868e96" width="100%" height="100%"/><text fill="#dee2e6" dy=".3em" x="50%" y="50%">Image</text></svg>
-							</div>
-							<div class="col-md-8">
-								<div class="card-body">
-									<h5 class="card-title">品名：<?php if ($row->repeat_fg != 1) { echo $row->goods_name; } else { echo '<span style="color:red;">'. $row->goods_name. '</span>'; } ?></h5>
-									<p class="card-text">配送先：<?php echo $row->ship_addr; ?></p>
-									<p class="card-text">量(t)：<?php echo $row->qty; ?></p>
-									<p class="card-text">入庫予定日：<?php echo $row->arrival_dt; ?></p>
-									<p class="card-text">氏名：<?php echo $row->name; ?></p>
-									<a href="" class="btn btn-primary" onClick="window.location = '/wp-admin/admin.php?page=lot-regist&sales=<?php echo htmlspecialchars($row->id); ?>&goods=<?php echo htmlspecialchars($row->goods); ?>'; return false;">未登録</a>
-								</div>
-							</div>
-						</div>
-					</div>
-	-->
 				<?php }	?>
 			<?php }	?>
 		<?php }	?>
