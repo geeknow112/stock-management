@@ -321,9 +321,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				(object) $data;
 				$result = $this->getTb()->updDetail($get, $data);
 				break;
-		}
 
-		switch($get->action) {
 			case 'set_result': // uŒ‹‰Ê“ü—Ív—“‚Ì“o˜^
 
 				$oid = $post->oid;
@@ -348,7 +346,9 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				$result = $this->getTb()->regDetail($get, $pdata);
 //$this->vd($result);
 				break;
+		}
 
+		switch($get->action) {
 			case 'regist':
 				// salesƒe[ƒuƒ‹‚Ö“o˜^‚Ì‚½‚ß‚Ì¬Œ`
 				$this->convertSalesData($post);
