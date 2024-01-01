@@ -348,6 +348,7 @@ function check_status(sid) {
 						<option value="5.0">5.0</option>
 						<option value="7.5">7.5</option>
 						<option value="10.0">10.0</option>
+						<option value="12.5">12.5</option>
 				<?php } else { // その他 ?>
 					<?php foreach ($initForm['select']['qty'] as $i => $qty) { ?>
 						<option value="<?php echo $i; ?>"><?php echo $qty; ?></option>
