@@ -331,9 +331,28 @@ function check_status(sid) {
 				<?php } ?>
 
 				<select class="" id="qty_{{$oid}}" name="">
+				<?php if ($class == 8) { // 太田畜産用 ?>
+						<option value=""></option>
+						<option value="2.0">2.0</option>
+						<option value="4.0">4.0</option>
+						<option value="6.0">6.0</option>
+						<option value="8.0">8.0</option>
+						<option value="10.0">10.0</option>
+						<option value="12.0">12.0</option>
+						<option value="14.0">14.0</option>
+						<option value="16.0">16.0</option>
+						<option value="18.0">18.0</option>
+				<?php } elseif ($class == 9) { // 村上養鶏場用 ?>
+						<option value=""></option>
+						<option value="2.5">2.5</option>
+						<option value="5.0">5.0</option>
+						<option value="7.5">7.5</option>
+						<option value="10.0">10.0</option>
+				<?php } else { // その他 ?>
 					<?php foreach ($initForm['select']['qty'] as $i => $qty) { ?>
 						<option value="<?php echo $i; ?>"><?php echo $qty; ?></option>
 					<?php } ?>
+				<?php } ?>
 				</select>
 
 				<select class="w-25" id="ship_addr_{{$oid}}" name="">
@@ -529,14 +548,17 @@ function setResult(oid) {
 						</td>
 						<!-- 6t 8 -->
 						<td class="" colspan="6">
+							@php innerTable($delivery_dt, $list, 8, $sumTanks, 1); @endphp
 							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 1, $initForm); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td class="" colspan="6">
+							@php innerTable($delivery_dt, $list, 9, $sumTanks, 1); @endphp
 							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 1, $initForm); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td class="" colspan="6">
+							@php innerTable($delivery_dt, $list, 10, $sumTanks, 1); @endphp
 							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 1, $initForm); @endphp
 						</td>
 						@endif
@@ -588,14 +610,17 @@ function setResult(oid) {
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">
+							@php innerTable($delivery_dt, $list, 8, $sumTanks, 2); @endphp
 							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 2, $initForm); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td colspan="6">
+							@php innerTable($delivery_dt, $list, 9, $sumTanks, 2); @endphp
 							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 2, $initForm); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td colspan="6">
+							@php innerTable($delivery_dt, $list, 10, $sumTanks, 2); @endphp
 							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 2, $initForm); @endphp
 						</td>
 						@endif
@@ -647,14 +672,17 @@ function setResult(oid) {
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">
+							@php innerTable($delivery_dt, $list, 8, $sumTanks, 3); @endphp
 							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 3, $initForm); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td colspan="6">
+							@php innerTable($delivery_dt, $list, 9, $sumTanks, 3); @endphp
 							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 3, $initForm); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td colspan="6">
+							@php innerTable($delivery_dt, $list, 10, $sumTanks, 3); @endphp
 							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 3, $initForm); @endphp
 						</td>
 						@endif
