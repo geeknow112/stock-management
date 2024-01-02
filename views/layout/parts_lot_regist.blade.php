@@ -18,6 +18,7 @@
 					<th class="">氏名</th>
 					<th class="">タンク番号</th>
 					<th class="">ロット番号</th>
+					<th class="">ロット(バーコード)</th>
 				</tr>
 			</thead>
 
@@ -39,6 +40,9 @@
 						</td>
 						<td class="">
 						<input type="text" class="" id="lot" name="lot[{{$d->lot_tmp_id}}]" value="{{$d->lot}}">
+						</td>
+						<td class="">
+						<input type="number" class="" id="barcode" name="barcode[{{$d->lot_tmp_id}}]" value="{{$d->barcode}}">
 						</td>
 					</tr>
 					@endforeach

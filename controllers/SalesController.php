@@ -252,6 +252,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 							foreach ($rows as $lot_tmp_id => $d) {
 								$d->tank = $post->tank[$lot_tmp_id];
 								$d->lot = $post->lot[$lot_tmp_id];
+								$d->barcode = $post->barcode[$lot_tmp_id];
 							}
 
 							if ($msg['msg'] !== 'success') {

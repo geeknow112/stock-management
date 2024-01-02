@@ -275,7 +275,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.sales, s.ship_addr, s.arrival_dt, s.name, g.goods, g.name as goods_name, g.qty as goods_qty, gd.id as lot_tmp_id, gd.lot, gd.tank, c.customer, c.name AS customer_name ";
+		$sql  = "SELECT s.sales, s.ship_addr, s.arrival_dt, s.name, g.goods, g.name as goods_name, g.qty as goods_qty, gd.id as lot_tmp_id, gd.lot, gd.barcode, gd.tank, c.customer, c.name AS customer_name ";
 		$sql .= "FROM yc_sales as s ";
 		$sql .= "LEFT JOIN yc_goods as g ON s.goods = g.goods ";
 		$sql .= "LEFT JOIN yc_goods_detail as gd on s.sales = gd.sales ";
@@ -464,7 +464,8 @@ $dt = new DateTime($sdt. ' +1 days');
 			$data[$id] = array(
 				'id' => $id, 
 				'tank' => $post->tank[$id], 
-				'lot' => $post->lot[$id]
+				'lot' => $post->lot[$id], 
+				'barcode' => (!empty($post->barcode[$id])) ? $post->barcode[$id] : NULL
 			);
 		}
 
