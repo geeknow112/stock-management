@@ -160,10 +160,12 @@ $where = sprintf("WHERE s.sales is not null ");
 if (!empty($req->s['no'])) { $where .= sprintf("AND s.sales = '%s'", $req->s['no']); }
 if (!empty($req->s['goods_name'])) { $where .= "AND g.name LIKE '%". $req->s['goods_name']. "%'"; }
 if (isset($req->s['status']) && $req->s['status'] != '') { $where .= sprintf("AND s.status = '%s'", $req->s['status']); }
-if (isset($req->s['outgoing_warehouse']) && $req->s['outgoing_warehouse'] != '') { $where .= sprintf("AND s.outgoing_warehouse = '%s'", $req->s['outgoing_warehouse']); }
-//if (!empty($req->s['lot'])) { $where .= sprintf("AND gd.lot = '%s'", $req->s['lot']); }
+if (!empty($req->s['outgoing_warehouse']) && $req->s['outgoing_warehouse'] != '') { $where .= sprintf("AND s.outgoing_warehouse = '%s' ", $req->s['outgoing_warehouse']); }
+if (!empty($req->s['lot'])) { $where .= sprintf("AND gd.lot = '%s'", $req->s['lot']); }
 if (!empty($req->s['order_s_dt'])) { $where .= sprintf("AND s.rgdt >= '%s 00:00:00' ", $req->s['order_s_dt']); }
 if (!empty($req->s['order_e_dt'])) { $where .= sprintf("AND s.rgdt <= '%s 23:59:59' ", $req->s['order_e_dt']); }
+if (!empty($req->s['delivery_s_dt'])) { $where .= sprintf("AND s.delivery_dt >= '%s 00:00:00' ", $req->s['delivery_s_dt']); }
+if (!empty($req->s['delivery_e_dt'])) { $where .= sprintf("AND s.delivery_dt <= '%s 23:59:59' ", $req->s['delivery_e_dt']); }
 if (!empty($req->s['arrival_s_dt'])) { $where .= sprintf("AND s.arrival_dt >= '%s 00:00:00' ", $req->s['arrival_s_dt']); }
 if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND s.arrival_dt <= '%s 23:59:59' ", $req->s['arrival_e_dt']); }
 //$this->vd($where);
@@ -197,9 +199,12 @@ if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND s.arrival_dt <= '%
 		$limit = ($paged -1) * $users_per_page;
 		$sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM yc_sales AS s ");
 		$sql .= sprintf("LEFT JOIN yc_goods AS g ON s.goods = g.goods ");
+		if (!empty($req->s['lot'])) { $sql .= sprintf("LEFT JOIN yc_goods_detail AS gd ON s.sales = gd.sales "); }
 		$sql .= sprintf("LEFT JOIN yc_customer AS c ON s.customer = c.customer ");
-		$sql .= sprintf("%s LIMIT %d, %d", $where, (int) $limit, (int) $users_per_page);
-//		print_r($sql);
+		$sql .= sprintf("%s ", $where);
+		if (!empty($req->s['lot'])) { $sql .= "GROUP BY gd.sales "; }
+		$sql .= sprintf("LIMIT %d, %d", (int) $limit, (int) $users_per_page);
+//print_r($sql);
 		$this->items = $wpdb->get_results( $sql );
 
 
