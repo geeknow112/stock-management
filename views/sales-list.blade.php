@@ -19,7 +19,7 @@
 					<input type="search" id="goods_name" name="s[goods_name]" value="<?php echo htmlspecialchars($get->s['goods_name']); ?>"><br /><br />
 
 				<label for="lot" class="col-sm-2 col-form-label">ロット番号：</label>
-					<input type="search" id="lot" name="s[lot]" value="<?php echo htmlspecialchars($get->s['lot']); ?>" disabled><br /><br />
+					<input type="search" id="lot" name="s[lot]" value="<?php echo htmlspecialchars($get->s['lot']); ?>"><br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">状態：</label>
 					<select type="search" id="user-search-input" name="s[status]" class="col-form-select" aria-label="status" id="status">
