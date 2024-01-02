@@ -229,13 +229,13 @@
 
 	<!--							<a href="" class="btn btn-secondary text-center" onClick="window.prompt('車種、槽を入力してください。', ''); return false;">未注文</a>	-->
 								@else
-								<a href="#" class="btn btn-secondary text-center" onclick="window.location = '/wp-admin/admin.php?page=lot-regist&sales={{$row->sales}}&goods={{$row->goods}}&action=save'; return false;">未作成</a>
+								<a href="#" class="btn btn-secondary text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">未作成</a>
 								@endif
 							@elseif ($row->lot_fg == 1)
 							<a href="#" class="btn btn-warning text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">未登録</a>
 							@else
 								@if ($row->receipt_fg != 1)
-									<a href="#" class="btn btn-success text-center" onclick="check_status({{$row->sales}});">登録済</a>
+									<a href="#" class="btn btn-success text-center" onclick="check_status({{$row->sales}}, {{$row->goods}});">登録済</a>
 									<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="off"><label class="btn btn-outline-primary" for="check-receipt_{{$row->sales}}">受領書</label><!-- 受領書の受取確認用 -->
 								@else
 									<a href="#" class="btn btn-danger text-center">&emsp;完了&emsp;</a>
@@ -286,18 +286,21 @@ function change_repeat_order(oid) {
  * 受領書受取の確認
  * 
  **/
-function check_status(sid) {
-	const rec = document.getElementById('check-receipt_' + sid).checked;
+function check_status(sales, goods) {
+	const rec = document.getElementById('check-receipt_' + sales).checked;
 	console.log(rec);
 	if (rec == true) {
 		if (window.confirm('一連の処理を 【 完了 】 にしますか？')) {
 			document.forms.method = 'post';
 			document.forms.action.value = 'set_receipt';
-			document.forms.sales.value = sid;
+			document.forms.sales.value = sales;
 			document.forms.submit();
 		}
 	} else {
-		alert('受領書の受取をチェックしてください。');
+		//alert('受領書の受取をチェックしてください。');
+
+		// ロット登録画面へ遷移
+		to_lot_regist(sales, goods);
 	}
 }
 
