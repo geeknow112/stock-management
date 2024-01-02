@@ -24,6 +24,7 @@
 			<tbody id="the-list" data-wp-lists="list:user">
 				<input type="hidden" id="sales" name="sales" value="{{$get->sales}}">
 				<input type="hidden" id="goods" name="goods" value="{{$get->goods}}">
+				<input type="hidden" id="sdt" name="sdt" value="">
 				@if (isset($rows) && count($rows))
 					@foreach ($rows as $i => $d)
 					<tr id="user-1">
@@ -49,5 +50,29 @@
 			<tfoot>
 			</tfoot>
 		</table>
+		<div>
+			<input type="button" id="btn_back" class="btn btn-success" onclick="to_back();" value="◀ 戻る">
+<script>
+window.onload = function () {
+	const p_sdt = "{{$post->sdt}}";
+	const g_sdt = "{{$get->s['sdt']}}";
+
+	var sdt = document.getElementById('sdt');
+	console.log('p_sdt:' + p_sdt);
+	console.log('g_sdt:' + g_sdt);
+
+	if (p_sdt) {
+		sdt.value = p_sdt;
+	} else {
+		sdt.value = g_sdt;
+	}
+}
+
+function to_back() {
+	var sdt = document.getElementById('sdt').value;
+	window.location = "/wp-admin/admin.php?s[sdt]=" + sdt + "&page=delivery-graph&action=search&cmd=search";
+}
+</script>
+		</div>
 	</div>
 </div>

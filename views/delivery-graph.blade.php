@@ -232,7 +232,7 @@
 								<a href="#" class="btn btn-secondary text-center" onclick="window.location = '/wp-admin/admin.php?page=lot-regist&sales={{$row->sales}}&goods={{$row->goods}}&action=save'; return false;">未作成</a>
 								@endif
 							@elseif ($row->lot_fg == 1)
-							<a href="#" class="btn btn-warning text-center" onclick="window.location = '/wp-admin/admin.php?page=lot-regist&sales={{$row->sales}}&goods={{$row->goods}}&action=save'; return false;">未登録</a>
+							<a href="#" class="btn btn-warning text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">未登録</a>
 							@else
 								@if ($row->receipt_fg != 1)
 									<a href="#" class="btn btn-success text-center" onclick="check_status({{$row->sales}});">登録済</a>
@@ -299,6 +299,15 @@ function check_status(sid) {
 	} else {
 		alert('受領書の受取をチェックしてください。');
 	}
+}
+
+/**
+ * ロット登録画面へ遷移
+ * 
+ **/
+function to_lot_regist(sales = null, goods = null) {
+	const sdt = document.getElementById('user-search-input').value; // 開始日付を付加
+	window.location = '/wp-admin/admin.php?page=lot-regist&s[sdt]=' + sdt + '&sales=' + sales + '&goods=' + goods + '&action=save';
 }
 </script>
 <?php	function innerTableFixed($delivery_dt, $list, $class, $sumTanks = null, $carsTank = null, $initForm = null) { ?>
