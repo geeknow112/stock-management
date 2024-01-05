@@ -44,6 +44,15 @@ class SalesController extends Ext_Controller_Action
 				$this->getTb()->makeLotSpace($get, $post);
 
 			default:
+
+// TODO:
+$post->_wp_http_referer = $get->_wp_http_referer;
+$get->s['change_status'] = $post->change_status;
+if (!isset($get->s['status'])) { $get->s['status'] = $post->s['status']; }
+if (!isset($get->s['outgoing_warehouse'])) { $get->s['outgoing_warehouse'] = $post->s['outgoing_warehouse']; }
+//$this->vd($post);
+//$this->vd($get);
+
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList($get, $un_convert = true);
 				$formPage = 'sales-list';
