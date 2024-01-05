@@ -5,7 +5,7 @@
 <div class="tablenav top">
 	<br class="clear">
 </div>
-	
+
 <div class="table-responsive">
 	<div>
 		<table class="table table-bordered text-nowrap">
@@ -31,7 +31,7 @@
 					<tr id="user-1">
 						<input type="hidden" id="lot_tmp_id" name="lot_tmp_id[]" value="{{$d->lot_tmp_id}}">
 						<td>{{$d->goods_name}}</td>
-						<td>{{$d->ship_addr}}</td>
+						<td>{{$initForm['select']['ship_addr'][$d->customer][$d->ship_addr]}}</td>
 						<td>{{$d->goods_qty}}</td>
 						<td>{{$d->arrival_dt}}</td>
 						<td>{{$d->customer_name}}</td>

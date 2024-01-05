@@ -236,7 +236,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				// lot_fg�̕ύX
 				if (!empty($rows)) { $this->getTb()->updLotFg($rows); }
 
-				echo $this->get_blade()->run("lot-regist", compact('rows', 'formPage', 'get', 'post', 'msg'));
+				echo $this->get_blade()->run("lot-regist", compact('rows', 'formPage', 'initForm', 'get', 'post', 'msg'));
 				break;
 
 			case 'confirm':
@@ -267,7 +267,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				} else {
 				}
 //$this->vd(array($get, $post, $msg, $rows, $page));
-				echo $this->get_blade()->run("lot-regist", compact('rows', 'get', 'post', 'msg'));
+				echo $this->get_blade()->run("lot-regist", compact('rows', 'formPage', 'initForm', 'get', 'post', 'msg'));
 				break;
 
 			case 'edit':
@@ -292,7 +292,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				// lot_fg�̕ύX
 				$this->getTb()->updLotFg($rows);
 
-				echo $this->get_blade()->run("lot-regist", compact('rows', 'get', 'post', 'msg'));
+				echo $this->get_blade()->run("lot-regist", compact('rows', 'formPage', 'initForm', 'get', 'post', 'msg'));
 				break;
 
 		}
