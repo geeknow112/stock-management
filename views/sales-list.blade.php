@@ -211,4 +211,41 @@ function init_status(applicant = null) {
 		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=sales-list&post=" + applicant + "&action=init-status";
 	}
 }
+
+/**
+ *  - onchangeイベント発生時処理
+ * 
+ **/
+document.getElementById('cb-select-all-1').onchange = function () {
+	const ch_all = document.getElementById('cb-select-all-1').checked;
+//	console.log(ch_all);
+	checkbox_all_select(ch_all);
+};
+
+/**
+ *  - onchangeイベント発生時処理
+ * 
+ **/
+document.getElementById('cb-select-all-2').onchange = function () {
+	const ch_all = document.getElementById('cb-select-all-2').checked;
+//	console.log(ch_all);
+	checkbox_all_select(ch_all);
+};
+
+/**
+ * チェックボックス全選択
+ * 
+ **/
+function checkbox_all_select(ch_all) {
+	const ch_obj = document.querySelectorAll("*[id*='no_']"); // idに'no_'が含まれる要素をすべて取得する
+	//console.log(ch_obj);
+	//ch_obj.forEach((el) => console.log(el.id));
+
+	if (ch_all == true) {
+		ch_obj.forEach((el) => document.getElementById(el.id).checked = true); // chbox 全選択
+
+	} else {
+		ch_obj.forEach((el) => document.getElementById(el.id).checked = false); // chbox 全解除
+	}
+}
 </script>

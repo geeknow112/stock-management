@@ -521,7 +521,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 	 */
 	public function get_columns() {
 		$c = array(
-			'cb'       => '<input type="checkbox" />',
+			'cb'       => '',
 			'sales' => __( 'íçï∂ID' ),
 			'name'     => __( 'Name' ),
 			'qty'    => __( 'Email' ),
@@ -586,7 +586,7 @@ $initForm = $s->getInitForm();
 
 			$qty = sprintf('%.1f', $object->qty);
 
-			echo '<td><input type="checkbox" id="no" name="no[]" value="'. $object->sales. '" /></td>';
+			echo '<td><input type="checkbox" id="no_'. $id. '" name="no[]" value="'. $object->sales. '" /></td>';
 			echo '<input type="hidden" id="arr_goods" name="arr_goods['. $object->sales. ']" value="'. $object->goods. '" />';
 			echo '<input type="hidden" id="arr_qty" name="arr_qty['. $object->sales. ']" value="'. $qty. '" />';
 //			echo '<input type="hidden" id="arr_repeat" name="arr_repeat[]" value="{{$list->repeat}}" />';
@@ -862,7 +862,7 @@ $initForm = $s->getInitForm();
 	public function get_column_info() {
 		return array(
 			array(
-				'no' => mb_convert_encoding('No.', 'UTF-8', 'SJIS'), 
+				'cb' => '#', 
 				'sales' => mb_convert_encoding('íçï∂î‘çÜ', 'UTF-8', 'SJIS'), 
 				'name' => mb_convert_encoding('íçï∂é“ñº', 'UTF-8', 'SJIS'), 
 				'goods' => mb_convert_encoding('è§ïi', 'UTF-8', 'SJIS'), 
