@@ -147,17 +147,17 @@
 
 	.message p {
 		color: red;
-		font-size: 24px;
+		font-size: 16px;
 	}
 
 	.inner_box {
 		width: 8rem; background: #eeeeee; border-right: 1px solid #d3d3d3;
-		font-size: 24px;
+		font-size: 16px;
 	}
 
 	.inner_box_repeat {
 		width: 8rem; background: #ff69b4; border-right: 1px solid #ffffff; color: #ffffff;
-		font-size: 24px;
+		font-size: 16px;
 	}
 </style>
 
