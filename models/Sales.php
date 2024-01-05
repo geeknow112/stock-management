@@ -112,7 +112,9 @@ class Sales extends Ext_Model_Base {
 				if (!empty($get->s['arrival_s_dt'])) { $sql .= sprintf("AND s.arrival_dt >= '%s 00:00:00' ", $get->s['arrival_s_dt']); }
 				if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND s.arrival_dt <= '%s 23:59:59' ", $get->s['arrival_e_dt']); }
 
-				$sql .= "ORDER BY s.rgdt desc";
+				if ($get->page != 'delivery-graph') { // 配送表画面以外の時は降順
+					$sql .= "ORDER BY s.rgdt desc";
+				}
 				$sql .= ";";
 
 			} else {
