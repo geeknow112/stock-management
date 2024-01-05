@@ -40,18 +40,10 @@ class SalesController extends Ext_Controller_Action
 		switch($post->cmd) {
 			case 'search':
 			case 'edit':
-				$ret = $this->getTb()->changeStatus($post->change_status, $post->no);
-				$this->getTb()->makeLotSpace($get, $post);
-
 			default:
-
-// TODO:
-$post->_wp_http_referer = $get->_wp_http_referer;
-$get->s['change_status'] = $post->change_status;
-if (!isset($get->s['status'])) { $get->s['status'] = $post->s['status']; }
-if (!isset($get->s['outgoing_warehouse'])) { $get->s['outgoing_warehouse'] = $post->s['outgoing_warehouse']; }
-//$this->vd($post);
-//$this->vd($get);
+				// 更新処理後、検索条件の維持のため、GET値をPOST値から補填
+				if (!isset($get->s)) {  $get->s = $post->s; }
+				$get->s['change_status'] = $post->change_status;
 
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList($get, $un_convert = true);

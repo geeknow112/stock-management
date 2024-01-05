@@ -155,6 +155,15 @@ if (!is_array($_REQUEST['s'])) {
 global $wpdb;
 $req = (object) $_REQUEST;
 
+		// 一括操作：ステータス変更処理
+		if ($req->cmd == 'edit' && isset($req->change_status)) {
+			$get = (object) $_GET;
+			$post = (object) $_POST;
+			$Sales = new Sales;
+			$ret = $Sales->changeStatus($req->change_status, $req->no);
+			$Sales->makeLotSpace($get, $post);
+		}
+
 //$this->vd($req);
 $where = sprintf("WHERE s.sales is not null ");
 if (!empty($req->s['no'])) { $where .= sprintf("AND s.sales = '%s'", $req->s['no']); }
@@ -236,7 +245,7 @@ if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND s.arrival_dt <= '%
 		*/
 
 //		echo '<pre>';
-		//print_r($this->items);
+//		print_r($this->items);
 //		echo '</pre>';
 $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" ));
 
