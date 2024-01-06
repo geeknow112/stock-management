@@ -72,7 +72,7 @@
 								@if(!$rows->stock_list[$i])
 								 - 
 								@else
-									<a href="/wp-admin/admin.php?page=stock-lot-regist&stock={{$rows->stock_list[$i]}}">入力画面へ</a>
+									<a href="/wp-admin/admin.php?page=stock-lot-regist&stock={{$rows->stock_list[$i]}}&goods={{$rows->goods_list[$i]}}&arrival_dt={{$get->arrival_dt}}&warehouse={{$get->warehouse}}">入力画面へ</a>
 								@endif
 							</td>
 						</tr>

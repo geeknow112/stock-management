@@ -181,6 +181,10 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 	 *
 	 **/
 	public function lotRegistAction() {
+		if(empty($_POST['arrival_dt'])) { $_POST['arrival_dt'] = $_GET['arrival_dt']; }
+		if(empty($_POST['outgoing_warehouse'])) { $_POST['outgoing_warehouse'] = $_GET['warehouse']; }
+		if(empty($_POST['outgoing_warehouse'])) { $_POST['outgoing_warehouse'] = $_POST['warehouse']; }
+
 		$get = (object) $_GET;
 		$post = (object) $_POST;
 
@@ -197,7 +201,125 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 				$formPage = 'stock-lot-regist';
 				echo $this->get_blade()->run("stock-lot-regist", compact('rows', 'get', 'post', 'formPage', 'initForm'));
 				break;
+
+			case 'confirm':
+				if (!empty($post)) {
+					switch ($post->cmd) {
+						default:
+						case 'cmd_confirm':
+							$msg = $this->getValidMsg();
+							$rows = $post;
+							if ($rows->customer) { $post->btn = 'update'; }
+							if ($msg['msg'] !== 'success') {
+								$rows->messages = $msg;
+							}
+							break;
+					}
+				}
+
+				if($rows->messages) {
+						$msg = $rows->messages;
+						$get->action = 'save';
+				} else {
+				}
+
+				// 表示用に成形
+				$rows = $this->convertLotList($rows, $post);
+
+				echo $this->get_blade()->run("stock-lot-regist", compact('rows', 'get', 'initForm', 'post', 'msg'));
+				break;
+
+			case 'save':
+				if (!empty($post)) {
+					if ($post->cmd == 'save') {
+						$msg = $this->getValidMsg();
+						if ($msg['msg'] == 'success') {
+							$rows = $this->getTb()->updDetail($get, $post); // ロット番号登録
+//							$rows->customer_name = $rows->name;
+							$get->action = 'complete';
+
+						} else {
+							$rows = $post;
+							$rows->name = $post->customer_name;
+							$rows->messages = $msg;
+						}
+					}
+				}
+				echo $this->get_blade()->run("stock-lot-regist", compact('rows', 'get', 'initForm', 'post', 'msg'));
+				break;
+
+			case 'edit-exe':
+				if (!empty($post)) {
+					if ($post->cmd == 'update') {
+						$msg = $this->getValidMsg();
+						if ($msg['msg'] == 'success') {
+if ($post->tank) { $post->list = $this->sortDataTanks($post); }
+if ($post->pref) { $post->list = $this->sortData($post); }
+							$rows = $this->getTb()->updDetail($get, $post);
+//							$rows->customer_name = $rows->name;
+							$get->action = 'complete';
+
+						} else {
+							$rows = $post;
+							$rows->name = $post->customer_name;
+							$rows->messages = $msg;
+						}
+					}
+				}
+//$this->vd($post);
+				if ($post->cmd == 'update' ) { $rows_tanks = $this->convertData($rows); }
+				if ($post->cmd == 'update' ) { $rows_addrs = $this->convertData($rows); }
+//$this->vd($rows_addrs);
+
+				$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
+				$cust_goods = $this->objectColumn($rows_goods, 'goods');
+
+				echo $this->get_blade()->run("stock-lot-regist", compact('rows', 'get', 'post', 'msg', 'rows_tanks', 'rows_addrs', 'rows_goods', 'goods_list', 'cust_goods'));
+				break;
+
+			case 'edit':
+				if (!empty($get->arrival_dt)) {
+					$rows = $this->getTb()->getDetailByArrivalDt($get->arrival_dt, $get->warehouse);
+					$rows->arrival_dt = $get->arrival_dt;
+					$rows->outgoing_warehouse = $get->warehouse;
+//$this->vd($rows);
+					$rows->cmd = $post->cmd = 'cmd_update';
+
+				} else {
+					$msg = $this->getValidMsg();
+
+					$rows = $post;
+					$rows->name = $post->customer_name;
+
+					if ($msg['msg'] !== 'success') {
+						$rows->messages = $msg;
+					}
+				}
+
+				if ($post->cmd == 'cmd_update' ) {
+//					$rows_tanks = $this->convertData($rows);
+//					$rows_tanks_count = $this->countObject($rows_tanks);
+				}
+
+//$this->vd($rows);
+				echo $this->get_blade()->run("stock-lot-regist", compact('rows', 'get', 'post', 'msg', 'initForm', 'rows_tanks', 'rows_tanks_count', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
+				break;
 		}
+	}
+
+	/**
+	 * 表示用に成形(ロット配列用)
+	 * 
+	 **/
+	private function convertLotList($rows = null, $post = null) {
+//		$this->vd($rows->lot);
+		foreach ($rows->lot as $i => $lot) {
+			$ret[$i] = (object) array(
+				'goods_name' => $post->goods_name, 
+				'lot' => $lot
+			);
+		}
+		return (object) $ret;
 	}
 
 	/**
