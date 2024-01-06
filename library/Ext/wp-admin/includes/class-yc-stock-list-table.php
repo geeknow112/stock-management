@@ -162,6 +162,9 @@ if (!empty($req->s['goods_name'])) { $where .= "AND g.name LIKE '%". $req->s['go
 if (!empty($req->s['qty'])) { $where .= sprintf("AND g.qty = '%s'", $req->s['qty']); }
 if (!empty($req->s['lot'])) { $where .= "AND std.lot LIKE '%". $req->s['lot']. "%'"; }
 if (!empty($req->s['outgoing_warehouse'])) { $where .= sprintf("AND st.warehouse = '%s'", $req->s['outgoing_warehouse']); }
+if (!empty($req->s['arrival_s_dt'])) { $where .= sprintf("AND st.arrival_dt >= '%s 00:00:00' ", $req->s['arrival_s_dt']); }
+if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND st.arrival_dt <= '%s 23:59:59' ", $req->s['arrival_e_dt']); }
+//$this->vd($where);
 //print_r($where);
 
 
