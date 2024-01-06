@@ -147,8 +147,11 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 				break;
 
 			case 'edit':
-				if (!empty($get->stock)) {
-					$rows = $this->getTb()->getDetailByStockCode($get->stock);
+				if (!empty($get->arrival_dt)) {
+					$rows = $this->getTb()->getDetailByArrivalDt($get->arrival_dt, $get->warehouse);
+					$rows->arrival_dt = $get->arrival_dt;
+					$rows->outgoing_warehouse = $get->warehouse;
+//$this->vd($rows);
 					$rows->cmd = $post->cmd = 'cmd_update';
 
 				} else {

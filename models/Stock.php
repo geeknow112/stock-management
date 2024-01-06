@@ -213,6 +213,29 @@ class Stock extends Ext_Model_Base {
 	}
 
 	/**
+	 * 在庫情報詳細取得
+	 * - 入庫日(arrival_dt)から抽出
+	 **/
+	public function getDetailByArrivalDt($arrival_dt = null, $warehouse = null) {
+		global $wpdb;
+
+		$sql  = "SELECT st.* FROM ". $this->getTableName(). " as st ";
+		$sql .= sprintf("WHERE st.arrival_dt = '%s' ", $arrival_dt);
+		$sql .= sprintf("AND st.warehouse = '%s' ", $warehouse);
+
+		$rows = $wpdb->get_results($sql);
+
+		// 表示用に成形
+		foreach ($rows as $i => $d) {
+			$ret['stock_list'][] = $d->stock;
+			$ret['goods_list'][] = $d->goods;
+			$ret['qty_list'][] = $d->goods_total;
+			$ret['weight_list'][] = $d->subtotal;
+		}
+		return (object) $ret;
+	}
+
+	/**
 	 * 在庫情報登録
 	 **/
 	public function regDetail($get = null, $post = null) {
