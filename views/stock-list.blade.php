@@ -36,6 +36,10 @@
 					</select>
 					<br /><br />
 
+				<label for="carModel" class="col-sm-2 col-form-label">引取(入庫)日：</label>
+					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="{{$get->s['arrival_s_dt']}}" placeholder="2020-11-01">&emsp;～&emsp;
+					<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="{{$get->s['arrival_e_dt']}}" placeholder="2022-12-01">&emsp;
+
 				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 
 				<script>
