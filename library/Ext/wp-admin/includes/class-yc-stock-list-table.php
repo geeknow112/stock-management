@@ -166,7 +166,7 @@ if (!empty($req->s['outgoing_warehouse'])) { $where .= sprintf("AND st.warehouse
 
 
 $limit = ($paged -1) * $users_per_page;
-$sql = sprintf("SELECT st.stock, st.arrival_dt, g.name AS goods_name, g.qty, std.lot, st.goods_total, st.stock AS stock FROM yc_stock AS st ");
+$sql = sprintf("SELECT st.stock, st.arrival_dt, st.warehouse, g.name AS goods_name, g.qty, std.lot, st.goods_total, st.stock AS stock FROM yc_stock AS st ");
 $sql .= sprintf("LEFT JOIN yc_stock_detail AS std ON st.stock = std.stock ");
 $sql .= sprintf("LEFT JOIN yc_goods AS g ON st.goods = g.goods ");
 $sql .= sprintf("%s ", $where);
@@ -447,7 +447,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_stock;" )
 		foreach ( $this->items as $id => $object ) {
 //			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 			echo '<tr>';
-			echo '<td><a href="/wp-admin/admin.php?page=stock-detail&stock='. $object->stock. '&action=edit">'. sprintf('STOCK-%07d', $object->stock). '</a></td>';
+			echo '<td><a href="/wp-admin/admin.php?page=stock-detail&arrival_dt='. $object->arrival_dt. '&warehouse='. $object->warehouse. '&action=edit">'. sprintf('STOCK-%07d', $object->stock). '</a></td>';
 			echo '<td>'. $object->arrival_dt. '</td>';
 			echo '<td>'. $object->goods_name. '</td>';
 			echo '<td>'. $object->qty. '</td>';

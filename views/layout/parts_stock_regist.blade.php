@@ -68,7 +68,13 @@
 							<td class="tx-right">500</td>
 							<td class="tx-right"><input type="number" min="0" class="tx-center w-50" id="qty_{{$i}}" name="qty_list[]" value="{{$rows->qty_list[$i]}}" onchange="calcWeight({{$i}}); sumRows();"></td>
 							<td class="tx-right"><input type="text" class="tx-right w-75" id="weight_{{$i}}" name="weight_list[]" value="{{$rows->weight_list[$i]}}" readonly></td>
-							<td class="tx-right">@if($get->stock)<a href="/wp-admin/admin.php?page=stock-lot-regist&stock={{$get->stock}}">入力画面へ</a>@else - @endif</td>
+							<td class="tx-right">
+								@if(!$rows->stock_list[$i])
+								 - 
+								@else
+									<a href="/wp-admin/admin.php?page=stock-lot-regist&stock={{$rows->stock_list[$i]}}">入力画面へ</a>
+								@endif
+							</td>
 						</tr>
 						@endfor
 					</tbody>
