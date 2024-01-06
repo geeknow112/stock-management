@@ -308,27 +308,67 @@ class Stock extends Ext_Model_Base {
 	}
 
 	/**
-	 * 商品情報更新
+	 * 在庫情報更新
+	 *  - ロット番号登録
 	 **/
 	public function updDetail($get = null, $post = null) {
 		$post = (object) $post;
 		global $wpdb;
 
-		$exist_columns = $wpdb->get_col("DESC ". $this->getTableName(). ";", 0);
+		$table_name = 'yc_stock_detail';
+
+		$exist_columns = $wpdb->get_col("DESC ". $table_name. ";", 0);
 		foreach ($exist_columns as $i => $col) {
 			if(!empty($post->$col)) {
 				$data[$col] = $post->$col;
 			}
 		}
-		$ret = $wpdb->update(
-			$this->getTableName(), 
-			$data, 
-			array('goods' => $post->goods)
-		);
+
+		// 更新対象の取得
+		$rows = $this->getDetailIdsByStockCode($post->stock);
+
+		foreach ($rows as $i => $d) {
+			$v['lot'] = $data['lot'][$i];
+			$ret[] = $wpdb->update(
+				$table_name, 
+				$v, 
+				array(
+					'id' => $d->id, 
+					'stock' => $post->stock
+				)
+			);
+		}
 
 		// 更新情報を再取得
-		$rows = $this->getDetailByGoodsCode($post->goods);
+		$rows = $this->getDetailIdsByStockCode($post->stock);
 		return $rows;
+	}
+
+	/**
+	 * 在庫情報更新対象の取得
+	 * 
+	 * 
+	 **/
+	public function getDetailIdsByStockCode($stock = null) {
+		global $wpdb;
+
+		$sql  = "SELECT std.*, g.goods, g.name AS goods_name FROM yc_stock_detail as std ";
+		$sql .= "LEFT JOIN yc_stock AS st ON std.stock = st.stock ";
+		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = st.goods ";
+		$sql .= sprintf("WHERE std.stock = '%s' ", $stock);
+
+		$rows = $wpdb->get_results($sql);
+
+		// 表示用に成形
+/*
+		foreach ($rows as $i => $d) {
+			$ret['stock_list'][] = $d->stock;
+			$ret['goods_list'][] = $d->goods;
+			$ret['qty_list'][] = $d->goods_total;
+			$ret['weight_list'][] = $d->subtotal;
+		}
+*/
+		return (object) $rows;
 	}
 
 	/**
