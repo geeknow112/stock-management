@@ -309,9 +309,56 @@ class Stock extends Ext_Model_Base {
 
 	/**
 	 * 在庫情報更新
-	 *  - ロット番号登録
+	 * 
 	 **/
 	public function updDetail($get = null, $post = null) {
+		$post = (object) $post;
+		global $wpdb;
+
+		$cur_user = wp_get_current_user();
+
+		foreach ($post->stock_list as $i => $stock) {
+			if (empty($stock)) { continue; }
+			$stocks[$i] = $stock;
+			$data = array(
+				'goods' => $post->goods_list[$i], 
+				'arrival_dt' => $post->arrival_dt, 
+				'warehouse' => $post->outgoing_warehouse, 
+				'goods_total' => $post->qty_list[$i], 
+				'subtotal' => str_replace(',', '', $post->weight_list[$i]), 
+				'updt' => date('Y-m-d H:i:s'), 
+				'upuser' => $cur_user->user_login
+			);
+
+			$ret[] = $wpdb->update(
+				$this->getTableName(), 
+				$data, 
+				array('stock' => $stock)
+			);
+		}
+
+		// 更新情報を再取得
+		$rows = $this->getDetailByStockCodes($stocks);
+
+		// 表示用に成形
+		foreach ($rows as $i => $row) {
+			$result['arrival_dt'] = $row->arrival_dt;
+			$result['outgoing_warehouse'] = $row->warehouse;
+			$result['warehouse'] = $row->warehouse;
+			$result['stock_list'][$i] = $row->stock;
+			$result['goods_list'][$i] = $row->goods;
+			$result['qty_list'][$i] = $row->goods_total;
+			$result['weight_list'][$i] = $row->subtotal;
+		}
+
+		return (object) $result;
+	}
+
+	/**
+	 * 在庫情報更新
+	 *  - ロット番号登録
+	 **/
+	public function updLotNumber($get = null, $post = null) {
 		$post = (object) $post;
 		global $wpdb;
 

@@ -81,7 +81,7 @@ if ($post->cmd == 'cmd_transfer') {
 						case 'cmd_confirm':
 							$msg = $this->getValidMsg();
 							$rows = $post;
-							if ($rows->customer) { $post->btn = 'update'; }
+							if ($rows->stock_list) { $post->btn = 'update'; }
 							if ($msg['msg'] !== 'success') {
 								$rows->messages = $msg;
 							}
@@ -122,10 +122,7 @@ if ($post->cmd == 'cmd_transfer') {
 					if ($post->cmd == 'update') {
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
-if ($post->tank) { $post->list = $this->sortDataTanks($post); }
-if ($post->pref) { $post->list = $this->sortData($post); }
 							$rows = $this->getTb()->updDetail($get, $post);
-//							$rows->customer_name = $rows->name;
 							$get->action = 'complete';
 
 						} else {
@@ -135,15 +132,11 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 						}
 					}
 				}
-//$this->vd($post);
-				if ($post->cmd == 'update' ) { $rows_tanks = $this->convertData($rows); }
-				if ($post->cmd == 'update' ) { $rows_addrs = $this->convertData($rows); }
-//$this->vd($rows_addrs);
 
-				$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
-				$cust_goods = $this->objectColumn($rows_goods, 'goods');
+//				$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
+//				$cust_goods = $this->objectColumn($rows_goods, 'goods');
 
-				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'post', 'msg', 'rows_tanks', 'rows_addrs', 'rows_goods', 'goods_list', 'cust_goods'));
+				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'post', 'initForm', 'msg', 'goods_list'));
 				break;
 
 			case 'edit':
@@ -234,7 +227,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 					if ($post->cmd == 'save') {
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
-							$rows = $this->getTb()->updDetail($get, $post); // ƒƒbƒg”Ô†“o˜^
+							$rows = $this->getTb()->updLotNumber($get, $post); // ƒƒbƒg”Ô†“o˜^
 //							$rows->customer_name = $rows->name;
 							$get->action = 'complete';
 

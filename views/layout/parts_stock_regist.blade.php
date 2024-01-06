@@ -40,7 +40,7 @@
 				<table class="table table-bordered text-nowrap">
 					<thead class="table-light">
 						<tr>
-							<th class=""></th>
+							<th class="">在庫ID</th>
 							<th class="">品名</th>
 							<th class="">容量(kg)</th>
 							<th class="">個数</th>
@@ -52,7 +52,8 @@
 					<tbody id="the-list" data-wp-lists="list:user">
 						@for($i = 0; $i<20; $i++)
 						<tr>
-							<td class=""></td>
+							<td class="">{{$rows->stock_list[$i]}}</td>
+							<input type="hidden" id="stock_list" name="stock_list[]" value="{{$rows->stock_list[$i]}}">
 							<td class="">
 								@if(!$rows->goods_list)
 								<select class="form-select w-75" aria-label="goodsName" id="goods_{{$i}}" name="goods_list[]">
@@ -61,8 +62,14 @@
 									@endforeach
 								</select>
 								@else
-									<input type="text" id="text_goods_list_{{$i}}" name="text_goods_list_{{$i}}" value="{{$rows->goods_list[$i]}} : {{$initForm['select']['goods_name'][$rows->goods_list[$i]]}}" />
+<!--									<input type="text" id="text_goods_list_{{$i}}" name="text_goods_list_{{$i}}" value="{{$rows->goods_list[$i]}} : {{$initForm['select']['goods_name'][$rows->goods_list[$i]]}}" />
 									<input type="hidden" name="goods_list[]" value="{{$rows->goods_list[$i]}}" />
+-->
+								<select class="form-select w-75" aria-label="goodsName" id="goods_{{$i}}" name="goods_list[]">
+									@foreach($initForm['select']['goods_name'] as $goods => $gname)
+										<option value="{{$goods}}" @if($goods == $rows->goods_list[$i]) selected @endif>{{$goods}} : {{$gname}}</option>
+									@endforeach
+								</select>
 								@endif
 							</td>
 							<td class="tx-right">500</td>
