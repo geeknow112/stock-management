@@ -57,25 +57,35 @@
 		<div>
 			<input type="button" id="btn_back" class="btn btn-success" onclick="to_back();" value="◀ 戻る">
 <script>
-window.onload = function () {
-	const p_sdt = "{{$post->sdt}}";
-	const g_sdt = "{{$get->s['sdt']}}";
-
-	var sdt = document.getElementById('sdt');
-	console.log('p_sdt:' + p_sdt);
-	console.log('g_sdt:' + g_sdt);
-
-	if (p_sdt) {
-		sdt.value = p_sdt;
-	} else {
-		sdt.value = g_sdt;
-	}
-}
-
 function to_back() {
-	var sdt = document.getElementById('sdt').value;
-	window.location = "/wp-admin/admin.php?s[sdt]=" + sdt + "&page=delivery-graph&action=search&cmd=search";
+	const ref = "{{$_SERVER['HTTP_REFERER']}}";
+//	console.log(ref);
+	var result = unescapeHtml(ref);
+//	console.log(result);
+	window.location = result;
 }
+
+/**
+ * HTML文字列をアンエスケープ
+ * @param {string} str エスケープされたHTML文字列
+ * @return {string} アンエスケープされたHTML文字列を返す
+ */
+var unescapeHtml = function(str) {
+	if (typeof str !== 'string') return str;
+
+	var patterns = {
+		'&lt;'   : '<',
+		'&gt;'   : '>',
+		'&amp;'  : '&',
+		'&quot;' : '"',
+		'&#x27;' : '\'',
+		'&#x60;' : '`'
+	};
+
+	return str.replace(/&(lt|gt|amp|quot|#x27|#x60);/g, function(match) {
+		return patterns[match];
+	});
+};
 </script>
 		</div>
 	</div>
