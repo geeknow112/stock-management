@@ -57,12 +57,38 @@
 		<div>
 			<input type="button" id="btn_back" class="btn btn-success" onclick="to_back();" value="◀ 戻る">
 <script>
+window.onload = function () {
+	const p_sdt = "{{$post->sdt}}";
+	const g_sdt = "{{$get->s['sdt']}}";
+	var sdt = document.getElementById('sdt');
+	console.log('p_sdt:' + p_sdt);
+	console.log('g_sdt:' + g_sdt);
+	if (p_sdt) {
+		sdt.value = p_sdt;
+	} else {
+		sdt.value = g_sdt;
+	}
+}
+
 function to_back() {
 	const ref = "{{$_SERVER['HTTP_REFERER']}}";
 //	console.log(ref);
 	var result = unescapeHtml(ref);
 //	console.log(result);
-	window.location = result;
+
+	const regex = /page=delivery-graph|page=sales-list/g;
+	const ret = result.search(regex);
+
+	console.log('search : ' + ret);
+
+	if (ret < 0) {
+		var sdt = document.getElementById('sdt').value;
+		window.location = "/wp-admin/admin.php?s[sdt]=" + sdt + "&page=delivery-graph&action=search&cmd=search";
+
+	} else {
+		window.location = result;
+
+	}
 }
 
 /**
