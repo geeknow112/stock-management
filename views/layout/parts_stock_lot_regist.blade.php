@@ -44,12 +44,68 @@
 </div>
 
 <script>
+window.onload = function () {
+	// 入庫日のhidden値 保持
+	const p_sdt = "{{$post->arrival_dt}}";
+	const g_sdt = "{{$get->arrival_dt}}";
+	const r_sdt = "{{current($rows)->arrival_dt}}";
+	var sdt = document.getElementById('arrival_dt');
+
+	console.log('p_sdt:' + p_sdt);
+	console.log('g_sdt:' + g_sdt);
+	console.log('r_sdt:' + r_sdt);
+
+	if (p_sdt) {
+		sdt.value = p_sdt;
+	} else {
+		if (g_sdt) {
+			sdt.value = g_sdt;
+		} else {
+			sdt.value = r_sdt;
+		}
+	}
+
+	// 入庫倉庫のhidden値 保持
+	const p_wh = "{{$post->warehouse}}";
+	const g_wh = "{{$get->warehouse}}";
+	const r_wh = "{{current($rows)->warehouse}}";
+	var wh = document.getElementById('warehouse');
+
+	console.log('p_wh:' + p_wh);
+	console.log('g_wh:' + g_wh);
+	console.log('r_wh:' + r_wh);
+
+	if (p_wh) {
+		wh.value = p_wh;
+	} else {
+		if (g_wh) {
+			wh.value = g_wh;
+		} else {
+			wh.value = r_wh;
+		}
+	}
+}
+
 function to_back() {
 	const ref = "{{$_SERVER['HTTP_REFERER']}}";
 //	console.log(ref);
 	var result = unescapeHtml(ref);
 //	console.log(result);
-	window.location = result;
+
+	const regex = /page=stock-detail|page=stock-list/g;
+	const ret = result.search(regex);
+
+	console.log('search : ' + ret);
+
+	if (ret < 0) {
+		var arrival_dt = document.getElementById('arrival_dt').value;
+		var warehouse = document.getElementById('warehouse').value;
+		window.location = "/wp-admin/admin.php?page=stock-detail&arrival_dt=" + arrival_dt + "&warehouse=" + warehouse + "&action=edit";
+
+	} else {
+		window.location = result;
+
+	}
 }
 
 /**
