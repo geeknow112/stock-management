@@ -402,19 +402,26 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 			default:
 				$rows = $this->getTb()->getStockExportList($get);
 
-				// TODO: 「注文」による在庫の減少
+				// 「注文」による在庫の減少 のための注文取得
 				$dlist = $this->getTb()->getSalesDeliveredList($get);
 
 //				$this->vd(count($rows));
-
+//$this->vd($rows);
+//$this->vd($dlist);
 				// 「注文」(配送済み) 除外
 				foreach ($rows as $i => $stock) {
 					foreach ($dlist as $j => $del) {
+
+						// 商品別で数量による除外
 						if ($stock->goods == $del->goods) {
-							unset($rows[$i]);
-							unset($dlist[$j]);
-							break;
+							// ロット番号による除外
+							if ($stock->lot == $del->lot) {
+								unset($rows[$i]);
+								unset($dlist[$j]);
+								break;
+							}
 						}
+
 					}
 				}
 
