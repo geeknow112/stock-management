@@ -30,6 +30,9 @@
 
 				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 
+				&emsp;&emsp;&emsp;
+				<span><a href="#input_result">結果入力欄へ ▶</a><span>
+
 				<script>
 				function cmd_search() {
 					document.forms.method = 'get';
@@ -100,7 +103,7 @@
 						@if ($cur_user->roles[0] == 'administrator')
 						<th class="" colspan="6">6t ⑥</th>
 						<th class="" colspan="6">6t ⑦ (山忠商事(直取) 専用：繰り返し注文表示欄)</th>
-						<th class="" colspan="6">6t ⑧ (太田畜産 専用：結果入力欄)</th>
+						<th class="" colspan="6" id="input_result">6t ⑧ (太田畜産 専用：結果入力欄)</th>
 						<th class="" colspan="6">7.5t ⑨ (村上畜産 専用：結果入力欄)</th>
 						<th class="" colspan="6">6t ⑩ (山忠商事(直取) 専用：結果入力欄)</th>
 						@endif
