@@ -73,10 +73,10 @@
 								@endif
 							</td>
 							<td class="tx-right">500</td>
-							<td class="tx-right"><input type="number" min="0" class="tx-center w-50" id="qty_{{$i}}" name="qty_list[]" value="{{$rows->qty_list[$i]}}" onchange="calcWeight({{$i}}); sumRows();"></td>
+							<td class="tx-right"><input type="number" min="0" class="tx-center w-50" id="qty_{{$i}}" name="qty_list[]" value="{{$rows->qty_list[$i]}}" onchange="calcWeight({{$i}}); sumRows();" @if($get->action != '' && $get->action != 'save' && $get->action != 'edit') readonly @endif></td>
 							<td class="tx-right"><input type="text" class="tx-right w-75" id="weight_{{$i}}" name="weight_list[]" value="{{$rows->weight_list[$i]}}" readonly></td>
 							<td class="tx-right">
-								@if(!$rows->stock_list[$i])
+								@if(!$rows->stock_list[$i] || $get->action == 'confirm')
 								 - 
 								@else
 									<a href="/wp-admin/admin.php?page=stock-lot-regist&stock={{$rows->stock_list[$i]}}&goods={{$rows->goods_list[$i]}}&arrival_dt={{$get->arrival_dt}}&warehouse={{$get->warehouse}}">入力画面へ</a>

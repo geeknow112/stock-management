@@ -242,7 +242,7 @@
 @if (!in_array($class, array(8,9,10)))
 									<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="off"><label class="btn btn-outline-primary" for="check-receipt_{{$row->sales}}">受領書</label><!-- 受領書の受取確認用 -->
 @else
-									<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="off" onclick="alert('test');"><label class="btn btn-outline-primary" for="check-receipt_{{$row->sales}}">受領書</label><!-- 受領書の受取確認用 -->
+									<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="off"><label class="btn btn-outline-primary" for="check-receipt_{{$row->sales}}">受領書</label><!-- 受領書の受取確認用 -->
 @endif
 								@else
 									<a href="#" class="btn btn-danger text-center">&emsp;完了&emsp;</a>
