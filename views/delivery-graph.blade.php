@@ -239,7 +239,11 @@
 							@else
 								@if ($row->receipt_fg != 1)
 									<a href="#" class="btn btn-success text-center" onclick="check_status({{$row->sales}}, {{$row->goods}});">登録済</a>
+@if (!in_array($class, array(8,9,10)))
 									<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="off"><label class="btn btn-outline-primary" for="check-receipt_{{$row->sales}}">受領書</label><!-- 受領書の受取確認用 -->
+@else
+									<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="off" onclick="alert('test');"><label class="btn btn-outline-primary" for="check-receipt_{{$row->sales}}">受領書</label><!-- 受領書の受取確認用 -->
+@endif
 								@else
 									<a href="#" class="btn btn-danger text-center">&emsp;完了&emsp;</a>
 								@endif

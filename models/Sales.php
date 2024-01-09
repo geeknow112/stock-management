@@ -892,6 +892,7 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 			'select' => array(
 				'customer' => $this->getPartsOrderName(), 
 				'car_model' => $this->getPartsCarModel(), 
+				'car_model_add' => $this->getPartsCarModelAdd(), 
 				'cars_tank' => $this->getPartsCarsTank(), 
 				'goods_name' => $this->getPartsGoodsName(), 
 				'ship_addr' => $this->getPartsShipAddr(), 
@@ -944,6 +945,17 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 			5 => '6t-5',
 			6 => '6t-6',
 			7 => '6t-7',
+		);
+	}
+
+	/**
+	 * 「車種」結果入力分 追加用
+	 **/
+	private function getPartsCarModelAdd() {
+		return array(
+			8 => '6t-8',
+			9 => '6t-9',
+			10 => '6t-10',
 		);
 	}
 
