@@ -81,7 +81,7 @@ if ($post->cmd == 'cmd_transfer') {
 						case 'cmd_confirm':
 							$msg = $this->getValidMsg();
 							$rows = $post;
-							if ($rows->stock_list) { $post->btn = 'update'; }
+							if ($rows->pre_cmd == 'cmd_update') { $post->btn = 'update'; }
 							if ($msg['msg'] !== 'success') {
 								$rows->messages = $msg;
 							}

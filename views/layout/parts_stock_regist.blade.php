@@ -50,6 +50,7 @@
 					</thead>
 
 					<tbody id="the-list" data-wp-lists="list:user">
+						<input type="hidden" id="pre_cmd" name="pre_cmd" value="{{$post->cmd}}">
 						@for($i = 0; $i<20; $i++)
 						<tr>
 							<td class="">{{$rows->stock_list[$i]}}</td>
