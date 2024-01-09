@@ -46,6 +46,8 @@ class SalesController extends Ext_Controller_Action
 				$get->s['change_status'] = $post->change_status;
 
 				$initForm = $this->getTb()->getInitForm();
+				$initForm['select']['car_model'] = array_merge($initForm['select']['car_model'], $initForm['select']['car_model_add']); // 検索用に「車種」プルダウンに要素追加
+
 				$rows = $this->getTb()->getList($get, $un_convert = true);
 				$formPage = 'sales-list';
 				echo $this->get_blade()->run("sales-list", compact('rows', 'get', 'post', 'formPage', 'initForm', 'wp_list_table'));

@@ -18,6 +18,18 @@
 				<label for="goods_name" class="col-sm-2 col-form-label">商品名：</label>
 					<input type="search" id="goods_name" name="s[goods_name]" value="<?php echo htmlspecialchars($get->s['goods_name']); ?>"><br /><br />
 
+				<label for="carModel" class="col-sm-2 col-form-label">車種：</label>
+					<select type="search" id="user-search-input" name="s[car_model]" class="col-form-select" aria-label="car_model" id="car_model">
+						@foreach($initForm['select']['car_model'] as $i => $d)
+							@if (isset($get->s['car_model']))
+								<option value="{{$i}}" @if($i == $get->s['car_model']) selected @endif>{{$i}} : {{$d}}</option>
+							@else
+								<option value="{{$i}}">{{$d}}</option>
+							@endif
+						@endforeach
+					</select>
+					<br /><br />
+
 				<label for="lot" class="col-sm-2 col-form-label">ロット番号：</label>
 					<input type="search" id="lot" name="s[lot]" value="<?php echo htmlspecialchars($get->s['lot']); ?>"><br /><br />
 
