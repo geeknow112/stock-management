@@ -319,7 +319,7 @@ $dt = new DateTime($sdt. ' +1 days');
 				if ($col != 'qty') {
 					$data[$col] = $post->$col;
 				} else {
-					if (!in_array($post->class, array(8,9))) { // 太田畜産、村上畜産用
+					if (!in_array($post->class, array(8,9,10))) { // 太田畜産、村上畜産用、「直取」用
 						$select_qty = $this->getPartsQty();
 						$data[$col] = $select_qty[$post->$col];
 					} else {
