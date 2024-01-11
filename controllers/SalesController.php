@@ -277,7 +277,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				if (!empty($post->sales) && !empty($post->goods)) {
 					$post->action = $get->action;
 					$rows = $this->getTb()->getLotNumberListBySales($post);
-					$rows->cmd = $post->cmd = 'cmd_update';
+					$post->cmd = 'cmd_update';
 
 				} else {
 					$msg = $this->getValidMsg();
