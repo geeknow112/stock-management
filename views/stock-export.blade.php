@@ -3,7 +3,7 @@
 
 <div id="wpbody-content">
 	<div class="wrap">
-		<h1 class="wp-heading-inline">【在庫証明書】 (丹波SP)</h1>
+		<h1 class="wp-heading-inline">【在庫証明書】</h1>
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page={{$formPage}}&action=regist" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page=agreement" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
 
@@ -15,7 +15,21 @@
 
 			<div class="search-box">
 
-				引取(入庫)日： <input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($get->s['arrival_e_dt']); ?>" placeholder="2020-11-01">&emsp;
+				<label for="carModel" class="col-sm-2 col-form-label">引取(入庫)日： </label>
+					<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="{{$get->s['arrival_e_dt']}}" placeholder="2020-11-01"><br /><br />
+
+				<label for="carModel" class="col-sm-2 col-form-label">出庫倉庫：</label>
+					<select class="" aria-label="outgoing_warehouse" id="outgoing_warehouse" name="s[outgoing_warehouse]">
+						@foreach($initForm['select']['outgoing_warehouse'] as $i => $d)
+							@if ($i == '0')
+							<option value=""></option>
+							@else
+							<option value="{{$i}}" @if ($i == $get->s['outgoing_warehouse']) selected @endif >{{$d}}</option>
+							@endif
+						@endforeach
+					</select>
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+
 				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 
 				<script>
