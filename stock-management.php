@@ -278,4 +278,13 @@ class StockManagement {
 	}
 }
 
+/**
+ * バージョンアップ通知の非表示
+ **/
+function update_nag_hide() {
+	remove_action('admin_notices', 'update_nag', 3);
+	remove_action('admin_notices', 'maintenance_nag', 10);
+}
+add_action('admin_init', 'update_nag_hide');
+
 $StockManagement = new StockManagement;
