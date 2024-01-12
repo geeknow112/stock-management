@@ -85,7 +85,7 @@
 						<td class="tx-right">{{$row->qty}}</td>
 						<td class="tx-right">{{number_format($row->cnt)}}</td>
 						<td class="tx-right">{{number_format($row->stock_total)}}</td>
-						<td class="">{{$row->remarks}}</td>
+						<td class="">{{$row->lots}}</td>
 					</tr>
 					@endforeach
 				@else

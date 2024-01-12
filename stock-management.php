@@ -287,4 +287,12 @@ function update_nag_hide() {
 }
 add_action('admin_init', 'update_nag_hide');
 
+/**
+ * 「WordPress のご利用ありがとうございます。」の非表示、文言の追加
+ **/
+function custom_admin_footer() {
+	// echo '<a href="mailto:test@test.com">システム管理者へ問合せ</a>';
+}
+add_filter('admin_footer_text', 'custom_admin_footer');
+
 $StockManagement = new StockManagement;
