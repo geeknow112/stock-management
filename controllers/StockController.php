@@ -397,6 +397,8 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 
 		$this->setTb('Stock');
 
+		$initForm = $this->getTb()->getInitForm();
+
 		switch($get->cmd) {
 			case 'search':
 			default:

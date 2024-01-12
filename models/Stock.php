@@ -433,7 +433,6 @@ class Stock extends Ext_Model_Base {
 		$sql .= "LEFT JOIN yc_stock_detail AS std ON st.stock = std.stock ";
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = st.goods ";
 		$sql .= "WHERE st.stock is not null ";
-		$sql .= "AND st.warehouse = '2' ";
 		$sql .= "AND std.transfer_fg != '1' "; // 「転送」処理分の減少
 
 		if (current($cur_user->roles) != 'administrator') {
@@ -452,6 +451,7 @@ class Stock extends Ext_Model_Base {
 //				$sql .= "ORDER BY g.goods desc";
 
 				if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND st.arrival_dt <= '%s 23:59:59' ", $get->s['arrival_e_dt']); }
+				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND st.warehouse = '%s' ", $get->s['outgoing_warehouse']); }
 
 //				$sql .= "GROUP BY st.goods ";
 				$sql .= ";";
