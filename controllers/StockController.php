@@ -437,11 +437,26 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 
 				unset($rows);
 				foreach ($data as $goods => $stocks) {
+
+					// ロット番号(カウント)表示のための整形
+					$lots = array();
+					foreach ($stocks as $i => $std) {
+						if (empty($std->lot)) { continue; }
+						$tmp_lots[$std->lot][] = $std->lot;
+					}
+
+					foreach ($tmp_lots as $lot => $list) {
+						$lots[] = sprintf('%s (%d)', $lot, count($list));
+					}
+					unset($tmp_lots);
+
 					$s['goods'] = $stocks[0]->goods;
 					$s['goods_name'] = $stocks[0]->goods_name;
 					$s['qty'] = $stocks[0]->qty;
 					$s['cnt'] = count($stocks);
 					$s['stock_total'] = count($stocks) * 500;
+//$this->vd($lots);exit;
+					$s['lots'] = implode(', ', $lots);
 					$rows[] = (object) $s;
 				}
 //				$this->vd($rows);
