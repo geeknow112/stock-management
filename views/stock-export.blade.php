@@ -28,9 +28,16 @@
 							@endif
 						@endforeach
 					</select>
+
+				<div class="hide_print">
+					<br />
+					<label for="" class="col-sm-2 col-form-label">ロット番号</label>
+					<input type="button" id="disp_lot" class="btn btn-primary" onclick="disp_lots();" value=" 表示 ">&emsp;
+					<input type="button" id="hide_lot" class="btn btn-primary" onclick="hide_lots();" value="非表示">
 					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 
-				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
+					<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
+				</div>
 
 				<script>
 				function cmd_search() {
@@ -38,6 +45,25 @@
 					document.forms.action = "/wp-admin/admin.php?page=stock-export&action=search"
 					document.forms.cmd.value = 'search';
 					document.forms.submit();
+				}
+
+				function disp_lots() {
+					var lot_area = document.getElementsByClassName("lot_area");
+//					lot_area[0].hidden = false;
+					Object.keys(lot_area).forEach(function(i) {
+//						console.log(i);
+						lot_area[i].hidden = false;
+					});
+
+				}
+
+				function hide_lots() {
+					var lot_area = document.getElementsByClassName("lot_area");
+//					lot_area[0].hidden = true;
+					Object.keys(lot_area).forEach(function(i) {
+//						console.log(i);
+						lot_area[i].hidden = true;
+					});
 				}
 				</script>
 			</div>
@@ -85,7 +111,7 @@
 						<td class="tx-right">{{$row->qty}}</td>
 						<td class="tx-right">{{number_format($row->cnt)}}</td>
 						<td class="tx-right">{{number_format($row->stock_total)}}</td>
-						<td class="">{{$row->lots}}</td>
+						<td class=""><span class="lot_area">{{$row->lots}}</span></td>
 					</tr>
 					@endforeach
 				@else
@@ -138,5 +164,11 @@ function init_status(applicant = null) {
 
 .tx-center {
 	text-align: center;
+}
+
+@media print {
+	.hide_print {
+		display: none;
+	}
 }
 </style>
