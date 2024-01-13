@@ -416,11 +416,18 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 
 						// 商品別で数量による除外
 						if ($stock->goods == $del->goods) {
-							// ロット番号による除外
-							if ($stock->lot == $del->lot) {
+							if ($get->match_lot != true) {
 								unset($rows[$i]);
 								unset($dlist[$j]);
 								break;
+
+							} else {
+								// ロット番号による除外
+								if ($stock->lot == $del->lot) {
+									unset($rows[$i]);
+									unset($dlist[$j]);
+									break;
+								}
 							}
 						}
 

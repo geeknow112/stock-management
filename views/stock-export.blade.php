@@ -31,6 +31,11 @@
 
 				<div class="hide_print">
 					<br />
+					<label for="" class="col-sm-2 col-form-label">&emsp;</label>
+					<input type="checkbox" class="btn-check" id="match_lot" name="match_lot" autocomplete="off" onchange="check_match_lot();">
+					<label class="btn btn-outline-primary" for="match_lot">ロット番号での照合</label>
+
+					<br /><br />
 					<label for="" class="col-sm-2 col-form-label">ロット番号</label>
 					<input type="button" id="disp_lot" class="btn btn-primary" onclick="disp_lots();" value=" 表示 ">&emsp;
 					<input type="button" id="hide_lot" class="btn btn-primary" onclick="hide_lots();" value="非表示">
@@ -45,6 +50,19 @@
 					document.forms.action = "/wp-admin/admin.php?page=stock-export&action=search"
 					document.forms.cmd.value = 'search';
 					document.forms.submit();
+				}
+
+				window.onload = function () {
+					const match_lot = '{{$get->match_lot}}';
+					if (match_lot == 'on' || match_lot == 1) {
+						document.getElementById('match_lot').checked = true;
+					}
+				}
+
+				function check_match_lot() {
+					if (document.getElementById('match_lot').checked) {
+						document.getElementById('match_lot').value = 1; // true
+					}
 				}
 
 				function disp_lots() {
