@@ -57,6 +57,18 @@
 					if (match_lot == 'on' || match_lot == 1) {
 						document.getElementById('match_lot').checked = true;
 					}
+
+					// 印刷時に不要なパーツを非表示
+					const menu = document.getElementById('adminmenumain');
+					const wpfooter = document.getElementById('wpfooter');
+					const footer = document.getElementById('footer-upgrade');
+					const wpauth = document.getElementById('wp-auth-check-wrap');
+
+					menu.classList.add('hide_print');
+					wpfooter.classList.add('hide_print');
+					footer.classList.add('hide_print');
+					wpauth.classList.add('hide_print');
+
 				}
 
 				function check_match_lot() {
@@ -126,7 +138,7 @@
 					<tr id="">
 						<td class="tx-center">{{$i+1}}</td>
 						<td class="">{{$row->goods_name}}</td>
-						<td class="tx-right">{{$row->qty}}</td>
+						<td class="tx-center">{{$row->qty * 1000}}</td>
 						<td class="tx-right">{{number_format($row->cnt)}}</td>
 						<td class="tx-right">{{number_format($row->stock_total)}}</td>
 						<td class=""><span class="lot_area">{{$row->lots}}</span></td>
