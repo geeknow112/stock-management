@@ -330,6 +330,7 @@ function to_lot_regist(sales = null, goods = null) {
 		<div style="width: 40rem;" id="app1" class="container">
 			<div class="d-flex flex-row bd-highlight mb-3">
 
+				<!-- 「商品」 選択欄 -->
 				<?php if ($class == 8) { // 太田畜産用 ?>
 					<select class="w-25" id="goods_{{$oid}}" name="">
 						<?php foreach ($initForm['fix_customer'][17]['goods'] as $customer => $goods_list) { ?>
@@ -353,54 +354,21 @@ function to_lot_regist(sales = null, goods = null) {
 					</select>
 				<?php } ?>
 
-				<select class="" id="qty_{{$oid}}" name="">
-				<?php if ($class == 8) { // 太田畜産用 ?>
-						<option value=""></option>
-						<option value="2.0">2.0</option>
-						<option value="4.0">4.0</option>
-						<option value="6.0">6.0</option>
-						<option value="8.0">8.0</option>
-						<option value="10.0">10.0</option>
-						<option value="12.0">12.0</option>
-						<option value="14.0">14.0</option>
-						<option value="16.0">16.0</option>
-						<option value="18.0">18.0</option>
-				<?php } elseif ($class == 9) { // 村上養鶏場用 ?>
-						<option value=""></option>
-						<option value="2.5">2.5</option>
-						<option value="5.0">5.0</option>
-						<option value="7.5">7.5</option>
-						<option value="10.0">10.0</option>
-						<option value="12.5">12.5</option>
-				<?php } else { // その他 ?>
-<!--
-					<?php foreach ($initForm['select']['qty'] as $i => $qty) { ?>
-						<option value="<?php echo $i; ?>"><?php echo $qty; ?></option>
-					<?php } ?>
--->
-						<option value=""></option>
-						<option value="0.5">0.5</option>
-						<option value="1.0">1.0</option>
-						<option value="1.5">1.5</option>
-						<option value="2.0">2.0</option>
-						<option value="2.5">2.5</option>
-						<option value="3.0">3.0</option>
-						<option value="3.5">3.5</option>
-						<option value="4.0">4.0</option>
-						<option value="4.5">4.5</option>
-						<option value="5.0">5.0</option>
-				<?php } ?>
-				</select>
+				<!-- 「数量」 入力欄 -->
+				<input type="number" id="qty_{{$oid}}" min="0" max="30" step="0.5" value="" />
 
+				<!-- 「配送先」 入力欄 -->
 				<select class="w-25" id="ship_addr_{{$oid}}" name="">
 				</select>
 
+				<!-- 「出庫倉庫」 選択欄 -->
 				<select class="" id="outgoing_warehouse_{{$oid}}" name="">
 					<?php foreach ($initForm['select']['outgoing_warehouse'] as $i => $outgoing_warehouse) { ?>
 						<option value="<?php echo $i; ?>"><?php echo $outgoing_warehouse; ?></option>
 					<?php } ?>
 				</select>
 
+				<!-- 「(顧客)氏名」 選択欄 -->
 				<?php if ($class == 8) { // 太田畜産用 ?>
 					<select class="" id="customer_{{$oid}}" name="customer_{{$oid}}">
 						<?php foreach ($initForm['fix_customer'][17]['customer'] as $customer => $customer_name) { ?>
