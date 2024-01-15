@@ -171,6 +171,8 @@
 			<?php foreach ($d as $id => $row) { ?>
 				<?php if ($row->class == $class && $row->cars_tank == $carsTank) { ?>
 					<div class="d-flex flex-row bd-highlight mb-3">
+
+						<!-- 「品名」 表示エリア -->
 						@if ($row->repeat_fg != 1)
 							@if ($row->upuser != 'ceo')
 							<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}}</a></div>
@@ -180,28 +182,43 @@
 						@else
 							<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}}</a></div>
 						@endif
+
+						<!-- 「量(t)」 表示エリア -->
 						<div class="text-wrap text-center inner_box" style="width: 3.5rem;"><?php echo $row->qty; ?></div>
+
+						<!-- 「配送先」 表示エリア -->
 						<div class="text-wrap text-center inner_box" style="width: 9rem;">
 						<?php
-//							echo sprintf('[ ');
-							echo ($row->tank_name) ? sprintf('%s <br>', $row->tank_name) : '- <br>';
+							if (in_array($row->class, array(8,9))) {
+								echo ($row->field1) ? sprintf('%s <br>', $row->field1) : '- <br>';
+
+							} else {
+//								echo sprintf('[ ');
+								echo ($row->tank_name) ? sprintf('%s <br>', $row->tank_name) : '- <br>';
 /*
-							foreach ($sumTanks[$row->sales][$row->goods] as $i => $d) {
-								if (!empty(current($d))) {
-									echo sprintf(' %s (t) <br>', implode(' : ', $d));
+								foreach ($sumTanks[$row->sales][$row->goods] as $i => $d) {
+									if (!empty(current($d))) {
+										echo sprintf(' %s (t) <br>', implode(' : ', $d));
+									}
 								}
-							}
 */
-//							echo sprintf(' ]');
+//								echo sprintf(' ]');
+							}
 							echo ($row->outgoing_warehouse == 1) ? '<span style="color: red;">(内)</span>' : '&emsp;';
 						?>
 						</div>
+
+						<!-- 「入庫予定日」|「出庫倉庫」 表示エリア -->
 						@if ($row->class <= 7) {{-- ⑧、⑨、⑩の場合、出庫倉庫を表示 --}}
 							<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
 						@else
 							<div class="text-wrap text-center inner_box" style="width: 7.5rem;">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</div>
 						@endif
+
+						<!-- 「(顧客)氏名」 表示エリア -->
 						<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo str_replace('　', '', $row->customer_name); ?></div>
+
+						<!-- 操作ボタン等 表示エリア -->
 						@if ($row->class != 7)
 							@if ($row->lot_fg == 0)
 								@if (isset($row->base_sales))
@@ -358,8 +375,12 @@ function to_lot_regist(sales = null, goods = null) {
 				<input type="number" id="qty_{{$oid}}" min="0" max="30" step="0.5" value="" />
 
 				<!-- 「配送先」 入力欄 -->
-				<select class="w-25" id="ship_addr_{{$oid}}" name="">
-				</select>
+				<?php if (in_array($class, array(8,9))) { // 太田畜産用 // 村上養鶏場用 ?>
+					<input type="text" class="w-25" id="ship_addr_{{$oid}}" value="" />
+				<?php } else { // その他 ?>
+					<select class="w-25" id="ship_addr_{{$oid}}" name="">
+					</select>
+				<?php } ?>
 
 				<!-- 「出庫倉庫」 選択欄 -->
 				<select class="" id="outgoing_warehouse_{{$oid}}" name="">

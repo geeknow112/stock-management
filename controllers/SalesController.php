@@ -344,6 +344,12 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				}
 
 				$pdata = (object) $ret;
+
+				// class = (8,9)‚Ìê‡Aship_addr‚Ì“ü—Í’l‚ðAfield1‚É“o˜^‚·‚é
+				if (in_array($pdata->class, array(8,9))) {
+					$pdata->field1 = $pdata->ship_addr;
+					unset($pdata->ship_addr);
+				}
 //				$this->vd($pdata);
 
 				// yc_sales‚Ö“o˜^
