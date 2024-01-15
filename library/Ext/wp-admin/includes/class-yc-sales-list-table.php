@@ -168,7 +168,7 @@ $req = (object) $_REQUEST;
 $where = sprintf("WHERE s.sales is not null ");
 if (!empty($req->s['no'])) { $where .= sprintf("AND s.sales = '%s'", $req->s['no']); }
 if (!empty($req->s['goods_name'])) { $where .= "AND g.name LIKE '%". $req->s['goods_name']. "%'"; }
-if (isset($req->s['car_model']) && $req->s['car_model'] != '') { $where .= sprintf("AND s.class = '%s'", $req->s['car_model']); }
+if (isset($req->s['car_model']) && $req->s['car_model'] != '0') { $where .= sprintf("AND s.class = '%s'", $req->s['car_model']); }
 if (isset($req->s['status']) && $req->s['status'] != '') { $where .= sprintf("AND s.status = '%s'", $req->s['status']); }
 if (!empty($req->s['outgoing_warehouse']) && $req->s['outgoing_warehouse'] != '') { $where .= sprintf("AND s.outgoing_warehouse = '%s' ", $req->s['outgoing_warehouse']); }
 if (!empty($req->s['lot'])) { $where .= sprintf("AND gd.lot = '%s'", $req->s['lot']); }
