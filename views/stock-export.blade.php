@@ -58,42 +58,40 @@
 			
 			<div class="table-responsive">
 				<table class="table table-bordered text-nowrap">
-					<thead class="table-light">
-						<tr>
-							<th class="col-md-1">No.</th>
-							<th class="col-md-2">製品名</th>
-							<th class="col-md-1">荷姿・容量(kgTB)</th>
-							<th class="col-md-1">個数</th>
-							<th class="col-md-1">数量(kg)</th>
-							<th class="">備考</th>
-						</tr>
-					</thead>
+					<!-- thead -->
+					<tr class="table-light">
+						<th class="col-md-1">No.</th>
+						<th class="col-md-2">製品名</th>
+						<th class="col-md-1">荷姿・容量(kgTB)</th>
+						<th class="col-md-1">個数</th>
+						<th class="col-md-1">数量(kg)</th>
+						<th class="">備考</th>
+					</tr>
 
-					@if (isset($rows) && count($rows))
 					<tbody id="the-list" data-wp-lists="list:user">
-						@foreach ($rows as $i => $row)
-						<tr id="">
-							<td class="tx-center">{{$i+1}}</td>
-							<td class="">{{$row->goods_name}}</td>
-							<td class="tx-center">{{$row->qty * 1000}}</td>
-							<td class="tx-right">{{number_format($row->cnt)}}</td>
-							<td class="tx-right">{{number_format($row->stock_total)}}</td>
-							<td class=""><span class="lot_area">{{$row->lots}}</span></td>
-						</tr>
-						@endforeach
-					@else
-					<td class="colspanchange" colspan="7">検索対象は見つかりませんでした。</td>
-					@endif
+						@if (isset($rows) && count($rows))
+							@foreach ($rows as $i => $row)
+							<tr id="">
+								<td class="tx-center">{{$i+1}}</td>
+								<td class="">{{$row->goods_name}}</td>
+								<td class="tx-center">{{$row->qty * 1000}}</td>
+								<td class="tx-right">{{number_format($row->cnt)}}</td>
+								<td class="tx-right">{{number_format($row->stock_total)}}</td>
+								<td class=""><span class="lot_area">{{$row->lots}}</span></td>
+							</tr>
+							@endforeach
+						@else
+							<td class="colspanchange" colspan="7">検索対象は見つかりませんでした。</td>
+						@endif
 					</tbody>
 
-					<tfoot class="table-light">
-						<tr>
-							<th class="tx-right" colspan="3">合計</th>
-							<th class="tx-right">{{number_format($stock_cnt)}}</th>
-							<th class="tx-right">{{number_format($stock_sum)}}</th>
-							<th class=""></th>
-						</tr>
-					</tfoot>
+					<!-- tfoot -->
+					<tr class="table-light">
+						<th class="tx-right" colspan="3">合計</th>
+						<th class="tx-right">{{number_format($stock_cnt)}}</th>
+						<th class="tx-right">{{number_format($stock_sum)}}</th>
+						<th class=""></th>
+					</tr>
 				</table>
 			</div>
 
