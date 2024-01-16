@@ -60,24 +60,24 @@
 				<table class="table table-bordered text-nowrap">
 					<!-- thead -->
 					<tr class="table-light">
-						<th class="col-md-1">No.</th>
-						<th class="col-md-2">製品名</th>
-						<th class="col-md-1">荷姿・容量(kgTB)</th>
-						<th class="col-md-1">個数</th>
-						<th class="col-md-1">数量(kg)</th>
-						<th class="">備考</th>
+<!--						<th class="col-md-1">No.</th>-->
+						<th class="col-md-2 tx-center">製品名</th>
+						<th class="col-md-1 tx-center">荷姿・容量</th>
+						<th class="col-md-1 tx-center">個数</th>
+						<th class="col-md-1 tx-center">数量(kg)</th>
+						<th class="tx-center">備考</th>
 					</tr>
 
 					<tbody id="the-list" data-wp-lists="list:user">
 						@if (isset($rows) && count($rows))
-							@foreach ($rows as $i => $row)
+							@foreach ($sort as $goods => $goods_name)
 							<tr id="">
-								<td class="tx-center">{{$i+1}}</td>
-								<td class="">{{$row->goods_name}}</td>
-								<td class="tx-center">{{$row->qty * 1000}}</td>
-								<td class="tx-right">{{number_format($row->cnt)}}</td>
-								<td class="tx-right">{{number_format($row->stock_total)}}</td>
-								<td class=""><span class="lot_area">{{$row->lots}}</span></td>
+<!--								<td class="tx-center">{{$i+1}}</td>-->
+								<td class="">{{$goods_name}}</td>
+								<td class="tx-center">500kgTB</td>
+								<td class="tx-right">@if ($rows[$goods]->cnt) {{number_format($rows[$goods]->cnt)}} @endif</td>
+								<td class="tx-right">@if ($rows[$goods]->stock_total) {{number_format($rows[$goods]->stock_total)}} @endif</td>
+								<td class=""><span class="lot_area">{{$rows[$goods]->lots}}</span></td>
 							</tr>
 							@endforeach
 						@else
@@ -87,7 +87,7 @@
 
 					<!-- tfoot -->
 					<tr class="table-light">
-						<th class="tx-right" colspan="3">合計</th>
+						<th class="tx-center" colspan="2">合計</th>
 						<th class="tx-right">{{number_format($stock_cnt)}}</th>
 						<th class="tx-right">{{number_format($stock_sum)}}</th>
 						<th class=""></th>

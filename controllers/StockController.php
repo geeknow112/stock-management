@@ -457,14 +457,15 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 					}
 					unset($tmp_lots);
 
-					$s['goods'] = $stocks[0]->goods;
+					$goods = $stocks[0]->goods;
+					$s['goods'] = $goods;
 					$s['goods_name'] = $stocks[0]->goods_name;
 					$s['qty'] = $stocks[0]->qty;
 					$s['cnt'] = count($stocks);
 					$s['stock_total'] = count($stocks) * 500;
 //$this->vd($lots);exit;
 					$s['lots'] = implode(', ', $lots);
-					$rows[] = (object) $s;
+					$rows[$goods] = (object) $s;
 				}
 //				$this->vd($rows);
 				break;
@@ -476,7 +477,15 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 		// 在庫数量の総合計
 		$stock_sum = array_sum(array_column((array) $rows, 'stock_total'));
 
-		echo $this->get_blade()->run("stock-export", compact('rows', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum'));
+		// ソートのための順序作成
+		$Goods = new Goods;
+		$glist = $Goods->getList();
+		//$this->vd($glist);
+		foreach ($glist as $i => $gd) {
+			$sort[$gd->goods] = $gd->name;
+		}
+
+		echo $this->get_blade()->run("stock-export", compact('rows', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum', 'sort'));
 	}
 
 	/**
