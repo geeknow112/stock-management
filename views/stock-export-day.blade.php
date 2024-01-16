@@ -8,6 +8,7 @@
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page=agreement" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
 
 		<hr class="wp-header-end">
+		<br />
 
 		<form name="forms" id="forms" action="" method="" enctype="multipart/form-data">
 {{--			@if ($tb->getCurUser()->roles[0] == 'administrator')	--}}
@@ -30,14 +31,6 @@
 
 				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 
-				<script>
-				function cmd_search() {
-					document.forms.method = 'get';
-					document.forms.action = "/wp-admin/admin.php?page=stock-export-day&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
-					document.forms.cmd.value = 'search';
-					document.forms.submit();
-				}
-				</script>
 			</div>
 			<br />
 
@@ -54,15 +47,14 @@
 			<div class="title-box">■ ※①～⑥、⑧、⑨ （※配送予定表の①～⑥、⑧、⑨を集計します。）</div>
 			@if (isset($rows) && count($rows))
 			<table class="table table-bordered text-nowrap">
-				<thead class="table-light">
-					<tr>
-						<th class="">No.</th>
-						<th class="">品名</th>
-						<th class="">容量</th>
-						<th class="">量目(t)</th>
-						<th class="">備考</th>
-					</tr>
-				</thead>
+				<!-- thead -->
+				<tr class="table-light">
+					<th class="">No.</th>
+					<th class="">品名</th>
+					<th class="">容量</th>
+					<th class="">量目(t)</th>
+					<th class="">備考</th>
+				</tr>
 
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($rows as $i => $row)
@@ -76,20 +68,20 @@
 					@endforeach
 				</tbody>
 
-				<tfoot class="">
-					<tr>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-					</tr>
-					<tr>
-						<th class="table-light">運送会社</th>
-						<th class="">内藤運送</th>
-						<th class="" colspan="3"></th>
-					</tr>
-				</tfoot>
+				<!-- tfoot -->
+				<tr>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+				</tr>
+				<tr>
+					<th class="table-light">運送会社</th>
+					<th class="">内藤運送</th>
+					<th class="" colspan="3"></th>
+				</tr>
+
 			</table>
 			@endif
 		</div>
@@ -100,15 +92,14 @@
 			<div class="title-box">■ 【直取】　※⑩ （※配送予定表の⑩を集計します。）</div>
 			@if (isset($jks) && count($jks))
 			<table class="table table-bordered text-nowrap">
-				<thead class="table-light">
-					<tr>
-						<th class="">No.</th>
-						<th class="">品名</th>
-						<th class="">容量</th>
-						<th class="">量目(t)</th>
-						<th class="">備考</th>
-					</tr>
-				</thead>
+				<!-- thead -->
+				<tr class="table-light">
+					<th class="">No.</th>
+					<th class="">品名</th>
+					<th class="">容量</th>
+					<th class="">量目(t)</th>
+					<th class="">備考</th>
+				</tr>
 
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($jks as $i => $jk)
@@ -122,20 +113,19 @@
 					@endforeach
 				</tbody>
 
-				<tfoot class="">
-					<tr>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-					</tr>
-					<tr>
-						<th class="table-light">運送会社</th>
-						<th class="">山忠商事</th>
-						<th class="" colspan="3"></th>
-					</tr>
-				</tfoot>
+				<!-- tfoot -->
+				<tr>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+				</tr>
+				<tr>
+					<th class="table-light">運送会社</th>
+					<th class="">山忠商事</th>
+					<th class="" colspan="3"></th>
+				</tr>
 			</table>
 			@endif
 		</div>
@@ -146,15 +136,14 @@
 			<div class="title-box">■ 【転送】　丹波SP ➤ 内藤SP</div>
 			@if (isset($trans_t_n) && count($trans_t_n))
 			<table class="table table-bordered text-nowrap">
-				<thead class="table-light">
-					<tr>
-						<th class="">No.</th>
-						<th class="">品名</th>
-						<th class="">容量</th>
-						<th class="">量目(t)</th>
-						<th class="">備考</th>
-					</tr>
-				</thead>
+				<!-- thead -->
+				<tr class="table-light">
+					<th class="">No.</th>
+					<th class="">品名</th>
+					<th class="">容量</th>
+					<th class="">量目(t)</th>
+					<th class="">備考</th>
+				</tr>
 
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($trans_t_n as $i => $tf)
@@ -168,20 +157,19 @@
 					@endforeach
 				</tbody>
 
-				<tfoot class="">
-					<tr>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-					</tr>
-					<tr>
-						<th class="table-light">運送会社</th>
-						<th class="">内藤運送</th>
-						<th class="" colspan="3"></th>
-					</tr>
-				</tfoot>
+				<!-- tfoot -->
+				<tr>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+				</tr>
+				<tr>
+					<th class="table-light">運送会社</th>
+					<th class="">内藤運送</th>
+					<th class="" colspan="3"></th>
+				</tr>
 			</table>
 			@endif
 		</div>
@@ -192,15 +180,14 @@
 			<div class="title-box">■ 【転送】　内藤SP ➤ 丹波SP</div>
 			@if (isset($trans_n_t) && count($trans_n_t))
 			<table class="table table-bordered text-nowrap">
-				<thead class="table-light">
-					<tr>
-						<th class="">No.</th>
-						<th class="">品名</th>
-						<th class="">容量</th>
-						<th class="">量目(t)</th>
-						<th class="">備考</th>
-					</tr>
-				</thead>
+				<!-- thead -->
+				<tr class="table-light">
+					<th class="">No.</th>
+					<th class="">品名</th>
+					<th class="">容量</th>
+					<th class="">量目(t)</th>
+					<th class="">備考</th>
+				</tr>
 
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($trans_n_t as $i => $tf)
@@ -214,20 +201,19 @@
 					@endforeach
 				</tbody>
 
-				<tfoot class="">
-					<tr>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-						<th class="">&emsp;</th>
-					</tr>
-					<tr>
-						<th class="table-light">運送会社</th>
-						<th class="">内藤運送</th>
-						<th class="" colspan="3"></th>
-					</tr>
-				</tfoot>
+				<!-- tfoot -->
+				<tr>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+				</tr>
+				<tr>
+					<th class="table-light">運送会社</th>
+					<th class="">内藤運送</th>
+					<th class="" colspan="3"></th>
+				</tr>
 			</table>
 			@endif
 		</div>
@@ -236,19 +222,27 @@
 </div>
 
 <script>
-function init_status(applicant = null) {
-	if (applicant == "" || applicant == null) {
-		alert("No. がありません。");
-		exit;
-	}
+function cmd_search() {
+	document.forms.method = 'get';
+	document.forms.action = "/wp-admin/admin.php?page=stock-export-day&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
+	document.forms.cmd.value = 'search';
+	document.forms.submit();
+}
 
-	var str = "No. 【" + applicant + "】 の「登録状況」を初期化しますか？";
-	if (window.confirm(str)) {
-		//alert("初期化しました。");
-		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=sales-list&post=" + applicant + "&action=init-status";
-	}
+window.onload = function () {
+	// 印刷時に不要なパーツを非表示
+	const menu = document.getElementById('adminmenumain');
+	const wpfooter = document.getElementById('wpfooter');
+	const footer = document.getElementById('footer-upgrade');
+	const wpauth = document.getElementById('wp-auth-check-wrap');
+
+	menu.classList.add('hide_print');
+	wpfooter.classList.add('hide_print');
+	footer.classList.add('hide_print');
+	wpauth.classList.add('hide_print');
 }
 </script>
+
 <style>
 .tx-right {
 	text-align: right;
@@ -260,5 +254,25 @@ function init_status(applicant = null) {
 
 .title-box {
 	margin-top: 30px;
+}
+
+@media print {
+	.hide_print {
+		display: none;
+	}
+
+	body * {
+		visibility: hidden;
+	}
+
+	#wpbody-content * {
+		visibility: visible;
+	}
+
+	#wpbody-content {
+		position: absolute;
+		top: 0;
+		left: 0;
+	}
 }
 </style>
