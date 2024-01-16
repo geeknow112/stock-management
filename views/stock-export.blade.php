@@ -131,7 +131,6 @@ window.onload = function () {
 	wpfooter.classList.add('hide_print');
 	footer.classList.add('hide_print');
 	wpauth.classList.add('hide_print');
-
 }
 
 function check_match_lot() {
