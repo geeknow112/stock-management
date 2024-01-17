@@ -36,11 +36,13 @@
 
 					<br /><br />
 					<label for="" class="col-sm-2 col-form-label">ロット番号</label>
-					<input type="button" id="disp_lot" class="btn btn-primary" onclick="disp_lots();" value=" 表示 ">&emsp;
-					<input type="button" id="hide_lot" class="btn btn-primary" onclick="hide_lots();" value="非表示">
+					<input type="button" id="disp_lot" class="btn btn-success" onclick="disp_lots();" value=" 表示 ">&emsp;
+					<input type="button" id="hide_lot" class="btn btn-secondary" onclick="hide_lots();" value="非表示">
 					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 
 					<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
+					&emsp;&emsp;
+					<input type="button" id="search-submit" class="btn btn-danger" onclick="window.print();" value="印刷">
 				</div>
 			</div>
 
