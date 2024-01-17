@@ -29,7 +29,11 @@
 					</select>
 					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 
-				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
+				<span class="hide_print">
+					<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
+					&emsp;&emsp;
+					<input type="button" id="search-submit" class="btn btn-danger" onclick="window.print();" value="印刷">
+				</span>
 
 			</div>
 			<br />
