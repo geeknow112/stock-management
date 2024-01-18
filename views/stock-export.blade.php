@@ -42,7 +42,7 @@
 
 					<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 					&emsp;&emsp;
-					<input type="button" id="search-submit" class="btn btn-danger" onclick="window.print();" value="印刷">
+					<input type="button" id="btn_print" class="btn btn-danger" onclick="exe_print();" value="印刷">
 				</div>
 			</div>
 
@@ -110,6 +110,9 @@
 </div>
 
 <script>
+/**
+ * 検索実行
+ **/
 function cmd_search() {
 	document.forms.method = 'get';
 	document.forms.action = "/wp-admin/admin.php?page=stock-export&action=search"
@@ -117,30 +120,28 @@ function cmd_search() {
 	document.forms.submit();
 }
 
+/**
+ * 画面ロード時の処理
+ **/
 window.onload = function () {
 	const match_lot = '{{$get->match_lot}}';
 	if (match_lot == 'on' || match_lot == 1) {
 		document.getElementById('match_lot').checked = true;
 	}
-
-	// 印刷時に不要なパーツを非表示
-	const menu = document.getElementById('adminmenumain');
-	const wpfooter = document.getElementById('wpfooter');
-	const footer = document.getElementById('footer-upgrade');
-	const wpauth = document.getElementById('wp-auth-check-wrap');
-
-	menu.classList.add('hide_print');
-	wpfooter.classList.add('hide_print');
-	footer.classList.add('hide_print');
-	wpauth.classList.add('hide_print');
 }
 
+/**
+ * ロット番号での照合をcheckedにする処理
+ **/
 function check_match_lot() {
 	if (document.getElementById('match_lot').checked) {
 		document.getElementById('match_lot').value = 1; // true
 	}
 }
 
+/**
+ * ロット番号一覧を「備考」に表示
+ **/
 function disp_lots() {
 	var lot_area = document.getElementsByClassName("lot_area");
 //					lot_area[0].hidden = false;
@@ -151,6 +152,9 @@ function disp_lots() {
 
 }
 
+/**
+ * ロット番号一覧を「備考」から非表示
+ **/
 function hide_lots() {
 	var lot_area = document.getElementsByClassName("lot_area");
 //					lot_area[0].hidden = true;
@@ -158,6 +162,32 @@ function hide_lots() {
 //						console.log(i);
 		lot_area[i].hidden = true;
 	});
+}
+
+/**
+ * 印刷時に不要なメニュー等を非表示
+ **/
+function exe_print() {
+	// 印刷時に不要なパーツを非表示
+	const menu = document.getElementById('adminmenumain');
+	const wpfooter = document.getElementById('wpfooter');
+	const footer = document.getElementById('footer-upgrade');
+	const wpauth = document.getElementById('wp-auth-check-wrap');
+
+	menu.classList.add('hide_print');
+	wpfooter.classList.add('hide_print');
+	footer.classList.add('hide_print');
+	wpauth.classList.add('hide_print');
+
+	// 左メニューを閉じる
+	var cBtn = document.getElementById('collapse-button');
+	//console.log(cBtn.ariaExpanded);
+	if (cBtn.ariaExpanded == 'true') {
+		//console.log('exc menu close.');
+		cBtn.click();
+	}
+
+	window.print();
 }
 </script>
 
