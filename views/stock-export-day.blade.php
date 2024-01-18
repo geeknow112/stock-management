@@ -32,7 +32,7 @@
 				<span class="hide_print">
 					<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 					&emsp;&emsp;
-					<input type="button" id="search-submit" class="btn btn-danger" onclick="window.print();" value="印刷">
+					<input type="button" id="btn_print" class="btn btn-danger" onclick="exe_print();" value="印刷">
 				</span>
 
 			</div>
@@ -226,6 +226,9 @@
 </div>
 
 <script>
+/**
+ * 検索実行
+ **/
 function cmd_search() {
 	document.forms.method = 'get';
 	document.forms.action = "/wp-admin/admin.php?page=stock-export-day&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
@@ -233,7 +236,16 @@ function cmd_search() {
 	document.forms.submit();
 }
 
+/**
+ * 画面ロード時の処理
+ **/
 window.onload = function () {
+}
+
+/**
+ * 印刷時に不要なメニュー等を非表示
+ **/
+function exe_print() {
 	// 印刷時に不要なパーツを非表示
 	const menu = document.getElementById('adminmenumain');
 	const wpfooter = document.getElementById('wpfooter');
@@ -244,6 +256,16 @@ window.onload = function () {
 	wpfooter.classList.add('hide_print');
 	footer.classList.add('hide_print');
 	wpauth.classList.add('hide_print');
+
+	// 左メニューを閉じる
+	var cBtn = document.getElementById('collapse-button');
+	//console.log(cBtn.ariaExpanded);
+	if (cBtn.ariaExpanded == 'true') {
+		//console.log('exc menu close.');
+		cBtn.click();
+	}
+
+	window.print();
 }
 </script>
 
