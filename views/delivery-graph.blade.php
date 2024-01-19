@@ -30,8 +30,18 @@
 
 				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 
-				&emsp;&emsp;&emsp;
-				<span><a href="#input_result">結果入力欄へ ▶</a><span>
+				<span class="pc">&emsp;&emsp;&emsp;&emsp;</span>
+				<span class="sp"><br /></br /></span>
+				<span id="jump_link">
+					<span><a href="#table_top"><input type="button" class="btn btn-primary" value="⓪"></a><span>
+					&emsp;
+					<span><a href="#car_model_3"><input type="button" class="btn btn-primary" value="③"></a><span>
+					&emsp;
+					<span><a href="#car_model_6"><input type="button" class="btn btn-primary" value="⑥"></a><span>
+					&emsp;
+					<span><a href="#input_result"><input type="button" class="btn btn-primary" value="結果入力欄"></a><span>
+				</span>
+				<span class="sp"><br /></br /></span>
 
 				<script>
 				function cmd_search() {
@@ -85,7 +95,7 @@
 			</table>
 
 
-		<div>
+		<div id="table_top">
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
 					<tr>
@@ -97,11 +107,11 @@
 						@endif
 						<th class="" colspan="6">6t ①</th>
 						<th class="" colspan="6">6t ②</th>
-						<th class="" colspan="6">6t ③</th>
+						<th class="" colspan="6" id="car_model_3">6t ③</th>
 						<th class="" colspan="6">6t ④</th>
 						<th class="" colspan="6">6t ⑤</th>
 						@if ($cur_user->roles[0] == 'administrator')
-						<th class="" colspan="6">6t ⑥</th>
+						<th class="" colspan="6" id="car_model_6">6t ⑥</th>
 						<th class="" colspan="6">6t ⑦ (山忠商事(直取) 専用：繰り返し注文表示欄)</th>
 						<th class="" colspan="6" id="input_result">6t ⑧ (太田畜産 専用：結果入力欄)</th>
 						<th class="" colspan="6">7.5t ⑨ (村上畜産 専用：結果入力欄)</th>
@@ -161,6 +171,22 @@
 	.inner_box_repeat {
 		width: 8rem; background: #ff69b4; border-right: 1px solid #ffffff; color: #ffffff;
 		font-size: 16px;
+	}
+
+	#jump_link {
+		text-align: center;
+	}
+
+	@media(min-width:751px){
+		.sp {
+			display: none !important;
+		}
+	}
+
+	@media(max-width:750px){
+		.pc {
+			display: none !important;
+		}
 	}
 </style>
 
