@@ -526,7 +526,7 @@ class Stock extends Ext_Model_Base {
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.delivery_dt, s.goods, s.qty, g.name AS goods_name, s.customer AS customer, c.name AS customer_name ";
+		$sql  = "SELECT s.delivery_dt, s.goods, s.class, s.cars_tank, s.qty, g.name AS goods_name, s.customer AS customer, c.name AS customer_name ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = s.goods ";
 		$sql .= "LEFT JOIN yc_customer AS c ON c.customer = s.customer ";
@@ -562,6 +562,7 @@ class Stock extends Ext_Model_Base {
 
 		$sql_sub  = "SELECT *, sum(t.qty) AS qty FROM (". $sql. ") AS t ";
 		$sql_sub .= "GROUP BY t.goods, t.customer ";
+		$sql_sub .= "ORDER BY t.class, t.cars_tank asc ";
 		$sql_sub .= ";";
 
 		$rows = $wpdb->get_results($sql_sub);
