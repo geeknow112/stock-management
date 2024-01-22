@@ -603,7 +603,8 @@ $initForm = $s->getInitForm();
 //			echo '<input type="hidden" id="arr_delivery_dt" name="arr_delivery_dt[]" value="{{$list->delivery_dt}}" />';
 			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->sales. '&action=edit">'. sprintf('%07d', $object->sales). '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->customer_name. '</a></td>';
-			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods_name. '</a></td>';
+			$separately = ($object->remark == 'separately') ? mb_convert_encoding(" ÅiÉoÉâÅj", "UTF-8", "SJIS"): null;
+			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods_name. $separately. '</a></td>';
 //			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
 			echo '<td>';
 			if ($object->status == '0') {
