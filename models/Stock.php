@@ -428,7 +428,7 @@ class Stock extends Ext_Model_Base {
 		$cur_user = wp_get_current_user();
 
 //		$sql  = "SELECT st.goods, g.name AS goods_name, (g.qty * 1000) AS qty, count(*) AS cnt, (count(*) * 500) AS stock_total ";
-		$sql  = "SELECT st.goods, g.name AS goods_name, g.qty, std.id, std.lot, std.barcode, st.stock AS stock ";
+		$sql  = "SELECT st.goods, g.name AS goods_name, g.qty, g.remark, std.id, std.lot, std.barcode, st.stock AS stock ";
 		$sql .= "FROM yc_stock AS st ";
 		$sql .= "LEFT JOIN yc_stock_detail AS std ON st.stock = std.stock ";
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = st.goods ";
@@ -639,15 +639,17 @@ class Stock extends Ext_Model_Base {
 	 **/
 	private function getPartsGoodsName() {
 		global $wpdb;
-		$sql  = "SELECT g.goods, g.name FROM yc_goods as g ";
+		$sql  = "SELECT g.goods, g.name, g.remark FROM yc_goods as g ";
 		$sql .= ";";
 		$rows = $wpdb->get_results($sql);
 
 		// 配列整形
 		$ret[0] = '';
+		$separately = null;
 		foreach ($rows as $i => $d) {
 			$ret[$d->goods][0] = '';
-			$ret[$d->goods] = sprintf("%s", $d->name);
+			if ($d->remark == 'separately') { $separately = " （バラ）"; }
+			$ret[$d->goods] = sprintf("%s%s", $d->name, $separately);
 		}
 
 		return $ret;

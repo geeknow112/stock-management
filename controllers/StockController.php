@@ -482,7 +482,10 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 		$glist = $Goods->getList();
 		//$this->vd($glist);
 		foreach ($glist as $i => $gd) {
-			$sort[$gd->goods] = $gd->name;
+			$sort[$gd->goods] = (object) array(
+				'goods_name' => $gd->name, 
+				'remark' => $gd->remark, 
+			);
 		}
 
 		echo $this->get_blade()->run("stock-export", compact('rows', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum', 'sort'));

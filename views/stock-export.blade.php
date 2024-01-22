@@ -72,11 +72,11 @@
 
 					<tbody id="the-list" data-wp-lists="list:user">
 						@if (isset($rows) && count($rows))
-							@foreach ($sort as $goods => $goods_name)
+							@foreach ($sort as $goods => $d)
 							<tr id="">
 <!--								<td class="tx-center">{{$i+1}}</td>-->
-								<td class="">{{$goods_name}}</td>
-								<td class="tx-center">500kgTB</td>
+								<td class="">{{$d->goods_name}}</td>
+								<td class="tx-center">@if ($d->remark == '') 500kgTB @else バラ @endif</td>
 								<td class="tx-right">@if ($rows[$goods]->cnt) {{number_format($rows[$goods]->cnt)}} @endif</td>
 								<td class="tx-right">@if ($rows[$goods]->stock_total) {{number_format($rows[$goods]->stock_total)}} @endif</td>
 								<td class=""><span class="lot_area">{{$rows[$goods]->lots}}</span></td>
