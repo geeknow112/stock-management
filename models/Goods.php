@@ -270,7 +270,8 @@ $value5
 		// 配列整形
 		foreach ($rows as $i => $d) {
 			if (!isset($d->name)) { continue; }
-			$ret[$d->goods] = sprintf("%s", $d->name);
+			$separately = ($d->remark == 'separately') ? " （バラ）" : null;
+			$ret[$d->goods] = sprintf("%s%s", $d->name, $separately);
 		}
 		return $ret;
 	}
