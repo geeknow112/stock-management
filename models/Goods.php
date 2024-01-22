@@ -276,7 +276,7 @@ $value5
 		// 配列整形
 		foreach ($rows as $i => $d) {
 			if (!isset($d->name)) { continue; }
-			$separately = ($d->remark == 'separately') ? " （バラ）" : null;
+			$separately = ($d->separately_fg == true) ? " （バラ）" : null;
 			$ret[$d->goods] = sprintf("%s%s", $d->name, $separately);
 		}
 		return $ret;
