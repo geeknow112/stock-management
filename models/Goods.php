@@ -238,6 +238,12 @@ $value5
 				$data[$col] = $post->$col;
 			}
 		}
+
+		if (empty($data['separately_fg'])) { $data['separately_fg'] = 0; }
+		$data['updt'] = date('Y-m-d H:i:s');
+		$cur_user = wp_get_current_user();
+		$data['upuser'] = $cur_user->user_login;
+
 		$ret = $wpdb->update(
 			$this->getTableName(), 
 			$data, 

@@ -20,6 +20,18 @@
 		<input type="text" class="col-sm-2 col-form-control w-auto" id="qty" name="qty" aria-describedby="qtyHelp" value="{{$rows->qty}}" @if ($get->action != '' && $get->action != 'save' && $get->action != 'edit') readonly @endif>
 	</div>
 
+	<div class="">
+		<label for="separately_fg" class="col-sm-2 col-form-label"><!--バラ売り--></label>
+		<input type="checkbox" class="btn-check" id="separately_fg" name="separately_fg" autocomplete="off" value="" onchange="check_separately();">
+		<label class="btn btn-outline-primary" for="separately_fg">バラ売り</label>
+		<br /><br />
+	</div>
+
+	<div class="row mb-3">
+		<label for="remark" class="col-sm-2 col-form-label w-5">備考</label>
+		<input type="text" class="col-sm-2 col-form-control w-auto" id="remark" name="remark" aria-describedby="remarkHelp" value="{{$rows->remark}}" @if ($get->action != '' && $get->action != 'save' && $get->action != 'edit') readonly @endif>
+	</div>
+
 <script>
 /**
  * 確認画面でform要素をreadOnlyにする
@@ -32,6 +44,20 @@ window.onload = function() {
 		document.getElementById('goods_name').readOnly = true;
 		document.getElementById('qty').readOnly = true;
 	}
+
+	const separately = '{{$rows->separately_fg}}';
+	if (separately == 'on' || separately == 1) {
+		document.getElementById('separately_fg').checked = true;
+		document.getElementById('separately_fg').value = 1; // true
+	}
 }
 
+function check_separately() {
+	const separately = document.getElementById('separately_fg');
+	if (separately.checked) {
+		separately.value = 1; // true
+	} else {
+		separately.value = 0; // false
+	}
+}
 </script>
