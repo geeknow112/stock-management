@@ -37,6 +37,64 @@ abstract class Ext_Model_Base
 	}
 
 	/**
+	 * 
+	 **/
+	public function getInitForm() {
+		return array(
+			'select' => array(
+				'order_name' => $this->getPartsOrderName(), 
+				'car_model' => $this->getPartsCarModel(), 
+				'goods_name' => $this->getPartsGoodsName(), 
+				'ship_addr' => $this->getPartsShipAddr(), 
+				'qty' => $this->getPartsQty(), 
+				'outgoing_warehouse' => $this->getPartsOutgoingWarehouse(), 
+			)
+		);
+	}
+
+	/**
+	 * 「氏名」
+	 **/
+	private function getPartsOrderName() {
+		return null;
+	}
+
+	/**
+	 * 「車種」
+	 **/
+	private function getPartsCarModel() {
+		return null;
+	}
+
+	/**
+	 * 「品名」
+	 **/
+	private function getPartsGoodsName() {
+		return null;
+	}
+
+	/**
+	 * 「配送先」
+	 **/
+	private function getPartsShipAddr() {
+		return null;
+	}
+
+	/**
+	 * 「量(t)」
+	 **/
+	private function getPartsQty() {
+		return null;
+	}
+
+	/**
+	 * 「出庫倉庫」
+	 **/
+	private function getPartsOutgoingWarehouse() {
+		return null;
+	}
+
+	/**
 	 *
 	 **/
 	public function vd($d) {
