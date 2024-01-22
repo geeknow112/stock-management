@@ -207,7 +207,7 @@ if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND s.arrival_dt <= '%
 		 * 受注情報をLIMITで取得して、後でpager用にrepert分を追加する方法
 		 **/
 		$limit = ($paged -1) * $users_per_page;
-		$sql = sprintf("SELECT s.*, g.name AS goods_name, c.name AS customer_name FROM yc_sales AS s ");
+		$sql = sprintf("SELECT s.*, g.name AS goods_name, g.separately_fg, c.name AS customer_name FROM yc_sales AS s ");
 		$sql .= sprintf("LEFT JOIN yc_goods AS g ON s.goods = g.goods ");
 		if (!empty($req->s['lot'])) { $sql .= sprintf("LEFT JOIN yc_goods_detail AS gd ON s.sales = gd.sales "); }
 		$sql .= sprintf("LEFT JOIN yc_customer AS c ON s.customer = c.customer ");
@@ -603,7 +603,7 @@ $initForm = $s->getInitForm();
 //			echo '<input type="hidden" id="arr_delivery_dt" name="arr_delivery_dt[]" value="{{$list->delivery_dt}}" />';
 			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->sales. '&action=edit">'. sprintf('%07d', $object->sales). '</a></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->customer_name. '</a></td>';
-			$separately = ($object->remark == 'separately') ? mb_convert_encoding(" （バラ）", "UTF-8", "SJIS"): null;
+			$separately = ($object->separately_fg == true) ? mb_convert_encoding(" （バラ）", "UTF-8", "SJIS"): null;
 			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods_name. $separately. '</a></td>';
 //			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
 			echo '<td>';

@@ -976,7 +976,7 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 	 **/
 	private function getPartsGoodsName() {
 		global $wpdb;
-		$sql  = "SELECT c.customer, g.goods, g.name, g.remark FROM yc_customer as c ";
+		$sql  = "SELECT c.customer, g.goods, g.name, g.separately_fg, g.remark FROM yc_customer as c ";
 		$sql .= "LEFT JOIN yc_customer_goods as cg ON c.customer = cg.customer ";
 		$sql .= "LEFT JOIN yc_goods as g ON cg.goods = g.goods ";
 		$sql .= ";";
@@ -986,7 +986,7 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 		$ret[0] = '';
 		foreach ($rows as $i => $d) {
 			$ret[$d->customer][0] = '';
-			$separately = ($d->remark == 'separately') ? " （バラ）" : null;
+			$separately = ($d->separately_fg == true) ? " （バラ）" : null;
 			$ret[$d->customer][$d->goods] = sprintf("%s%s", $d->name, $separately);
 		}
 

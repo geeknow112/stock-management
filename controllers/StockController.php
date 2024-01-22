@@ -484,7 +484,7 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 		foreach ($glist as $i => $gd) {
 			$sort[$gd->goods] = (object) array(
 				'goods_name' => $gd->name, 
-				'remark' => $gd->remark, 
+				'separately_fg' => $gd->separately_fg, 
 			);
 		}
 

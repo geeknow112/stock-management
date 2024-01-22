@@ -170,7 +170,7 @@ if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND st.arrival_dt <= '
 $limit = ($paged -1) * $users_per_page;
 //print_r($limit);
 //print_r($users_per_page);
-$sql = sprintf("SELECT st.stock, st.arrival_dt, st.warehouse, g.name AS goods_name, g.remark, g.qty, std.lot, st.goods_total, st.stock AS stock FROM yc_stock AS st ");
+$sql = sprintf("SELECT st.stock, st.arrival_dt, st.warehouse, g.name AS goods_name, g.separately_fg, g.qty, std.lot, st.goods_total, st.stock AS stock FROM yc_stock AS st ");
 $sql .= sprintf("LEFT JOIN yc_stock_detail AS std ON st.stock = std.stock ");
 $sql .= sprintf("LEFT JOIN yc_goods AS g ON st.goods = g.goods ");
 $sql .= sprintf("%s ", $where);
@@ -453,7 +453,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_stock;" )
 			echo '<tr>';
 			echo '<td><a href="/wp-admin/admin.php?page=stock-detail&arrival_dt='. $object->arrival_dt. '&warehouse='. $object->warehouse. '&action=edit">'. sprintf('STOCK-%07d', $object->stock). '</a></td>';
 			echo '<td>'. $object->arrival_dt. '</td>';
-			$separately = ($object->remark == 'separately') ? mb_convert_encoding(" （バラ）", "UTF-8", "SJIS"): null;
+			$separately = ($object->separately_fg == true) ? mb_convert_encoding(" （バラ）", "UTF-8", "SJIS"): null;
 			echo '<td>'. $object->goods_name. $separately. '</td>';
 			echo '<td>'. $object->qty. '</td>';
 			echo '<td><a href="/wp-admin/admin.php?page=stock-lot-regist&stock='. $object->stock. '&goods='. $object->goods. '&arrival_dt='. $object->arrival_dt. '&warehouse='. $object->warehouse. '"> [ '. $object->goods_total. ' ] </a></td>';
