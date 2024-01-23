@@ -428,12 +428,13 @@ class Stock extends Ext_Model_Base {
 		$cur_user = wp_get_current_user();
 
 //		$sql  = "SELECT st.goods, g.name AS goods_name, (g.qty * 1000) AS qty, count(*) AS cnt, (count(*) * 500) AS stock_total ";
-		$sql  = "SELECT st.goods, g.name AS goods_name, g.qty, g.separately_fg, g.remark, std.id, std.lot, std.barcode, st.stock AS stock ";
+		$sql  = "SELECT st.goods, g.name AS goods_name, g.qty, g.separately_fg, g.remark, std.id, std.lot, std.barcode, std.transfer_fg, st.stock AS stock ";
 		$sql .= "FROM yc_stock AS st ";
 		$sql .= "LEFT JOIN yc_stock_detail AS std ON st.stock = std.stock ";
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = st.goods ";
 		$sql .= "WHERE st.stock is not null ";
-		$sql .= "AND std.transfer_fg != '1' "; // 「転送」処理分の減少
+//		$sql .= "AND std.transfer_fg != '1' "; // 「転送」処理分の減少
+		$sql .= "AND (std.transfer_fg is null OR std.transfer_fg = '') "; // 「転送」処理分の減少
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
