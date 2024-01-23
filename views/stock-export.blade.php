@@ -33,6 +33,7 @@
 					<label for="" class="col-sm-2 col-form-label">&emsp;</label>
 					<input type="checkbox" class="btn-check" id="match_lot" name="match_lot" autocomplete="off" onchange="check_match_lot();">
 					<label class="btn btn-outline-primary" for="match_lot">ロット番号での照合</label>
+					&emsp;&emsp;<span id="" class="manual-text form-text">※ ON(青い状態)で、ロット番号で照合します。OFF(白い状態)では、数量のみ減少します。</span>
 
 					<br /><br />
 					<label for="" class="col-sm-2 col-form-label">ロット番号</label>
