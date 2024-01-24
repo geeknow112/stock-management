@@ -455,6 +455,10 @@ $rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
 					foreach ($tmp_lots as $lot => $list) {
 						$lots[] = sprintf('%s (%d)', $lot, count($list));
 					}
+
+					// ロット番号のソート(先頭の年度「23,24..」の順でソート)
+					asort($lots);
+
 					unset($tmp_lots);
 
 					$goods = $stocks[0]->goods;
