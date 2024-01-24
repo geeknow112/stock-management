@@ -16,7 +16,7 @@
 					<th class="">量(t)</th>
 					<th class="">入庫予定日</th>
 					<th class="">氏名</th>
-					<th class="">タンク番号</th>
+<!--					<th class="">タンク番号</th>-->
 					<th class="">ロット番号</th>
 					<th class="">ロット(バーコード)</th>
 				</tr>
@@ -35,9 +35,11 @@
 						<td>{{$d->goods_qty}}</td>
 						<td>{{$d->arrival_dt}}</td>
 						<td>{{$d->customer_name}}</td>
+<!--
 						<td class="">
 						<input type="text" class="" id="tank" name="tank[{{$d->lot_tmp_id}}]" value="{{$d->tank}}">
 						</td>
+-->
 						<td class="">
 						<input type="text" class="" id="lot" name="lot[{{$d->lot_tmp_id}}]" value="{{$d->lot}}">
 						</td>
