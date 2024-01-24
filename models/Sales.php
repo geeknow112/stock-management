@@ -398,8 +398,14 @@ $dt = new DateTime($sdt. ' +1 days');
 				if ($col != 'qty') {
 					$data[$col] = $post->$col;
 				} else {
-					$select_qty = $this->getPartsQty();
-					$data[$col] = $select_qty[$post->$col];
+					if (!in_array($post->class, array(8,9,10))) {
+						// 結果入力の更新以外は、プルダウンから選択
+						$select_qty = $this->getPartsQty();
+						$data[$col] = $select_qty[$post->$col];
+					} else {
+						// 結果入力からの更新は、テキスト入力のため、floatに変換
+						$data[$col] = (float) $post->$col;
+					}
 				}
 			}
 		}
