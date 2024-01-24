@@ -414,13 +414,16 @@ $r = array(
 	),
 
 );
+
 				// ロット番号アラートの作成
-				$msg1 = $this->getTb()->checkLotNumberStatus();
+//				$msg1 = $this->getTb()->checkLotNumberStatus();
 
 				// 受領書受取アラートの作成
-				$msg2 = $this->getTb()->checkReceiptStatus();
+//				$msg2 = $this->getTb()->checkReceiptStatus();
 
-				$msg = array_merge($msg1, $msg2);
+if (!empty($msg1) || !empty($msg2)) {
+//				$msg = array_merge($msg1, $msg2);
+}
 
 				$initForm['fix_customer'] = array(
 					// 太田畜産用

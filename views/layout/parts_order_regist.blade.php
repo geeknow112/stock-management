@@ -26,13 +26,17 @@
 	<div class="row mb-3">
 		<label for="carModel" class="col-sm-2 col-form-label">車種　<span class="badge text-bg-danger">必須</span></label>
 		<select class="form-select w-75" aria-label="carModel" id="class" name="class">
-			@foreach($initForm['select']['car_model'] as $i => $d)
-				@if ($i == '0')
-				<option value=""></option>
-				@else
-				<option value="{{$i}}" @if ($i == $rows->class) selected @endif >{{$i}} : {{$d}}</option>
-				@endif
-			@endforeach
+			@if ($rows->class != 8 && $rows->class != 9 && $rows->class != 10)
+				@foreach($initForm['select']['car_model'] as $i => $d)
+					@if ($i == '0')
+					<option value=""></option>
+					@else
+					<option value="{{$i}}" @if ($i == $rows->class) selected @endif >{{$i}} : {{$d}}</option>
+					@endif
+				@endforeach
+			@else
+					<option value="{{$rows->class}}">{{$rows->class}} : 6t-{{$rows->class}}</option>
+			@endif
 		</select>
 	</div>
 
@@ -142,32 +146,40 @@ function createSelectBoxGoods(){
 
 	<div class="row mb-3">
 		<label for="shipAddr" class="col-sm-2 col-form-label">配送先　（※ 顧客の槽（タンク））</label>
-		<select class="form-select w-75" aria-label="shipAddr" id="ship_addr" name="ship_addr" @if ($get->action == '') disabled @endif>
-			@if ($post->customer)
-				@foreach($initForm['select']['ship_addr'][$post->customer] as $i => $d)
-					<option value="{{$i}}" @if ($i == $rows->ship_addr) selected @endif >{{$d}}</option>
-				@endforeach
-			@else
-				@foreach($initForm['select']['ship_addr'][$rows->customer] as $i => $d)
-					<option value="{{$i}}" @if ($i == $rows->ship_addr) selected @endif >{{$d}}</option>
-				@endforeach
-			@endif
-		</select>
-		<span id="" class="manual-text form-text">※ 「<b>品名</b>」を選択後、プルダウンが有効になります。</span>
+		@if ($rows->class != 8 && $rows->class != 9)
+			<select class="form-select w-75" aria-label="shipAddr" id="ship_addr" name="ship_addr" @if ($get->action == '') disabled @endif>
+				@if ($post->customer)
+					@foreach($initForm['select']['ship_addr'][$post->customer] as $i => $d)
+						<option value="{{$i}}" @if ($i == $rows->ship_addr) selected @endif >{{$d}}</option>
+					@endforeach
+				@else
+					@foreach($initForm['select']['ship_addr'][$rows->customer] as $i => $d)
+						<option value="{{$i}}" @if ($i == $rows->ship_addr) selected @endif >{{$d}}</option>
+					@endforeach
+				@endif
+			</select>
+			<span id="" class="manual-text form-text">※ 「<b>品名</b>」を選択後、プルダウンが有効になります。</span>
+		@else
+			<input type="text" class="w-auto" id="field1" name="field1" value="{{$rows->field1}}" /><!-- ship_addr (結果入力の際は、field1に登録となる) -->
+		@endif
 	</div>
 
 	<div class="row mb-3">
 		<label for="qty" class="col-sm-2 col-form-label">量(t)　<span class="badge text-bg-danger">必須</span></label>
-		<select class="form-select w-75" aria-label="qty" id="qty" name="qty">
-			@foreach($initForm['select']['qty'] as $i => $d)
-				@if ($i == '0')
-				<option value=""></option>
-				@else
-				<option value="{{$i}}" @if ($i == $rows->qty) selected @endif >{{$d}}</option>
-				@endif
-			@endforeach
-		</select>
-<!--		<div id="qtyHelp" class="form-text">量(t)を入力してください。</div>-->
+		@if ($rows->class != 8 && $rows->class != 9 && $rows->class != 10)
+			<select class="form-select w-75" aria-label="qty" id="qty" name="qty">
+				@foreach($initForm['select']['qty'] as $i => $d)
+					@if ($i == '0')
+					<option value=""></option>
+					@else
+					<option value="{{$i}}" @if ($i == $rows->qty) selected @endif >{{$d}}</option>
+					@endif
+				@endforeach
+			</select>
+<!--			<div id="qtyHelp" class="form-text">量(t)を入力してください。</div>-->
+		@else
+			<input type="number" class="w-auto" id="qty" name="qty" min="0" max="30" step="0.5" value="{{$rows->qty}}" />
+		@endif
 	</div>
 
 	<div class="">
