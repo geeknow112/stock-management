@@ -484,7 +484,7 @@ class Stock extends Ext_Model_Base {
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = gd.goods ";
 		$sql .= "WHERE s.sales is not null ";
 		$sql .= "AND s.class NOT IN (0, 7) "; // 「繰り返し」分を除外
-		$sql .= "AND s.outgoing_warehouse = '2' ";
+//		$sql .= "AND s.outgoing_warehouse = '2' ";
 		$sql .= "AND s.status = '1' ";
 //		$sql .= "AND std.transfer_fg != '1' "; // 「転送」処理分の減少
 
@@ -504,6 +504,7 @@ class Stock extends Ext_Model_Base {
 //				$sql .= "ORDER BY g.goods desc";
 
 				if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND s.delivery_dt <= '%s 23:59:59' ", $get->s['arrival_e_dt']); }
+				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", $get->s['outgoing_warehouse']); }
 
 //				$sql .= "GROUP BY st.goods ";
 				$sql .= ";";
