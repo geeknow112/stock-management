@@ -91,7 +91,7 @@ class Sales extends Ext_Model_Base {
 		$sql .= "LEFT JOIN yc_schedule_repeat AS sc ON s.sales = sc.sales ";
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
 //		$sql .= "LEFT JOIN yc_goods_detail AS gd ON g.goods = gd.goods ";
-		$sql .= "WHERE s.sales is not null ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
@@ -245,6 +245,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		// →リピート登録がない場合、JOIN後に受注番号(yc_sales.sales)が消えるため、"s.sales AS sales"カラム表示を追加
 		$sql .= "LEFT JOIN yc_schedule_repeat AS sr ON s.sales = sr.sales ";
 		$sql .= sprintf("WHERE s.sales = '%s' ", $sales);
+		$sql .= "AND s.status <> 9 "; // 削除フラグが立ってないもの
 		$sql .= "LIMIT 1;";
 		$rows = $wpdb->get_results($sql);
 
@@ -282,7 +283,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		$sql .= "LEFT JOIN yc_goods as g ON s.goods = g.goods ";
 		$sql .= "LEFT JOIN yc_goods_detail as gd on s.sales = gd.sales ";
 		$sql .= "LEFT JOIN yc_customer as c ON s.customer = c.customer ";
-		$sql .= "WHERE s.sales is not null ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 		$sql .= "AND gd.id is not null ";
 
 		if (in_array($get->action, array('save', 'confirm', 'edit', 'complete'))) {
@@ -632,7 +633,7 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		$sql  = "SELECT s.sales, s.delivery_dt, s.lot_fg ";
 		$sql .= "FROM yc_sales as s ";
-		$sql .= "WHERE s.sales is not null ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 		$sql .= sprintf("AND s.delivery_dt <= '%s' ", $alert_dt);
 		$sql .= "AND s.lot_fg < 2 ";
 
@@ -677,7 +678,7 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		$sql  = "SELECT s.sales, s.delivery_dt, s.receipt_fg ";
 		$sql .= "FROM yc_sales as s ";
-		$sql .= "WHERE s.sales is not null ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 		$sql .= sprintf("AND s.delivery_dt <= '%s' ", $alert_dt);
 		$sql .= "AND s.receipt_fg = 0 ";
 
@@ -810,7 +811,7 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
 		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
-		$sql .= "WHERE s.sales is not null ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
