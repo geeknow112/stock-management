@@ -1051,7 +1051,7 @@ $sql = 'select sales,goods,tank,count(tank) * 0.5 as tb_qty from yc_goods_detail
 			'' => '', 
 			0 => '未確定', 
 			1 => '確定',
-//			2 => '削除',
+			9 => '削除',
 		);
 	}
 
