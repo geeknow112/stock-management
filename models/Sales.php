@@ -656,7 +656,7 @@ $dt = new DateTime($sdt. ' +1 days');
 			$ret[] = $alert_message;
 		}
 
-		return $ret;
+		return (!empty($ret)) ? $ret : array();
 	}
 
 	/**
@@ -701,7 +701,7 @@ $dt = new DateTime($sdt. ' +1 days');
 			$ret[] = $alert_message;
 		}
 
-		return $ret;
+		return (!empty($ret)) ? $ret : array();
 	}
 
 	/**
