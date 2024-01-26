@@ -248,9 +248,7 @@ if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND s.arrival_dt <= '%
 //		echo '<pre>';
 //		print_r($this->items);
 //		echo '</pre>';
-$total_sql = sprintf("SELECT count(*) AS count FROM yc_sales %s;", $where);
-//print_r($total_sql);
-$total = current($wpdb->get_results($total_sql));
+$total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" ));
 
 		$this->set_pagination_args(
 			array(
