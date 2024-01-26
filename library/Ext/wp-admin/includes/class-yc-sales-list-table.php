@@ -165,7 +165,7 @@ $req = (object) $_REQUEST;
 		}
 
 //$this->vd($req);
-$where = sprintf("WHERE s.sales is not null ");
+$where = sprintf("WHERE s.sales is not null AND s.status <> 9 ");
 if (!empty($req->s['no'])) { $where .= sprintf("AND s.sales = '%s'", $req->s['no']); }
 if (!empty($req->s['goods_name'])) { $where .= "AND g.name LIKE '%". $req->s['goods_name']. "%'"; }
 if (isset($req->s['car_model']) && $req->s['car_model'] != '0') { $where .= sprintf("AND s.class = '%s'", $req->s['car_model']); }
@@ -248,7 +248,9 @@ if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND s.arrival_dt <= '%
 //		echo '<pre>';
 //		print_r($this->items);
 //		echo '</pre>';
-$total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" ));
+$total_sql = sprintf("SELECT count(*) AS count FROM yc_sales %s;", $where);
+//print_r($total_sql);
+$total = current($wpdb->get_results($total_sql));
 
 		$this->set_pagination_args(
 			array(

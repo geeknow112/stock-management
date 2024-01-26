@@ -482,7 +482,7 @@ class Stock extends Ext_Model_Base {
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_goods_detail AS gd ON s.sales = gd.sales ";
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = gd.goods ";
-		$sql .= "WHERE s.sales is not null ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 		$sql .= "AND s.class NOT IN (0, 7) "; // 「繰り返し」分を除外
 //		$sql .= "AND s.outgoing_warehouse = '2' ";
 		$sql .= "AND s.status = '1' ";
@@ -532,7 +532,7 @@ class Stock extends Ext_Model_Base {
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = s.goods ";
 		$sql .= "LEFT JOIN yc_customer AS c ON c.customer = s.customer ";
-		$sql .= "WHERE s.sales is not null ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 
 		if (is_null($jk_flag)) {
 			$sql .= "AND s.class NOT IN (0, 7, 10) ";
