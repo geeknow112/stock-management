@@ -392,6 +392,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		// checkboxの初期化
 		$post->use_stock = ($post->use_stock == 'on') ? 1 : 0;
 //		$post->repeat_fg = ($post->repeat_fg == 'on') ? 1 : 0;
+		$post->repeat_fg = ($post->repeat_fg) ? $post->repeat_fg : 0; // checkboxのvalueがfalseだとパラメータが取れないため初期化
 
 		$exist_columns = $wpdb->get_col("DESC ". $this->getTableName(). ";", 0);
 		foreach ($exist_columns as $i => $col) {
