@@ -65,7 +65,7 @@
 					<tr id="">
 						<td class="">{{$i+1}}</td>
 						<td class="">{{$row->goods_name}}</td>
-						<th class="tx-center">（T）</th>
+						<th class="tx-center">@if ($row->separately_fg == false)（T）@else（B）@endif</th>
 						<td class="tx-right">{{number_format($row->qty,1)}}</td>
 						<th class="">{{$row->customer_name}}</th>
 					</tr>
