@@ -478,7 +478,7 @@ class Stock extends Ext_Model_Base {
 		$cur_user = wp_get_current_user();
 
 //		$sql  = "SELECT st.goods, g.name AS goods_name, (g.qty * 1000) AS qty, count(*) AS cnt, (count(*) * 500) AS stock_total ";
-		$sql  = "SELECT s.*, gd.*, g.name AS goods_name ";
+		$sql  = "SELECT s.*, gd.*, g.name AS goods_name, s.goods AS goods ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_goods_detail AS gd ON s.sales = gd.sales ";
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = gd.goods ";
