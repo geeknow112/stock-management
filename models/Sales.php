@@ -636,6 +636,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		$sql .= "FROM yc_sales as s ";
 		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 		$sql .= sprintf("AND s.delivery_dt <= '%s' ", $alert_dt);
+		$sql .= "AND s.class <> 7 "; // 6t-⑦(「直取」専用)を対象外とする
 		$sql .= "AND s.lot_fg < 2 ";
 
 		$rows = $wpdb->get_results($sql);
@@ -681,6 +682,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		$sql .= "FROM yc_sales as s ";
 		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 		$sql .= sprintf("AND s.delivery_dt <= '%s' ", $alert_dt);
+		$sql .= "AND s.class <> 7 "; // 6t-⑦(「直取」専用)を対象外とする
 		$sql .= "AND s.receipt_fg = 0 ";
 
 		$rows = $wpdb->get_results($sql);
