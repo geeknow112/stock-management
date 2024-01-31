@@ -433,8 +433,6 @@ class Stock extends Ext_Model_Base {
 		$sql .= "LEFT JOIN yc_stock_detail AS std ON st.stock = std.stock ";
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = st.goods ";
 		$sql .= "WHERE st.stock is not null ";
-//		$sql .= "AND std.transfer_fg != '1' "; // 「転送」処理分の減少
-		$sql .= "AND (std.transfer_fg is null OR std.transfer_fg = '') "; // 「転送」処理分の減少
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
@@ -452,19 +450,64 @@ class Stock extends Ext_Model_Base {
 //				$sql .= "ORDER BY g.goods desc";
 
 				if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND st.arrival_dt <= '%s 23:59:59' ", $get->s['arrival_e_dt']); }
+
+				// 転送処理をした場合、st.warehouseには転送先のSPが登録されるため、通常の検索で「転送」による増加は処理される。
 				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND st.warehouse = '%s' ", $get->s['outgoing_warehouse']); }
 
 //				$sql .= "GROUP BY st.goods ";
-				$sql .= ";";
+//				$sql .= ";";
 
 			} else {
 //				$sql .= "AND ap.applicant = '". $prm->post. "';";
 			}
 		}
 
-		$rows = $wpdb->get_results($sql);
-//$this->vd($sql);
+		$d_sql = $sql;
+		$n_sql = $sql. "AND (std.transfer_fg is null OR std.transfer_fg <> '1');"; // 「転送」処理分を含めない
+		$stocks = $wpdb->get_results($n_sql);
+
+		// 「転送」処理分 取得のためSQLを整形
+		$warehouse = ($get->s['outgoing_warehouse'] == 1) ? 2 : 1; // 倉庫SPを反転
+		$d_sql = preg_replace("/AND st.warehouse = '(.*)'/", "", $d_sql);
+		$d_sql .= sprintf("AND st.warehouse = '%s' ", $warehouse);
+		$d_sql .= "AND st.transfer_fg = 1;"; // 「転送」処理分を取得
+		$d_stocks = $wpdb->get_results($d_sql);
+
+		$rows = $this->decreaseStockByTransfer($stocks, $d_stocks);
+
 		return $rows;
+	}
+
+	/**
+	 * 在庫証明書
+	 * 「転送」による在庫の減少を実施
+	 * 
+	 **/
+	public function decreaseStockByTransfer($stocks = null, $d_stocks = null) {
+
+		foreach ($stocks as $i => $stock) {
+			foreach ($d_stocks as $j => $del) {
+
+				// 商品別で数量による除外
+				if ($stock->goods == $del->goods) {
+					if ($get->match_lot != true) {
+						unset($stocks[$i]);
+						unset($d_stocks[$j]);
+						break;
+
+					} else {
+						// ロット番号による除外
+						if ($stock->lot == $del->lot) {
+							unset($stocks[$i]);
+							unset($d_stocks[$j]);
+							break;
+						}
+					}
+				}
+
+			}
+		}
+		return $stocks;
 	}
 
 	/**
