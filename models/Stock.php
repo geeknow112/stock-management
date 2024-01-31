@@ -473,7 +473,7 @@ class Stock extends Ext_Model_Base {
 		$d_sql .= "AND st.transfer_fg = 1;"; // 「転送」処理分を取得
 		$d_stocks = $wpdb->get_results($d_sql);
 
-		$rows = $this->decreaseStockByTransfer($stocks, $d_stocks);
+		$rows = $this->decreaseStockByTransfer($get, $stocks, $d_stocks);
 
 		return $rows;
 	}
@@ -483,7 +483,7 @@ class Stock extends Ext_Model_Base {
 	 * 「転送」による在庫の減少を実施
 	 * 
 	 **/
-	public function decreaseStockByTransfer($stocks = null, $d_stocks = null) {
+	public function decreaseStockByTransfer($get = null, $stocks = null, $d_stocks = null) {
 
 		foreach ($stocks as $i => $stock) {
 			foreach ($d_stocks as $j => $del) {
