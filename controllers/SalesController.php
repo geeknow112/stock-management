@@ -330,6 +330,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 				$oid = $post->oid;
 				$ret['delivery_dt'] = sprintf('%s-%s-%s', substr($oid, 0, 4), substr($oid, 4, 2), substr($oid, 6, 2));
+				$ret['arrival_dt'] = $this->setArrivalDt($ret['delivery_dt']); // [delivery_dt]‚Ì3“ú‘O‚É©“®İ’è
 				$ret['class'] = (int) substr($oid, 8, 2);
 				$ret['cars_tank'] = (int) substr($oid, 10, 2);
 
