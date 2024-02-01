@@ -5,7 +5,15 @@
 <div class="tablenav top">
 	<br class="clear">
 </div>
-	
+
+@if (wp_get_current_user()->roles[0] == 'administrator' && wp_get_current_user()->user_login == 'user')
+<div>
+	<input type="text" id="input_lot" class="">
+	<input type="number" min="0" id="times" class="">
+	<input type="button" id="btn_bulk_lot_input" class="btn btn-success" onclick="bulk_lot_input();" value="ロット複数入力">
+</div>
+@endif
+
 <div class="table-responsive">
 	<div>
 		<table class="table table-bordered text-nowrap">
@@ -28,7 +36,7 @@
 					<tr id="user-1">
 						<td class="">{{$d->goods_name}}</td>
 						<td class="">0.5</td>
-						<td class=""><input type="text" id="lot" name="lot[{{$i}}]" value="{{$d->lot}}"></td>
+						<td class=""><input type="text" class="lots" id="lot" name="lot[{{$i}}]" value="{{$d->lot}}"></td>
 					</tr>
 					@endforeach
 				@else
@@ -129,4 +137,15 @@ var unescapeHtml = function(str) {
 		return patterns[match];
 	});
 };
+
+function bulk_lot_input() {
+	const input_lot = document.getElementById('input_lot').value;
+	const times = document.getElementById('times').value;
+	const lots = document.getElementsByClassName('lots');
+	console.log(input_lot);
+	console.log(times);
+	for (var i=0; i<times; i++) {
+		lots[i].value = input_lot;
+	}
+}
 </script>
