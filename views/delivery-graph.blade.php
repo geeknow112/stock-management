@@ -190,7 +190,7 @@
 	}
 </style>
 
-<?php	function innerTable($delivery_dt, $list, $class, $sumTanks = null, $carsTank = null, $initForm = null) {	?>
+<?php	function innerTable($delivery_dt, $list, $class, $carsTank = null, $initForm = null) {	?>
 		<div style="width: 40rem;">
 <!--	<div class="card" style="width: 40rem;">-->
 		<?php foreach ($list as $sales => $d) { ?>
@@ -219,16 +219,7 @@
 								echo ($row->field1) ? sprintf('%s <br>', $row->field1) : '- <br>';
 
 							} else {
-//								echo sprintf('[ ');
 								echo ($row->tank_name) ? sprintf('%s <br>', $row->tank_name) : '- <br>';
-/*
-								foreach ($sumTanks[$row->sales][$row->goods] as $i => $d) {
-									if (!empty(current($d))) {
-										echo sprintf(' %s (t) <br>', implode(' : ', $d));
-									}
-								}
-*/
-//								echo sprintf(' ]');
 							}
 							echo ($row->outgoing_warehouse == 1) ? '<span style="color: red;">(内)</span>' : '&emsp;';
 						?>
@@ -377,7 +368,7 @@ function to_lot_regist(sales = null, goods = null) {
 	window.location = '/wp-admin/admin.php?page=lot-regist&s[sdt]=' + sdt + '&sales=' + sales + '&goods=' + goods + '&action=save';
 }
 </script>
-<?php	function innerTableFixed($delivery_dt, $list, $class, $sumTanks = null, $carsTank = null, $initForm = null) { ?>
+<?php	function innerTableFixed($delivery_dt, $list, $class, $carsTank = null, $initForm = null) { ?>
 	<?php $oid = sprintf("%s%02d%02d", str_replace('-', '', $delivery_dt), $class, $carsTank); // echo $oid; ?>
 
 		<div style="width: 40rem;" id="app1" class="container">
@@ -571,57 +562,57 @@ function setResult(oid) {
 						<!-- 6t 0 -->
 						@if ($cur_user->roles[0] != 'subscriber')
 						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, $sumTanks, 1, $initForm); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 1, $initForm); @endphp
 						</td>
 						@endif
 
 						<!-- 6t 1 -->
 						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 1, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 1, 1); @endphp
 						</td>
 
 						<!-- 6t 2 -->
 						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 2, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 2, 1); @endphp
 						</td>
 
 						<!-- 6t 3 -->
 						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 3, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 3, 1); @endphp
 						</td>
 
 						<!-- 6t 4 -->
 						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 4, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 4, 1); @endphp
 						</td>
 						<!-- 6t 5 -->
 						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 5, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 5, 1); @endphp
 						</td>
 						<!-- 6t 6 -->
 						@if ($cur_user->roles[0] == 'administrator')
 						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 6, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 6, 1); @endphp
 						</td>
 						<!-- 6t 7 -->
 						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 7, $sumTanks, 1); @endphp
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, $sumTanks, 1); @endphp
+							@php innerTable($delivery_dt, $list, 7, 1); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 1); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 8, $sumTanks, 1, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 1, $initForm); @endphp
+							@php innerTable($delivery_dt, $list, 8, 1, $initForm); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, 1, $initForm); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 9, $sumTanks, 1, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 1, $initForm); @endphp
+							@php innerTable($delivery_dt, $list, 9, 1, $initForm); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, 1, $initForm); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 10, $sumTanks, 1, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 1, $initForm); @endphp
+							@php innerTable($delivery_dt, $list, 10, 1, $initForm); @endphp
+							@php innerTableFixed($delivery_dt, $list, 10, 1, $initForm); @endphp
 						</td>
 						@endif
 					</tr>
@@ -633,57 +624,57 @@ function setResult(oid) {
 						<!-- 6t 0 -->
 						@if ($cur_user->roles[0] != 'subscriber')
 						<td colspan="6">
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 2); @endphp
 						</td>
 						@endif
 
 						<!-- 6t 1 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 1, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 1, 2); @endphp
 						</td>
 
 						<!-- 6t 2 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 2, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 2, 2); @endphp
 						</td>
 
 						<!-- 6t 3 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 3, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 3, 2); @endphp
 						</td>
 
 						<!-- 6t 4 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 4, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 4, 2); @endphp
 						</td>
 						<!-- 6t 5 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 5, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 5, 2); @endphp
 						</td>
 						<!-- 6t 6 -->
 						@if ($cur_user->roles[0] == 'administrator')
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 6, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 6, 2); @endphp
 						</td>
 						<!-- 6t 7 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 7, $sumTanks, 2); @endphp
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, $sumTanks, 2); @endphp
+							@php innerTable($delivery_dt, $list, 7, 2); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 2); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 8, $sumTanks, 2, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 2, $initForm); @endphp
+							@php innerTable($delivery_dt, $list, 8, 2, $initForm); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, 2, $initForm); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 9, $sumTanks, 2, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 2, $initForm); @endphp
+							@php innerTable($delivery_dt, $list, 9, 2, $initForm); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, 2, $initForm); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 10, $sumTanks, 2, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 2, $initForm); @endphp
+							@php innerTable($delivery_dt, $list, 10, 2, $initForm); @endphp
+							@php innerTableFixed($delivery_dt, $list, 10, 2, $initForm); @endphp
 						</td>
 						@endif
 					</tr>
@@ -695,57 +686,57 @@ function setResult(oid) {
 						<!-- 6t 0 -->
 						@if ($cur_user->roles[0] != 'subscriber')
 						<td colspan="6">
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 3); @endphp
 						</td>
 						@endif
 
 						<!-- 6t 1 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 1, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 1, 3); @endphp
 						</td>
 
 						<!-- 6t 2 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 2, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 2, 3); @endphp
 						</td>
 
 						<!-- 6t 3 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 3, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 3, 3); @endphp
 						</td>
 
 						<!-- 6t 4 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 4, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 4, 3); @endphp
 						</td>
 						<!-- 6t 5 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 5, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 5, 3); @endphp
 						</td>
 						<!-- 6t 6 -->
 						@if ($cur_user->roles[0] == 'administrator')
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 6, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 6, 3); @endphp
 						</td>
 						<!-- 6t 7 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 7, $sumTanks, 3); @endphp
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, $sumTanks, 3); @endphp
+							@php innerTable($delivery_dt, $list, 7, 3); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 3); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 8, $sumTanks, 3, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 8, $sumTanks, 3, $initForm); @endphp
+							@php innerTable($delivery_dt, $list, 8, 3, $initForm); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, 3, $initForm); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 9, $sumTanks, 3, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 9, $sumTanks, 3, $initForm); @endphp
+							@php innerTable($delivery_dt, $list, 9, 3, $initForm); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, 3, $initForm); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 10, $sumTanks, 3, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 10, $sumTanks, 3, $initForm); @endphp
+							@php innerTable($delivery_dt, $list, 10, 3, $initForm); @endphp
+							@php innerTableFixed($delivery_dt, $list, 10, 3, $initForm); @endphp
 						</td>
 						@endif
 					</tr>
