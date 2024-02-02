@@ -381,7 +381,6 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 			default:
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList($get);
-				$sumTanks = $this->getTb()->sumTanks($rows);
 				$formPage = 'delivery-graph';
 
 				// 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
@@ -452,7 +451,7 @@ $r = array(
 				$gnames = json_encode($initForm['select']['goods_name']);
 				$test_ship_addr = json_encode($initForm['select']['ship_addr']);
 
-				echo $this->get_blade()->run("delivery-graph", compact('cur_user', 'rows', 'get', 'post', 'formPage', 'initForm', 'r', 'sumTanks', 'msg', 'repeat_list', 'gnames', 'test_ship_addr'));
+				echo $this->get_blade()->run("delivery-graph", compact('cur_user', 'rows', 'get', 'post', 'formPage', 'initForm', 'r', 'msg', 'repeat_list', 'gnames', 'test_ship_addr'));
 				break;
 		}
 	}
