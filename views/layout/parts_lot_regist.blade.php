@@ -9,8 +9,13 @@
 @if (wp_get_current_user()->roles[0] == 'administrator' && wp_get_current_user()->user_login == 'user')
 <div>
 	<input type="text" id="input_lot" class="">
-	<input type="number" min="0" id="times" class="">
+	<input type="number" min="0" id="times" class="">&emsp;&emsp;
 	<input type="button" id="btn_bulk_lot_input" class="btn btn-success" onclick="bulk_lot_input();" value="ロット複数入力">
+	<br><br>
+
+	<textarea id="input_barcode" class="" style="width: 400px; height: 100px;"></textarea>&emsp;
+	<input type="button" id="btn_bulk_barcode_input" class="btn btn-success" onclick="bulk_barcode_input();" value="バーコード複数入力">
+	<br><br>
 </div>
 @endif
 
@@ -50,7 +55,7 @@
 						<input type="text" class="lots" id="lot" name="lot[{{$d->lot_tmp_id}}]" value="{{$d->lot}}">
 						</td>
 						<td class="">
-						<input type="text" class="" id="barcode" name="barcode[{{$d->lot_tmp_id}}]" value="{{$d->barcode}}">
+						<input type="text" class="barcodes" id="barcode" name="barcode[{{$d->lot_tmp_id}}]" value="{{$d->barcode}}">
 						</td>
 					</tr>
 					@endforeach
@@ -129,6 +134,17 @@ function bulk_lot_input() {
 	console.log(times);
 	for (var i=0; i<times; i++) {
 		lots[i].value = input_lot;
+	}
+}
+
+function bulk_barcode_input() {
+	const input_barcode = document.getElementById('input_barcode').value;
+	const barcodes = document.getElementsByClassName('barcodes');
+	const sp = input_barcode.split('\n');
+	console.log(sp.length);
+	for (var i=0; i<sp.length; i++) {
+		if (!sp[i]) { continue; }
+		barcodes[i].value = sp[i];
 	}
 }
 </script>
