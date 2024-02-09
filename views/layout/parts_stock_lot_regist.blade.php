@@ -7,9 +7,13 @@
 </div>
 
 <div>
-	<input type="text" id="input_lot" class="">
-	<input type="number" min="0" id="times" class="">
+	<p class="">■ 入力補助機能：ロット番号繰り返し入力</p>
+	<input type="text" id="input_lot" class="" placeholder="ロット番号">
+	<input type="number" min="0" id="times" class="" placeholder="回数">&emsp;&emsp;
 	<input type="button" id="btn_bulk_lot_input" class="btn btn-success" onclick="bulk_lot_input();" value="ロット複数入力">
+	<br>
+	<span id="" class="manual-text form-text">※ ロット番号と、回数を入力して「ロット複数入力」をクリックすると、下記のロット番号登録欄に回数分コピーします。<br>　また、再入力の場合は、空欄からコピーを開始します。</span>
+	<br><br>
 </div>
 
 <div class="table-responsive">
