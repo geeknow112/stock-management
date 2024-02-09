@@ -6,13 +6,11 @@
 	<br class="clear">
 </div>
 
-@if (wp_get_current_user()->roles[0] == 'administrator' && wp_get_current_user()->user_login == 'user')
 <div>
 	<input type="text" id="input_lot" class="">
 	<input type="number" min="0" id="times" class="">
 	<input type="button" id="btn_bulk_lot_input" class="btn btn-success" onclick="bulk_lot_input();" value="ロット複数入力">
 </div>
-@endif
 
 <div class="table-responsive">
 	<div>
@@ -138,14 +136,43 @@ var unescapeHtml = function(str) {
 	});
 };
 
+/**
+ * ロット複数入力
+ *  - ロット番号、ループ回数を入力することで、回数分連続登録することが可能
+ **/
 function bulk_lot_input() {
+	// ロット番号
 	const input_lot = document.getElementById('input_lot').value;
+	// ループ回数
 	const times = document.getElementById('times').value;
+
+	// 代入用配列
 	const lots = document.getElementsByClassName('lots');
-	console.log(input_lot);
-	console.log(times);
+//	console.log(input_lot);
+//	console.log(times);
+
+	// 1. 入力用配列を作る(入力コード * ループ回数 をもとに)
+	const inputs = [];
 	for (var i=0; i<times; i++) {
-		lots[i].value = input_lot;
+		inputs.push(input_lot);
+	}
+
+	// 2. 代入用配列を欄数回ループする
+	for (var i=0; i<lots.length; i++) {
+
+		// 代入用欄が空白かチェック
+		if (lots[i].value === '') {
+			// 2-1. 空白の場合、入力用配列を一つ代入し、代入したものは入力用配列から削除する。
+			lots[i].value = inputs.shift(); // 先頭を代入 + 先頭を削除
+		} else {
+			// 2-2. 空白以外の場合、スキップする。
+		}
+
+		// 3. 入力用配列が空になったら処理を終える。
+//		console.log(inputs);
+		if (inputs.length == 0) {
+			return false;
+		}
 	}
 }
 </script>

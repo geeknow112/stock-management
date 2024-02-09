@@ -6,18 +6,18 @@
 	<br class="clear">
 </div>
 
-@if (wp_get_current_user()->roles[0] == 'administrator' && wp_get_current_user()->user_login == 'user')
 <div>
 	<input type="text" id="input_lot" class="">
 	<input type="number" min="0" id="times" class="">&emsp;&emsp;
 	<input type="button" id="btn_bulk_lot_input" class="btn btn-success" onclick="bulk_lot_input();" value="ロット複数入力">
 	<br><br>
 
+	@if (wp_get_current_user()->roles[0] == 'administrator' && wp_get_current_user()->user_login == 'user')
 	<textarea id="input_barcode" class="" style="width: 400px; height: 100px;"></textarea>&emsp;
 	<input type="button" id="btn_bulk_barcode_input" class="btn btn-success" onclick="bulk_barcode_input();" value="バーコード複数入力">
 	<br><br>
+	@endif
 </div>
-@endif
 
 <div class="table-responsive">
 	<div>
