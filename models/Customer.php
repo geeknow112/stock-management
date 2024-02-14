@@ -281,12 +281,12 @@ class Customer extends Ext_Model_Base {
 		}
 
 		// goods insert
-		if ($post->goods) {
+		if ($post->goods_s) {
 			// 全insert
-			foreach ($post->goods as $i => $goods) {
+			foreach ($post->goods_s as $i => $goods) {
 				$targetId = $wpdb->get_var($wpdb->prepare("SELECT goods FROM yc_customer_goods WHERE customer = %s AND goods = %s", $customer, $goods));
 				if (is_null($targetId)) {
-					$ret[] = $wpdb->insert(
+					$ret_goods_s[] = $wpdb->insert(
 						'yc_customer_goods', 
 						array(
 							'customer' => $customer, 
