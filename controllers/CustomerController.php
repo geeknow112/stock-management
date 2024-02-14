@@ -132,7 +132,12 @@ class CustomerController extends Ext_Controller_Action
 						}
 					}
 				}
-				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg'));
+
+				$post->customer = current($rows)->customer;
+				$rows_goods = $this->getTb()->getGoodsByCustomerCode(current($rows)->customer);
+				$cust_goods = $this->objectColumn($rows_goods, 'goods');
+
+				echo $this->get_blade()->run("customer-detail", compact('rows', 'get', 'post', 'msg', 'goods_list', 'cust_goods'));
 				break;
 
 			case 'edit-exe':
