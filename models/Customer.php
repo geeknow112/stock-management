@@ -262,18 +262,20 @@ class Customer extends Ext_Model_Base {
 		// 登録したIDを取得
 		$customer = $wpdb->insert_id;
 
-		foreach ($post->pref as $i => $d) {
+		foreach ($post->tank as $i => $tank) {
 			$detail = $i+1;
 			$ret_detail[] = $wpdb->insert(
 				'yc_customer_detail', 
 				array(
 					'customer' => $customer, 
 					'detail' => $detail, 
-					'tank' => $post->tank[$i], 
+					'tank' => $tank, 
+/*
 					'pref' => $post->pref[$i], 
 					'addr1' => $post->addr1[$i], 
 					'addr2' => $post->addr2[$i], 
 					'addr3' => $post->addr3[$i], 
+*/
 					'rgdt' => date('Y-m-d H:i:s')
 				)
 				//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
