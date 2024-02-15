@@ -212,7 +212,6 @@ class ScheduleRepeat extends Ext_Model_Base {
 				$i++; // continueの後では加算されないため、この位置に置く。
 				if (!in_array($delivery_dt, $sdts)) { continue; } // (メモリ節約制御): 繰り返しの配送日が、表示範囲にない場合、不処理。
 				if ($delivery_dt > $r->repeat_e_dt) { continue; } // (メモリ節約制御): 繰り返しの配送日が、繰り返し終了日を超えた場合、不処理。
-				$r->arrival_dt = $this->setArrivalDt($delivery_dt); // 「入庫予定日」の設定
 				$ret_repeat_items[$delivery_dt][$r->sales][] = $r;
 			}
 		}
@@ -225,8 +224,20 @@ class ScheduleRepeat extends Ext_Model_Base {
 				}
 			}
 		}
-//$this->vd($ret_repeat_items);
-		return $ret_repeat_items;
+
+		ksort($ret_repeat_items);
+
+		// 「入庫予定日」の設定
+		foreach ($ret_repeat_items as $delivery_dt => $d) {
+			foreach ($d as $sales => $v) {
+				$r = clone current($v);
+				$r->delivery_dt = $delivery_dt;
+				$r->arrival_dt = $this->setArrivalDt($delivery_dt);
+				$ret_repeat_list[$delivery_dt][$sales][] = $r;
+			}
+		}
+//$this->vd($ret_repeat_list);
+		return $ret_repeat_list;
 	}
 
 	/**
