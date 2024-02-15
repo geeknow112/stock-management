@@ -170,7 +170,7 @@ if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND st.arrival_dt <= '
 $limit = ($paged -1) * $users_per_page;
 //print_r($limit);
 //print_r($users_per_page);
-$sql = sprintf("SELECT st.stock, st.arrival_dt, st.warehouse, g.name AS goods_name, g.separately_fg, g.qty, std.lot, st.goods_total, st.stock AS stock FROM yc_stock AS st ");
+$sql = sprintf("SELECT st.stock, st.arrival_dt, st.warehouse, st.transfer_fg, g.name AS goods_name, g.separately_fg, g.qty, std.lot, st.goods_total, st.stock AS stock FROM yc_stock AS st ");
 $sql .= sprintf("LEFT JOIN yc_stock_detail AS std ON st.stock = std.stock ");
 $sql .= sprintf("LEFT JOIN yc_goods AS g ON st.goods = g.goods ");
 $sql .= sprintf("%s ", $where);
@@ -449,6 +449,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_stock;" )
 		}
 */
 		foreach ( $this->items as $id => $object ) {
+			$transfer = ($object->transfer_fg == true) ? '@' : '';
 //			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 			echo '<tr>';
 			echo '<td><a href="/wp-admin/admin.php?page=stock-detail&arrival_dt='. $object->arrival_dt. '&warehouse='. $object->warehouse. '&action=edit">'. sprintf('STOCK-%07d', $object->stock). '</a></td>';
@@ -457,6 +458,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_stock;" )
 			echo '<td>'. $object->goods_name. $separately. '</td>';
 			echo '<td>'. $object->qty. '</td>';
 			echo '<td><a href="/wp-admin/admin.php?page=stock-lot-regist&stock='. $object->stock. '&goods='. $object->goods. '&arrival_dt='. $object->arrival_dt. '&warehouse='. $object->warehouse. '"> [ '. $object->goods_total. ' ] </a></td>';
+			echo '<td>'. $transfer. '</td>';
 			echo '<td>'. $object->lot. '</td>';
 			echo '</tr>';
 		}
@@ -735,6 +737,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_stock;" )
 				'goods_name' => mb_convert_encoding('商品名', 'UTF-8', 'SJIS'), 
 				'amt' => mb_convert_encoding('荷姿・容量', 'UTF-8', 'SJIS'), 
 				'stock_cnt' => mb_convert_encoding('個数', 'UTF-8', 'SJIS'), 
+				'transfer_fg' => mb_convert_encoding('転送フラグ', 'UTF-8', 'SJIS'), 
 				'lot' => mb_convert_encoding('ロット番号', 'UTF-8', 'SJIS'), 
 			), 
 			array(
