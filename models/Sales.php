@@ -394,6 +394,9 @@ $dt = new DateTime($sdt. ' +1 days');
 //		$post->repeat_fg = ($post->repeat_fg == 'on') ? 1 : 0;
 		$post->repeat_fg = ($post->repeat_fg) ? $post->repeat_fg : 0; // checkboxのvalueがfalseだとパラメータが取れないため初期化
 
+		// 既登録情報を取得
+		$registed = $this->getDetailBySalesCode($post->sales);
+
 		$exist_columns = $wpdb->get_col("DESC ". $this->getTableName(). ";", 0);
 		foreach ($exist_columns as $i => $col) {
 			if(!is_null($post->$col)) {
@@ -421,6 +424,41 @@ $dt = new DateTime($sdt. ' +1 days');
 			$data, 
 			array('sales' => $post->sales)
 		);
+
+		// 既登録の情報と、数量が変更する場合
+		$confirm_status = (int) array_search('確定', $this->getPartsStatus());
+		if ($registed->qty != $post->qty && $registed->status == $confirm_status) {
+//$this->vd("into lot delete process.");
+			/**
+			 * 詳細情報の更新(数量変更によるロット登録欄数の変更等)
+			 **/
+			// 既に作成されいてるロット登録欄を削除
+			$ret_delete[] = $wpdb->delete(
+				'yc_goods_detail', 
+				array(
+					'sales' => $post->sales, 
+				)
+				//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+			);
+
+			// 変更後のロット数で、ロット登録欄を再作成
+			$count = $post->qty * 2; // 個数 (500kg/個) = ロット番号入力レコード生成数
+			for ($j = 0; $j < $count; $j++) {
+				$ret_remake_lot[] = $wpdb->insert(
+					'yc_goods_detail', 
+					array(
+						'id' => null, 
+						'sales' => $post->sales, 
+						'goods' => $post->goods, 
+						'lot' => null, 
+						'barcode' => null, 
+						'tank' => null, 
+						'rgdt' => date('Y-m-d H:i:s')
+					)
+					//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+				);
+			}
+		}
 
 /*
 		// schedule_repeat関連値登録
