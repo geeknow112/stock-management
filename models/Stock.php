@@ -343,6 +343,7 @@ class Stock extends Ext_Model_Base {
 		/**
 		 * 詳細情報の更新(数量変更によるロット登録欄数の変更等)
 		 **/
+/*
 		// 既に作成されいてるロット登録欄を削除
 		foreach ($rows as $i => $d) {
 			$ret_delete[] = $wpdb->delete(
@@ -371,7 +372,7 @@ class Stock extends Ext_Model_Base {
 				);
 			}
 		}
-
+*/
 		// 表示用に成形
 		foreach ($rows as $i => $row) {
 			$result['arrival_dt'] = $row->arrival_dt;
