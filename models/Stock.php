@@ -340,6 +340,38 @@ class Stock extends Ext_Model_Base {
 		// 更新情報を再取得
 		$rows = $this->getDetailByStockCodes($stocks);
 
+		/**
+		 * 詳細情報の更新(数量変更によるロット登録欄数の変更等)
+		 **/
+		// 既に作成されいてるロット登録欄を削除
+		foreach ($rows as $i => $d) {
+			$ret_delete[] = $wpdb->delete(
+				'yc_stock_detail', 
+				array(
+					'stock' => $d->stock, 
+				)
+				//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+			);
+		}
+
+		// 変更後のロット数で、ロット登録欄を再作成
+		foreach ($rows as $i => $d) {
+			$count = $d->goods_total; // 個数 (500kg/個) = ロット番号入力レコード生成数
+			for ($j = 0; $j < $count; $j++) {
+				$ret_detail[] = $wpdb->insert(
+					'yc_stock_detail', 
+					array(
+						'id' => null, 
+						'stock' => $d->stock, 
+						'lot' => null, 
+						'barcode' => null, 
+						'rgdt' => date('Y-m-d H:i:s')
+					)
+					//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+				);
+			}
+		}
+
 		// 表示用に成形
 		foreach ($rows as $i => $row) {
 			$result['arrival_dt'] = $row->arrival_dt;
