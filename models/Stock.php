@@ -160,15 +160,28 @@ class Stock extends Ext_Model_Base {
 	/**
 	 * 在庫情報詳細 複数取得
 	 * - 在庫コード複数(stocks)から抽出
+	 * 
+	 * @ $set_key: return配列をhashにする(=keyを[stock]にする)
 	 **/
-	public function getDetailByStockCodes($stocks = null) {
+	public function getDetailByStockCodes($stocks = null, $set_hash = null) {
 		global $wpdb;
 
 		$sql  = "SELECT st.* FROM ". $this->getTableName(). " as st ";
 		$sql .= sprintf("WHERE st.stock IN (%s); ", implode(',', $stocks));
 
 		$rows = $wpdb->get_results($sql);
-		return $rows;
+
+		// return配列をhashにする(=keyを[stock]にする)
+		if ($set_hash == true) {
+			foreach ($rows as $i => $d) {
+				$ret[$d->stock] = $d;
+			}
+
+		} else {
+			$ret = $rows;
+		}
+
+		return $ret;
 	}
 
 	/**
@@ -317,6 +330,10 @@ class Stock extends Ext_Model_Base {
 
 		$cur_user = wp_get_current_user();
 
+		// 既登録情報を取得
+		$stocks = array_filter($post->stock_list); // 配列内の空を削除
+		$regists = $this->getDetailByStockCodes($stocks, true);
+
 		foreach ($post->stock_list as $i => $stock) {
 			if (empty($stock)) { continue; }
 			$stocks[$i] = $stock;
@@ -335,44 +352,42 @@ class Stock extends Ext_Model_Base {
 				$data, 
 				array('stock' => $stock)
 			);
+
+			// 既登録の情報と、数量が変更する場合
+			if ($regists[$stock]->goods_total !== $post->qty_list[$i]) {
+				/**
+				 * 詳細情報の更新(数量変更によるロット登録欄数の変更等)
+				 **/
+				// 既に作成されいてるロット登録欄を削除
+				$ret_delete[] = $wpdb->delete(
+					'yc_stock_detail', 
+					array(
+						'stock' => $stock, 
+					)
+					//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+				);
+
+				// 変更後のロット数で、ロット登録欄を再作成
+				$count = $post->qty_list[$i]; // 個数 (500kg/個) = ロット番号入力レコード生成数
+				for ($j = 0; $j < $count; $j++) {
+					$ret_remake_lot[] = $wpdb->insert(
+						'yc_stock_detail', 
+						array(
+							'id' => null, 
+							'stock' => $stock, 
+							'lot' => null, 
+							'barcode' => null, 
+							'rgdt' => date('Y-m-d H:i:s')
+						)
+						//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+					);
+				}
+			}
 		}
 
 		// 更新情報を再取得
 		$rows = $this->getDetailByStockCodes($stocks);
 
-		/**
-		 * 詳細情報の更新(数量変更によるロット登録欄数の変更等)
-		 **/
-/*
-		// 既に作成されいてるロット登録欄を削除
-		foreach ($rows as $i => $d) {
-			$ret_delete[] = $wpdb->delete(
-				'yc_stock_detail', 
-				array(
-					'stock' => $d->stock, 
-				)
-				//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
-			);
-		}
-
-		// 変更後のロット数で、ロット登録欄を再作成
-		foreach ($rows as $i => $d) {
-			$count = $d->goods_total; // 個数 (500kg/個) = ロット番号入力レコード生成数
-			for ($j = 0; $j < $count; $j++) {
-				$ret_detail[] = $wpdb->insert(
-					'yc_stock_detail', 
-					array(
-						'id' => null, 
-						'stock' => $d->stock, 
-						'lot' => null, 
-						'barcode' => null, 
-						'rgdt' => date('Y-m-d H:i:s')
-					)
-					//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
-				);
-			}
-		}
-*/
 		// 表示用に成形
 		foreach ($rows as $i => $row) {
 			$result['arrival_dt'] = $row->arrival_dt;
