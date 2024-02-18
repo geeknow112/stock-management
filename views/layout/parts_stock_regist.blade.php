@@ -52,7 +52,7 @@
 					<tbody id="the-list" data-wp-lists="list:user">
 						<input type="hidden" id="pre_cmd" name="pre_cmd" value="{{$post->cmd}}">
 						@for($i = 0; $i<20; $i++)
-						<tr>
+						<tr @if ($rows->transfer_fg_list[$i] == true) class="bg-warning" @endif>
 							<td class="">{{$rows->stock_list[$i]}}</td>
 							<input type="hidden" id="stock_list" name="stock_list[]" value="{{$rows->stock_list[$i]}}">
 							<td class="">

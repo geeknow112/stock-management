@@ -244,6 +244,7 @@ class Stock extends Ext_Model_Base {
 			$ret['goods_list'][] = $d->goods;
 			$ret['qty_list'][] = $d->goods_total;
 			$ret['weight_list'][] = $d->subtotal;
+			$ret['transfer_fg_list'][] = $d->transfer_fg;
 		}
 		return (object) $ret;
 	}
