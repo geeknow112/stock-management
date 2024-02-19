@@ -427,8 +427,9 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		// 既登録の情報と、数量が変更する場合
 		$confirm_status = (int) array_search('確定', $this->getPartsStatus());
-		if ($registed->qty != $post->qty && $registed->status == $confirm_status) {
+		if ($registed->qty != $post->qty && $registed->status == $confirm_status && $get->page == 'sales-detail') {
 //$this->vd("into lot delete process.");
+
 			/**
 			 * 詳細情報の更新(数量変更によるロット登録欄数の変更等)
 			 **/
