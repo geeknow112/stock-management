@@ -164,7 +164,7 @@ if (!empty($req->s['lot'])) { $where .= "AND std.lot LIKE '%". $req->s['lot']. "
 if (!empty($req->s['outgoing_warehouse'])) { $where .= sprintf("AND st.warehouse = '%s'", $req->s['outgoing_warehouse']); }
 if (!empty($req->s['arrival_s_dt'])) { $where .= sprintf("AND st.arrival_dt >= '%s 00:00:00' ", $req->s['arrival_s_dt']); }
 if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND st.arrival_dt <= '%s 23:59:59' ", $req->s['arrival_e_dt']); }
-//$this->vd($where);
+if (!empty($req->s['transfer_fg'])) { $where .= sprintf("AND st.transfer_fg = '%s'", $req->s['transfer_fg']); }
 //print_r($where);
 
 $limit = ($paged -1) * $users_per_page;
@@ -449,7 +449,6 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_stock;" )
 		}
 */
 		foreach ( $this->items as $id => $object ) {
-			$transfer = ($object->transfer_fg == true) ? '@' : '';
 //			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 			echo '<tr>';
 			echo '<td><a href="/wp-admin/admin.php?page=stock-detail&arrival_dt='. $object->arrival_dt. '&warehouse='. $object->warehouse. '&action=edit">'. sprintf('STOCK-%07d', $object->stock). '</a></td>';
@@ -458,9 +457,18 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_stock;" )
 			echo '<td>'. $object->goods_name. $separately. '</td>';
 			echo '<td>'. $object->qty. '</td>';
 			echo '<td><a href="/wp-admin/admin.php?page=stock-lot-regist&stock='. $object->stock. '&goods='. $object->goods. '&arrival_dt='. $object->arrival_dt. '&warehouse='. $object->warehouse. '"> [ '. $object->goods_total. ' ] </a></td>';
-			echo '<td>'. $transfer. '</td>';
 			echo '<td>'. $object->lot. '</td>';
+			$transfer = ($object->transfer_fg == true) ? '<input type="button" value="CANCEL">' : '';
+			echo '<td><a href="#" onclick="cancel_transfer();">'. $transfer. '</a></td>';
 			echo '</tr>';
+
+			$transfer_alert = mb_convert_encoding("この「転送」処理を取り消しますか？", "UTF-8", "SJIS");
+			$script  = '<script>';
+			$script .= 'function cancel_transfer() { ';
+			$script .= '	confirm("'. $transfer_alert. '");';
+			$script .= '}';
+			$script .= '</script>';
+			echo $script;
 		}
 	}
 
@@ -737,8 +745,8 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_stock;" )
 				'goods_name' => mb_convert_encoding('商品名', 'UTF-8', 'SJIS'), 
 				'amt' => mb_convert_encoding('荷姿・容量', 'UTF-8', 'SJIS'), 
 				'stock_cnt' => mb_convert_encoding('個数', 'UTF-8', 'SJIS'), 
-				'transfer_fg' => mb_convert_encoding('転送フラグ', 'UTF-8', 'SJIS'), 
 				'lot' => mb_convert_encoding('ロット番号', 'UTF-8', 'SJIS'), 
+				'transfer_fg' => mb_convert_encoding('転送フラグ', 'UTF-8', 'SJIS'), 
 			), 
 			array(
 			),
