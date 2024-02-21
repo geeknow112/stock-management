@@ -36,6 +36,12 @@
 					</select>
 					<br /><br />
 
+					<label for="" class="col-sm-2 col-form-label">&emsp;</label>
+					<input type="checkbox" class="btn-check" id="transfer_fg" name="s[transfer_fg]" autocomplete="off" onchange="check_transfer_fg();">
+					<label class="btn btn-outline-primary" for="transfer_fg">転送を抽出</label>
+					&emsp;&emsp;<span id="" class="manual-text form-text">※ ON(青い状態)で、転送のみを抽出します。OFF(白い状態)では、転送を含むすべてを抽出します。</span>
+					<br /><br />
+
 				<label for="carModel" class="col-sm-2 col-form-label">引取(入庫)日：</label>
 					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="{{$get->s['arrival_s_dt']}}" placeholder="2020-11-01">&emsp;～&emsp;
 					<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="{{$get->s['arrival_e_dt']}}" placeholder="2022-12-01">&emsp;
@@ -75,16 +81,22 @@
 </div>
 
 <script>
-function init_status(applicant = null) {
-	if (applicant == "" || applicant == null) {
-		alert("No. がありません。");
-		exit;
+/**
+ * 画面ロード時の処理
+ **/
+window.onload = function () {
+	const transfer_fg = '{{$get->s["transfer_fg"]}}';
+	if (transfer_fg == 'on' || transfer_fg == 1) {
+		document.getElementById('transfer_fg').checked = true;
 	}
+}
 
-	var str = "No. 【" + applicant + "】 の「登録状況」を初期化しますか？";
-	if (window.confirm(str)) {
-		//alert("初期化しました。");
-		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=sales-list&post=" + applicant + "&action=init-status";
+/**
+ * 「転送を抽出」をcheckedにする処理
+ **/
+function check_transfer_fg() {
+	if (document.getElementById('transfer_fg').checked) {
+		document.getElementById('transfer_fg').value = 1; // true
 	}
 }
 </script>
