@@ -88,6 +88,7 @@ window.onload = function () {
 	const transfer_fg = '{{$get->s["transfer_fg"]}}';
 	if (transfer_fg == 'on' || transfer_fg == 1) {
 		document.getElementById('transfer_fg').checked = true;
+		document.getElementById('transfer_fg').value = 1; // true
 	}
 }
 
