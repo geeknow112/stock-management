@@ -155,7 +155,7 @@
 						<td class="">{{$i+1}}</td>
 						<td class="">{{$tf->goods_name}}</td>
 						<th class="tx-center">（T）</th>
-						<td class="tx-right">{{number_format($tf->qty,1)}}</td>
+						<td class="tx-right">{{number_format(($tf->qty * 0.5),1)}}</td>
 						<th class="">{{$tf->customer_name}}</th>
 					</tr>
 					@endforeach
@@ -199,7 +199,7 @@
 						<td class="">{{$i+1}}</td>
 						<td class="">{{$tf->goods_name}}</td>
 						<th class="tx-center">（T）</th>
-						<td class="tx-right">{{number_format($tf->qty,1)}}</td>
+						<td class="tx-right">{{number_format(($tf->qty * 0.5),1)}}</td>
 						<th class="">{{$tf->customer_name}}</th>
 					</tr>
 					@endforeach
