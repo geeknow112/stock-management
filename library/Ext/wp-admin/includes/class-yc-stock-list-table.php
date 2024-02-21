@@ -458,7 +458,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_stock;" )
 			echo '<td>'. $object->qty. '</td>';
 			echo '<td><a href="/wp-admin/admin.php?page=stock-lot-regist&stock='. $object->stock. '&goods='. $object->goods. '&arrival_dt='. $object->arrival_dt. '&warehouse='. $object->warehouse. '"> [ '. $object->goods_total. ' ] </a></td>';
 			echo '<td>'. $object->lot. '</td>';
-			$transfer = ($object->transfer_fg == true) ? '<input type="button" value="CANCEL">' : '';
+			$transfer = ($object->transfer_fg == true) ? '<input type="button" value="'. mb_convert_encoding("“]‘—ŽæÁ", "UTF-8", "SJIS"). '">' : '';
 			echo '<td><a href="#" onclick="cancel_transfer();">'. $transfer. '</a></td>';
 			echo '</tr>';
 
