@@ -55,6 +55,17 @@
 					document.forms.cmd.value = 'search';
 					document.forms.submit();
 				}
+
+				function cancel_transfer(stock = null) {
+					var ret = window.confirm('この「転送」処理を取り消しますか？');
+					if (ret) {
+						document.forms.method = 'post';
+						document.forms.action = "/wp-admin/admin.php?page=stock-list&stock=" + stock;
+						document.forms.cmd.value = 'cmd_cancel_transfer';
+						document.forms.submit();
+					} else {
+					}
+				}
 				</script>
 			</div>
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
