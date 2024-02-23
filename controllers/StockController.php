@@ -46,6 +46,21 @@ class StockController extends Ext_Controller_Action
 				$formPage = 'stock-list';
 				echo $this->get_blade()->run("stock-list", compact('rows', 'get', 'post', 'formPage', 'initForm', 'wp_list_table'));
 				break;
+
+			case 'cmd_cancel_transfer':
+//				$this->vd($get);
+//				$this->vd($post);
+
+				$StockTransfer = new StockTransfer;
+				$result = $StockTransfer->cancelTransfer($get->stock);
+//$this->vd($result);
+
+				$get = $post;
+				$initForm = $this->getTb()->getInitForm();
+				$rows = $this->getTb()->getList($get, $un_convert = true);
+				$formPage = 'stock-list';
+				echo $this->get_blade()->run("stock-list", compact('rows', 'get', 'post', 'formPage', 'initForm', 'wp_list_table'));
+				break;
 		}
 	}
 

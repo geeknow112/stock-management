@@ -151,5 +151,22 @@ class StockTransfer extends Stock {
 
 		return $ret;
 	}
+
+	/**
+	 * 在庫情報詳細「転送」取消
+	 **/
+	public function cancelTransfer($stock = null) {
+		global $wpdb;
+
+		$sql  = "DELETE st FROM ". $this->getTableName(). " as st ";
+		$sql .= "LEFT JOIN yc_stock_detail as std ON st.stock = std.stock ";
+		$sql .= sprintf("WHERE st.stock = '%s' ", $stock);
+		$sql .= "AND st.transfer_fg = '1' ";
+		$sql .= ";";
+//$this->vd($sql);
+
+		$rows = $wpdb->get_results($sql);
+		return (object) $rows;
+	}
 }
 ?>

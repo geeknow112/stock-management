@@ -458,17 +458,9 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_stock;" )
 			echo '<td>'. $object->qty. '</td>';
 			echo '<td><a href="/wp-admin/admin.php?page=stock-lot-regist&stock='. $object->stock. '&goods='. $object->goods. '&arrival_dt='. $object->arrival_dt. '&warehouse='. $object->warehouse. '"> [ '. $object->goods_total. ' ] </a></td>';
 			echo '<td>'. $object->lot. '</td>';
-			$transfer = ($object->transfer_fg == true) ? '<input type="button" value="'. mb_convert_encoding("“]‘—æÁ", "UTF-8", "SJIS"). '">' : '';
-			echo '<td><a href="#" onclick="cancel_transfer();">'. $transfer. '</a></td>';
+			$transfer = ($object->transfer_fg == true) ? '<input type="button" onclick="cancel_transfer('. $object->stock. ');" value="'. mb_convert_encoding("“]‘—æÁ", "UTF-8", "SJIS"). '">' : '';
+			echo '<td>'. $transfer. '</td>';
 			echo '</tr>';
-
-			$transfer_alert = mb_convert_encoding("‚±‚Ìu“]‘—vˆ—‚ğæ‚èÁ‚µ‚Ü‚·‚©H", "UTF-8", "SJIS");
-			$script  = '<script>';
-			$script .= 'function cancel_transfer() { ';
-			$script .= '	confirm("'. $transfer_alert. '");';
-			$script .= '}';
-			$script .= '</script>';
-			echo $script;
 		}
 	}
 
