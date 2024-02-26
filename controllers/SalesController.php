@@ -321,6 +321,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 		switch($get->action) {
 			case 'set_receipt': // 「受領書」フラグの更新
 				$data['sales'] = $post->sales;
+				$data['repeat_fg'] = $post->repeat_fg; // repeat_fgをupdDetailで初期化させないため
 				$data['receipt_fg'] = true;
 				(object) $data;
 				$result = $this->getTb()->updDetail($get, $data);

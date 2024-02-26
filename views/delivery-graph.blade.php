@@ -80,6 +80,7 @@
 
 			<input type="hidden" name="sales" value="">
 			<input type="hidden" name="base_sales" value="">
+			<input type="hidden" name="repeat_fg" value="">
 
 			<input type="hidden" name="oid" value="">
 			<input type="hidden" name="odata" value="">
@@ -290,7 +291,7 @@
 							<a href="#" class="btn btn-warning text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">未登録</a>
 							@else
 								@if ($row->receipt_fg != 1)
-									<a href="#" class="btn btn-success text-center" onclick="check_status({{$row->sales}}, {{$row->goods}});">登録済</a>
+									<a href="#" class="btn btn-success text-center" onclick="check_status({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}});">登録済</a>
 									<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="on"><label class="btn btn-outline-primary" onclick="switch_receipt({{$row->sales}});">受領書</label><!-- 受領書の受取確認用 -->
 <!--									<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="off"><label class="btn btn-outline-primary" for="check-receipt_{{$row->sales}}">受領書</label>--><!-- 受領書の受取確認用 -->
 								@else
@@ -342,7 +343,7 @@ function change_repeat_order(oid) {
  * 受領書受取の確認
  * 
  **/
-function check_status(sales, goods) {
+function check_status(sales = null, goods = null, repeat_fg = null) {
 	const rec = document.getElementById('check-receipt_' + sales).checked;
 	console.log(rec);
 	if (rec == true) {
@@ -350,6 +351,7 @@ function check_status(sales, goods) {
 			document.forms.method = 'post';
 			document.forms.action.value = 'set_receipt';
 			document.forms.sales.value = sales;
+			document.forms.repeat_fg.value = repeat_fg;
 			document.forms.submit();
 		}
 	} else {
