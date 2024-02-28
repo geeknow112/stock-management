@@ -479,6 +479,7 @@ $r = array(
 		$post->cars_tank = $post->cars_tank;
 		$post->base_sales = $r_order[2];
 		$post->repeat = $r_order[4];
+		$post->outgoing_warehouse = $post->r_warehouse;
 	}
 
 	/**
