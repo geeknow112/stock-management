@@ -128,12 +128,17 @@ function to_back() {
  * 
  **/
 function to_search() {
+	const page = 'stock-list';
 	const ref = "{{$_COOKIE['stock-list']}}";
 //	console.log(ref);
 	var result = unescapeHtml(ref);
 //	console.log(result);
 
-	window.location = result;
+	if (result) {
+		window.location = result;
+	} else {
+		window.location = "/wp-admin/admin.php?page=" + page;
+	}
 }
 
 /**

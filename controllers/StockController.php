@@ -41,8 +41,16 @@ class StockController extends Ext_Controller_Action
 		// [検索画面へ戻る]ボタン用の処理
 		switch($get->cmd) {
 			case 'search':
-				$uri = $_SERVER['REQUEST_URI'];
+			default: 
 				$cookie_key = $get->page;
+
+				// cookie 初期化
+				$cookie_value  = '';
+				$cookie_expire = time()-1; //現在より過去を指定
+				setcookie($cookie_key, $cookie_value, $cookie_expire);
+
+				// cookie 登録
+				$uri = $_SERVER['REQUEST_URI'];
 				setcookie($cookie_key, $uri);
 				break;
 		}
