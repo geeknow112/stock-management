@@ -51,6 +51,7 @@
 		</table>
 	</div>
 		<input type="button" id="btn_back" class="btn btn-success" onclick="to_back();" value="◀ 戻る">
+		<input type="button" id="btn_back" class="btn btn-success" onclick="to_search();" value="◀ 検索画面へ戻る">
 </div>
 
 <script>
@@ -96,6 +97,10 @@ window.onload = function () {
 	}
 }
 
+/**
+ * [戻る]ボタン用の処理
+ * 
+ **/
 function to_back() {
 	const ref = "{{$_SERVER['HTTP_REFERER']}}";
 //	console.log(ref);
@@ -116,6 +121,19 @@ function to_back() {
 		window.location = result;
 
 	}
+}
+
+/**
+ * [検索画面へ戻る]ボタン用の処理
+ * 
+ **/
+function to_search() {
+	const ref = "{{$_COOKIE['stock-list']}}";
+//	console.log(ref);
+	var result = unescapeHtml(ref);
+//	console.log(result);
+
+	window.location = result;
 }
 
 /**
