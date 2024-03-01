@@ -38,6 +38,15 @@ class StockController extends Ext_Controller_Action
 
 		$this->setTb('Stock');
 
+		// [ŒŸõ‰æ–Ê‚Ö–ß‚é]ƒ{ƒ^ƒ“—p‚Ìˆ—
+		switch($get->cmd) {
+			case 'search':
+				$uri = $_SERVER['REQUEST_URI'];
+				$cookie_key = $get->page;
+				setcookie($cookie_key, $uri);
+				break;
+		}
+
 		switch($post->cmd) {
 			case 'search':
 			default:
