@@ -42,16 +42,11 @@ class StockController extends Ext_Controller_Action
 		switch($get->cmd) {
 			case 'search':
 			default: 
-				$cookie_key = $get->page;
+				$session_key = $get->page; // 'stock-list'
 
-				// cookie ‰Šú‰»
-				$cookie_value  = '';
-				$cookie_expire = time()-1; //Œ»İ‚æ‚è‰ß‹‚ğw’è
-				setcookie($cookie_key, $cookie_value, $cookie_expire);
-
-				// cookie “o˜^
+				// session “o˜^
 				$uri = $_SERVER['REQUEST_URI'];
-				setcookie($cookie_key, $uri);
+				$_SESSION[$session_key] = $uri;
 				break;
 		}
 
