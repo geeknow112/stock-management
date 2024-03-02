@@ -295,4 +295,15 @@ function custom_admin_footer() {
 }
 add_filter('admin_footer_text', 'custom_admin_footer');
 
+/**
+ * セッションの開始
+ **/
+function init_session_start() {
+	// セッションが開始されていなければここで開始
+	if (session_status() !== PHP_SESSION_ACTIVE) {
+		session_start();
+	}
+}
+add_action('after_setup_theme', 'init_session_start');
+
 $StockManagement = new StockManagement;
