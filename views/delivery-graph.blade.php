@@ -77,6 +77,7 @@
 			<input type="hidden" name="class" value="">
 			<input type="hidden" name="cars_tank" value="">
 			<input type="hidden" name="change_delivery_dt" value="">
+			<input type="hidden" name="r_arrival_dt" value="">
 			<input type="hidden" name="r_warehouse" value="">
 
 			<input type="hidden" name="sales" value="">
@@ -260,6 +261,7 @@
 							$oid = $row->sales. "_". $row->goods. "_". $row->repeat. "_". str_replace('-', '', $delivery_dt);
 							?>
 									<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt_{{$oid}}" name="" value="">
+									<input type="hidden" class="" id="r_arrival_dt_{{$oid}}" name="" value="{{$row->arrival_dt}}">
 									<input type="hidden" class="" id="r_warehouse_{{$oid}}" name="" value="{{$row->outgoing_warehouse}}">
 									<br />
 									<select class="" id="cars_class_{{$oid}}" name="">
@@ -317,11 +319,14 @@ function change_repeat_order(oid) {
 	var cars_tank_id = 'cars_tank_' + oid;
 	var delivery_dt_id = 'delivery_dt_' + oid;
 	var warehouse_id = 'r_warehouse_' + oid;
+	var arrival_dt_id = 'r_arrival_dt_' + oid;
 
 	var cars_class = document.getElementById(cars_class_id).value;
 	var cars_tank = document.getElementById(cars_tank_id).value;
 	var delivery_dt = document.getElementById(delivery_dt_id).value;
 	var warehouse = document.getElementById(warehouse_id).value;
+	var arrival_dt = document.getElementById(arrival_dt_id).value;
+
 
 	if (window.confirm('車種、槽、配送予定日 を変更しますか？')) {
 		document.forms.method = 'post';
@@ -332,6 +337,7 @@ function change_repeat_order(oid) {
 		document.forms.cars_tank.value = cars_tank;
 		document.forms.change_delivery_dt.value = delivery_dt;
 		document.forms.r_warehouse.value = warehouse;
+		document.forms.r_arrival_dt.value = arrival_dt;
 
 	/*
 		document.forms.r_delivery_dt.value = <?php echo $row->delivery_dt; ?>;
