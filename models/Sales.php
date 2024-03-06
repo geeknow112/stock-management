@@ -819,6 +819,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
 		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
 		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
+		$sql .= "AND s.class NOT IN (8,9,10) "; // 「結果入力」欄は表示せず
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";

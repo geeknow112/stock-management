@@ -358,7 +358,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 			case 'search':
 			default:
 				$initForm = $this->getTb()->getInitForm();
-//				$rows = $this->getTb()->getListByArrivalDt($get, $post);	// 6t-0、6t-7のみ表示のため、DBからの取得が不要
+				$rows = $this->getTb()->getListByArrivalDt($get, $post);
 
 // 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
 $sdt = new DateTime($get->s['arrival_s_dt']);
