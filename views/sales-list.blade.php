@@ -15,6 +15,9 @@
 				<label for="sales" class="col-sm-2 col-form-label">No. ：</label>
 					<input type="search" id="sales" name="s[no]" value="<?php echo htmlspecialchars($get->s['no']); ?>"><br /><br />
 
+				<label for="customer_name" class="col-sm-2 col-form-label">注文者名：</label>
+					<input type="search" id="customer_name" name="s[customer_name]" value="<?php echo htmlspecialchars($get->s['customer_name']); ?>"><br /><br />
+
 				<label for="goods_name" class="col-sm-2 col-form-label">商品名：</label>
 					<input type="search" id="goods_name" name="s[goods_name]" value="<?php echo htmlspecialchars($get->s['goods_name']); ?>"><br /><br />
 
