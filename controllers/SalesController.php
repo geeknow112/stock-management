@@ -37,6 +37,18 @@ class SalesController extends Ext_Controller_Action
 
 		$this->setTb('Sales');
 
+		// [ŒŸõ‰æ–Ê‚Ö–ß‚é]ƒ{ƒ^ƒ“—p‚Ìˆ—
+		switch($get->cmd) {
+			case 'search':
+			default: 
+				$session_key = 'sales-search';
+
+				// session “o˜^
+				$uri = $_SERVER['REQUEST_URI'];
+				$_SESSION[$session_key] = $uri;
+				break;
+		}
+
 		switch($post->cmd) {
 			case 'search':
 			case 'edit':
@@ -311,6 +323,18 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 		$cur_user = wp_get_current_user();
 
 		$this->setTb('Sales');
+
+		// [ŒŸõ‰æ–Ê‚Ö–ß‚é]ƒ{ƒ^ƒ“—p‚Ìˆ—
+		switch($get->cmd) {
+			case 'search':
+			default: 
+				$session_key = 'sales-search';
+
+				// session “o˜^
+				$uri = $_SERVER['REQUEST_URI'];
+				$_SESSION[$session_key] = $uri;
+				break;
+		}
 
 		if (!isset($get->action) || $post->action == 'regist') { $get->action = $post->action; }
 
