@@ -1,4 +1,5 @@
 <div id="repeat_info">
+	<br /><br /><hr>
 <!--<div id="repeat_info" style="display: none">-->
 
 	<p class="">

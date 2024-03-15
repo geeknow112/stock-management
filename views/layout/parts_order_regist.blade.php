@@ -230,8 +230,6 @@ function createSelectBoxGoods(){
 		@endif
 	</div>
 
-<br /><br /><hr>
-
 <script>
 /**
  * 「入庫予定日」の自動入力
