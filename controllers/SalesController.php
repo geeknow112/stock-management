@@ -80,6 +80,14 @@ class SalesController extends Ext_Controller_Action
 		$page = 'sales-detail';
 		$initForm = $this->getTb()->getInitForm($post);
 
+		// [ŒŸõ‰æ–Ê‚Ö–ß‚é]ƒ{ƒ^ƒ“—p‚Ìˆ—
+		if (empty($get->action)) {
+				$session_key = 'sales-search';
+
+				// session ‰Šú‰»
+				$_SESSION[$session_key] = '';
+		}
+
 		$rows = null;
 		switch($get->action) {
 			case 'regist':
