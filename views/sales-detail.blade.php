@@ -12,7 +12,7 @@
 
 @section ('contents4')
 	<br /><br /><hr>
-	@if ($get->action != '')
+	@if ($get->action != '' && $_SESSION['sales-search'] != '')
 	<div class="table-responsive">
 <!--		<input type="button" id="btn_back" class="btn btn-success" onclick="to_back();" value="◀ 戻る">-->
 		<input type="button" id="btn_back" class="btn btn-success" onclick="to_search();" value="◀ 検索画面へ戻る">
