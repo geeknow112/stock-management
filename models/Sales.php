@@ -816,7 +816,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		// →リピート登録がない場合、JOIN後に受注番号(yc_sales.sales)が消えるため、"s.sales AS sales"カラム表示を追加
 		$sql .= "LEFT JOIN yc_schedule_repeat AS sr ON s.sales = sr.sales ";
 		$sql .= sprintf("WHERE s.sales = '%s' ", $sales);
-//		$sql .= "AND s.status <> 9 "; // 元注文は削除フラグが立っていてもOKのため、この条件は外す
+		$sql .= "AND s.status <> 9 ";
 		$sql .= "AND s.repeat_fg = 1 ";
 		$sql .= "LIMIT 1;";
 		$rows = $wpdb->get_results($sql);
