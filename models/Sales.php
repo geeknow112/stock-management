@@ -874,18 +874,20 @@ $dt = new DateTime($sdt. ' +1 days');
 	 **/
 	public function sumReceiveListByGoods($rows = null) {
 		foreach ($rows as $i => $d) {
-			$ret[$d->goods][$d->customer][] = $d;
+			$ret[$d->goods][$d->arrival_dt][$d->customer][] = $d;
 
-			$sum_tmp[$d->goods]['goods'] = $d->goods;
-			$sum_tmp[$d->goods]['goods_name'] = $d->goods_name;
-			$sum_tmp[$d->goods]['qty'][] = $d->qty;
-			$sum_tmp[$d->goods]['outgoing_warehouse'] = $d->outgoing_warehouse;
-			$sum_tmp[$d->goods]['repeat'] = $d->repeat;
-			$sum_tmp[$d->goods]['repeat_fg'] = $d->repeat_fg;
+			$sum_tmp[$d->goods][$d->arrival_dt]['goods'] = $d->goods;
+			$sum_tmp[$d->goods][$d->arrival_dt]['goods_name'] = $d->goods_name;
+			$sum_tmp[$d->goods][$d->arrival_dt]['qty'][] = $d->qty;
+			$sum_tmp[$d->goods][$d->arrival_dt]['outgoing_warehouse'] = $d->outgoing_warehouse;
+			$sum_tmp[$d->goods][$d->arrival_dt]['repeat'] = $d->repeat;
+			$sum_tmp[$d->goods][$d->arrival_dt]['repeat_fg'] = $d->repeat_fg;
 		}
 
-		foreach ($sum_tmp as $goods => $d) {
-			$sum_list[$goods] = (object) $d;
+		foreach ($sum_tmp as $goods => $list) {
+			foreach ($list as $arrival_dt => $d) {
+				$sum_list[$goods][$arrival_dt] = (object) $d;
+			}
 		}
 
 		return array($ret, $sum_list);

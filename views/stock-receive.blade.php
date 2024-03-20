@@ -15,7 +15,21 @@
 
 				<label for="carModel" class="col-sm-2 col-form-label">引取(入庫)予定日：</label>
 					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="<?php echo htmlspecialchars($get->s['arrival_s_dt']); ?>" placeholder="2020-11-01"><!--&emsp;～&emsp;
-				<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_e_dt']); ?>" placeholder="2022-12-01">&emsp;--><br /><br />
+				<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_e_dt']); ?>" placeholder="2022-12-01">-->
+					&emsp;&emsp;
+
+					<input class="form-check-input" type="radio" name="sum_span" id="sum_span_1" value="one" @if ($get->sum_span == 'one' || $get->sum_span == '') checked @endif>
+					<label class="form-check-label" for="sum_span_1">1日分</label>
+					&emsp;
+
+					<input class="form-check-input" type="radio" name="sum_span" id="sum_span_10" value="ten" @if ($get->sum_span == 'ten') checked @endif>
+					<label class="form-check-label" for="sum_span_10">10日分</label>
+					<br />
+
+					<label for="" class="col-sm-2 col-form-label">&emsp;</label>
+					<span id="" class="manual-text form-text">※ ON(青い状態)で、転送のみを抽出します。OFF(白い状態)では、転送を含むすべてを抽出します。</span>
+					<br />
+
 
 				<label for="carModel" class="col-sm-2 col-form-label">出庫倉庫：</label>
 <!--					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($get->s['outgoing_warehouse']); ?>">-->
@@ -70,27 +84,33 @@
 						<th class="">No.</th>
 						<th class="col-md-4">品名</th>
 						<th class="">量(t)</th>
+						<th class="w-25">引取(入庫)予定日</th>
 						<th class="">倉庫</th>
 					</tr>
 				</thead>
 
 				@if (isset($sum_list) && count($sum_list))
 				<tbody id="the-list" data-wp-lists="list:user">
-					@foreach ($sum_list as $goods => $row)
-					<tr id="">
-						<td class="">&emsp;</td>
-						<td class="" onclick="changeDisplay({{$goods}});" @if (isset($row->repeat)) style="background: pink;" @endif><a href="#">{{$row->goods_name}}</a></td>
-						<td class="tx-center">{{number_format(array_sum($row->qty),1)}}</td>
-						<td class="">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</td>
-					</tr>
-						@foreach ($detail[$goods] as $customer => $data)
-							@foreach ($data as $i => $d)
-							<tr class="detail d_{{$goods}}" id="detail_{{$goods}}_{{$i}}">
-								<td class="">&emsp;</td>
-								<td class="table-light tx-center">　<b>- 顧客：</b>( {{$d->customer_name}} )</td>
-								<td class="table-info tx-right">{{number_format($d->qty,1)}}</td>
-								<td class=""></td>
-							</tr>
+					@foreach ($sum_list as $goods => $list)
+						@foreach ($list as $arrival_dt => $row)
+						<?php $a_dt = str_replace('-', '', $arrival_dt); ?>
+						<tr id="">
+							<td class="">&emsp;</td>
+							<td class="" onclick="changeDisplay({{$goods}}, {{$a_dt}});" @if (isset($row->repeat)) style="background: pink;" @endif><a href="#">{{$row->goods_name}}</a></td>
+							<td class="tx-center">{{number_format(array_sum($row->qty),1)}}</td>
+							<td class="w-25 tx-center">{{$arrival_dt}}</td>
+							<td class="">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</td>
+						</tr>
+							@foreach ($detail[$goods][$arrival_dt] as $customer => $data)
+								@foreach ($data as $i => $d)
+								<tr class="detail d_{{$goods}}_{{$a_dt}}" id="detail_{{$goods}}_{{$i}}">
+									<td class="">&emsp;</td>
+									<td class="table-light tx-center">　<b>- 顧客：</b>( {{$d->customer_name}} )</td>
+									<td class="table-info tx-right">{{number_format($d->qty,1)}}</td>
+									<td class=""></td>
+									<td class=""></td>
+								</tr>
+								@endforeach
 							@endforeach
 						@endforeach
 					@endforeach
@@ -120,9 +140,10 @@ window.onload = function () {
  * クリックで詳細を表示
  * 
  **/
-function changeDisplay(goods = null) {
+function changeDisplay(goods = null, a_dt = null) {
 	console.log(goods);
-	const className = 'd_' + goods;
+	const className = 'd_' + goods + '_' + a_dt;
+	console.log(className);
 	const targets = document.getElementsByClassName(className);
 	Array.from(targets).forEach(target => {
 		if (target.style.display == "none") {
