@@ -36,12 +36,19 @@
 					<span><a href="#table_top"><input type="button" class="btn btn-primary" value="⓪"></a><span>
 					&emsp;
 
-					@if (wp_get_current_user()->roles[0] == 'administrator' && wp_get_current_user()->user_login == 'user')
-						<span><a href="#car_model_1"><input type="button" class="btn btn-info" value="①"></a><span>
-						&emsp;
-					@endif
+					<span><a href="#car_model_1"><input type="button" class="btn btn-info" value="①"></a><span>
+					&emsp;
+
+					<span><a href="#car_model_2"><input type="button" class="btn btn-info" value="②"></a><span>
+					&emsp;
 
 					<span><a href="#car_model_3"><input type="button" class="btn btn-primary" value="③"></a><span>
+					&emsp;
+
+					<span><a href="#car_model_4"><input type="button" class="btn btn-info" value="④"></a><span>
+					&emsp;
+
+					<span><a href="#car_model_5"><input type="button" class="btn btn-info" value="⑤"></a><span>
 					&emsp;
 
 					<span><a href="#car_model_6"><input type="button" class="btn btn-primary" value="⑥"></a><span>
@@ -49,10 +56,8 @@
 
 					<span><a href="#input_result"><input type="button" class="btn btn-primary" value="結果入力欄"></a><span>
 
-					@if (wp_get_current_user()->roles[0] == 'administrator' && wp_get_current_user()->user_login == 'user')
-						&emsp;
-						<span><a href="#input_result_end"><input type="button" class="btn btn-info" value=">>"></a><span>
-					@endif
+					&emsp;
+					<span><a href="#input_result_end" name="input_result_end"><input type="button" class="btn btn-info" value=">>"></a><span>
 
 				</span>
 				<span class="sp"><br /></br /></span>
@@ -123,10 +128,10 @@
 						<th class="" colspan="6">6t ⓪</th>
 						@endif
 						<th class="" colspan="6" id="car_model_1">6t ①</th>
-						<th class="" colspan="6">6t ②</th>
+						<th class="" colspan="6" id="car_model_2">6t ②</th>
 						<th class="" colspan="6" id="car_model_3">6t ③</th>
-						<th class="" colspan="6">6t ④</th>
-						<th class="" colspan="6">6t ⑤</th>
+						<th class="" colspan="6" id="car_model_4">6t ④</th>
+						<th class="" colspan="6" id="car_model_5">6t ⑤</th>
 						@if ($cur_user->roles[0] == 'administrator')
 						<th class="" colspan="6" id="car_model_6">6t ⑥</th>
 						<th class="" colspan="6">6t ⑦ (山忠商事(直取) 専用：繰り返し注文表示欄)</th>
