@@ -789,7 +789,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		$post->qty = $select_qty[sprintf('%.1f', $rows->qty)];
 
 		$post->customer = $rows->customer;
-		$post->repeat_fg = 0;
+//		$post->repeat_fg = 0;
 		$post->lot_fg = 0;
 		$post->status = 0;
 		$post->rgdt = null;
@@ -921,6 +921,29 @@ $dt = new DateTime($sdt. ' +1 days');
 		}
 
 		return $rows;
+	}
+
+	/**
+	 * 繰り返し設定の初期化
+	 * 
+	 **/
+	public function initRepeatFg($post = null) {
+		$post = (object) $post;
+		global $wpdb;
+
+		$data = array(
+			'sales' => $post->base_sales, 
+			'repeat_fg' => 0
+		);
+
+//$this->vd($data);exit;
+
+		$ret = $wpdb->update(
+			$this->getTableName(), 
+			$data, 
+			array('sales' => $post->base_sales)
+		);
+		return $ret;
 	}
 
 	/**

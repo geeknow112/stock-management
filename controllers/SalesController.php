@@ -396,9 +396,10 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 			case 'regist':
 				// salesテーブルへ登録のための成形
 				$this->convertSalesData($post);
-				//$this->vd($post);
+//				$this->vd($post);exit;
 
 				// salesテーブルへ登録
+				$post->repeat_fg = true;
 				$rows = $this->getTb()->copyDetail($get, $post);
 
 				// repeat_excludeテーブルに必要な情報を追加
@@ -409,6 +410,16 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				// repeat_excludeテーブルへ登録
 				$RepeatExclude = new RepeatExclude;
 				$RepeatExclude->updDetail($get, $post);
+
+				// 元注文の繰り返しOFF
+				$init_bool = $this->getTb()->initRepeatFg($post);
+//				$this->vd($init_bool);exit;
+
+				// 元注文の繰り返しを新注文へコピーする
+				$post->sales = $rows->sales;
+				$post->delivery_dt = $rows->delivery_dt; // repeat_s_dtに新しいdelivery_dtを設定
+				$ScheduleRepeat = new ScheduleRepeat;
+				$ScheduleRepeat->copyDetail($get, $post);
 
 			case 'search':
 			default:
