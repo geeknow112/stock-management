@@ -120,29 +120,31 @@ class ScheduleRepeat extends Ext_Model_Base {
 
 		$rows = $wpdb->get_results($sql);
 
-		// repeat情報から、繰り返し注文を生成
-		$ret = $this->makeRepeatItems($rows, $get);
+		if (!empty($rows)) {
+			// repeat情報から、繰り返し注文を生成
+			$ret = $this->makeRepeatItems($rows, $get);
 
-		// 既に注文確定したものを除外する
-		$r_ex_sql = 'select * from yc_repeat_exclude;';
-		$r_excludes = $wpdb->get_results($r_ex_sql);
+			// 既に注文確定したものを除外する
+			$r_ex_sql = 'select * from yc_repeat_exclude;';
+			$r_excludes = $wpdb->get_results($r_ex_sql);
 //$this->vd($ret);
 //$this->vd($r_excludes);
-		// 照合しやすいように成形
-		foreach ($r_excludes as $i => $d) {
-			$r_ex[$d->delivery_dt][$d->sales] = $d;
-		}
+			// 照合しやすいように成形
+			foreach ($r_excludes as $i => $d) {
+				$r_ex[$d->delivery_dt][$d->sales] = $d;
+			}
 //$this->vd($r_ex);
-		foreach ($ret as $delivery_dt => $list) {
-			foreach ($list as $sales => $d) {
-//				if ($delivery_dt == '2022-12-23') {
-				if (!empty($r_ex[$delivery_dt][$sales])) {
-//					$this->vd($r_ex[$delivery_dt][$sales]);
-					unset($ret[$delivery_dt][$sales]);
+			foreach ($ret as $delivery_dt => $list) {
+				foreach ($list as $sales => $d) {
+//					if ($delivery_dt == '2022-12-23') {
+					if (!empty($r_ex[$delivery_dt][$sales])) {
+//						$this->vd($r_ex[$delivery_dt][$sales]);
+						unset($ret[$delivery_dt][$sales]);
+					}
 				}
 			}
 		}
-		return $ret;
+		return (!empty($ret)) ? $ret : false;
 	}
 
 	const OUTPUT_LIMIT = 10;
@@ -647,6 +649,47 @@ class ScheduleRepeat extends Ext_Model_Base {
 			);
 		}
 		return true;
+	}
+
+	/**
+	 * 繰り返し設定のコピー登録
+	 * 
+	 **/
+	public function copyDetail($get = null, $post = null) {
+		$get = (object) $get;
+		$post = (object) $post;
+		global $wpdb;
+
+		$rows = $this->getListByRepeatId($post->repeat);
+
+		$post->rgdt = null;
+		$post->updt = null;
+		$post->upuser = null;
+
+		$post->period = $rows->period;
+		$post->span = $rows->span;
+		$post->week = $rows->week;
+		$post->repeat_s_dt = $post->delivery_dt; // 繰り返し日を、起点の配送予定日にする
+		$post->repeat_e_dt = $rows->repeat_e_dt;
+//$this->vd($post);exit;
+		$ret = $this->updDetail($get, $post);
+		return $ret;
+	}
+
+	/**
+	 * 繰り返し設定取得
+	 * 
+	 **/
+	public function getListByRepeatId($repeat = null) {
+		global $wpdb;
+
+		$sql  = "SELECT scr.* ";
+		$sql .= "FROM yc_schedule_repeat AS scr ";
+		$sql .= "WHERE scr.sales is not null ";
+		$sql .= sprintf("AND scr.repeat = %s ", $repeat);
+
+		$rows = $wpdb->get_results($sql);
+		return current($rows);
 	}
 }
 ?>
