@@ -249,7 +249,11 @@
 
 						<!-- 「入庫予定日」|「出庫倉庫」 表示エリア -->
 						@if ($row->class <= 7) {{-- ⑧、⑨、⑩の場合、出庫倉庫を表示 --}}
-							<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
+							@if ($row->delivery_dt <= $row->arrival_dt)
+								<div class="text-wrap text-center inner_box bg-danger text-light" style="width: 7.5rem;"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
+							@else
+								<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
+							@endif
 						@else
 							<div class="text-wrap text-center inner_box" style="width: 7.5rem;">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</div>
 						@endif
