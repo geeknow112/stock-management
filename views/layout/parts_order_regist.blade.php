@@ -236,23 +236,44 @@ function createSelectBoxGoods(){
  *    - 「配送予定日」の3日前
  **/
 function setArrivalDt() {
-	const delivery_dt = document.getElementById('delivery_dt').value;
-	//console.log('delivery_dt : ' + delivery_dt);
+	// 「配送予定表③」からの遷移を検知
+	const page = "{{$get->page}}";
+	const ref = "{{$_SESSION['sales-search']}}";
+//		console.log(ref);
+	var result = unescapeHtml(ref);
+//		console.log(result);
 
-	const dt = new Date(delivery_dt);
-	dt.setDate(dt.getDate() -3); // 3日後に設定
+	const regex = /page=delivery-graph/g;
+	const ret = result.search(regex);
 
-	const m = parseInt(dt.getMonth()) + 1; // TODO: dt.getMonth()が、なぜか月が-1減算されるため、+1で設定
-	//console.log(m);
-	const month = m.toString().padStart(2, "0"); // 0埋め
-	//console.log(month);
-	const date = dt.getDate().toString().padStart(2, "0"); // 0埋め
-	//console.log(date);
+//	console.log('search : ' + ret);
 
-	const arrival_dt = dt.getFullYear() + '-' + month + '-' + date;
-	//console.log(arrival_dt);
+	// 「配送予定表③」からの遷移以外の処理
+	if (ret < 0) {
+		console.log(page);
+//		window.location = "/wp-admin/admin.php?page=" + page;
 
-	document.getElementById('arrival_dt').value = arrival_dt;
+		/**
+		 * 「配送予定日」の3日前の日付を自動入力する処理
+		 **/
+		const delivery_dt = document.getElementById('delivery_dt').value;
+		//console.log('delivery_dt : ' + delivery_dt);
+
+		const dt = new Date(delivery_dt);
+		dt.setDate(dt.getDate() -3); // 3日後に設定
+
+		const m = parseInt(dt.getMonth()) + 1; // TODO: dt.getMonth()が、なぜか月が-1減算されるため、+1で設定
+		//console.log(m);
+		const month = m.toString().padStart(2, "0"); // 0埋め
+		//console.log(month);
+		const date = dt.getDate().toString().padStart(2, "0"); // 0埋め
+		//console.log(date);
+
+		const arrival_dt = dt.getFullYear() + '-' + month + '-' + date;
+		//console.log(arrival_dt);
+
+		document.getElementById('arrival_dt').value = arrival_dt;
+	}
 }
 
 /**
