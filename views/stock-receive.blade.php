@@ -161,11 +161,13 @@ function changeDisplay(goods = null, a_dt = null) {
 						<th class="">&emsp;</th>
 						<th class="">&emsp;</th>
 						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
 					</tr>
 					<tr>
 						<th class="table-light tx-right" colspan="2">合計</th>
 						<td class="tx-right">{{number_format($total,1)}}</td>
 						<td class="">&emsp;</td>
+						<th class="">&emsp;</th>
 					</tr>
 				</tfoot>
 			</table>
