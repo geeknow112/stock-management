@@ -831,7 +831,7 @@ $dt = new DateTime($sdt. ' +1 days');
 	 * 入庫一覧取得
 	 * 
 	 **/
-	public function getListByArrivalDt($get = null, $post = null) {
+	public function getListByArrivalDt($get = null, $post = null, $bulk = null) {
 		$get = (object) $get;
 		global $wpdb;
 		$cur_user = wp_get_current_user();
@@ -853,7 +853,12 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		} else {
 			if ($get->action == 'search') {
-				if (!empty($get->s['arrival_s_dt'])) { $sql .= sprintf("AND s.arrival_dt = '%s' ", $get->s['arrival_s_dt']); }
+				if ($bulk != true) {
+					if (!empty($get->s['arrival_s_dt'])) { $sql .= sprintf("AND s.arrival_dt = '%s' ", $get->s['arrival_s_dt']); }
+				} else {
+					if (!empty($get->s['arrival_s_dt'])) { $sql .= sprintf("AND s.arrival_dt >= '%s' ", $get->s['arrival_s_dt']); }
+					if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND s.arrival_dt < '%s' ", $get->s['arrival_e_dt']); }
+				}
 
 				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", $get->s['outgoing_warehouse']); }
 
