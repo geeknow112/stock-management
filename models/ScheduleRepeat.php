@@ -228,7 +228,9 @@ class ScheduleRepeat extends Ext_Model_Base {
 			}
 		}
 
-		ksort($ret_repeat_items);
+		if (!empty($ret_repeat_list)) {
+			ksort($ret_repeat_items);
+		}
 
 		// 「入庫予定日」の設定
 		foreach ($ret_repeat_items as $delivery_dt => $d) {
@@ -239,6 +241,7 @@ class ScheduleRepeat extends Ext_Model_Base {
 				$ret_repeat_list[$delivery_dt][$sales][] = $r;
 			}
 		}
+
 //$this->vd($ret_repeat_list);
 		return $ret_repeat_list;
 	}
