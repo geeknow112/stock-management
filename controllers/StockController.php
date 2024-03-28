@@ -358,19 +358,20 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 			case 'search':
 			default:
 				$initForm = $this->getTb()->getInitForm();
-				$rows = $this->getTb()->getListByArrivalDt($get, $post);
 
 				// 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
 				$sdt = new DateTime($get->s['arrival_s_dt']);
 				$sdt->modify('+3 day');
 				$get->s['sdt'] = $sdt->format('Y-m-d'); // delivery_dtに変換 = +3日
 				//$this->vd($get);
+
 				$ScheduleRepeat = new ScheduleRepeat;
 				$repeats = $ScheduleRepeat->getList($get);
 
 				switch ($get->sum_span) {
 					case 'one':
 					default:
+						// 未確定注文の1日分を生成
 						$repeat_list = $repeats[$get->s['sdt']];
 
 						// arrival_dtを初期化
@@ -393,18 +394,26 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 								'repeat_fg' => $rep->repeat_fg, 
 							);
 						}
+
+						// 確定した注文の1日分を取得
+						$ret = $this->getTb()->getListByArrivalDt($get, $post);
+
+						// 確定注文と、未確定注文のマージ
+						$rows = (object) array_merge((array) $ret, (array) $r_rows); // object merge
 						break;
 
 					case 'ten':
+						// 未確定注文の10日分を生成
 						$repeat_list = $repeats;
 
 						// arrival_dtを初期化
+/*
 						foreach ($repeat_list as $arrival_dt => $list) {
 							foreach ($list as $sales => $d) {
 								current($d)->arrival_dt = $arrival_dt;
 							}
 						}
-
+*/
 						// $repeat_list を $rows の形式に変換
 						foreach ($repeat_list as $arrival_dt => $list) {
 							foreach ($list as $sales => $d) {
@@ -422,15 +431,41 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 								);
 							}
 						}
+
+						// 確定した注文の10日分を取得
+						$edt = new DateTime($get->s['arrival_s_dt']);
+						$edt->modify('+10 day');
+						$get->s['arrival_e_dt'] = $edt->format('Y-m-d'); // 確定した注文10日分取得用に「入庫予定日」の範囲終了日を生成
+						$ret = $this->getTb()->getListByArrivalDt($get, $post, true);
+
+						// 確定注文と、未確定注文のマージ
+						$rows = (object) array_merge((array) $ret, (array) $r_rows); // object merge
+
+						// arrival_dtでソート
+						$sort_data = $rows;
+						foreach ($sort_data as $i => $d) {
+							$r_sort[$d->arrival_dt][] = $d;
+						}
+
+						if (!empty($r_sort)) {
+							ksort($r_sort);
+						}
+
+						foreach ($r_sort as $arrival_dt => $list) {
+							foreach ($list as $j => $d) {
+								$rr_sort[] = $d;
+							}
+						}
+						//$this->vd($rr_sort);
+
+						$rows = (object) $rr_sort;
 						break;
 				}
 //$this->vd($rows);
 //$this->vd($repeat_list);
 //$this->vd($r_rows);
 
-				$rows = (object) array_merge((array) $rows, (array) $r_rows); // object merge
-//$this->vd($rows);
-
+				// 合計値の作成
 				if (!empty(current($rows))) {
 					list($detail, $sum_list) = $this->getTb()->sumReceiveListByGoods($rows);
 //$this->vd($detail);
