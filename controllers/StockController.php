@@ -53,6 +53,10 @@ class StockController extends Ext_Controller_Action
 		switch($post->cmd) {
 			case 'search':
 			default:
+				// 更新処理後、検索条件の維持のため、GET値をPOST値から補填
+				if (!isset($get->s)) {  $get->s = $post->s; }
+				$get->s['change_status'] = $post->change_status;
+
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getList($get, $un_convert = true);
 				$formPage = 'stock-list';

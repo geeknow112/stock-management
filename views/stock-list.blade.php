@@ -48,12 +48,41 @@
 
 				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 
+			</div>
+			<br />
+
+			<div class="search-box">
+				<label for="cmd-select" class="col-sm-2 col-form-label">一括操作：</label>
+				<select class="col-form-select" aria-label="orderName" id="change_status" name="change_status">
+					@foreach($initForm['select']['status'] as $i => $d)
+						@if (isset($get->s['change_status']))
+							<option value="{{$i}}" @if($i == $get->s['change_status']) selected @endif>{{$d}}</option>
+						@else
+							<option value="{{$i}}">{{$d}}</option>
+						@endif
+					@endforeach
+				</select>
+
+				&emsp;
+				<button type="button" class="btn btn-primary" onclick="confirm_bulk_operation();">適用</button>
+
 				<script>
 				function cmd_search() {
 					document.forms.method = 'get';
 					document.forms.action = "/wp-admin/admin.php?page=stock-list&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
 					document.forms.cmd.value = 'search';
 					document.forms.submit();
+				}
+
+				function confirm_bulk_operation() {
+					var ret = window.confirm('チェックした在庫の状態を一括操作しますか？');
+					if (ret) {
+						document.forms.method = 'post';
+						document.forms.action = "/wp-admin/admin.php?page=stock-list&stock={{$get->stock}}&goods={{$get->goods}}"
+						document.forms.cmd.value = 'edit';
+						document.forms.submit();
+					} else {
+					}
 				}
 
 				function cancel_transfer(stock = null) {
@@ -109,6 +138,43 @@ window.onload = function () {
 function check_transfer_fg() {
 	if (document.getElementById('transfer_fg').checked) {
 		document.getElementById('transfer_fg').value = 1; // true
+	}
+}
+
+/**
+ *  - onchangeイベント発生時処理
+ * 
+ **/
+document.getElementById('cb-select-all-1').onchange = function () {
+	const ch_all = document.getElementById('cb-select-all-1').checked;
+//	console.log(ch_all);
+	checkbox_all_select(ch_all);
+};
+
+/**
+ *  - onchangeイベント発生時処理
+ * 
+ **/
+document.getElementById('cb-select-all-2').onchange = function () {
+	const ch_all = document.getElementById('cb-select-all-2').checked;
+//	console.log(ch_all);
+	checkbox_all_select(ch_all);
+};
+
+/**
+ * チェックボックス全選択
+ * 
+ **/
+function checkbox_all_select(ch_all) {
+	const ch_obj = document.querySelectorAll("*[id*='no_']"); // idに'no_'が含まれる要素をすべて取得する
+	//console.log(ch_obj);
+	//ch_obj.forEach((el) => console.log(el.id));
+
+	if (ch_all == true) {
+		ch_obj.forEach((el) => document.getElementById(el.id).checked = true); // chbox 全選択
+
+	} else {
+		ch_obj.forEach((el) => document.getElementById(el.id).checked = false); // chbox 全解除
 	}
 }
 </script>

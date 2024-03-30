@@ -706,6 +706,22 @@ class Stock extends Ext_Model_Base {
 	}
 
 	/**
+	 * 在庫情報詳細 削除
+	 **/
+	public function deleteStockDetail($stocks = null) {
+		global $wpdb;
+		
+		$stock_ids = implode(',', $stocks);
+		$sql  = "DELETE st FROM ". $this->getTableName(). " as st ";
+		$sql .= "LEFT JOIN yc_stock_detail as std ON st.stock = std.stock ";
+		$sql .= sprintf("WHERE st.stock IN (%s) ", $stock_ids);
+		$sql .= ";";
+
+		$rows = $wpdb->get_results($sql);
+		return (object) $rows;
+	}
+
+	/**
 	 * 
 	 **/
 	public function getInitForm() {
@@ -713,6 +729,7 @@ class Stock extends Ext_Model_Base {
 			'select' => array(
 				'outgoing_warehouse' => $this->getPartsOutgoingWarehouse(), 
 				'goods_name' => $this->getPartsGoodsName(), 
+				'status' => $this->getPartsStatus(), 
 			)
 		);
 	}
@@ -747,6 +764,18 @@ class Stock extends Ext_Model_Base {
 		}
 
 		return $ret;
+	}
+
+	/**
+	 * 「状態」：在庫処理の状態
+	 **/
+	private function getPartsStatus() {
+		return array(
+			'' => '', 
+//			0 => '未確定', 
+//			1 => '確定',
+			9 => '削除',
+		);
 	}
 }
 ?>
