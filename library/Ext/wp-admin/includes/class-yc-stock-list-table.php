@@ -155,6 +155,14 @@ if (!is_array($_REQUEST['s'])) {
 global $wpdb;
 $req = (object) $_REQUEST;
 
+		// 一括操作：ステータス変更処理
+		if ($req->cmd == 'edit' && isset($req->change_status)) {
+			$get = (object) $_GET;
+			$post = (object) $_POST;
+			$Stock = new Stock;
+			$ret = $Stock->deleteStockDetail($req->no);
+		}
+
 //print_r($req);
 $where = sprintf("WHERE st.stock is not null ");
 if (!empty($req->s['no'])) { $where .= sprintf("AND st.stock = '%s'", $req->s['no']); }
@@ -451,6 +459,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_stock;" )
 		foreach ( $this->items as $id => $object ) {
 //			echo "\n\t" . $this->single_row( $user_object, '', '', isset( $post_counts ) ? $post_counts[ $userid ] : 0 );
 			echo '<tr>';
+			echo '<td><input type="checkbox" id="no_'. $id. '" name="no[]" value="'. $object->stock. '" /></td>';
 			echo '<td><a href="/wp-admin/admin.php?page=stock-detail&arrival_dt='. $object->arrival_dt. '&warehouse='. $object->warehouse. '&action=edit">'. sprintf('STOCK-%07d', $object->stock). '</a></td>';
 			echo '<td>'. $object->arrival_dt. '</td>';
 			$separately = ($object->separately_fg == true) ? mb_convert_encoding(" （バラ）", "UTF-8", "SJIS"): null;
@@ -732,7 +741,8 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_stock;" )
 */
 		return array(
 			array(
-				'no' => mb_convert_encoding('No. ', 'UTF-8', 'SJIS'), 
+				'cb' => '#', 
+				'stock' => mb_convert_encoding('在庫番号', 'UTF-8', 'SJIS'), 
 				'arrival_dt' => mb_convert_encoding('入庫日', 'UTF-8', 'SJIS'), 
 				'goods_name' => mb_convert_encoding('商品名', 'UTF-8', 'SJIS'), 
 				'amt' => mb_convert_encoding('荷姿・容量', 'UTF-8', 'SJIS'), 
