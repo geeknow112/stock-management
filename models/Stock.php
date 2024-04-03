@@ -112,31 +112,19 @@ class Stock extends Ext_Model_Base {
 	}
 
 	/**
-	 * 商品情報詳細取得
+	 * 在庫情報詳細取得(個別用)
 	 **/
 	public function getDetail($get = null) {
 		$get = (object) $get;
 		global $wpdb;
-		$cur_user = wp_get_current_user();
 
-		// 商品IDで検索して商品情報を取得するSQL
-		$sql  = "SELECT s.* FROM yc_sales as s ";
-		$sql .= "WHERE s.id = '". $get->sales. "'";
-
-		if (current($cur_user->roles) != 'administrator') {
-//			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
-		}
-
+		$sql  = "SELECT st.* FROM ". $this->getTableName(). " as st ";
+		$sql .= sprintf("WHERE st.stock = '%s' ", $get->stock);
 		$sql .= "LIMIT 1;";
+
 		$rows = $wpdb->get_results($sql);
 
-/*
-		// 配列整形
-		foreach ($rows as $i => $d) {
-			$ret[str_replace('-', '_', $d->meta_key)] = $d->meta_value;
-		}
-*/
-		return $rows[0];
+		return current($rows);
 	}
 
 	/**
@@ -322,10 +310,48 @@ class Stock extends Ext_Model_Base {
 	}
 
 	/**
-	 * 在庫情報更新
+	 * 在庫情報更新(個別用)
 	 * 
 	 **/
 	public function updDetail($get = null, $post = null) {
+		$post = (object) $post;
+		global $wpdb;
+
+		$cur_user = wp_get_current_user();
+
+		// 既登録情報を取得
+		$regists = $this->getDetailByStockCode($post->stock);
+
+		$data = array(
+			'goods' => $post->goods, 
+			'arrival_dt' => $post->arrival_dt, 
+			'warehouse' => $post->outgoing_warehouse, 
+			'goods_total' => $post->goods_total, 
+			'subtotal' => str_replace(',', '', $post->subtotal), 
+			'updt' => date('Y-m-d H:i:s'), 
+			'upuser' => $cur_user->user_login
+		);
+
+		$ret = $wpdb->update(
+			$this->getTableName(), 
+			$data, 
+			array('stock' => $post->stock)
+		);
+
+// 既登録の情報と、数量が変更する場合
+// TODO:
+
+		// 更新情報を再取得
+		$rows = $this->getDetailByStockCode($post->stock);
+
+		return (object) current($rows);
+	}
+
+	/**
+	 * 在庫情報更新
+	 * 
+	 **/
+	public function updDetailBulk($get = null, $post = null) {
 		$post = (object) $post;
 		global $wpdb;
 

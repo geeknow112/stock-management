@@ -112,7 +112,7 @@ if ($post->cmd == 'cmd_transfer') {
 						case 'cmd_confirm':
 							$msg = $this->getValidMsg();
 							$rows = $post;
-							if ($rows->pre_cmd == 'cmd_update') { $post->btn = 'update'; }
+							if ($rows->stock) { $rows->btn = 'update'; }
 							if ($msg['msg'] !== 'success') {
 								$rows->messages = $msg;
 							}
@@ -171,11 +171,9 @@ if ($post->cmd == 'cmd_transfer') {
 				break;
 
 			case 'edit':
-				if (!empty($get->arrival_dt)) {
-					$rows = $this->getTb()->getDetailByArrivalDt($get->arrival_dt, $get->warehouse);
-					$rows->arrival_dt = $get->arrival_dt;
-					$rows->outgoing_warehouse = $get->warehouse;
-//$this->vd($rows);
+				if (!empty($get->stock)) {
+					$rows = $this->getTb()->getDetail($get);
+$this->vd($rows);
 					$rows->cmd = $post->cmd = 'cmd_update';
 
 				} else {
@@ -273,7 +271,7 @@ if ($post->cmd == 'cmd_transfer') {
 					if ($post->cmd == 'update') {
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
-							$rows = $this->getTb()->updDetail($get, $post);
+							$rows = $this->getTb()->updDetailBulk($get, $post);
 							$get->action = 'complete';
 
 						} else {

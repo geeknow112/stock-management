@@ -3,7 +3,7 @@
 <!--<h1>登録　ステップ１</h1>-->
 
 @section ('contents2')
-	@include ('layout.parts_stock_regist', ['rows' => $rows])
+	@include ('layout.parts_stock_bulk_regist', ['rows' => $rows])
 
 @endsection
 
