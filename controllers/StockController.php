@@ -201,6 +201,126 @@ if ($post->cmd == 'cmd_transfer') {
 	}
 
 	/**
+	 * ç›å…ìoò^
+	 *
+	 **/
+	public function bulkAction() {
+		$get = (object) $_GET;
+		$post = (object) $_POST;
+
+if ($post->cmd == 'cmd_transfer') {
+	$this->vd('cmd_transfer');
+//	$this->vd($get);
+//	$this->vd($post);
+}
+		global $wpdb;
+
+		$this->setTb('Stock');
+		$initForm = $this->getTb()->getInitForm();
+
+		switch($get->action) {
+			case 'search':
+			default:
+				$formPage = 'stock-bulk';
+				echo $this->get_blade()->run("stock-bulk", compact('get', 'post', 'formPage', 'initForm', 'wp_list_table'));
+				break;
+
+			case 'confirm':
+				if (!empty($post)) {
+					switch ($post->cmd) {
+						default:
+						case 'cmd_confirm':
+							$msg = $this->getValidMsg();
+							$rows = $post;
+							if ($rows->pre_cmd == 'cmd_update') { $post->btn = 'update'; }
+							if ($msg['msg'] !== 'success') {
+								$rows->messages = $msg;
+							}
+							break;
+					}
+				}
+
+				if($rows->messages) {
+						$msg = $rows->messages;
+						$get->action = 'save';
+				} else {
+				}
+
+				echo $this->get_blade()->run("stock-bulk", compact('rows', 'get', 'initForm', 'post', 'msg'));
+				break;
+
+			case 'save':
+				if (!empty($post)) {
+					if ($post->cmd == 'save') {
+						$msg = $this->getValidMsg();
+						if ($msg['msg'] == 'success') {
+							$rows = $this->getTb()->regDetail($get, $post);
+//							$rows->customer_name = $rows->name;
+							$get->action = 'complete';
+
+						} else {
+							$rows = $post;
+							$rows->name = $post->customer_name;
+							$rows->messages = $msg;
+						}
+					}
+				}
+				echo $this->get_blade()->run("stock-bulk", compact('rows', 'get', 'initForm', 'post', 'msg'));
+				break;
+
+			case 'edit-exe':
+				if (!empty($post)) {
+					if ($post->cmd == 'update') {
+						$msg = $this->getValidMsg();
+						if ($msg['msg'] == 'success') {
+							$rows = $this->getTb()->updDetail($get, $post);
+							$get->action = 'complete';
+
+						} else {
+							$rows = $post;
+							$rows->name = $post->customer_name;
+							$rows->messages = $msg;
+						}
+					}
+				}
+
+//				$rows_goods = $this->getTb()->getGoodsByCustomerCode($get->customer);
+//				$cust_goods = $this->objectColumn($rows_goods, 'goods');
+
+				echo $this->get_blade()->run("stock-bulk", compact('rows', 'get', 'post', 'initForm', 'msg', 'goods_list'));
+				break;
+
+			case 'edit':
+				if (!empty($get->arrival_dt)) {
+					$rows = $this->getTb()->getDetailByArrivalDt($get->arrival_dt, $get->warehouse);
+					$rows->arrival_dt = $get->arrival_dt;
+					$rows->outgoing_warehouse = $get->warehouse;
+//$this->vd($rows);
+					$rows->cmd = $post->cmd = 'cmd_update';
+
+				} else {
+					$msg = $this->getValidMsg();
+
+					$rows = $post;
+					$rows->name = $post->customer_name;
+
+					if ($msg['msg'] !== 'success') {
+						$rows->messages = $msg;
+					}
+				}
+
+				if ($post->cmd == 'cmd_update' ) {
+//					$rows_tanks = $this->convertData($rows);
+//					$rows_tanks_count = $this->countObject($rows_tanks);
+				}
+
+//$this->vd($rows);
+				echo $this->get_blade()->run("stock-bulk", compact('rows', 'get', 'post', 'msg', 'initForm', 'rows_tanks', 'rows_tanks_count', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
+				break;
+		}
+	}
+
+	/**
 	 * ç›å…ìoò^: ÉçÉbÉgìoò^
 	 *
 	 **/
