@@ -25,12 +25,12 @@
 
 	<div class="row mb-3">
 		<label for="goods_total" class="col-sm-2 col-form-label">個数　<span class="badge text-bg-danger">必須</span></label>
-		<input type="number" min="0" class="tx-center w-auto" id="goods_total" name="goods_total" value="{{$rows->goods_total}}" @if($get->action != '' && $get->action != 'save' && $get->action != 'edit') readonly @endif>
+		<input type="number" min="0" class="tx-right w-auto" id="goods_total" name="goods_total" value="{{$rows->goods_total}}" onchange="calcWeight();" @if($get->action != '' && $get->action != 'save' && $get->action != 'edit') readonly @endif>
 	</div>
 
 	<div class="row mb-3">
 		<label for="subtotal" class="col-sm-2 col-form-label">合計量(kg)　</label>
-		<input type="number" min="0" class="tx-center w-auto" id="subtotal" name="subtotal" value="{{$rows->subtotal}}" readonly>
+		<input type="text" min="0" class="tx-right w-auto" id="subtotal" name="subtotal" value="{{$rows->subtotal}}" readonly>
 	</div>
 
 	<div class="row mb-3">
@@ -52,6 +52,17 @@
 	</div>
 
 <script>
+/**
+ * 重量の計算
+ * 
+ * 「個数」* 500(kg) = 重量(kg)
+ **/
+function calcWeight() {
+	const qty = document.getElementById('goods_total').value;
+	const weight = qty * 500;
+	document.getElementById('subtotal').value = weight.toLocaleString(); // 3桁カンマ区切り
+}
+
 /**
  * 
  **/

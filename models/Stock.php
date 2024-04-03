@@ -320,7 +320,7 @@ class Stock extends Ext_Model_Base {
 		$cur_user = wp_get_current_user();
 
 		// 既登録情報を取得
-		$regists = $this->getDetailByStockCode($post->stock);
+		$regist = $this->getDetailByStockCode($post->stock);
 
 		$data = array(
 			'goods' => $post->goods, 
@@ -338,8 +338,36 @@ class Stock extends Ext_Model_Base {
 			array('stock' => $post->stock)
 		);
 
-// 既登録の情報と、数量が変更する場合
-// TODO:
+		// 既登録の情報と、数量が変更する場合
+		if ($regist->goods_total !== $post->goods_total) {
+			/**
+			 * 詳細情報の更新(数量変更によるロット登録欄数の変更等)
+			 **/
+			// 既に作成されいてるロット登録欄を削除
+			$ret_delete[] = $wpdb->delete(
+				'yc_stock_detail', 
+				array(
+					'stock' => $post->stock, 
+				)
+				//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+			);
+
+			// 変更後のロット数で、ロット登録欄を再作成
+			$count = $post->goods_total; // 個数 (500kg/個) = ロット番号入力レコード生成数
+			for ($j = 0; $j < $count; $j++) {
+				$ret_remake_lot[] = $wpdb->insert(
+					'yc_stock_detail', 
+					array(
+						'id' => null, 
+						'stock' => $post->stock, 
+						'lot' => null, 
+						'barcode' => null, 
+						'rgdt' => date('Y-m-d H:i:s')
+					)
+					//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+				);
+			}
+		}
 
 		// 更新情報を再取得
 		$rows = $this->getDetailByStockCode($post->stock);
