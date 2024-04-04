@@ -325,7 +325,7 @@ class Stock extends Ext_Model_Base {
 		$data = array(
 			'goods' => $post->goods, 
 			'arrival_dt' => $post->arrival_dt, 
-			'warehouse' => $post->outgoing_warehouse, 
+			'warehouse' => $post->warehouse, 
 			'goods_total' => $post->goods_total, 
 			'subtotal' => str_replace(',', '', $post->subtotal), 
 			'updt' => date('Y-m-d H:i:s'), 
