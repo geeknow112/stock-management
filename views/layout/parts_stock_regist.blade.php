@@ -30,7 +30,7 @@
 
 	<div class="row mb-3">
 		<label for="subtotal" class="col-sm-2 col-form-label">合計量(kg)　</label>
-		<input type="text" min="0" class="tx-right w-auto" id="subtotal" name="subtotal" value="{{$rows->subtotal}}" readonly>
+		<input type="text" min="0" class="tx-right w-auto" id="subtotal" name="subtotal" value="{{number_format($rows->subtotal)}}" readonly>
 	</div>
 
 	<div class="row mb-3">
@@ -39,8 +39,8 @@
 	</div>
 
 	<div class="row mb-3">
-		<label for="outgoing_warehouse" class="col-sm-2 col-form-label">倉庫　<span class="badge text-bg-danger">必須</span></label>
-		<select class="form-select w-75" aria-label="outgoing_warehouse" id="outgoing_warehouse" name="outgoing_warehouse">
+		<label for="warehouse" class="col-sm-2 col-form-label">倉庫　<span class="badge text-bg-danger">必須</span></label>
+		<select class="form-select w-75" aria-label="warehouse" id="warehouse" name="warehouse">
 			@foreach($initForm['select']['outgoing_warehouse'] as $i => $d)
 				@if ($i == '0')
 				<option value=""></option>
@@ -49,9 +49,30 @@
 				@endif
 			@endforeach
 		</select>
+		<input type="hidden" id="outgoing_warehouse" name="outgoing_warehouse" value="{{$rows->warehouse}}" />
 	</div>
 
 <script>
+/**
+ * 確認画面でform要素をreadOnlyにする
+ *
+ **/
+window.onload = function() {
+	const action = "{{$get->action}}";
+	if (action == 'confirm') {
+
+		document.getElementById('arrival_dt').readOnly = true;
+
+	}
+
+	if (action == 'complete') {
+
+		document.getElementById('arrival_dt').readOnly = true;
+//		document.getElementById('text_outgoing_warehouse').readOnly = true;
+
+	}
+}
+
 /**
  * 重量の計算
  * 

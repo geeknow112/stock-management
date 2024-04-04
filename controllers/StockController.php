@@ -110,6 +110,7 @@ if ($post->cmd == 'cmd_transfer') {
 					switch ($post->cmd) {
 						default:
 						case 'cmd_confirm':
+							$post->subtotal = str_replace(',', '', $post->subtotal); // ƒJƒ“ƒ}œ‹Ž
 							$msg = $this->getValidMsg();
 							$rows = $post;
 							if ($rows->stock) { $rows->btn = 'update'; }
@@ -173,7 +174,6 @@ if ($post->cmd == 'cmd_transfer') {
 			case 'edit':
 				if (!empty($get->stock)) {
 					$rows = $this->getTb()->getDetail($get);
-$this->vd($rows);
 					$rows->cmd = $post->cmd = 'cmd_update';
 
 				} else {
@@ -192,7 +192,6 @@ $this->vd($rows);
 //					$rows_tanks_count = $this->countObject($rows_tanks);
 				}
 
-//$this->vd($rows);
 				echo $this->get_blade()->run("stock-detail", compact('rows', 'get', 'post', 'msg', 'initForm', 'rows_tanks', 'rows_tanks_count', 'rows_addrs', 'rows_addrs_count', 'rows_goods', 'goods_list', 'cust_goods'));
 				break;
 		}
