@@ -6,7 +6,18 @@
 		var page = "{{$get->page}}";
 		switch (cmd) {
 			case 'edit':
-				document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$post->sales}}&goods={{$post->goods}}&customer={{$post->customer}}&action=edit";
+				if (page == 'customer-detail') {
+					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&customer={{$post->customer}}&action=edit";
+
+				} else if (page == 'sales-detail') {
+					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$post->sales}}&goods={{$post->goods}}&customer={{$post->customer}}&action=edit";
+
+				} else if (page == 'stock-detail') {
+					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&stock={{$post->stock}}&action=edit";
+
+				} else {
+					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$post->sales}}&goods={{$post->goods}}&customer={{$post->customer}}&action=edit";
+				}
 				document.forms.cmd.value = 'edit';
 				document.forms.target = '';
 				document.forms.submit();
@@ -17,6 +28,9 @@
 
 				} else if (page == 'sales-detail') {
 					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$post->sales}}&action=edit-exe";
+
+				} else if (page == 'stock-detail') {
+					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&stock={{$post->stock}}&action=edit-exe";
 
 				} else {
 					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&goods={{$post->goods}}&action=edit-exe";
@@ -116,7 +130,7 @@
 		}
 	}
 	</script>
-</dvi>
+</div>
 
 </form>
 
@@ -125,3 +139,8 @@
 
 <!--[submit "確認画面へ進む →"]-->
 <!--[multistep multistep-916 first_step skip_save "http://localhost:81/shop-confirmed"]-->
+
+
+<div>
+	@yield ('contents9')
+</div>

@@ -107,7 +107,7 @@ function to_back() {
 	var result = unescapeHtml(ref);
 //	console.log(result);
 
-	const regex = /page=stock-detail|page=stock-list/g;
+	const regex = /page=stock-bulk|page=stock-list/g;
 	const ret = result.search(regex);
 
 	console.log('search : ' + ret);
@@ -115,7 +115,7 @@ function to_back() {
 	if (ret < 0) {
 		var arrival_dt = document.getElementById('arrival_dt').value;
 		var warehouse = document.getElementById('warehouse').value;
-		window.location = "/wp-admin/admin.php?page=stock-detail&arrival_dt=" + arrival_dt + "&warehouse=" + warehouse + "&action=edit";
+		window.location = "/wp-admin/admin.php?page=stock-bulk&arrival_dt=" + arrival_dt + "&warehouse=" + warehouse + "&action=edit";
 
 	} else {
 		window.location = result;
