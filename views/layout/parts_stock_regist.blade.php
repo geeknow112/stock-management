@@ -11,7 +11,7 @@
 
 	<div class="row mb-3">
 		<label for="goodsName" class="col-sm-2 col-form-label">品名　<span class="badge text-bg-danger">必須</span></label>
-		<select class="form-select w-75" aria-label="goodsName" id="goods" name="goods" @if ($get->action == '') disabled @endif>
+		<select class="form-select w-75" aria-label="goodsName" id="goods" name="goods">
 			@foreach($initForm['select']['goods_name'] as $i => $d)
 				<option value="{{$i}}" @if ($i == $rows->goods) selected @endif >{{$i}} : {{$d}}</option>
 			@endforeach
