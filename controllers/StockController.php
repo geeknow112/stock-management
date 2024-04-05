@@ -229,6 +229,7 @@ if ($post->cmd == 'cmd_transfer') {
 						case 'cmd_confirm':
 							$msg = $this->getValidMsg();
 							$rows = $post;
+							$rows->outgoing_warehouse = $rows->warehouse = $post->warehouse = ($get->warehouse) ? $get->warehouse : $post->outgoing_warehouse;
 							if ($rows->pre_cmd == 'cmd_update') { $post->btn = 'update'; }
 							if ($msg['msg'] !== 'success') {
 								$rows->messages = $msg;
@@ -291,8 +292,8 @@ if ($post->cmd == 'cmd_transfer') {
 				if (!empty($get->arrival_dt)) {
 					$rows = $this->getTb()->getDetailByArrivalDt($get->arrival_dt, $get->warehouse);
 					$rows->arrival_dt = $get->arrival_dt;
-					$rows->outgoing_warehouse = $get->warehouse;
-//$this->vd($rows);
+					$rows->outgoing_warehouse = $rows->warehouse = $post->warehouse = ($get->warehouse) ? $get->warehouse : $post->outgoing_warehouse;
+//$this->vd($post);$this->vd($rows);exit;
 					$rows->cmd = $post->cmd = 'cmd_update';
 
 				} else {

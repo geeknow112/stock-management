@@ -7,19 +7,19 @@
 		switch (cmd) {
 			case 'edit':
 				if (page == 'customer-detail') {
-					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&customer={{$post->customer}}&action=edit";
+					document.forms.action = "/wp-admin/admin.php?page={{$get->page}}&customer={{$post->customer}}&action=edit";
 
 				} else if (page == 'sales-detail') {
-					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$post->sales}}&goods={{$post->goods}}&customer={{$post->customer}}&action=edit";
+					document.forms.action = "/wp-admin/admin.php?page={{$get->page}}&sales={{$post->sales}}&goods={{$post->goods}}&customer={{$post->customer}}&action=edit";
 
 				} else if (page == 'stock-detail') {
-					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&stock={{$post->stock}}&action=edit";
+					document.forms.action = "/wp-admin/admin.php?page={{$get->page}}&stock={{$post->stock}}&action=edit";
 
 				} else if (page == 'stock-bulk') {
-					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&arrival_dt={{$post->arrival_dt}}&warehouse={{$post->outgoing_warehouse}}&action=edit";
+					document.forms.action = "/wp-admin/admin.php?page={{$get->page}}&arrival_dt={{$post->arrival_dt}}&warehouse={{$post->warehouse}}&action=edit";
 
 				} else {
-					document.forms.action = "{{home_url()}}/wp-admin/admin.php?page={{$get->page}}&sales={{$post->sales}}&goods={{$post->goods}}&customer={{$post->customer}}&action=edit";
+					document.forms.action = "/wp-admin/admin.php?page={{$get->page}}&sales={{$post->sales}}&goods={{$post->goods}}&customer={{$post->customer}}&action=edit";
 				}
 				document.forms.cmd.value = 'edit';
 				document.forms.target = '';
