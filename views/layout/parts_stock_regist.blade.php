@@ -83,26 +83,6 @@ function calcWeight() {
 	const weight = qty * 500;
 	document.getElementById('subtotal').value = weight.toLocaleString(); // 3桁カンマ区切り
 }
-
-/**
- * 
- **/
-var unescapeHtml = function(str) {
-	if (typeof str !== 'string') return str;
-
-	var patterns = {
-		'&lt;'   : '<',
-		'&gt;'   : '>',
-		'&amp;'  : '&',
-		'&quot;' : '"',
-		'&#x27;' : '\'',
-		'&#x60;' : '`'
-	};
-
-	return str.replace(/&(lt|gt|amp|quot|#x27|#x60);/g, function(match) {
-		return patterns[match];
-	});
-};
 </script>
 
 <style>
