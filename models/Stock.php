@@ -220,11 +220,9 @@ class Stock extends Ext_Model_Base {
 	public function getDetailByArrivalDt($arrival_dt = null, $warehouse = null) {
 		global $wpdb;
 
-		$sql  = "SELECT st.*, std.lot, std.barcode FROM ". $this->getTableName(). " as st ";
-		$sql .= "LEFT JOIN yc_stock_detail as std ON st.stock = std.stock ";
+		$sql  = "SELECT st.* FROM ". $this->getTableName(). " as st ";
 		$sql .= sprintf("WHERE st.arrival_dt = '%s' ", $arrival_dt);
 		$sql .= sprintf("AND st.warehouse = '%s' ", $warehouse);
-		$sql .= "GROUP BY st.stock ";
 
 		$rows = $wpdb->get_results($sql);
 
@@ -235,10 +233,25 @@ class Stock extends Ext_Model_Base {
 			$ret['qty_list'][] = $d->goods_total;
 			$ret['weight_list'][] = $d->subtotal;
 			$ret['transfer_fg_list'][] = $d->transfer_fg;
-			$ret['lot_list'][] = $d->lot;
-			$ret['barcode_list'][] = $d->barcode;
+			$ret['lot_fg_list'][] = $this->checkLotRegisted($d->stock);
 		}
 		return (object) $ret;
+	}
+
+	/**
+	 * ロット番号の登録状況確認
+	 * - 対象在庫IDの、ロットが全て登録済みの場合、trueを返す
+	 **/
+	public function checkLotRegisted($stock = null) {
+		global $wpdb;
+
+		$sql  = "SELECT std.* FROM yc_stock_detail as std ";
+		$sql .= sprintf("WHERE std.stock = '%s' ", $stock);
+		$sql .= sprintf("AND (std.lot is null OR std.lot = '') ");
+
+		$rows = $wpdb->get_results($sql);
+
+		return (empty($rows)) ? true : false;
 	}
 
 	/**

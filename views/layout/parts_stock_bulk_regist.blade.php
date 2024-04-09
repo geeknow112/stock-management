@@ -80,7 +80,7 @@
 							<td class="tx-right">500</td>
 							<td class="tx-right"><input type="number" min="0" class="tx-center w-50" id="qty_{{$i}}" name="qty_list[]" value="{{$rows->qty_list[$i]}}" onchange="calcWeight({{$i}}); sumRows();" @if($get->action != '' && $get->action != 'save' && $get->action != 'edit') readonly @endif></td>
 							<td class="tx-right"><input type="text" class="tx-right w-75" id="weight_{{$i}}" name="weight_list[]" value="{{$rows->weight_list[$i]}}" readonly></td>
-							<td class="tx-right @if ($rows->lot_list[$i]) bg-info-subtle @endif">
+							<td class="tx-right @if ($rows->lot_fg_list[$i] == true) bg-info-subtle @endif">
 								@if(!$rows->stock_list[$i] || $get->action == 'confirm')
 								 - 
 								@else
