@@ -220,9 +220,11 @@ class Stock extends Ext_Model_Base {
 	public function getDetailByArrivalDt($arrival_dt = null, $warehouse = null) {
 		global $wpdb;
 
-		$sql  = "SELECT st.* FROM ". $this->getTableName(). " as st ";
+		$sql  = "SELECT st.*, std.lot, std.barcode FROM ". $this->getTableName(). " as st ";
+		$sql .= "LEFT JOIN yc_stock_detail as std ON st.stock = std.stock ";
 		$sql .= sprintf("WHERE st.arrival_dt = '%s' ", $arrival_dt);
 		$sql .= sprintf("AND st.warehouse = '%s' ", $warehouse);
+		$sql .= "GROUP BY st.stock ";
 
 		$rows = $wpdb->get_results($sql);
 
@@ -233,6 +235,8 @@ class Stock extends Ext_Model_Base {
 			$ret['qty_list'][] = $d->goods_total;
 			$ret['weight_list'][] = $d->subtotal;
 			$ret['transfer_fg_list'][] = $d->transfer_fg;
+			$ret['lot_list'][] = $d->lot;
+			$ret['barcode_list'][] = $d->barcode;
 		}
 		return (object) $ret;
 	}
