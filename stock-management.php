@@ -98,8 +98,8 @@ class StockManagement {
 		add_submenu_page('stock-management', '商品登録','🔷商品登録', 'read', 'goods-detail', array(&$this, 'goods_detail'));
 		add_submenu_page('stock-management', '顧客登録','🔷顧客登録', 'read', 'customer-detail', array(&$this, 'customer_detail'));
 		add_submenu_page('stock-management', '注文登録','🔷注文登録', 'read', 'sales-detail', array(&$this, 'sales_detail'));
-		add_submenu_page('stock-management', '在庫登録','🌟在庫登録', 'read', 'stock-detail', array(&$this, 'stock_detail'));
-		add_submenu_page('stock-management', '在庫登録','🌟在庫登録(一括)', 'read', 'stock-bulk', array(&$this, 'stock_bulk'));
+		add_submenu_page('', '在庫登録','🌟在庫登録', 'read', 'stock-detail', array(&$this, 'stock_detail'));
+		add_submenu_page('stock-management', '在庫登録(一括)','🌟在庫登録(一括)', 'read', 'stock-bulk', array(&$this, 'stock_bulk'));
 		add_submenu_page('stock-management', '転送処理','🔁転送', 'read', 'stock-transfer', array(&$this, 'stock_transfer'));
 
 		// 検索画面
