@@ -170,6 +170,7 @@ if (!empty($req->s['no'])) { $where .= sprintf("AND s.sales = '%s'", $req->s['no
 if (!empty($req->s['customer_name'])) { $where .= "AND c.name LIKE '%". $req->s['customer_name']. "%'"; }
 if (!empty($req->s['goods_name'])) { $where .= "AND g.name LIKE '%". $req->s['goods_name']. "%'"; }
 if (isset($req->s['car_model']) && $req->s['car_model'] != '0') { $where .= sprintf("AND s.class = '%s'", $req->s['car_model']); }
+if (!empty($req->s['ship_addr'])) { $where .= "AND CASE WHEN s.class NOT IN (7,8,9,10) THEN cd.tank WHEN s.class IN (7,8,9,10) THEN s.field1 END LIKE '%". $req->s['ship_addr']. "%'"; }
 if (isset($req->s['status']) && $req->s['status'] != '') { $where .= sprintf("AND s.status = '%s'", $req->s['status']); }
 if (!empty($req->s['outgoing_warehouse']) && $req->s['outgoing_warehouse'] != '') { $where .= sprintf("AND s.outgoing_warehouse = '%s' ", $req->s['outgoing_warehouse']); }
 if (!empty($req->s['lot'])) { $where .= sprintf("AND gd.lot = '%s'", $req->s['lot']); }
@@ -208,14 +209,15 @@ if (!empty($req->s['arrival_e_dt'])) { $where .= sprintf("AND s.arrival_dt <= '%
 		 * 受注情報をLIMITで取得して、後でpager用にrepert分を追加する方法
 		 **/
 		$limit = ($paged -1) * $users_per_page;
-		$sql = sprintf("SELECT s.*, g.name AS goods_name, g.separately_fg, c.name AS customer_name FROM yc_sales AS s ");
+		$sql = sprintf("SELECT s.*, g.name AS goods_name, g.separately_fg, c.name AS customer_name, cd.tank AS ship_addr FROM yc_sales AS s ");
 		$sql .= sprintf("LEFT JOIN yc_goods AS g ON s.goods = g.goods ");
 		if (!empty($req->s['lot'])) { $sql .= sprintf("LEFT JOIN yc_goods_detail AS gd ON s.sales = gd.sales "); }
 		$sql .= sprintf("LEFT JOIN yc_customer AS c ON s.customer = c.customer ");
+		$sql .= sprintf("LEFT JOIN yc_customer_detail AS cd ON s.customer = cd.customer AND s.ship_addr = cd.detail ");
 		$sql .= sprintf("%s ", $where);
 		if (!empty($req->s['lot'])) { $sql .= "GROUP BY gd.sales "; }
 		$sql .= sprintf("LIMIT %d, %d", (int) $limit, (int) $users_per_page);
-//print_r($sql);
+//$this->vd($sql);
 		$this->items = $wpdb->get_results( $sql );
 
 
@@ -614,6 +616,11 @@ $initForm = $s->getInitForm();
 				echo '<a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&customer='. $object->customer. '&action=save"> [ '. $qty. ' ] </a>';
 			}
 			echo '</td>';
+			if (!in_array($object->class, array(7,8,9,10))) {
+				echo '<td>'. $object->ship_addr. '</td>';
+			} else {
+				echo '<td>'. $object->field1. '</td>';
+			}
 			echo '<td>'. $object->delivery_dt. '</td>';
 			echo '<td>'. $object->arrival_dt. '</td>';
 			if ($object->status == '0') {
@@ -879,6 +886,7 @@ $initForm = $s->getInitForm();
 				'name' => mb_convert_encoding('注文者名', 'UTF-8', 'SJIS'), 
 				'goods' => mb_convert_encoding('商品', 'UTF-8', 'SJIS'), 
 				'qty' => mb_convert_encoding('個数', 'UTF-8', 'SJIS'), 
+				'ship_addr' => mb_convert_encoding('配送先', 'UTF-8', 'SJIS'), 
 				'' => mb_convert_encoding('出庫倉庫', 'UTF-8', 'SJIS'), 
 				'arrival_dt' => mb_convert_encoding('引取(入庫)予定日', 'UTF-8', 'SJIS'), 
 				'' => mb_convert_encoding('配送予定日', 'UTF-8', 'SJIS'), 

@@ -33,6 +33,9 @@
 					</select>
 					<br /><br />
 
+				<label for="ship_addr" class="col-sm-2 col-form-label">配送先：</label>
+					<input type="search" id="ship_addr" name="s[ship_addr]" value="<?php echo htmlspecialchars($get->s['ship_addr']); ?>"><br /><br />
+
 				<label for="lot" class="col-sm-2 col-form-label">ロット番号：</label>
 					<input type="search" id="lot" name="s[lot]" value="<?php echo htmlspecialchars($get->s['lot']); ?>"><br /><br />
 
