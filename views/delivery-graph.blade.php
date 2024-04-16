@@ -223,12 +223,12 @@
 						<!-- 「品名」 表示エリア -->
 						@if ($row->repeat_fg != 1)
 							@if ($row->upuser != 'ceo')
-							<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}}</a></div>
+							<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 							@else
-							<div class="text-wrap text-center inner_box" style="width: 8rem; background: yellow;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}}</a></div>
+							<div class="text-wrap text-center inner_box" style="width: 8rem; background: yellow;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 							@endif
 						@else
-							<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}}</a></div>
+							<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 						@endif
 
 						<!-- 「量(t)」 表示エリア -->

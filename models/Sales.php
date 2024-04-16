@@ -84,7 +84,7 @@ class Sales extends Ext_Model_Base {
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, c.*, c.name AS customer_name, s.rgdt AS rgdt, s.updt AS updt, s.upuser AS upuser ";
+		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, g.separately_fg, c.*, c.name AS customer_name, s.rgdt AS rgdt, s.updt AS updt, s.upuser AS upuser ";
 //		$sql  = "SELECT s.*, sc.repeat, sc.period, sc.span, sc.week, sc.repeat_s_dt, sc.repeat_e_dt, g.name as goods_name, gd.* ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
