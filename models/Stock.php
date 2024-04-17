@@ -830,7 +830,7 @@ class Stock extends Ext_Model_Base {
 		foreach ($rows as $i => $d) {
 			$separately = null;
 			$ret[$d->goods][0] = '';
-			if ($d->separately_fg == true) { $this->vd($d->separately_fg); $separately = " （バラ）"; }
+			if ($d->separately_fg == true) { $separately = " （バラ）"; }
 			$ret[$d->goods] = sprintf("%s%s", $d->name, $separately);
 		}
 
