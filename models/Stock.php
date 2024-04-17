@@ -827,10 +827,10 @@ class Stock extends Ext_Model_Base {
 
 		// 配列整形
 		$ret[0] = '';
-		$separately = null;
 		foreach ($rows as $i => $d) {
+			$separately = null;
 			$ret[$d->goods][0] = '';
-			if ($d->separately_fg == true) { $separately = " （バラ）"; }
+			if ($d->separately_fg == true) { $this->vd($d->separately_fg); $separately = " （バラ）"; }
 			$ret[$d->goods] = sprintf("%s%s", $d->name, $separately);
 		}
 
