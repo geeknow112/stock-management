@@ -105,7 +105,7 @@
 								@foreach ($data as $i => $d)
 								<tr class="detail d_{{$goods}}_{{$a_dt}}" id="detail_{{$goods}}_{{$i}}">
 									<td class="">&emsp;</td>
-									<td class="table-light tx-center">　<b>- 顧客：</b>( {{$d->customer_name}} )</td>
+									<td class="table-light tx-center">　<b>- 顧客：</b>( {{$d->customer_name}} )：@if ($d->tank) {{$d->tank}} @endif</td>
 									<td class="table-info tx-right">{{number_format($d->qty,1)}}</td>
 									<td class=""></td>
 									<td class=""></td>
