@@ -836,10 +836,11 @@ $dt = new DateTime($sdt. ' +1 days');
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.goods, g.name AS goods_name, s.arrival_dt, s.customer AS customer, s.qty, s.outgoing_warehouse, c.name AS customer_name ";
+		$sql  = "SELECT s.goods, g.name AS goods_name, s.arrival_dt, s.customer AS customer, s.qty, s.outgoing_warehouse, c.name AS customer_name, s.ship_addr, cd.tank ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
 		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
+		$sql .= "LEFT JOIN yc_customer_detail AS cd ON c.customer = cd.customer AND s.ship_addr = cd.detail ";
 		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 		$sql .= "AND s.class NOT IN (8,9,10) "; // 「結果入力」欄は表示せず
 
