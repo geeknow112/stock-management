@@ -504,17 +504,16 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 						// $repeat_list を $rows の形式に変換
 						foreach ($repeat_list as $sales => $d) {
 							$rep = current($d);
-							$r_rows[] = (object) array(
-								'goods' => $rep->goods, 
-								'goods_name' => $rep->goods_name, 
-								'arrival_dt' => $rep->arrival_dt, 
-								'customer' => $rep->customer, 
-								'qty' => $rep->qty, 
-								'outgoing_warehouse' => $rep->outgoing_warehouse, 
-								'customer_name' => $rep->customer_name, 
-								'repeat' => $rep->repeat, 
-								'repeat_fg' => $rep->repeat_fg, 
-							);
+
+							// 検索条件：「品名」の対応
+							if (!empty($get->s['goods_name'])) { 
+								if (preg_match('/^'. $get->s['goods_name']. '/', $rep->goods_name)) {
+									$r_rows[] = $this->setRepeatRow($rep); // 表示形式に変換
+								}
+							} else {
+								$r_rows[] = $this->setRepeatRow($rep); // 表示形式に変換
+							}
+
 						}
 
 						// 確定した注文の1日分を取得
@@ -540,17 +539,15 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 						foreach ($repeat_list as $arrival_dt => $list) {
 							foreach ($list as $sales => $d) {
 								$rep = current($d);
-								$r_rows[] = (object) array(
-									'goods' => $rep->goods, 
-									'goods_name' => $rep->goods_name, 
-									'arrival_dt' => $rep->arrival_dt, 
-									'customer' => $rep->customer, 
-									'qty' => $rep->qty, 
-									'outgoing_warehouse' => $rep->outgoing_warehouse, 
-									'customer_name' => $rep->customer_name, 
-									'repeat' => $rep->repeat, 
-									'repeat_fg' => $rep->repeat_fg, 
-								);
+
+								// 検索条件：「品名」の対応
+								if (!empty($get->s['goods_name'])) { 
+									if (preg_match('/^'. $get->s['goods_name']. '/', $rep->goods_name)) {
+										$r_rows[] = $this->setRepeatRow($rep); // 表示形式に変換
+									}
+								} else {
+									$r_rows[] = $this->setRepeatRow($rep); // 表示形式に変換
+								}
 							}
 						}
 
@@ -602,6 +599,24 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 				echo $this->get_blade()->run("stock-receive", compact('rows', 'get', 'post', 'formPage', 'initForm', 'detail', 'sum_list', 'total'));
 				break;
 		}
+	}
+
+	/**
+	 * 繰り返し情報を表示形式に設定
+	 *
+	 **/
+	private function setRepeatRow($rep = null) {
+		return (object) array(
+			'goods' => $rep->goods, 
+			'goods_name' => $rep->goods_name, 
+			'arrival_dt' => $rep->arrival_dt, 
+			'customer' => $rep->customer, 
+			'qty' => $rep->qty, 
+			'outgoing_warehouse' => $rep->outgoing_warehouse, 
+			'customer_name' => $rep->customer_name, 
+			'repeat' => $rep->repeat, 
+			'repeat_fg' => $rep->repeat_fg, 
+		);
 	}
 
 	/**

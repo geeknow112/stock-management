@@ -30,6 +30,11 @@
 					<span id="" class="manual-text form-text">※ ON(青い状態)で、転送のみを抽出します。OFF(白い状態)では、転送を含むすべてを抽出します。</span>
 					<br />
 
+				<label for="customer_name" class="col-sm-2 col-form-label">顧客名：</label>
+					<input type="search" id="customer_name" name="s[customer_name]" value="{{$get->s['customer_name']}}"><br /><br />
+
+				<label for="goods_name" class="col-sm-2 col-form-label">品名：</label>
+					<input type="search" id="goods_name" name="s[goods_name]" value="{{$get->s['goods_name']}}"><br /><br />
 
 				<label for="carModel" class="col-sm-2 col-form-label">出庫倉庫：</label>
 <!--					<input type="search" id="user-search-input" name="s[outgoing_warehouse]" value="<?php echo htmlspecialchars($get->s['outgoing_warehouse']); ?>">-->
@@ -42,7 +47,7 @@
 							@endif
 						@endforeach
 					</select>
-					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
+					&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;&emsp;
 
 				<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 
