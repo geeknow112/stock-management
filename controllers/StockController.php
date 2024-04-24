@@ -504,17 +504,11 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 						// $repeat_list を $rows の形式に変換
 						foreach ($repeat_list as $sales => $d) {
 							$rep = current($d);
-
-							// 検索条件：「品名」の対応
-							if (!empty($get->s['goods_name'])) { 
-								if (preg_match('/^'. $get->s['goods_name']. '/', $rep->goods_name)) {
-									$r_rows[] = $this->setRepeatRow($rep); // 表示形式に変換
-								}
-							} else {
-								$r_rows[] = $this->setRepeatRow($rep); // 表示形式に変換
-							}
-
+							$r_rows[] = $this->setRepeatRow($rep); // 表示形式に変換
 						}
+
+						// 検索条件の対応
+						$r_rows = $this->setSearchRuleForRepeat($get, $r_rows);
 
 						// 確定した注文の1日分を取得
 						$ret = $this->getTb()->getListByArrivalDt($get, $post);
@@ -550,6 +544,9 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 								}
 							}
 						}
+
+						// 検索条件の対応
+						$r_rows = $this->setSearchRuleForRepeat($get, $r_rows);
 
 						// 確定した注文の10日分を取得
 						$edt = new DateTime($get->s['arrival_s_dt']);
@@ -617,6 +614,30 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 			'repeat' => $rep->repeat, 
 			'repeat_fg' => $rep->repeat_fg, 
 		);
+	}
+
+	/**
+	 * 未確定部分(繰り返し設定)の検索条件の適用処理
+	 *
+	 **/
+	private function setSearchRuleForRepeat($get = null, $r_rows = null) {
+		// 検索条件の対応
+		foreach ($r_rows as $i => $d) {
+			// 「顧客名」
+			if (!empty($get->s['customer_name'])) { 
+				if (!preg_match('/^'. $get->s['customer_name']. '/', $d->customer_name)) {
+					unset($r_rows[$i]);
+				}
+			}
+
+			// 「品名」
+			if (!empty($get->s['goods_name'])) { 
+				if (!preg_match('/^'. $get->s['goods_name']. '/', $d->goods_name)) {
+					unset($r_rows[$i]);
+				}
+			}
+		}
+		return $r_rows;
 	}
 
 	/**
