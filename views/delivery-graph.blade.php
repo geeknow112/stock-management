@@ -285,7 +285,7 @@
 											<option value="4">6t-4</option>
 											<option value="5">6t-5</option>
 											<option value="6">6t-6</option>
-											<option value="7">6t-7</option>
+<!--											<option value="7">6t-7</option>	-->
 									</select>
 									<select class="" id="cars_tank_{{$oid}}" name="">
 											<option value="1">1</option>
@@ -312,7 +312,34 @@
 								@endif
 							@endif
 						@else
-							<a href="#" class="btn btn-info text-center text-light">直取分</a>
+							@if ($row->receipt_fg != 1)
+								<div>
+							<?php
+							$oid = $row->sales. "_". $row->goods. "_". $row->repeat. "_". str_replace('-', '', $delivery_dt);
+							?>
+									<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt_{{$oid}}" name="" value="">
+									<input type="hidden" class="" id="r_arrival_dt_{{$oid}}" name="" value="{{$row->arrival_dt}}">
+									<input type="hidden" class="" id="r_warehouse_{{$oid}}" name="" value="{{$row->outgoing_warehouse}}">
+									<br />
+									<select class="" id="cars_class_{{$oid}}" name="">
+							{{--
+										@foreach($initForm['select']['car_model'] as $i => $d)
+											<option value="{{$i}}">{{$d}}</option>
+										@endforeach
+							--}}
+											<option value="7">6t-7</option>
+									</select>
+									<select class="" id="cars_tank_{{$oid}}" name="">
+											<option value="1">1</option>
+											<option value="2">2</option>
+											<option value="3">3</option>
+									</select>
+									<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
+									<input type="button" class="btn btn-info text-center text-light" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
+								</div>
+							@else
+								<a href="#" class="btn btn-danger text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">&emsp;完了&emsp;</a>
+							@endif
 						@endif
 					</div>
 				<?php }	?>
@@ -322,6 +349,10 @@
 <?php	}	?>
 
 <script>
+/**
+ * [注文]ボタン押下時の処理 (class 0)
+ * 
+ **/
 function change_repeat_order(oid) {
 	var r_order_id = 'r_order_' + oid;
 	var cars_class_id = 'cars_class_' + oid;
@@ -357,6 +388,41 @@ function change_repeat_order(oid) {
 	*/	document.forms.submit();
 	}
 
+}
+
+/**
+ * [直取分]ボタン押下時の処理 (class 7)
+ * 
+ **/
+function change_repeat_order_direct_delivery(oid = null) {
+console.log(oid);
+	var r_order_id = 'r_order_' + oid;
+	var cars_class_id = 'cars_class_' + oid;
+	var cars_tank_id = 'cars_tank_' + oid;
+	var delivery_dt_id = 'delivery_dt_' + oid;
+	var warehouse_id = 'r_warehouse_' + oid;
+	var arrival_dt_id = 'r_arrival_dt_' + oid;
+
+	var cars_class = document.getElementById(cars_class_id).value;
+	var cars_tank = document.getElementById(cars_tank_id).value;
+	var delivery_dt = document.getElementById(delivery_dt_id).value;
+	var warehouse = document.getElementById(warehouse_id).value;
+	var arrival_dt = document.getElementById(arrival_dt_id).value;
+
+
+	if (window.confirm('この直取分を 【 完了 】 にしますか？')) {
+		document.forms.method = 'post';
+//		document.forms.action.value = 'regist';
+		document.forms.action.value = 'set_direct_delivery';
+		//document.forms.oid.value = '1';
+		document.getElementById(r_order_id).value = r_order_id;
+		document.forms.class.value = cars_class;
+		document.forms.cars_tank.value = cars_tank;
+		document.forms.change_delivery_dt.value = delivery_dt;
+		document.forms.r_warehouse.value = warehouse;
+		document.forms.r_arrival_dt.value = arrival_dt;
+		document.forms.submit();
+	}
 }
 
 /**

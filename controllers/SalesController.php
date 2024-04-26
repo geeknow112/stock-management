@@ -350,6 +350,8 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 		if (!isset($get->action) || $post->action == 'set_receipt') { $get->action = $post->action; }
 
+		if (!isset($get->action) || $post->action == 'set_direct_delivery') { $get->action = $post->action; }
+
 		switch($get->action) {
 			case 'set_receipt': // 「受領書」フラグの更新
 				$data['sales'] = $post->sales;
@@ -394,6 +396,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 		switch($get->action) {
 			case 'regist':
+			case 'set_direct_delivery': // 「直取分」の処理
 				// salesテーブルへ登録のための成形
 				$this->convertSalesData($post);
 //				$this->vd($post);exit;
