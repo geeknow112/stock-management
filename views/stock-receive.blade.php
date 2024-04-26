@@ -14,20 +14,17 @@
 			<div class="search-box">
 
 				<label for="carModel" class="col-sm-2 col-form-label">引取(入庫)予定日：</label>
-					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="<?php echo htmlspecialchars($get->s['arrival_s_dt']); ?>" placeholder="2020-11-01"><!--&emsp;～&emsp;
-				<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($g['s']['arrival_e_dt']); ?>" placeholder="2022-12-01">-->
-					&emsp;&emsp;
-
-					<input class="form-check-input" type="radio" name="sum_span" id="sum_span_1" value="one" @if ($get->sum_span == 'one' || $get->sum_span == '') checked @endif>
+					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="<?php echo htmlspecialchars($get->s['arrival_s_dt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
+					<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($get->s['arrival_e_dt']); ?>" placeholder="2022-12-01">
+					<br />
+<!--
+					<input class="form-check-input" type="radio" name="sum_span" id="sum_span_1" value="" @if ($get->sum_span == 'one' || $get->sum_span == '') checked @endif>
 					<label class="form-check-label" for="sum_span_1">1日分</label>
 					&emsp;
 
 					<input class="form-check-input" type="radio" name="sum_span" id="sum_span_10" value="ten" @if ($get->sum_span == 'ten') checked @endif>
 					<label class="form-check-label" for="sum_span_10">10日分</label>
-					<br />
-
-					<label for="" class="col-sm-2 col-form-label">&emsp;</label>
-					<span id="" class="manual-text form-text">※ ON(青い状態)で、転送のみを抽出します。OFF(白い状態)では、転送を含むすべてを抽出します。</span>
+-->
 					<br />
 
 				<label for="customer_name" class="col-sm-2 col-form-label">顧客名：</label>

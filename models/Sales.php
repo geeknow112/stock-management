@@ -858,7 +858,7 @@ $dt = new DateTime($sdt. ' +1 days');
 					if (!empty($get->s['arrival_s_dt'])) { $sql .= sprintf("AND s.arrival_dt = '%s' ", $get->s['arrival_s_dt']); }
 				} else {
 					if (!empty($get->s['arrival_s_dt'])) { $sql .= sprintf("AND s.arrival_dt >= '%s' ", $get->s['arrival_s_dt']); }
-					if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND s.arrival_dt < '%s' ", $get->s['arrival_e_dt']); }
+					if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND s.arrival_dt <= '%s' ", $get->s['arrival_e_dt']); }
 				}
 
 				if (!empty($get->s['customer_name'])) { $sql .= sprintf("AND c.name LIKE '%s%s' ", $get->s['customer_name'], '%'); }

@@ -477,7 +477,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 		$this->setTb('Sales');
 		$initForm = $this->getTb()->getInitForm();
 
-		if (!empty($get->s['arrival_s_dt'])) {
+		if (!empty($get->s['arrival_s_dt']) && !empty($get->s['arrival_e_dt'])) {
 			switch($post->cmd) {
 				case 'search':
 				default:
@@ -485,14 +485,74 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 					$sdt = new DateTime($get->s['arrival_s_dt']);
 					$sdt->modify('+3 day');
 					$get->s['sdt'] = $sdt->format('Y-m-d'); // delivery_dtに変換 = +3日
+
+					$sdt = new DateTime($get->s['arrival_e_dt']);
+					$sdt->modify('+3 day');
+					$get->s['edt'] = $sdt->format('Y-m-d'); // delivery_dtに変換 = +3日
 					//$this->vd($get);
 
 					$ScheduleRepeat = new ScheduleRepeat;
 					$repeats = $ScheduleRepeat->getList($get);
 
 					switch ($get->sum_span) {
-						case 'one':
 						default:
+							// 未確定注文の10日分を生成
+							$repeat_list = $repeats;
+
+							// arrival_dtを初期化
+/*
+							foreach ($repeat_list as $arrival_dt => $list) {
+								foreach ($list as $sales => $d) {
+									current($d)->arrival_dt = $arrival_dt;
+								}
+							}
+*/
+							// $repeat_list を $rows の形式に変換
+							foreach ($repeat_list as $arrival_dt => $list) {
+								foreach ($list as $sales => $d) {
+									$rep = current($d);
+
+									// 検索条件：「品名」の対応
+									if (!empty($get->s['goods_name'])) { 
+										if (preg_match('/^'. $get->s['goods_name']. '/', $rep->goods_name)) {
+											$r_rows[] = $this->setRepeatRow($rep); // 表示形式に変換
+										}
+									} else {
+										$r_rows[] = $this->setRepeatRow($rep); // 表示形式に変換
+									}
+								}
+							}
+
+							// 検索条件の対応
+							$r_rows = $this->setSearchRuleForRepeat($get, $r_rows);
+
+							// 確定した注文の取得
+							$ret = $this->getTb()->getListByArrivalDt($get, $post, true);
+
+							// 確定注文と、未確定注文のマージ
+							$rows = (object) array_merge((array) $ret, (array) $r_rows); // object merge
+
+							// arrival_dtでソート
+							$sort_data = $rows;
+							foreach ($sort_data as $i => $d) {
+								$r_sort[$d->arrival_dt][] = $d;
+							}
+
+							if (!empty($r_sort)) {
+								ksort($r_sort);
+							}
+
+							foreach ($r_sort as $arrival_dt => $list) {
+								foreach ($list as $j => $d) {
+									$rr_sort[] = $d;
+								}
+							}
+							//$this->vd($rr_sort);
+
+							$rows = (object) $rr_sort;
+							break;
+
+						case 'one':
 							// 未確定注文の1日分を生成
 							$repeat_list = $repeats[$get->s['sdt']];
 

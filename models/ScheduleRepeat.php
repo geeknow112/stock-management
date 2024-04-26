@@ -158,7 +158,17 @@ class ScheduleRepeat extends Ext_Model_Base {
 		// sdtから表示用にOUTPUT_LIMIT数分、日付を生成
 		$sdt = new DateTime($get->s['sdt']);
 		$sdts[] = $sdt->format('Y-m-d');
-		for ($i = 0; $i<self::OUTPUT_LIMIT; $i++) {
+
+		$output_limit = self::OUTPUT_LIMIT;
+		if (!empty($get->s['edt'])) {
+			$edt = new DateTime($get->s['edt']);
+			$edts[] = $edt->format('Y-m-d');
+
+			$interval_days = $sdt->diff($edt);
+			$output_limit = $interval_days->format('%a');
+		}
+
+		for ($i = 0; $i<$output_limit; $i++) {
 			$sdt->modify('+1 day');
 			$sdts[] = $sdt->format('Y-m-d');
 		}
