@@ -13,7 +13,7 @@
 {{--			@if ($tb->getCurUser()->roles[0] == 'administrator')	--}}
 			<div class="search-box">
 
-				<label for="carModel" class="col-sm-2 col-form-label">引取(入庫)予定日：</label>
+				<label for="arrival_dt" class="col-sm-2 col-form-label">引取(入庫)予定日：</label>
 					<input type="date" id="user-search-input" name="s[arrival_s_dt]" value="<?php echo htmlspecialchars($get->s['arrival_s_dt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
 					<input type="date" id="user-search-input" name="s[arrival_e_dt]" value="<?php echo htmlspecialchars($get->s['arrival_e_dt']); ?>" placeholder="2022-12-01">
 					<br />
@@ -25,6 +25,8 @@
 					<input class="form-check-input" type="radio" name="sum_span" id="sum_span_10" value="ten" @if ($get->sum_span == 'ten') checked @endif>
 					<label class="form-check-label" for="sum_span_10">10日分</label>
 -->
+				<label for="" class="col-sm-2 col-form-label">&emsp;</label>
+					<span id="" class="manual-text form-text">※ 日付の範囲が<b>100日</b>を超えた場合、エラーとなります。</span>
 					<br />
 
 				<label for="customer_name" class="col-sm-2 col-form-label">顧客名：</label>
