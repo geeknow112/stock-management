@@ -541,10 +541,29 @@ $r = array(
 	}
 
 	/**
-	 *
+	 * ’•¶WŒv
+	 * 
 	 **/
-	public function sumDayGoodsAction() {
-		echo $this->get_blade()->run("sum-day-goods");
+	public function summaryAction() {
+		$get = (object) $_GET;
+		$post = (object) $_POST;
+
+		$this->setTb('Sales');
+
+//$this->vd($get);
+//$this->vd($post);
+
+		switch($post->cmd) {
+			case 'search':
+			default:
+				$initForm = $this->getTb()->getInitForm();
+
+//				$rows = $this->getTb()->getList($get, $un_convert = true);
+				$rows = $this->getTb()->getSummary($get);
+				$formPage = 'sales-summary';
+				echo $this->get_blade()->run("sales-summary", compact('rows', 'get', 'post', 'formPage', 'initForm'));
+				break;
+		}
 	}
 }
 ?>
