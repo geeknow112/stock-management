@@ -116,6 +116,7 @@ class StockManagement {
 //		add_submenu_page('stock-management', '日別商品集計','日別商品集計', 'read', 'sum-day-goods', array(&$this, 'sum_day_goods'));
 		add_submenu_page('stock-management', '在庫証明書','🍃在庫証明書', 'read', 'stock-export', array(&$this, 'stock_export'));
 		add_submenu_page('stock-management', '倉出伝票','🍃倉出伝票', 'read', 'stock-export-day', array(&$this, 'stock_export_day'));
+		add_submenu_page('stock-management', '注文集計','✡注文集計', 'read', 'sales-summary', array(&$this, 'sales_summary'));
 	}
 
 	/**
@@ -260,6 +261,14 @@ class StockManagement {
 	function delivery_graph() {
 		$s = new SalesController();
 		$s->deliveryGraph();
+	}
+
+	/**
+	 * 注文集計
+	 **/
+	function sales_summary() {
+		$s = new SalesController();
+		$s->summaryAction();
 	}
 
 	/**

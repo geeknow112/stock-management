@@ -956,6 +956,55 @@ $dt = new DateTime($sdt. ' +1 days');
 	}
 
 	/**
+	 * 受注の集計(注文集計)
+	 * 
+	 **/
+	public function getSummary($get = null) {
+		$get = (object) $get;
+		global $wpdb;
+		$cur_user = wp_get_current_user();
+
+		$sql  = "SELECT s.goods, g.name AS goods_name, s.arrival_dt, s.customer AS customer, s.qty, s.outgoing_warehouse, c.name AS customer_name, s.ship_addr, cd.tank, SUM(s.qty) AS sum_qty ";
+		$sql .= "FROM yc_sales AS s ";
+		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
+		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
+		$sql .= "LEFT JOIN yc_customer_detail AS cd ON c.customer = cd.customer AND s.ship_addr = cd.detail ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
+
+		if (current($cur_user->roles) != 'administrator') {
+//			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
+		}
+
+		if (empty($get->action)) {
+//			$sql .= "ORDER BY ap.rgdt desc";
+			$sql .= ";";
+
+		} else {
+			if ($get->action == 'search') {
+				if (!empty($get->s['customer_name'])) { $sql .= sprintf("AND c.name LIKE '%s%s' ", $get->s['customer_name'], '%'); }
+				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
+
+				if (!empty($get->s['delivery_s_dt'])) { $sql .= sprintf("AND s.delivery_dt >= '%s' ", $get->s['delivery_s_dt']); }
+				if (!empty($get->s['delivery_e_dt'])) { $sql .= sprintf("AND s.delivery_dt <= '%s' ", $get->s['delivery_e_dt']); }
+
+				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", $get->s['outgoing_warehouse']); }
+
+//				$sql .= ";";
+
+			} else {
+//				$sql .= "AND ap.applicant = '". $prm->post. "';";
+			}
+		}
+
+		$sql .= "GROUP BY c.customer, g.goods, s.outgoing_warehouse";
+		$sql .= ";";
+
+//$this->vd($sql);
+		$rows = $wpdb->get_results($sql);
+		return $rows;
+	}
+
+	/**
 	 * 
 	 **/
 	public function getInitForm() {
