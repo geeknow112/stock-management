@@ -112,8 +112,10 @@
 									<td class="table-light tx-center">　<b>- 顧客：</b>( {{$d->customer_name}} )：@if ($d->tank) {{$d->tank}} @endif</td>
 									<td class="table-info tx-right">{{number_format($d->qty,1)}}</td>
 									<td class="tx-right">
-										<input type="checkbox" class="btn-check" id="check-reservation_{{$d->sales}}" autocomplete="on"><label class="btn btn-outline-primary" onclick="switch_reservation({{$d->sales}});">入庫予約済</label><!-- 入庫予約確認用 -->
-										<input type="button" class="btn btn-primary text-center" value="送信" onclick="change_repeat_order('{{$oid}}');">
+<!--										<input type="checkbox" class="btn-check" id="check-reservation_{{$d->sales}}" autocomplete="on"><label class="btn btn-outline-primary" onclick="switch_reservation({{$d->sales}});">入庫予約済</label>-->
+<!-- 入庫予約確認用 -->
+										<input type="date" class="col-sm-6 col-form-control w-auto" id="arrival_dt_{{$oid}}" name="" value="{{$d->arrival_dt}}">
+										<input type="button" class="btn btn-primary text-center" value="確定" onclick="change_repeat_order('{{$oid}}');">
 									</td>
 									<td class=""></td>
 								</tr>
