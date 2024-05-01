@@ -623,12 +623,18 @@ $initForm = $s->getInitForm();
 			}
 			echo '<td>'. $object->delivery_dt. '</td>';
 			echo '<td>'. $object->arrival_dt. '</td>';
-			if ($object->status == '0') {
-				echo '<td><span class="text-danger">'. mb_convert_encoding("未確定", "UTF-8", "SJIS"). '</span></td>';
-//				echo '<td><span class="text-danger">{{ $initForm["select"]["status"][$object->status] }}</span></td>';
+
+			if ($object->class == '7') { // 6t-7の際は、状態を非表示にする。(ロット欄の作成が不要なため)
+					echo '<td>&emsp;</td>';
+
 			} else {
-				echo '<td><span class="text-success">'. mb_convert_encoding("確定", "UTF-8", "SJIS"). '</span></td>';
-//				echo '<td><span class="text-success">{{ $initForm['select']['status'][$list->status] }}</span></td>';
+				if ($object->status == '0') {
+					echo '<td><span class="text-danger">'. mb_convert_encoding("未確定", "UTF-8", "SJIS"). '</span></td>';
+//					echo '<td><span class="text-danger">{{ $initForm["select"]["status"][$object->status] }}</span></td>';
+				} else {
+					echo '<td><span class="text-success">'. mb_convert_encoding("確定", "UTF-8", "SJIS"). '</span></td>';
+//					echo '<td><span class="text-success">{{ $initForm['select']['status'][$list->status] }}</span></td>';
+				}
 			}
 			echo '</tr>';
 		}
