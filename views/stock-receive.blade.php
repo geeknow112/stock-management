@@ -114,8 +114,11 @@
 									<td class="tx-right">
 <!--										<input type="checkbox" class="btn-check" id="check-reservation_{{$d->sales}}" autocomplete="on"><label class="btn btn-outline-primary" onclick="switch_reservation({{$d->sales}});">入庫予約済</label>-->
 <!-- 入庫予約確認用 -->
+							<?php
+							$oid = $d->sales. "_". $d->goods. "_".  str_replace('-', '', $d->arrival_dt);
+							?>
 										<input type="date" class="col-sm-6 col-form-control w-auto" id="arrival_dt_{{$oid}}" name="" value="{{$d->arrival_dt}}">
-										<input type="button" class="btn btn-primary text-center" value="確定" onclick="change_repeat_order('{{$oid}}');">
+										<input type="button" class="btn btn-primary text-center" value="確定" onclick=" decide_receive_order('{{$oid}}');">
 									</td>
 									<td class=""></td>
 								</tr>
@@ -174,6 +177,48 @@ function switch_reservation(sales) {
 		ret.checked = false;
 	} else {
 		ret.checked = true;
+	}
+}
+
+/**
+ * [入庫予定日]編集欄で日付編集後、[確定]ボタン押下時の処理
+ * 
+ **/
+function decide_receive_order(oid) {
+console.log(oid);
+/*
+	var r_order_id = 'r_order_' + oid;
+	var cars_class_id = 'cars_class_' + oid;
+	var cars_tank_id = 'cars_tank_' + oid;
+	var delivery_dt_id = 'delivery_dt_' + oid;
+	var warehouse_id = 'r_warehouse_' + oid;
+	var arrival_dt_id = 'r_arrival_dt_' + oid;
+
+	var cars_class = document.getElementById(cars_class_id).value;
+	var cars_tank = document.getElementById(cars_tank_id).value;
+	var delivery_dt = document.getElementById(delivery_dt_id).value;
+	var warehouse = document.getElementById(warehouse_id).value;
+	var arrival_dt = document.getElementById(arrival_dt_id).value;
+*/
+
+	if (window.confirm('入庫日 を確定しますか？')) {
+		document.forms.method = 'post';
+		document.forms.action.value = 'regist';
+		//document.forms.oid.value = '1';
+		document.getElementById(r_order_id).value = r_order_id;
+		document.forms.class.value = cars_class;
+		document.forms.cars_tank.value = cars_tank;
+		document.forms.change_delivery_dt.value = delivery_dt;
+		document.forms.r_warehouse.value = warehouse;
+		document.forms.r_arrival_dt.value = arrival_dt;
+
+	/*
+		document.forms.r_delivery_dt.value = <?php echo $row->delivery_dt; ?>;
+		document.forms.r_class.value = <?php echo $row->class; ?>;
+		document.forms.r_tank.value = '{{$row->cars_tank}}';
+		document.forms.base_sales.value = '1';
+		document.forms.cmd.value = 'regist';
+	*/	document.forms.submit();
 	}
 }
 </script>
