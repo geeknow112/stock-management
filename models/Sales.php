@@ -976,7 +976,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.goods, g.name AS goods_name, s.arrival_dt, s.customer AS customer, s.qty, s.outgoing_warehouse, c.name AS customer_name, s.ship_addr, cd.tank, SUM(s.qty) AS sum_qty ";
+		$sql  = "SELECT s.goods, g.name AS goods_name, s.arrival_dt, s.customer AS customer, s.qty, s.outgoing_warehouse, c.name AS customer_name, s.ship_addr, cd.tank, SUM(s.qty) AS sum_qty, s.field1 AS result_ship_addr ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
 		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
@@ -994,6 +994,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		} else {
 			if ($get->action == 'search') {
 				if (!empty($get->s['customer_name'])) { $sql .= sprintf("AND c.name LIKE '%s%s%s' ", '%', $get->s['customer_name'], '%'); }
+				if (!empty($get->s['tank'])) { $sql .= sprintf("AND cd.tank LIKE '%s%s%s' ", '%', $get->s['tank'], '%'); }
 				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s%s' ", '%', $get->s['goods_name'], '%'); }
 
 				if (!empty($get->s['delivery_s_dt'])) { $sql .= sprintf("AND s.delivery_dt >= '%s' ", $get->s['delivery_s_dt']); }

@@ -17,6 +17,9 @@
 				<label for="customer_name" class="col-sm-2 col-form-label">注文者名：</label>
 					<input type="search" id="customer_name" name="s[customer_name]" value="<?php echo htmlspecialchars($get->s['customer_name']); ?>"><br /><br />
 
+				<label for="tank" class="col-sm-2 col-form-label">配送先：</label>
+					<input type="search" id="customer_name" name="s[tank]" value="<?php echo htmlspecialchars($get->s['tank']); ?>"><br /><br />
+
 				<label for="goods_name" class="col-sm-2 col-form-label">商品名：</label>
 					<input type="search" id="goods_name" name="s[goods_name]" value="<?php echo htmlspecialchars($get->s['goods_name']); ?>"><br /><br />
 
@@ -65,6 +68,7 @@
 					<th class="">量目(t)</th>
 					<th class="">出庫倉庫</th>
 					<th class="">備考</th>
+					<th class="">配送先</th>
 				</tr>
 
 				<tbody id="the-list" data-wp-lists="list:user">
@@ -76,6 +80,7 @@
 						<td class="tx-right">{{number_format($row->sum_qty,1)}}</td>
 						<td class="">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</td>
 						<td class="">{{$row->customer_name}}</td>
+						<td class="">{{$row->tank}}　:{{$row->result_ship_addr}}</td>
 					</tr>
 					@endforeach
 				</tbody>
@@ -87,11 +92,15 @@
 					<th class="">&emsp;</th>
 					<th class="">&emsp;</th>
 					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
 				</tr>
 				<tr>
 					<th class="table-light tx-right" colspan="3">合計</th>
 					<td class="tx-right">{{number_format($total,1)}}</td>
-					<th class=""></th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
+					<th class="">&emsp;</th>
 				</tr>
 
 			</table>
