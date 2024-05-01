@@ -74,8 +74,8 @@
 						<td class="">{{$row->goods_name}}</td>
 						<th class="tx-center">@if ($row->separately_fg == false)（T）@else（B）@endif</th>
 						<td class="tx-right">{{number_format($row->sum_qty,1)}}</td>
-						<th class="">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</th>
-						<th class="">{{$row->customer_name}}</th>
+						<td class="">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</td>
+						<td class="">{{$row->customer_name}}</td>
 					</tr>
 					@endforeach
 				</tbody>
