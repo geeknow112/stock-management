@@ -89,9 +89,9 @@
 					<th class="">&emsp;</th>
 				</tr>
 				<tr>
-					<th class="table-light">&emsp;</th>
-					<th class="">&emsp;</th>
-					<th class="" colspan="3"></th>
+					<th class="table-light tx-right" colspan="3">合計</th>
+					<th class="tx-right">{{number_format($total,1)}}</th>
+					<th class=""></th>
 				</tr>
 
 			</table>

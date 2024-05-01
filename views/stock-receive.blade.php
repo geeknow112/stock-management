@@ -111,7 +111,10 @@
 									<td class="">&emsp;</td>
 									<td class="table-light tx-center">　<b>- 顧客：</b>( {{$d->customer_name}} )：@if ($d->tank) {{$d->tank}} @endif</td>
 									<td class="table-info tx-right">{{number_format($d->qty,1)}}</td>
-									<td class=""></td>
+									<td class="tx-right">
+										<input type="checkbox" class="btn-check" id="check-reservation_{{$d->sales}}" autocomplete="on"><label class="btn btn-outline-primary" onclick="switch_reservation({{$d->sales}});">入庫予約済</label><!-- 入庫予約確認用 -->
+										<input type="button" class="btn btn-primary text-center" value="送信" onclick="change_repeat_order('{{$oid}}');">
+									</td>
 									<td class=""></td>
 								</tr>
 								@endforeach
@@ -156,6 +159,20 @@ function changeDisplay(goods = null, a_dt = null) {
 			target.style.display = "none";
 		}
 	});
+}
+
+/**
+ * 入庫予約確認のチェックボックス切替
+ * 
+ **/
+function switch_reservation(sales) {
+	console.log(sales);
+	const ret = document.getElementById('check-reservation_' + sales);
+	if (ret.checked == true) {
+		ret.checked = false;
+	} else {
+		ret.checked = true;
+	}
 }
 </script>
 

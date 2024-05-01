@@ -560,8 +560,16 @@ $r = array(
 
 //				$rows = $this->getTb()->getList($get, $un_convert = true);
 				$rows = $this->getTb()->getSummary($get);
+
+				// ‡Œv’l‚Ìì¬
+				if (!empty(current($rows))) {
+					$total = $this->getTb()->sumSalesSummaryList($rows);
+				} else {
+					$total = null;
+				}
+
 				$formPage = 'sales-summary';
-				echo $this->get_blade()->run("sales-summary", compact('rows', 'get', 'post', 'formPage', 'initForm'));
+				echo $this->get_blade()->run("sales-summary", compact('rows', 'get', 'post', 'formPage', 'initForm', 'total'));
 				break;
 		}
 	}
