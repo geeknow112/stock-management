@@ -836,7 +836,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.goods, g.name AS goods_name, s.arrival_dt, s.customer AS customer, s.qty, s.outgoing_warehouse, c.name AS customer_name, s.ship_addr, cd.tank ";
+		$sql  = "SELECT s.sales, s.goods, g.name AS goods_name, s.arrival_dt, s.customer AS customer, s.qty, s.outgoing_warehouse, c.name AS customer_name, s.ship_addr, cd.tank ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
 		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
@@ -909,6 +909,18 @@ $dt = new DateTime($sdt. ' +1 days');
 	public function sumReceiveList($rows = null) {
 		foreach ($rows as $i => $d) {
 			$sum_qty[] = $d->qty;
+		}
+
+		return array_sum($sum_qty);
+	}
+
+	/**
+	 * 注文集計情報の集計
+	 * 
+	 **/
+	public function sumSalesSummaryList($rows = null) {
+		foreach ($rows as $i => $d) {
+			$sum_qty[] = $d->sum_qty;
 		}
 
 		return array_sum($sum_qty);
