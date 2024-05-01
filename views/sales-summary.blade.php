@@ -90,7 +90,7 @@
 				</tr>
 				<tr>
 					<th class="table-light tx-right" colspan="3">合計</th>
-					<th class="tx-right">{{number_format($total,1)}}</th>
+					<td class="tx-right">{{number_format($total,1)}}</td>
 					<th class=""></th>
 				</tr>
 
