@@ -100,7 +100,7 @@
 						<?php $a_dt = str_replace('-', '', $arrival_dt); ?>
 						<tr id="">
 							<td class="">&emsp;</td>
-							<td class="" onclick="changeDisplay({{$goods}}, {{$a_dt}});" @if (isset($row->repeat)) style="background: pink;" @endif><a href="#">{{$row->goods_name}}</a></td>
+							<td class="" onclick="changeDisplay({{$goods}}, {{$a_dt}});" @if (isset($row->repeat)) style="background: pink;" @endif><span>{{$row->goods_name}}</span></td>
 							<td class="tx-center">{{number_format(array_sum($row->qty),1)}}</td>
 							<td class="w-25 tx-center">{{$arrival_dt}}</td>
 							<td class="">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</td>
