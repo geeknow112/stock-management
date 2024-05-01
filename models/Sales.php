@@ -993,8 +993,8 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		} else {
 			if ($get->action == 'search') {
-				if (!empty($get->s['customer_name'])) { $sql .= sprintf("AND c.name LIKE '%s%s' ", $get->s['customer_name'], '%'); }
-				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
+				if (!empty($get->s['customer_name'])) { $sql .= sprintf("AND c.name LIKE '%s%s%s' ", '%', $get->s['customer_name'], '%'); }
+				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s%s' ", '%', $get->s['goods_name'], '%'); }
 
 				if (!empty($get->s['delivery_s_dt'])) { $sql .= sprintf("AND s.delivery_dt >= '%s' ", $get->s['delivery_s_dt']); }
 				if (!empty($get->s['delivery_e_dt'])) { $sql .= sprintf("AND s.delivery_dt <= '%s' ", $get->s['delivery_e_dt']); }
