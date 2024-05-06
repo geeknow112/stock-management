@@ -611,6 +611,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 		$post->goods = $r_order[3];
 		$post->repeat_fg = $r_order[4];
 		$post->sales = $r_order[2];
+		$post->remark = 'reserve_fg';
 	}
 
 	/**
