@@ -116,7 +116,7 @@
 				</tfoot>
 			</table>
 
-
+		<?php $colspan = ($cur_user->roles[0] == 'administrator') ? 6 : 5; ?>
 		<div id="table_top">
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
@@ -125,19 +125,19 @@
 						<th class=""></th>
 						<th class=""></th>
 						@if ($cur_user->roles[0] != 'subscriber')
-						<th class="" colspan="6">6t ⓪</th>
+						<th class="" colspan="{{$colspan}}">6t ⓪</th>
 						@endif
-						<th class="" colspan="6" id="car_model_1">6t ①</th>
-						<th class="" colspan="6" id="car_model_2">6t ②</th>
-						<th class="" colspan="6" id="car_model_3">6t ③</th>
-						<th class="" colspan="6" id="car_model_4">6t ④</th>
-						<th class="" colspan="6" id="car_model_5">6t ⑤</th>
+						<th class="" colspan="{{$colspan}}" id="car_model_1">6t ①</th>
+						<th class="" colspan="{{$colspan}}" id="car_model_2">6t ②</th>
+						<th class="" colspan="{{$colspan}}" id="car_model_3">6t ③</th>
+						<th class="" colspan="{{$colspan}}" id="car_model_4">6t ④</th>
+						<th class="" colspan="{{$colspan}}" id="car_model_5">6t ⑤</th>
 						@if ($cur_user->roles[0] == 'administrator')
-						<th class="" colspan="6" id="car_model_6">6t ⑥</th>
-						<th class="" colspan="6">6t ⑦ (山忠商事(直取) 専用：繰り返し注文表示欄)</th>
-						<th class="" colspan="6" id="input_result">6t ⑧ (太田畜産 専用：結果入力欄)</th>
-						<th class="" colspan="6">7.5t ⑨ (村上畜産 専用：結果入力欄)</th>
-						<th class="" colspan="6" id="input_result_end">6t ⑩ (山忠商事(直取) 専用：結果入力欄)</th>
+						<th class="" colspan="{{$colspan}}" id="car_model_6">6t ⑥</th>
+						<th class="" colspan="{{$colspan}}">6t ⑦ (山忠商事(直取) 専用：繰り返し注文表示欄)</th>
+						<th class="" colspan="{{$colspan}}" id="input_result">6t ⑧ (太田畜産 専用：結果入力欄)</th>
+						<th class="" colspan="{{$colspan}}">7.5t ⑨ (村上畜産 専用：結果入力欄)</th>
+						<th class="" colspan="{{$colspan}}" id="input_result_end">6t ⑩ (山忠商事(直取) 専用：結果入力欄)</th>
 						@endif
 					</tr>
 
@@ -166,7 +166,9 @@
 						<th class="" style="width: 5rem;">出庫倉庫</th>
 							@endif
 						<th class="" style="width: 5rem;">氏名</th>
+							@if ($cur_user->roles[0] == 'administrator')
 						<th class="" style="width: 5rem;">確認</th>
+							@endif
 						@endfor
 					</tr>
 				</thead>
@@ -212,8 +214,9 @@
 	}
 </style>
 
-<?php	function innerTable($delivery_dt, $list, $class, $carsTank = null, $initForm = null) {	?>
-		<div style="width: 40rem;">
+<?php	function innerTable($delivery_dt, $list, $class, $carsTank = null, $initForm = null, $cur_user = null) {	?>
+		<?php $w_box = ($cur_user->roles[0] == 'administrator') ? '40rem' : '34rem'; ?>
+		<div style="width: {{$w_box}};">
 <!--	<div class="card" style="width: 40rem;">-->
 		<?php foreach ($list as $sales => $d) { ?>
 			<?php foreach ($d as $id => $row) { ?>
@@ -262,6 +265,7 @@
 						<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo str_replace('　', '', $row->customer_name); ?></div>
 
 						<!-- 操作ボタン等 表示エリア -->
+						@if ($cur_user->roles[0] == 'administrator')
 						@if ($row->class != 7)
 							@if ($row->lot_fg == 0)
 								@if (isset($row->base_sales))
@@ -340,6 +344,7 @@
 							@else
 								<a href="#" class="btn btn-danger text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">&emsp;完了&emsp;</a>
 							@endif
+						@endif
 						@endif
 					</div>
 				<?php }	?>
@@ -470,9 +475,10 @@ function to_lot_regist(sales = null, goods = null) {
 	window.location = '/wp-admin/admin.php?page=lot-regist&s[sdt]=' + sdt + '&sales=' + sales + '&goods=' + goods + '&action=save';
 }
 </script>
-<?php	function innerTableFixed($delivery_dt, $list, $class, $carsTank = null, $initForm = null) { ?>
+<?php	function innerTableFixed($delivery_dt, $list, $class, $carsTank = null, $initForm = null, $cur_user = null) { ?>
 	<?php $oid = sprintf("%s%02d%02d", str_replace('-', '', $delivery_dt), $class, $carsTank); // echo $oid; ?>
 
+	<?php if ($cur_user->roles[0] == 'administrator') { // 管理者以外非表示 START ?>
 		<div style="width: 40rem;" id="app1" class="container">
 			<div class="d-flex flex-row bd-highlight mb-3">
 
@@ -544,6 +550,7 @@ function to_lot_regist(sales = null, goods = null) {
 				<a href="#" class="btn btn-primary text-center" onClick="setResult(<?php echo $oid; ?>);">入力</a>
 			</div>
 		</div>
+	<?php	} // 管理者以外非表示 END ?>
 <?php	}	?>
 
 <script>
@@ -663,58 +670,58 @@ function setResult(oid) {
 
 						<!-- 6t 0 -->
 						@if ($cur_user->roles[0] != 'subscriber')
-						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 1, $initForm); @endphp
+						<td class="" colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 1, $initForm, $cur_user); @endphp
 						</td>
 						@endif
 
 						<!-- 6t 1 -->
-						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 1, 1); @endphp
+						<td class="" colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 1, 1, $initForm, $cur_user); @endphp
 						</td>
 
 						<!-- 6t 2 -->
-						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 2, 1); @endphp
+						<td class="" colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 2, 1, $initForm, $cur_user); @endphp
 						</td>
 
 						<!-- 6t 3 -->
-						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 3, 1); @endphp
+						<td class="" colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 3, 1, $initForm, $cur_user); @endphp
 						</td>
 
 						<!-- 6t 4 -->
-						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 4, 1); @endphp
+						<td class="" colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 4, 1, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 5 -->
-						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 5, 1); @endphp
+						<td class="" colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 5, 1, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 6 -->
 						@if ($cur_user->roles[0] == 'administrator')
-						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 6, 1); @endphp
+						<td class="" colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 6, 1, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 7 -->
-						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 7, 1); @endphp
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 1); @endphp
+						<td class="" colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 7, 1, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 1, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 8 -->
-						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 8, 1, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 8, 1, $initForm); @endphp
+						<td class="" colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 8, 1, $initForm, $cur_user); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, 1, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 9 -->
-						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 9, 1, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 9, 1, $initForm); @endphp
+						<td class="" colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 9, 1, $initForm, $cur_user); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, 1, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 10 -->
-						<td class="" colspan="6">
-							@php innerTable($delivery_dt, $list, 10, 1, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 10, 1, $initForm); @endphp
+						<td class="" colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 10, 1, $initForm, $cur_user); @endphp
+							@php innerTableFixed($delivery_dt, $list, 10, 1, $initForm, $cur_user); @endphp
 						</td>
 						@endif
 					</tr>
@@ -725,58 +732,58 @@ function setResult(oid) {
 
 						<!-- 6t 0 -->
 						@if ($cur_user->roles[0] != 'subscriber')
-						<td colspan="6">
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 2); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 2, $initForm, $cur_user); @endphp
 						</td>
 						@endif
 
 						<!-- 6t 1 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 1, 2); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 1, 2, $initForm, $cur_user); @endphp
 						</td>
 
 						<!-- 6t 2 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 2, 2); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 2, 2, $initForm, $cur_user); @endphp
 						</td>
 
 						<!-- 6t 3 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 3, 2); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 3, 2, $initForm, $cur_user); @endphp
 						</td>
 
 						<!-- 6t 4 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 4, 2); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 4, 2, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 5 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 5, 2); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 5, 2, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 6 -->
 						@if ($cur_user->roles[0] == 'administrator')
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 6, 2); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 6, 2, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 7 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 7, 2); @endphp
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 2); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 7, 2, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 2, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 8 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 8, 2, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 8, 2, $initForm); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 8, 2, $initForm, $cur_user); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, 2, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 9 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 9, 2, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 9, 2, $initForm); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 9, 2, $initForm, $cur_user); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, 2, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 10 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 10, 2, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 10, 2, $initForm); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 10, 2, $initForm, $cur_user); @endphp
+							@php innerTableFixed($delivery_dt, $list, 10, 2, $initForm, $cur_user); @endphp
 						</td>
 						@endif
 					</tr>
@@ -787,58 +794,58 @@ function setResult(oid) {
 
 						<!-- 6t 0 -->
 						@if ($cur_user->roles[0] != 'subscriber')
-						<td colspan="6">
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 3); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 3, $initForm, $cur_user); @endphp
 						</td>
 						@endif
 
 						<!-- 6t 1 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 1, 3); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 1, 3, $initForm, $cur_user); @endphp
 						</td>
 
 						<!-- 6t 2 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 2, 3); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 2, 3, $initForm, $cur_user); @endphp
 						</td>
 
 						<!-- 6t 3 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 3, 3); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 3, 3, $initForm, $cur_user); @endphp
 						</td>
 
 						<!-- 6t 4 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 4, 3); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 4, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 5 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 5, 3); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 5, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 6 -->
 						@if ($cur_user->roles[0] == 'administrator')
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 6, 3); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 6, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 7 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 7, 3); @endphp
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 3); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 7, 3, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 8 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 8, 3, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 8, 3, $initForm); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 8, 3, $initForm, $cur_user); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 9 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 9, 3, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 9, 3, $initForm); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 9, 3, $initForm, $cur_user); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 10 -->
-						<td colspan="6">
-							@php innerTable($delivery_dt, $list, 10, 3, $initForm); @endphp
-							@php innerTableFixed($delivery_dt, $list, 10, 3, $initForm); @endphp
+						<td colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $list, 10, 3, $initForm, $cur_user); @endphp
+							@php innerTableFixed($delivery_dt, $list, 10, 3, $initForm, $cur_user); @endphp
 						</td>
 						@endif
 					</tr>
