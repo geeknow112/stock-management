@@ -479,6 +479,15 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 
 		if (!empty($get->s['arrival_s_dt']) && !empty($get->s['arrival_e_dt'])) {
 			switch($post->cmd) {
+				case 'regist':
+					// salesテーブルへ登録のための成形
+					$this->convertSalesData($post);
+
+					// salesテーブルへ更新
+					$rows = $this->getTb()->updDetail($get, $post);
+// $this->vd($post);
+// $this->vd($rows);exit;
+
 				case 'search':
 				default:
 					// 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
@@ -555,91 +564,6 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 
 								$rows = (object) $rr_sort;
 								break;
-
-							case 'one':
-								// 未確定注文の1日分を生成
-								$repeat_list = $repeats[$get->s['sdt']];
-
-								// arrival_dtを初期化
-								foreach ($repeat_list as $sales => $d) {
-									current($d)->arrival_dt = $get->s['arrival_s_dt'];
-								}
-
-								// $repeat_list を $rows の形式に変換
-								foreach ($repeat_list as $sales => $d) {
-									$rep = current($d);
-									$r_rows[] = $this->setRepeatRow($rep); // 表示形式に変換
-								}
-
-								// 検索条件の対応
-								$r_rows = $this->setSearchRuleForRepeat($get, $r_rows);
-
-								// 確定した注文の1日分を取得
-								$ret = $this->getTb()->getListByArrivalDt($get, $post);
-
-								// 確定注文と、未確定注文のマージ
-								$rows = (object) array_merge((array) $ret, (array) $r_rows); // object merge
-								break;
-
-							case 'ten':
-								// 未確定注文の10日分を生成
-								$repeat_list = $repeats;
-
-								// arrival_dtを初期化
-	/*
-								foreach ($repeat_list as $arrival_dt => $list) {
-									foreach ($list as $sales => $d) {
-										current($d)->arrival_dt = $arrival_dt;
-									}
-								}
-	*/
-								// $repeat_list を $rows の形式に変換
-								foreach ($repeat_list as $arrival_dt => $list) {
-									foreach ($list as $sales => $d) {
-										$rep = current($d);
-
-										// 検索条件：「品名」の対応
-										if (!empty($get->s['goods_name'])) { 
-											if (preg_match('/^'. $get->s['goods_name']. '/', $rep->goods_name)) {
-												$r_rows[] = $this->setRepeatRow($rep); // 表示形式に変換
-											}
-										} else {
-											$r_rows[] = $this->setRepeatRow($rep); // 表示形式に変換
-										}
-									}
-								}
-
-								// 検索条件の対応
-								$r_rows = $this->setSearchRuleForRepeat($get, $r_rows);
-
-								// 確定した注文の10日分を取得
-								$edt = new DateTime($get->s['arrival_s_dt']);
-								$edt->modify('+10 day');
-								$get->s['arrival_e_dt'] = $edt->format('Y-m-d'); // 確定した注文10日分取得用に「入庫予定日」の範囲終了日を生成
-								$ret = $this->getTb()->getListByArrivalDt($get, $post, true);
-
-								// 確定注文と、未確定注文のマージ
-								$rows = (object) array_merge((array) $ret, (array) $r_rows); // object merge
-
-								// arrival_dtでソート
-								$sort_data = $rows;
-								foreach ($sort_data as $i => $d) {
-									$r_sort[$d->arrival_dt][] = $d;
-								}
-
-								if (!empty($r_sort)) {
-									ksort($r_sort);
-								}
-
-								foreach ($r_sort as $arrival_dt => $list) {
-									foreach ($list as $j => $d) {
-										$rr_sort[] = $d;
-									}
-								}
-								//$this->vd($rr_sort);
-
-								$rows = (object) $rr_sort;
-								break;
 						}
 //$this->vd($rows);
 //$this->vd($repeat_list);
@@ -666,6 +590,27 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 				$formPage = 'stock-list';
 				echo $this->get_blade()->run("stock-receive", compact('rows', 'get', 'post', 'formPage', 'initForm', 'detail', 'sum_list', 'total'));
 		}
+	}
+
+	/**
+	 * salesテーブルへ登録のための成形
+	 * 
+	 **/
+	private function convertSalesData($post = null) {
+		$r_order = array();
+		foreach ($post->r_order as $i => $oid) {
+			if (!empty($oid)) {
+				$r_order = explode('_', $oid);
+			} else {
+				unset($post->r_order[$i]);
+			}
+		}
+		$adt = $r_order[5];
+		$arrival_dt = substr($ddt, 0, 4). '-'. substr($ddt, 4, 2). '-'. substr($ddt, 6, 2);
+		$post->arrival_dt = (empty($post->change_arrival_dt)) ? $arrival_dt : $post->change_arrival_dt;
+		$post->goods = $r_order[3];
+		$post->repeat_fg = $r_order[4];
+		$post->sales = $r_order[2];
 	}
 
 	/**
