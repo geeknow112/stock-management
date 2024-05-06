@@ -114,7 +114,7 @@
 									<td class="">&emsp;</td>
 									<td class="table-light tx-center">　<b>- 顧客：</b>( {{$d->customer_name}} )：@if ($d->tank) {{$d->tank}} @endif</td>
 									<td class="table-info tx-right">{{number_format($d->qty,1)}}</td>
-									<td class="tx-right">
+									<td class="tx-right @if ($d->remark) table-info @endif">
 <!--										<input type="checkbox" class="btn-check" id="check-reservation_{{$d->sales}}" autocomplete="on"><label class="btn btn-outline-primary" onclick="switch_reservation({{$d->sales}});">入庫予約済</label>-->
 <!-- 入庫予約確認用 -->
 							<?php
@@ -124,7 +124,7 @@
 										<input type="date" class="col-sm-6 col-form-control w-auto" id="change_arrival_dt_{{$oid}}" name="" value="{{$d->arrival_dt}}">
 										<input type="button" class="btn btn-primary text-center" value="確定" onclick=" decide_receive_order('{{$oid}}');">
 									</td>
-									<td class=""></td>
+									<td class="@if ($d->remark) table-info @endif"></td>
 								</tr>
 								@endforeach
 							@endforeach
