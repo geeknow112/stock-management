@@ -51,13 +51,15 @@
 					<span><a href="#car_model_5"><input type="button" class="btn btn-info" value="⑤"></a><span>
 					&emsp;
 
+					@if ($cur_user->roles[0] == 'administrator')
 					<span><a href="#car_model_6"><input type="button" class="btn btn-primary" value="⑥"></a><span>
 					&emsp;
 
 					<span><a href="#input_result"><input type="button" class="btn btn-primary" value="結果入力欄"></a><span>
-
 					&emsp;
+
 					<span><a href="#input_result_end" name="input_result_end"><input type="button" class="btn btn-info" value=">>"></a><span>
+					@endif
 
 				</span>
 				<span class="sp"><br /></br /></span>
