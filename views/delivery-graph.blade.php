@@ -257,7 +257,7 @@
 							@if ($row->delivery_dt <= $row->arrival_dt)
 								<div class="text-wrap text-center inner_box bg-danger text-light" style="width: 7.5rem;"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
 							@else
-								<div class="text-wrap text-center inner_box" style="width: 7.5rem;"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
+								<div class="text-wrap text-center inner_box @if ($row->remark) bg-info @endif" style="width: 7.5rem;"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
 							@endif
 						@else
 							<div class="text-wrap text-center inner_box" style="width: 7.5rem;">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</div>
