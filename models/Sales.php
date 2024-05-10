@@ -862,6 +862,7 @@ $dt = new DateTime($sdt. ' +1 days');
 				}
 
 				if (!empty($get->s['customer_name'])) { $sql .= sprintf("AND c.name LIKE '%s%s' ", $get->s['customer_name'], '%'); }
+				if (!empty($get->s['tank'])) { $sql .= sprintf("AND cd.tank LIKE '%s%s' ", $get->s['tank'], '%'); }
 				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
 
 				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", $get->s['outgoing_warehouse']); }
