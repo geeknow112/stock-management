@@ -51,10 +51,10 @@
 					<span><a href="#car_model_5"><input type="button" class="btn btn-info" value="⑤"></a><span>
 					&emsp;
 
-					@if ($cur_user->roles[0] == 'administrator')
 					<span><a href="#car_model_6"><input type="button" class="btn btn-primary" value="⑥"></a><span>
 					&emsp;
 
+					@if ($cur_user->roles[0] == 'administrator')
 					<span><a href="#input_result"><input type="button" class="btn btn-primary" value="結果入力欄"></a><span>
 					&emsp;
 
@@ -134,8 +134,8 @@
 						<th class="" colspan="{{$colspan}}" id="car_model_3">6t ③</th>
 						<th class="" colspan="{{$colspan}}" id="car_model_4">6t ④</th>
 						<th class="" colspan="{{$colspan}}" id="car_model_5">6t ⑤</th>
-						@if ($cur_user->roles[0] == 'administrator')
 						<th class="" colspan="{{$colspan}}" id="car_model_6">6t ⑥</th>
+						@if ($cur_user->roles[0] == 'administrator')
 						<th class="" colspan="{{$colspan}}">6t ⑦ (山忠商事(直取) 専用：繰り返し注文表示欄)</th>
 						<th class="" colspan="{{$colspan}}" id="input_result">6t ⑧ (太田畜産 専用：結果入力欄)</th>
 						<th class="" colspan="{{$colspan}}">7.5t ⑨ (村上畜産 専用：結果入力欄)</th>
@@ -152,25 +152,30 @@
 								@php continue; @endphp
 							@endif
 
-							@if ($cur_user->roles[0] == 'editor' && $i < 5)
+							@if ($cur_user->roles[0] == 'editor' && $i < 4)
 								@php continue; @endphp
 							@endif
 
 							@if ($cur_user->roles[0] == 'subscriber' && $i <= 5)
 								@php continue; @endphp
 							@endif
+
 						<th class="" style="width: 7rem;">品名</th>
 						<th class="" style="width: 3rem;">量(t)</th>
 						<th class="" style="width: 7rem;">配送先</th>
+
 							@if ($i != 8 && $i != 9 && $i != 10)
 						<th class="" style="width: 5rem;">入庫予定日</th>
 							@else
 						<th class="" style="width: 5rem;">出庫倉庫</th>
 							@endif
+
 						<th class="" style="width: 5rem;">氏名</th>
+
 							@if ($cur_user->roles[0] == 'administrator')
 						<th class="" style="width: 5rem;">確認</th>
 							@endif
+
 						@endfor
 					</tr>
 				</thead>
@@ -701,11 +706,11 @@ function setResult(oid) {
 							@php innerTable($delivery_dt, $list, 5, 1, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 6 -->
-						@if ($cur_user->roles[0] == 'administrator')
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 6, 1, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 7 -->
+						@if ($cur_user->roles[0] == 'administrator')
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 7, 1, $initForm, $cur_user); @endphp
 							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 1, $initForm, $cur_user); @endphp
@@ -763,11 +768,11 @@ function setResult(oid) {
 							@php innerTable($delivery_dt, $list, 5, 2, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 6 -->
-						@if ($cur_user->roles[0] == 'administrator')
 						<td colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 6, 2, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 7 -->
+						@if ($cur_user->roles[0] == 'administrator')
 						<td colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 7, 2, $initForm, $cur_user); @endphp
 							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 2, $initForm, $cur_user); @endphp
@@ -825,11 +830,11 @@ function setResult(oid) {
 							@php innerTable($delivery_dt, $list, 5, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 6 -->
-						@if ($cur_user->roles[0] == 'administrator')
 						<td colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 6, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 7 -->
+						@if ($cur_user->roles[0] == 'administrator')
 						<td colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 7, 3, $initForm, $cur_user); @endphp
 							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 3, $initForm, $cur_user); @endphp
