@@ -147,7 +147,7 @@ window.onload = function () {
 	const className = 'detail';
 	const targets = document.getElementsByClassName(className);
 	Array.from(targets).forEach(target => {
-		if (target.style.display == "none") {
+		if (target.style.display != "none") {
 			target.style.display = "";
 		} else {
 			target.style.display = "none";
