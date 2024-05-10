@@ -32,6 +32,9 @@
 				<label for="customer_name" class="col-sm-2 col-form-label">顧客名：</label>
 					<input type="search" id="customer_name" name="s[customer_name]" value="{{$get->s['customer_name']}}"><br /><br />
 
+				<label for="tank" class="col-sm-2 col-form-label">配送先：</label>
+					<input type="search" id="customer_name" name="s[tank]" value="{{$get->s['tank']}}"><br /><br />
+
 				<label for="goods_name" class="col-sm-2 col-form-label">品名：</label>
 					<input type="search" id="goods_name" name="s[goods_name]" value="{{$get->s['goods_name']}}"><br /><br />
 

@@ -650,6 +650,13 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 				}
 			}
 
+			// 「配送先」
+			if (!empty($get->s['tank'])) { 
+				if (!preg_match('/^'. $get->s['tank']. '/', $d->tank)) {
+					unset($r_rows[$i]);
+				}
+			}
+
 			// 「品名」
 			if (!empty($get->s['goods_name'])) { 
 				if (!preg_match('/^'. $get->s['goods_name']. '/', $d->goods_name)) {
