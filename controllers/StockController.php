@@ -525,6 +525,9 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 									foreach ($list as $sales => $d) {
 										$rep = current($d);
 
+										// 繰り返し用に「配送先」を取得 ($ScheduleRepeat->getListで取得すると、JOINが増えSQLが複雑化するためここで取得する。)
+										$rep->tank = $this->getTb()->getTankByCustomerAndShipAddr($rep->customer, $rep->ship_addr);
+
 										// 検索条件：「品名」の対応
 										if (!empty($get->s['goods_name'])) { 
 											if (preg_match('/^'. $get->s['goods_name']. '/', $rep->goods_name)) {
@@ -629,6 +632,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 			'customer_name' => $rep->customer_name, 
 			'repeat' => $rep->repeat, 
 			'repeat_fg' => $rep->repeat_fg, 
+			'tank' => $rep->tank, 
 		);
 	}
 
