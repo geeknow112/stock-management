@@ -1018,6 +1018,25 @@ $dt = new DateTime($sdt. ' +1 days');
 	}
 
 	/**
+	 * 「配送先」の取得
+	 * @sales
+	 **/
+	public function getTankByCustomerAndShipAddr($customer = null, $ship_addr = null) {
+		global $wpdb;
+
+		$sql  = "SELECT cd.tank ";
+		$sql .= "FROM yc_customer_detail AS cd ";
+		$sql .= "WHERE cd.customer is not null ";
+		$sql .= "AND cd.customer = '". $customer. "' ";
+		$sql .= "AND cd.detail = '". $ship_addr. "' ";
+		$sql .= ";";
+
+//$this->vd($sql);exit;
+		$rows = $wpdb->get_results($sql);
+		return current($rows)->tank;
+	}
+
+	/**
 	 * 
 	 **/
 	public function getInitForm() {
