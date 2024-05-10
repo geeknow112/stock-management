@@ -530,7 +530,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 
 										// 検索条件：「品名」の対応
 										if (!empty($get->s['goods_name'])) { 
-											if (preg_match('/^'. $get->s['goods_name']. '/', $rep->goods_name)) {
+											if (preg_match('/.*'. $get->s['goods_name']. '.*/', $rep->goods_name)) {
 												$r_rows[] = $this->setRepeatRow($rep); // 表示形式に変換
 											}
 										} else {
@@ -645,21 +645,21 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 		foreach ($r_rows as $i => $d) {
 			// 「顧客名」
 			if (!empty($get->s['customer_name'])) { 
-				if (!preg_match('/^'. $get->s['customer_name']. '/', $d->customer_name)) {
+				if (!preg_match('/^.*'. $get->s['customer_name']. '.*/', $d->customer_name)) {
 					unset($r_rows[$i]);
 				}
 			}
 
 			// 「配送先」
 			if (!empty($get->s['tank'])) { 
-				if (!preg_match('/^'. $get->s['tank']. '/', $d->tank)) {
+				if (!preg_match('/^.*'. $get->s['tank']. '.*/', $d->tank)) {
 					unset($r_rows[$i]);
 				}
 			}
 
 			// 「品名」
 			if (!empty($get->s['goods_name'])) { 
-				if (!preg_match('/^'. $get->s['goods_name']. '/', $d->goods_name)) {
+				if (!preg_match('/.*'. $get->s['goods_name']. '.*/', $d->goods_name)) {
 					unset($r_rows[$i]);
 				}
 			}
