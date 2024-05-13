@@ -117,7 +117,7 @@
 									<td class="">&emsp;</td>
 									<td class="table-light tx-center">　<b>- 顧客：</b>( {{$d->customer_name}} )：@if ($d->tank) {{$d->tank}} @endif</td>
 									<td class="table-info tx-right">{{number_format($d->qty,1)}}</td>
-									<td class="tx-right @if ($d->remark) table-info @endif">
+									<td class="tx-right @if ($d->remark && !$d->use_stock) table-info @elseif ($d->use_stock) table-success @endif">
 <!--										<input type="checkbox" class="btn-check" id="check-reservation_{{$d->sales}}" autocomplete="on"><label class="btn btn-outline-primary" onclick="switch_reservation({{$d->sales}});">入庫予約済</label>-->
 <!-- 入庫予約確認用 -->
 							<?php
@@ -127,7 +127,11 @@
 										<input type="date" class="col-sm-6 col-form-control w-auto" id="change_arrival_dt_{{$oid}}" name="" value="{{$d->arrival_dt}}">
 										<input type="button" class="btn btn-primary text-center" value="確定" onclick=" decide_receive_order('{{$oid}}');">
 									</td>
-									<td class="@if ($d->remark) table-info @endif"></td>
+									<td class="tx-right @if ($d->remark && !$d->use_stock) table-info @elseif ($d->use_stock) table-success @endif">
+										<input type="checkbox" class="btn-check" id="use_stock_{{$oid}}" name="use_stock" autocomplete="off" onchange="check_use_stock('{{$oid}}');">
+										<label class="btn btn-outline-primary text-center" for="use_stock_{{$oid}}">在庫から配送</label>
+										<input type="button" class="btn btn-success text-right" value="確定" onclick=" decide_stock_order('{{$oid}}');">
+									</td>
 								</tr>
 								@endforeach
 							@endforeach
@@ -140,7 +144,7 @@
 
 <script>
 /**
- * 初期状態: 非表示
+ * 初期状態: 表示
  * 
  **/
 window.onload = function () {
@@ -221,6 +225,39 @@ console.log(arrival_dt);
 
 		document.forms.cmd.value = 'regist';
 		document.forms.submit();
+	}
+}
+
+/**
+ * 「在庫から配送」チェックボックス切替
+ * 
+ **/
+function check_use_stock(oid) {
+	var use_stock = 'use_stock_' + oid;
+	if (document.getElementById(use_stock).checked) {
+		document.getElementById(use_stock).value = 1; // true
+	}
+}
+
+/**
+ * [在庫から配送]チェック後、[確定]ボタン押下時の処理
+ * 
+ **/
+function decide_stock_order(oid) {
+	var r_order_id = 'r_order_' + oid;
+	var use_stock = 'use_stock_' + oid;
+	console.log(use_stock);
+
+	if (document.getElementById(use_stock).checked) {
+		if (window.confirm('「在庫から配送」 で確定しますか？')) {
+			document.forms.method = 'post';
+			document.forms.action.value = 'regist';
+			//document.forms.oid.value = '1';
+			document.getElementById(r_order_id).value = r_order_id;
+			document.forms.use_stock.value = true;
+			document.forms.cmd.value = 'decide_use_stock';
+			document.forms.submit();
+		}
 	}
 }
 </script>

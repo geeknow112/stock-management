@@ -390,7 +390,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		global $wpdb;
 
 		// checkboxの初期化
-		$post->use_stock = ($post->use_stock == 'on') ? 1 : 0;
+		$post->use_stock = ($post->use_stock == 'on' || $post->use_stock == 1) ? 1 : 0;
 //		$post->repeat_fg = ($post->repeat_fg == 'on') ? 1 : 0;
 		$post->repeat_fg = ($post->repeat_fg) ? $post->repeat_fg : 0; // checkboxのvalueがfalseだとパラメータが取れないため初期化
 
@@ -836,7 +836,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.sales, s.goods, g.name AS goods_name, s.arrival_dt, s.customer AS customer, s.qty, s.outgoing_warehouse, s.repeat_fg, s.remark, c.name AS customer_name, s.ship_addr, cd.tank ";
+		$sql  = "SELECT s.sales, s.goods, g.name AS goods_name, s.arrival_dt, s.customer AS customer, s.qty, s.outgoing_warehouse, s.repeat_fg, s.remark, c.name AS customer_name, s.ship_addr, cd.tank, s.use_stock ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
 		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";

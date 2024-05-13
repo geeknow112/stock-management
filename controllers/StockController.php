@@ -488,6 +488,15 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 // $this->vd($post);
 // $this->vd($rows);exit;
 
+				case 'decide_use_stock' :
+					// salesテーブルへ登録のための成形
+					$this->convertSalesData($post);
+
+					// salesテーブルへ更新
+					$rows = $this->getTb()->updDetail($get, $post);
+//$this->vd($post);
+// $this->vd($rows);exit;
+
 				case 'search':
 				default:
 					// 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
@@ -609,12 +618,12 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 			}
 		}
 		$adt = $r_order[5];
-		$arrival_dt = substr($ddt, 0, 4). '-'. substr($ddt, 4, 2). '-'. substr($ddt, 6, 2);
+		$arrival_dt = substr($adt, 0, 4). '-'. substr($adt, 4, 2). '-'. substr($adt, 6, 2);
 		$post->arrival_dt = (empty($post->change_arrival_dt)) ? $arrival_dt : $post->change_arrival_dt;
 		$post->goods = $r_order[3];
 		$post->repeat_fg = $r_order[4];
 		$post->sales = $r_order[2];
-		$post->remark = 'reserve_fg';
+		$post->remark = ($post->use_stock == 1) ? '' : 'reserve_fg'; // 入庫 or 在庫 の切替のため
 	}
 
 	/**
