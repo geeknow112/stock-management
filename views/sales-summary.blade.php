@@ -58,19 +58,21 @@
 		<!-- start -->
 		<div class="table-responsive">
 			<div class="title-box">■ ※<!--①～⑥、⑧、⑨ （※配送予定表の①～⑥、⑧、⑨を集計します。）--></div>
-			@if (isset($rows) && count($rows))
-			<table class="table table-bordered text-nowrap">
-				<!-- thead -->
-				<tr class="table-light">
-					<th class="">No.</th>
-					<th class="">品名</th>
-					<th class="">容量</th>
-					<th class="">量目(t)</th>
-					<th class="">出庫倉庫</th>
-					<th class="">備考</th>
-					<th class="">配送先</th>
-				</tr>
 
+			<table class="table table-bordered text-nowrap">
+				<thead class="table-light">
+					<tr class="table-light">
+						<th class="">No.</th>
+						<th class="">品名</th>
+						<th class="">容量</th>
+						<th class="">量目(t)</th>
+						<th class="">出庫倉庫</th>
+						<th class="">備考</th>
+						<th class="">配送先</th>
+					</tr>
+				</thead>
+
+				@if (isset($rows) && count($rows))
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($rows as $i => $row)
 					<tr id="">
@@ -85,26 +87,32 @@
 					@endforeach
 				</tbody>
 
-				<!-- tfoot -->
-				<tr>
-					<th class="">&emsp;</th>
-					<th class="">&emsp;</th>
-					<th class="">&emsp;</th>
-					<th class="">&emsp;</th>
-					<th class="">&emsp;</th>
-					<th class="">&emsp;</th>
-					<th class="">&emsp;</th>
-				</tr>
-				<tr>
-					<th class="table-light tx-right" colspan="3">合計</th>
-					<td class="tx-right">{{number_format($total,1)}}</td>
-					<th class="">&emsp;</th>
-					<th class="">&emsp;</th>
-					<th class="">&emsp;</th>
-				</tr>
-
+				<tfoot>
+					<tr>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+					</tr>
+					<tr>
+						<th class="table-light tx-right" colspan="3">合計</th>
+						<td class="tx-right">{{number_format($total,1)}}</td>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+						<th class="">&emsp;</th>
+					</tr>
+				</tfoot>
+				@else
+				<tbody id="the-list" data-wp-lists="list:user">
+					<tr>
+						<td class="colspanchange" colspan="7">検索対象は見つかりませんでした。</td>
+					</tr>
+				</tbody>
+				@endif
 			</table>
-			@endif
 		</div>
 		<!-- end -->
 	</div>
