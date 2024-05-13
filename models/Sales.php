@@ -995,7 +995,10 @@ $dt = new DateTime($sdt. ' +1 days');
 		} else {
 			if ($get->action == 'search') {
 				if (!empty($get->s['customer_name'])) { $sql .= sprintf("AND c.name LIKE '%s%s%s' ", '%', $get->s['customer_name'], '%'); }
-				if (!empty($get->s['tank'])) { $sql .= sprintf("AND cd.tank LIKE '%s%s%s' ", '%', $get->s['tank'], '%'); }
+				if (!empty($get->s['tank'])) {
+					$like = '%'. $get->s['tank']. '%';
+					$sql .= sprintf("AND (cd.tank LIKE '%s' OR s.field1 LIKE '%s') ", $like, $like);
+				}
 				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s%s' ", '%', $get->s['goods_name'], '%'); }
 
 				if (!empty($get->s['delivery_s_dt'])) { $sql .= sprintf("AND s.delivery_dt >= '%s' ", $get->s['delivery_s_dt']); }
