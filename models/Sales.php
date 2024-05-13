@@ -977,7 +977,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
-		$sql  = "SELECT s.goods, g.name AS goods_name, s.arrival_dt, s.customer AS customer, s.qty, s.outgoing_warehouse, c.name AS customer_name, s.ship_addr, cd.tank, SUM(s.qty) AS sum_qty, s.field1 AS result_ship_addr ";
+		$sql  = "SELECT s.goods, g.name AS goods_name, s.arrival_dt, s.customer AS customer, s.qty, s.outgoing_warehouse, c.name AS customer_name, s.ship_addr, cd.tank, s.field1 AS result_ship_addr ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
 		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
@@ -1010,11 +1010,15 @@ $dt = new DateTime($sdt. ' +1 days');
 			}
 		}
 
-		$sql .= "GROUP BY c.customer, g.goods, s.outgoing_warehouse";
-		$sql .= ";";
+//		$sql .= "GROUP BY c.customer, g.goods, s.outgoing_warehouse";
+//		$sql .= ";";
 
-//$this->vd($sql);
-		$rows = $wpdb->get_results($sql);
+		$pre_sql  = "SELECT t.customer, t.customer_name, t.goods, t.goods_name, t.ship_addr, t.tank, t.result_ship_addr, t.outgoing_warehouse, SUM(t.qty) AS sum_qty FROM (";
+		$post_sql .= ") AS t GROUP BY t.customer, t.goods, t.ship_addr, t.outgoing_warehouse";
+
+		$w_sql = $pre_sql. $sql. $post_sql;
+//$this->vd($w_sql);
+		$rows = $wpdb->get_results($w_sql);
 		return $rows;
 	}
 
