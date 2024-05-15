@@ -3,7 +3,7 @@
 
 <div id="wpbody-content">
 	<div class="wrap">
-		<h1 class="wp-heading-inline">【配送予定表③】</h1>
+		<h1 class="wp-heading-inline">【配送予定表】</h1>
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page={{$formPage}}&action=regist" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page=agreement" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
 
@@ -90,6 +90,7 @@
 			<input type="hidden" name="sales" value="">
 			<input type="hidden" name="base_sales" value="">
 			<input type="hidden" name="repeat_fg" value="">
+			<input type="hidden" name="use_stock" value="">
 
 			<input type="hidden" name="oid" value="">
 			<input type="hidden" name="odata" value="">
@@ -262,7 +263,7 @@
 							@if ($row->delivery_dt <= $row->arrival_dt)
 								<div class="text-wrap text-center inner_box bg-danger text-light" style="width: 7.5rem;"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
 							@else
-								<div class="text-wrap text-center inner_box @if ($row->remark && !$row->use_stock) bg-info text-light @elseif ($row->use_stock) bg-success text-light @endif" style="width: 7.5rem;"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
+								<div class="text-wrap text-center inner_box @if ($row->remark && !$row->use_stock) bg-info text-light @elseif ($row->use_stock) bg-success text-light @endif" style="width: 7.5rem;">@if (!$row->use_stock)<?php echo date('m/d', strtotime($row->arrival_dt)); ?>@endif</div>
 							@endif
 						@else
 							<div class="text-wrap text-center inner_box" style="width: 7.5rem;">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</div>
@@ -315,7 +316,7 @@
 							<a href="#" class="btn btn-warning text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">未登録</a>
 							@else
 								@if ($row->receipt_fg != 1)
-									<a href="#" class="btn btn-success text-center" onclick="check_status({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}});">登録済</a>
+									<a href="#" class="btn btn-success text-center" onclick="check_status({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}});">登録済</a>
 									<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="on"><label class="btn btn-outline-primary" onclick="switch_receipt({{$row->sales}});">受領書</label><!-- 受領書の受取確認用 -->
 <!--									<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="off"><label class="btn btn-outline-primary" for="check-receipt_{{$row->sales}}">受領書</label>--><!-- 受領書の受取確認用 -->
 								@else
@@ -441,7 +442,7 @@ console.log(oid);
  * 受領書受取の確認
  * 
  **/
-function check_status(sales = null, goods = null, repeat_fg = null) {
+function check_status(sales = null, goods = null, repeat_fg = null, use_stock = null) {
 	const rec = document.getElementById('check-receipt_' + sales).checked;
 	console.log(rec);
 	if (rec == true) {
@@ -450,6 +451,7 @@ function check_status(sales = null, goods = null, repeat_fg = null) {
 			document.forms.action.value = 'set_receipt';
 			document.forms.sales.value = sales;
 			document.forms.repeat_fg.value = repeat_fg;
+			document.forms.use_stock.value = use_stock;
 			document.forms.submit();
 		}
 	} else {

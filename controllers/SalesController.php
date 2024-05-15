@@ -357,6 +357,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				$data['sales'] = $post->sales;
 				$data['repeat_fg'] = $post->repeat_fg; // repeat_fg‚ğupdDetail‚Å‰Šú‰»‚³‚¹‚È‚¢‚½‚ß
 				$data['receipt_fg'] = true;
+				$data['use_stock'] = $post->use_stock;
 				(object) $data;
 				$result = $this->getTb()->updDetail($get, $data);
 				break;
