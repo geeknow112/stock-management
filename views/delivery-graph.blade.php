@@ -318,7 +318,7 @@
 
 	<!--							<a href="" class="btn btn-secondary text-center" onClick="window.prompt('車種、槽を入力してください。', ''); return false;">未注文</a>	-->
 								@else
-								<a href="#" class="btn btn-secondary text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">未作成</a>
+								<a href="#" class="btn btn-secondary text-center" onclick="confirm_make_lot_space({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}});">未作成</a>
 								@endif
 							@elseif ($row->lot_fg == 1)
 							<a href="#" class="btn text-center" id="btn_unregist" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">未登録</a>
@@ -480,6 +480,21 @@ function switch_receipt(sales) {
 		ret.checked = false;
 	} else {
 		ret.checked = true;
+	}
+}
+
+/**
+ * ロット登録欄作成のための確認
+ * 
+ **/
+function confirm_make_lot_space(sales = null, goods = null, repeat_fg = null, use_stock = null) {
+	if (window.confirm('ロット登録欄を作成しますか？')) {
+		document.forms.method = 'post';
+		document.forms.action.value = 'make_lot_space';
+		document.forms.sales.value = sales;
+		document.forms.repeat_fg.value = repeat_fg;
+		document.forms.use_stock.value = use_stock;
+		document.forms.submit();
 	}
 }
 

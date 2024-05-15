@@ -621,6 +621,68 @@ $dt = new DateTime($sdt. ' +1 days');
 	}
 
 	/**
+	 * ロット情報登録領域作成(個別)
+	 **/
+	public function makeLotSpaceSingle($get = null, $post = null) {
+		$post = (object) $post;
+		global $wpdb;
+
+		// 一括操作が「確定」以外の場合は処理終了
+		$exec_status = (int) array_search('確定', $this->getPartsStatus());
+		$curr_status = (int) $post->change_status;
+		if ($exec_status !== $curr_status) { return false; }
+
+		$sales = $post->sales;
+
+		$sql = sprintf("SELECT s.* FROM yc_sales as s WHERE s.sales = %s LIMIT 1;", $sales);
+		$sdata = current($wpdb->get_results($sql));
+
+		$count_sql = sprintf("SELECT count(*) as count FROM yc_goods_detail as gd WHERE gd.sales = %s AND gd.goods = %s LIMIT 1;", $sales, $sdata->goods);
+		$count = current($wpdb->get_results($count_sql));
+
+//$this->vd($post);
+//$this->vd($sql);
+//$this->vd($sdata);
+//$this->vd($count);exit;
+
+		//ロット登録領域の作成処理
+		if ($ret->count == 0) {
+			// 数量(t)/0.5(t)=レコード数
+			$loop = (float) $sdata->qty / 0.5;
+			for ($j=0; $j<$loop; $j++) {
+				$results[$sales][] = $wpdb->insert(
+					'yc_goods_detail', 
+					array(
+						'id' => NULL, 
+						'sales' => $sales, 
+						'goods' => $sdata->goods, 
+						'lot' => NULL, 
+						'tank' => NULL, 
+						'rgdt' => NULL, 
+						'updt' => NULL, 
+						'upuser' => NULL, 
+					),
+					array('%s', '%s', '%d', '%s')
+				);
+			}
+		}
+
+		// ロット登録領域を生成したら、yc_sales.lot_fgを変更する。(0:未作成 → 1:未登録)
+		if (!empty($results)) {
+			$upd_ret[$sales] = $wpdb->update(
+				$this->getTableName(), 
+				array(
+					'sales' => $sales,
+					'lot_fg' => array_search('未登録', $this->getPartsLotFg()),
+				), 
+				array('sales' => $sales)
+			);
+		}
+//$this->vd($upd_ret);
+		return true;
+	}
+
+	/**
 	 * ロットフラグの変更
 	 * 
 	 * yc_sales.lot_fg を変更する処理：
