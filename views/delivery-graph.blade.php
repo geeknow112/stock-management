@@ -12,11 +12,13 @@
 		<form name="forms" id="forms" action="" method="" enctype="multipart/form-data">
 {{--			@if ($tb->getCurUser()->roles[0] == 'administrator')	--}}
 
+			@if ($cur_user->roles[0] != 'subscriber')
 			<div class="message">
 				@foreach($msg as $k => $error)
 					<p>【 {{$k}} 】 {{$error}}</p>
 				@endforeach
 			</div>
+			@endif
 
 			<div class="search-box">
 				<label class="screen-reader-text" for="user-search-input">申込者を検索:</label>
@@ -33,8 +35,10 @@
 				<span class="pc">&emsp;&emsp;&emsp;&emsp;</span>
 				<span class="sp"><br /></br /></span>
 				<span id="jump_link">
+					@if ($cur_user->roles[0] != 'subscriber')
 					<span><a href="#table_top"><input type="button" class="btn btn-primary" value="⓪"></a><span>
 					&emsp;
+					@endif
 
 					<span><a href="#car_model_1"><input type="button" class="btn btn-info" value="①"></a><span>
 					&emsp;
