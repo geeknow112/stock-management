@@ -352,7 +352,20 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 		if (!isset($get->action) || $post->action == 'set_direct_delivery') { $get->action = $post->action; }
 
+		if (!isset($get->action) || $post->action == 'make_lot_space') { $get->action = $post->action; }
+
 		switch($get->action) {
+			case 'make_lot_space': // 「受領書」フラグの更新
+				$data['sales'] = $post->sales;
+				$data['repeat_fg'] = $post->repeat_fg; // repeat_fgをupdDetailで初期化させないため
+				$data['lot_fg'] = 1;
+				$data['status'] = $post->change_status = 1;
+				$data['use_stock'] = $post->use_stock;
+				(object) $data;
+//				$result = $this->getTb()->updDetail($get, $data);
+				$this->getTb()->makeLotSpaceSingle($get, $post);
+				break;
+
 			case 'set_receipt': // 「受領書」フラグの更新
 				$data['sales'] = $post->sales;
 				$data['repeat_fg'] = $post->repeat_fg; // repeat_fgをupdDetailで初期化させないため
