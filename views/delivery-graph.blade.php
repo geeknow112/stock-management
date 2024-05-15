@@ -201,7 +201,15 @@
 	}
 
 	.inner_box_repeat {
-		width: 8rem; background: #ff69b4; border-right: 1px solid #ffffff; color: #ffffff;
+		width: 8rem; background: #ffc107; border-right: 1px solid #ffffff; color: #ffffff;
+		font-size: 16px;
+	}
+
+	#btn_unregist {
+		width: 5.6rem; 
+		color: #fff;
+		background-color: #ff69b4;
+		border-color: #ff69b4;
 		font-size: 16px;
 	}
 
@@ -313,7 +321,7 @@
 								<a href="#" class="btn btn-secondary text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">未作成</a>
 								@endif
 							@elseif ($row->lot_fg == 1)
-							<a href="#" class="btn btn-warning text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">未登録</a>
+							<a href="#" class="btn text-center" id="btn_unregist" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">未登録</a>
 							@else
 								@if ($row->receipt_fg != 1)
 									<a href="#" class="btn btn-success text-center" onclick="check_status({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}});">登録済</a>
