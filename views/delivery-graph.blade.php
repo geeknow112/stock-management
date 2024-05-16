@@ -157,11 +157,11 @@
 								@php continue; @endphp
 							@endif
 
-							@if ($cur_user->roles[0] == 'editor' && $i < 5)
+							@if ($cur_user->roles[0] == 'editor' && $i < 4)
 								@php continue; @endphp
 							@endif
 
-							@if ($cur_user->roles[0] == 'subscriber' && $i <= 5)
+							@if ($cur_user->roles[0] == 'subscriber' && $i < 4)
 								@php continue; @endphp
 							@endif
 
