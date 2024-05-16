@@ -68,7 +68,7 @@ class StockManagement {
 
 			case 'editor':
 //				if (in_array($cur_user->user_login, array('admin', 'ceo', 'user'))) {
-				$this->pack_add_submenu_page();
+				$this->pack_add_submenu_page_for_editor();
 				$this->remove_menus();
 
 //				} else {
@@ -116,6 +116,35 @@ class StockManagement {
 //		add_submenu_page('stock-management', '日別商品集計','日別商品集計', 'read', 'sum-day-goods', array(&$this, 'sum_day_goods'));
 		add_submenu_page('stock-management', '在庫証明書','🍃在庫証明書', 'read', 'stock-export', array(&$this, 'stock_export'));
 		add_submenu_page('stock-management', '倉出伝票','🍃倉出伝票', 'read', 'stock-export-day', array(&$this, 'stock_export_day'));
+		add_submenu_page('stock-management', '注文集計','✡注文集計', 'read', 'sales-summary', array(&$this, 'sales_summary'));
+	}
+
+	/**
+	 * 
+	 **/
+	function pack_add_submenu_page_for_editor() {
+		// 登録画面
+//		add_submenu_page('stock-management', '商品登録','🔷商品登録', 'read', 'goods-detail', array(&$this, 'goods_detail'));
+//		add_submenu_page('stock-management', '顧客登録','🔷顧客登録', 'read', 'customer-detail', array(&$this, 'customer_detail'));
+		add_submenu_page('stock-management', '注文登録','🔷注文登録', 'read', 'sales-detail', array(&$this, 'sales_detail'));
+//		add_submenu_page('', '在庫登録','🌟在庫登録', 'read', 'stock-detail', array(&$this, 'stock_detail'));
+//		add_submenu_page('stock-management', '在庫登録(一括)','🌟在庫登録(一括)', 'read', 'stock-bulk', array(&$this, 'stock_bulk'));
+//		add_submenu_page('stock-management', '転送処理','🔁転送', 'read', 'stock-transfer', array(&$this, 'stock_transfer'));
+
+		// 検索画面
+//		add_submenu_page('stock-management', '商品検索','🔶商品検索', 'read', 'goods-list', array(&$this, 'goods_list'));
+//		add_submenu_page('stock-management', '顧客検索','🔶顧客検索', 'read', 'customer-list', array(&$this, 'customer_list'));
+		add_submenu_page('stock-management', '注文検索','🔶注文検索', 'read', 'sales-list', array(&$this, 'sales_list'));
+//		add_submenu_page('stock-management', '在庫検索','🌟在庫検索', 'read', 'stock-list', array(&$this, 'stock_list'));
+//		add_submenu_page('stock-management', '入庫予定日検索','🌟入庫予定日検索', 'read', 'stock-receive', array(&$this, 'stock_receive'));
+
+		// その他
+//		add_submenu_page('', 'ロット番号登録','ロット番号登録', 'read', 'lot-regist', array(&$this, 'lot_regist'));
+//		add_submenu_page('', '在庫ロット番号登録','🌟在庫ロット番号登録', 'read', 'stock-lot-regist', array(&$this, 'stock_lot_regist'));
+		add_submenu_page('stock-management', '配送予定表','🍎配送予定表', 'read', 'delivery-graph', array(&$this, 'delivery_graph'));
+//		add_submenu_page('stock-management', '日別商品集計','日別商品集計', 'read', 'sum-day-goods', array(&$this, 'sum_day_goods'));
+//		add_submenu_page('stock-management', '在庫証明書','🍃在庫証明書', 'read', 'stock-export', array(&$this, 'stock_export'));
+//		add_submenu_page('stock-management', '倉出伝票','🍃倉出伝票', 'read', 'stock-export-day', array(&$this, 'stock_export_day'));
 		add_submenu_page('stock-management', '注文集計','✡注文集計', 'read', 'sales-summary', array(&$this, 'sales_summary'));
 	}
 
