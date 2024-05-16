@@ -319,17 +319,33 @@
 
 	<!--							<a href="" class="btn btn-secondary text-center" onClick="window.prompt('車種、槽を入力してください。', ''); return false;">未注文</a>	-->
 								@else
-								<a href="#" class="btn btn-secondary text-center" onclick="confirm_make_lot_space({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}});">未作成</a>
+									@if ($cur_user->roles[0] == 'administrator')
+										<a href="#" class="btn btn-secondary text-center" onclick="confirm_make_lot_space({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}});">未作成</a>
+									@else
+										<span class="btn btn-secondary text-center">&emsp;&emsp;&emsp;</span>
+									@endif
 								@endif
 							@elseif ($row->lot_fg == 1)
-							<a href="#" class="btn text-center" id="btn_unregist" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">未登録</a>
+									@if ($cur_user->roles[0] == 'administrator')
+										<a href="#" class="btn text-center" id="btn_unregist" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">未登録</a>
+									@else
+										<span class="btn text-center" id="btn_unregist">&emsp;&emsp;&emsp;</span>
+									@endif
 							@else
 								@if ($row->receipt_fg != 1)
-									<a href="#" class="btn btn-success text-center" onclick="check_status({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}});">登録済</a>
-									<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="on"><label class="btn btn-outline-primary" onclick="switch_receipt({{$row->sales}});">受領書</label><!-- 受領書の受取確認用 -->
-<!--									<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="off"><label class="btn btn-outline-primary" for="check-receipt_{{$row->sales}}">受領書</label>--><!-- 受領書の受取確認用 -->
+									@if ($cur_user->roles[0] == 'administrator')
+										<a href="#" class="btn btn-success text-center" onclick="check_status({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}});">登録済</a>
+										<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="on"><label class="btn btn-outline-primary" onclick="switch_receipt({{$row->sales}});">受領書</label><!-- 受領書の受取確認用 -->
+<!--										<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="off"><label class="btn btn-outline-primary" for="check-receipt_{{$row->sales}}">受領書</label>--><!-- 受領書の受取確認用 -->
+									@else
+										<span class="btn btn-success text-center">&emsp;&emsp;&emsp;</span>
+									@endif
 								@else
-									<a href="#" class="btn btn-danger text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">&emsp;完了&emsp;</a>
+									@if ($cur_user->roles[0] == 'administrator')
+										<a href="#" class="btn btn-danger text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">&emsp;完了&emsp;</a>
+									@else
+										<span class="btn btn-danger text-center">&emsp;&emsp;&emsp;</span>
+									@endif
 								@endif
 							@endif
 						@else
