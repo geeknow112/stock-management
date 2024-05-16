@@ -123,7 +123,7 @@
 				</tfoot>
 			</table>
 
-		<?php $colspan = ($cur_user->roles[0] == 'administrator') ? 6 : 5; ?>
+		<?php $colspan = 6; ?>
 		<div id="table_top">
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
@@ -157,7 +157,7 @@
 								@php continue; @endphp
 							@endif
 
-							@if ($cur_user->roles[0] == 'editor' && $i < 4)
+							@if ($cur_user->roles[0] == 'editor' && $i < 5)
 								@php continue; @endphp
 							@endif
 
@@ -177,9 +177,7 @@
 
 						<th class="" style="width: 5rem;">氏名</th>
 
-							@if ($cur_user->roles[0] == 'administrator')
 						<th class="" style="width: 5rem;">確認</th>
-							@endif
 
 						@endfor
 					</tr>
@@ -285,7 +283,6 @@
 						<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo str_replace('　', '', $row->customer_name); ?></div>
 
 						<!-- 操作ボタン等 表示エリア -->
-						@if ($cur_user->roles[0] == 'administrator')
 						@if ($row->class != 7)
 							@if ($row->lot_fg == 0)
 								@if (isset($row->base_sales))
@@ -364,7 +361,6 @@
 							@else
 								<a href="#" class="btn btn-danger text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">&emsp;完了&emsp;</a>
 							@endif
-						@endif
 						@endif
 					</div>
 				<?php }	?>
