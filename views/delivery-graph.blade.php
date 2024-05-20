@@ -328,7 +328,7 @@
 
 	<!--							<a href="" class="btn btn-secondary text-center" onClick="window.prompt('車種、槽を入力してください。', ''); return false;">未注文</a>	-->
 								@else
-									@if ($cur_user->roles[0] == 'administrator')
+									@if ($cur_user->roles[0] == 'administrator' || $cur_user->roles[0] == 'editor')
 										<a href="#" class="btn btn-secondary text-center" onclick="confirm_make_lot_space({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}});">未作成</a>
 									@else
 										<span class="btn btn-secondary text-center">&emsp;&emsp;&emsp;</span>
