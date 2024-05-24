@@ -324,7 +324,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 	/**
 	 *
 	 **/
-	public function deliveryGraph() {
+	public function deliveryGraph($viewUrl = null) {
 		$get = (object) $_GET;
 		$post = (object) $_POST;
 
@@ -512,9 +512,17 @@ $r = array(
 				$gnames = json_encode($initForm['select']['goods_name']);
 				$test_ship_addr = json_encode($initForm['select']['ship_addr']);
 
-				echo $this->get_blade()->run("delivery-graph", compact('cur_user', 'rows', 'get', 'post', 'formPage', 'initForm', 'r', 'msg', 'repeat_list', 'gnames', 'test_ship_addr'));
+				$formPage = (!is_null($viewUrl)) ? $viewUrl : 'delivery-graph';
+				echo $this->get_blade()->run($formPage, compact('cur_user', 'rows', 'get', 'post', 'formPage', 'initForm', 'r', 'msg', 'repeat_list', 'gnames', 'test_ship_addr'));
 				break;
 		}
+	}
+
+	/**
+	 *
+	 **/
+	public function deliveryGraphSTG() {
+		$this->deliveryGraph('delivery-graph-stg');
 	}
 
 	/**
