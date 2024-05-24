@@ -143,6 +143,7 @@ class StockManagement {
 //		add_submenu_page('', 'ロット番号登録','ロット番号登録', 'read', 'lot-regist', array(&$this, 'lot_regist'));
 //		add_submenu_page('', '在庫ロット番号登録','🌟在庫ロット番号登録', 'read', 'stock-lot-regist', array(&$this, 'stock_lot_regist'));
 		add_submenu_page('stock-management', '配送予定表','🍎配送予定表', 'read', 'delivery-graph', array(&$this, 'delivery_graph'));
+		add_submenu_page('stock-management', '配送予定表STG','🌳配送予定表(STG)', 'read', 'delivery-graph-stg', array(&$this, 'delivery_graph_stg'));
 //		add_submenu_page('stock-management', '日別商品集計','日別商品集計', 'read', 'sum-day-goods', array(&$this, 'sum_day_goods'));
 //		add_submenu_page('stock-management', '在庫証明書','🍃在庫証明書', 'read', 'stock-export', array(&$this, 'stock_export'));
 //		add_submenu_page('stock-management', '倉出伝票','🍃倉出伝票', 'read', 'stock-export-day', array(&$this, 'stock_export_day'));
