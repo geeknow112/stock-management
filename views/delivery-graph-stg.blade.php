@@ -1119,7 +1119,8 @@ function isSmartPhone() {
 		var wrap = document.getElementById("wrap");
 		//wrap.style.transform = 'scale(1.0, 1.0)';
 		//wrap.style.transform = 'scaleX(0.7)';
-		wrap.style.zoom = '75%';
+//		wrap.style.zoom = '75%';
+		wrap.style.zoom = '25%';
 
 		var es = document.getElementsByClassName("_sticky");
 		es.forEach((el) => {
