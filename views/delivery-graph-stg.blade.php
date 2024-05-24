@@ -3,7 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
 
 <div id="wpbody-content">
-	<div class="wrap">
+	<div class="wrap" id="wrap">
 		<h1 class="wp-heading-inline">【配送予定表】</h1>
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page={{$formPage}}&action=regist" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page=agreement" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
@@ -1085,34 +1085,39 @@ const App = {
 
 
 <script>
-alert(isSmartPhone());
+isSmartPhone();
 function isSmartPhone() {
-  // UserAgentからのスマホ判定
-  if (navigator.userAgent.match(/iPhone|Android.+Mobile/)) {
-var s = document.getElementById("sticky");
-var es = document.getElementsByClassName("_sticky");
-s.style.color = '#fff';
+	// UserAgentからのスマホ判定
+	if (navigator.userAgent.match(/iPhone|Android.+Mobile/)) {
 
-es.forEach((el) => {
-	el.style.color = "#950000";
-	el.style.width = '50%';
-});
+		var s = document.getElementById("sticky");
+		s.style.color = '#fff';
 
+		var wrap = document.getElementById("wrap");
+		//wrap.style.transform = 'scale(1.0, 1.0)';
+		//wrap.style.transform = 'scaleX(0.7)';
+		wrap.style.zoom = '25%';
 
+		var es = document.getElementsByClassName("_sticky");
+		es.forEach((el) => {
+			el.style.color = "#950000";
+			el.style.width = '50%';
+		});
 
-    return true;
-  } else {
-    return false;
-  }
+		return true;
+
+	} else {
+		return false;
+	}
 /*
 	console.log(window.matchMedia);
 
-  // デバイス幅が640px以下の場合にスマホと判定する
-  if (window.matchMedia && window.matchMedia('(max-device-width: 640px)').matches) {
-    return true;
-  } else {
-    return false;
-  }
+	// デバイス幅が640px以下の場合にスマホと判定する
+	if (window.matchMedia && window.matchMedia('(max-device-width: 640px)').matches) {
+		return true;
+	} else {
+		return false;
+	}
 */
 }
 </script>
