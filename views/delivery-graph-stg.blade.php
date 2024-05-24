@@ -2,6 +2,101 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
 
+<style>
+	.message {
+		width: 100%;
+		height: 150px;
+		margin-top: 1.5em;
+		margin-bottom: 1.5em;
+		border: 1px solid #c0c0c0;
+		overflow: auto;
+	}
+
+	.message p {
+		color: red;
+		font-size: 16px;
+	}
+
+	#th_goods {
+		width: 7rem;
+	}
+
+	#th_qty {
+		width: 3rem;
+	}
+
+	#th_ship_addr {
+		width: 7rem;
+	}
+	#th_ship_addr::before {
+		content: '配'; #配送先
+	}
+
+	#th_arrival_dt {
+		width: 5rem;
+	}
+	#th_arrival_dt::before {
+		content: '入庫'; #入庫予定日
+	}
+
+	.inner_box {
+		width: 8rem; background: #eeeeee; border-right: 1px solid #d3d3d3;
+		font-size: 16px;
+	}
+
+	.inner_box_repeat {
+		width: 8rem; background: #ffc107; border-right: 1px solid #ffffff; color: #ffffff;
+		font-size: 16px;
+	}
+
+	#btn_unregist {
+		width: 5.6rem; 
+		color: #fff;
+		background-color: #ff69b4;
+		border-color: #ff69b4;
+		font-size: 16px;
+	}
+
+	#jump_link {
+		text-align: center;
+	}
+
+	@media(min-width:751px){
+		.sp {
+			display: none !important;
+		}
+	}
+
+	@media(max-width:750px){
+		.pc {
+			display: none !important;
+		}
+	}
+
+._sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: none;
+  border-left: none;
+  border-right: none;
+}
+._sticky:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+#  border-left: 1px solid #f00;
+#  border-right: 1px solid #f00;
+#  background: #ffeb3b;
+  background: lightgray;
+  z-index: -1;
+}
+
+</style>
+
 <div id="wpbody-content">
 	<div class="wrap" id="wrap">
 		<h1 class="wp-heading-inline">【配送予定表】</h1>
@@ -162,12 +257,12 @@
 								@php continue; @endphp
 							@endif
 
-						<th class="" style="width: 7rem;">品名</th>
-						<th class="" style="width: 3rem;">量(t)</th>
-						<th class="" style="width: 7rem;">配送先</th>
+						<th class="" id="th_goods">品名</th>
+						<th class="" id="th_qty">量(t)</th>
+						<th class="" id="th_ship_addr"><!--配送先--></th>
 
 							@if ($i != 8 && $i != 9 && $i != 10)
-						<th class="" style="width: 5rem;">入庫予定日</th>
+						<th class="" id="th_arrival_dt"><!--入庫予定日--></th>
 							@else
 						<th class="" style="width: 5rem;">出庫倉庫</th>
 							@endif
@@ -179,78 +274,6 @@
 						@endfor
 					</tr>
 				</thead>
-<style>
-	.message {
-		width: 100%;
-		height: 150px;
-		margin-top: 1.5em;
-		margin-bottom: 1.5em;
-		border: 1px solid #c0c0c0;
-		overflow: auto;
-	}
-
-	.message p {
-		color: red;
-		font-size: 16px;
-	}
-
-	.inner_box {
-		width: 8rem; background: #eeeeee; border-right: 1px solid #d3d3d3;
-		font-size: 16px;
-	}
-
-	.inner_box_repeat {
-		width: 8rem; background: #ffc107; border-right: 1px solid #ffffff; color: #ffffff;
-		font-size: 16px;
-	}
-
-	#btn_unregist {
-		width: 5.6rem; 
-		color: #fff;
-		background-color: #ff69b4;
-		border-color: #ff69b4;
-		font-size: 16px;
-	}
-
-	#jump_link {
-		text-align: center;
-	}
-
-	@media(min-width:751px){
-		.sp {
-			display: none !important;
-		}
-	}
-
-	@media(max-width:750px){
-		.pc {
-			display: none !important;
-		}
-	}
-
-._sticky {
-  position: sticky;
-  top: 0;
-  left: 0;
-  background: none;
-  border-left: none;
-  border-right: none;
-}
-._sticky:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-#  border-left: 1px solid #f00;
-#  border-right: 1px solid #f00;
-#  background: #ffeb3b;
-  background: lightgray;
-  z-index: -1;
-}
-
-</style>
 
 <?php	function innerTable($delivery_dt, $list, $class, $carsTank = null, $initForm = null, $cur_user = null) {	?>
 		<?php $w_box = ($cur_user->roles[0] == 'administrator') ? '40rem' : '34rem'; ?>
@@ -273,10 +296,10 @@
 						@endif
 
 						<!-- 「量(t)」 表示エリア -->
-						<div class="text-wrap text-center inner_box" style="width: 3.5rem;"><?php echo $row->qty; ?></div>
+						<div class="text-wrap text-center inner_box inner_text" style="width: 3.5rem;"><?php echo $row->qty; ?></div>
 
 						<!-- 「配送先」 表示エリア -->
-						<div class="text-wrap text-center inner_box" style="width: 9rem;">
+						<div class="text-wrap text-center inner_box inner_text" style="width: 9rem;">
 						<?php
 							if (in_array($row->class, array(8,9))) {
 								echo ($row->field1) ? sprintf('%s <br>', $row->field1) : '- <br>';
@@ -1096,12 +1119,43 @@ function isSmartPhone() {
 		var wrap = document.getElementById("wrap");
 		//wrap.style.transform = 'scale(1.0, 1.0)';
 		//wrap.style.transform = 'scaleX(0.7)';
-		wrap.style.zoom = '25%';
+		wrap.style.zoom = '75%';
 
 		var es = document.getElementsByClassName("_sticky");
 		es.forEach((el) => {
 			el.style.color = "#950000";
 			el.style.width = '50%';
+		});
+
+		var th_goods = document.getElementById("th_goods");
+		th_goods.style.width = '3rem';
+
+		var th_qty = document.getElementById("th_qty");
+		th_qty.style.width = '2rem';
+
+		var th_ship_addr = document.getElementById("th_ship_addr");
+		th_ship_addr.style.width = '2rem';
+		th_ship_addr.style.content = 'test';
+
+		var th_arrival_dt = document.getElementById("th_arrival_dt");
+		th_arrival_dt.style.width = '2rem';
+
+		var ibox = document.getElementsByClassName("inner_box");
+		ibox.forEach((ib) => {
+			ib.style.color = "#950000";
+			ib.style.width = '40%';
+			//ib.style.width = '50px';
+			//ib.style.zoom = '75%';
+			ib.style.fontSize = '14px';
+		});
+
+		var itxt = document.getElementsByClassName("inner_text");
+		itxt.forEach((ib) => {
+			ib.style.color = "#950000";
+			//ib.style.width = '40%';
+			ib.style.width = '100px';
+			//ib.style.zoom = '75%';
+			ib.style.fontSize = '14px';
 		});
 
 		return true;
