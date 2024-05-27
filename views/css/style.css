@@ -12,6 +12,11 @@
 		font-size: 16px;
 	}
 
+	.ths {
+		font-size: 12px;
+		writing-mode: vertical-rl;
+	}
+
 	#th_goods {
 		width: 7rem;
 	}
@@ -24,14 +29,26 @@
 		width: 7rem;
 	}
 	#th_ship_addr::before {
-		content: '配'; #配送先
+		#content: '配'; #配送先
 	}
 
 	#th_arrival_dt {
 		width: 5rem;
 	}
 	#th_arrival_dt::before {
-		content: '入庫'; #入庫予定日
+		#content: '入庫'; #入庫予定日
+	}
+
+	#th_warehouse {
+		width: 5rem;
+	}
+
+	#th_customer_name {
+		width: 5rem;
+	}
+
+	#th_confirm {
+		width: 5rem;
 	}
 
 	.inner_box {
