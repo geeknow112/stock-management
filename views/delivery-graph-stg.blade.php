@@ -16,10 +16,9 @@
 <!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
 <script src="https://cdn.jsdelivr.net/npm/vuedraggable@4.0.2/dist/vuedraggable.umd.min.js"></script>
 
-
 <div id="wpbody-content">
 	<div class="wrap" id="wrap">
-		<h1 class="wp-heading-inline">【配送予定表】</h1>
+		<h1 class="wp-heading-inline">【配送予定表】 : {{$formPage}}</h1>
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page={{$formPage}}&action=regist" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
 		<!--<a href="<?php echo home_url(); ?>/wp-admin/admin.php?page=agreement" name="cmd_regist" id="cmd_regist" class="page-title-action">新規登録</a>-->
 
@@ -42,7 +41,7 @@
 				No. ：<input type="search" id="user-search-input" name="s[no]" value="<?php echo htmlspecialchars($get->s['no']); ?>">&emsp;&emsp;&emsp;
 				社名：<input type="search" id="user-search-input" name="s[company_name]" value="<?php echo htmlspecialchars($get->s['company_name']); ?>"><br /><br />
 -->
-				開始：<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($get->s['sdt']); ?>" placeholder="2020-11-01">&emsp;
+				開始：<input type="date" id="sdt" name="s[sdt]" value="<?php echo htmlspecialchars($get->s['sdt']); ?>" placeholder="2020-11-01">&emsp;
 <!--				開始：<input type="date" id="user-search-input" name="s[sdt]" value="<?php echo htmlspecialchars($get->s['sdt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;	-->
 <!--				終了：<input type="date" id="user-search-input" name="s[edt]" value="<?php echo htmlspecialchars($get->s['edt']); ?>" placeholder="2022-12-01">&emsp;	-->
 
@@ -87,7 +86,7 @@
 
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
-			<input type="hidden" name="page" value="delivery-graph">
+			<input type="hidden" name="page" value="{{$formPage}}">
 			<input type="hidden" name="action" value="search">
 			<input type="hidden" name="cmd" value="">
 
@@ -168,19 +167,19 @@
 								@php continue; @endphp
 							@endif
 
-						<th class="" id="th_goods">品名</th>
-						<th class="" id="th_qty">量(t)</th>
-						<th class="" id="th_ship_addr"><!--配送先--></th>
+						<th class="" id="th_goods"><p class="ths">品名</p></th>
+						<th class="" id="th_qty"><p class="ths">量(t)</p></th>
+						<th class="" id="th_ship_addr"><p class="ths">配送先</p></th>
 
 							@if ($i != 8 && $i != 9 && $i != 10)
-						<th class="" id="th_arrival_dt"><!--入庫予定日--></th>
+						<th class="" id="th_arrival_dt"><p class="ths">入庫予定日</p></th>
 							@else
-						<th class="" style="width: 5rem;">出庫倉庫</th>
+						<th class="" id="th_warehouse"><p class="ths">出庫倉庫</p></th>
 							@endif
 
-						<th class="" style="width: 5rem;">氏名</th>
+						<th class="" id="th_customer_name"><p class="ths">氏名</p></th>
 
-						<th class="" style="width: 5rem;">確認</th>
+						<th class="" id="th_confirm"><p class="ths">確認</p></th>
 
 						@endfor
 					</tr>
@@ -198,12 +197,12 @@
 						<!-- 「品名」 表示エリア -->
 						@if ($row->repeat_fg != 1)
 							@if ($row->upuser != 'ceo')
-							<div class="text-wrap text-center inner_box" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							<div class="text-wrap text-center inner_box inner_text"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 							@else
-							<div class="text-wrap text-center inner_box" style="width: 8rem; background: yellow;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							<div class="text-wrap text-center inner_box inner_text" style="background: yellow;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 							@endif
 						@else
-							<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							<div class="text-wrap text-center inner_box_repeat inner_text"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 						@endif
 
 						<!-- 「量(t)」 表示エリア -->
@@ -225,7 +224,7 @@
 						<!-- 「入庫予定日」|「出庫倉庫」 表示エリア -->
 						@if ($row->class <= 7) {{-- ⑧、⑨、⑩の場合、出庫倉庫を表示 --}}
 							@if ($row->delivery_dt <= $row->arrival_dt)
-								<div class="text-wrap text-center inner_box bg-danger text-light" style="width: 7.5rem;"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
+								<div class="text-wrap text-center inner_box inner_text bg-danger text-light"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
 							@else
 								<?php
 									if ($row->class != 0 && $row->remark && !$row->use_stock) {
@@ -236,14 +235,14 @@
 										$bg_arrival_dt = '';
 									}
 								?>
-								<div class="text-wrap text-center inner_box {{$bg_arrival_dt}}" style="width: 7.5rem;">@if (!$row->use_stock)<?php echo date('m/d', strtotime($row->arrival_dt)); ?>@endif</div>
+								<div class="text-wrap text-center inner_box inner_text {{$bg_arrival_dt}}">@if (!$row->use_stock)<?php echo date('m/d', strtotime($row->arrival_dt)); ?>@endif</div>
 							@endif
 						@else
-							<div class="text-wrap text-center inner_box" style="width: 7.5rem;">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</div>
+							<div class="text-wrap text-center inner_box inner_text">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</div>
 						@endif
 
 						<!-- 「(顧客)氏名」 表示エリア -->
-						<div class="text-wrap text-center inner_box" style="width: 6.5rem;"><?php echo str_replace('　', '', $row->customer_name); ?></div>
+						<div class="text-wrap text-center inner_box inner_text"><?php echo str_replace('　', '', $row->customer_name); ?></div>
 
 						<!-- 操作ボタン等 表示エリア -->
 						@if ($row->class != 7)
@@ -253,7 +252,7 @@
 							<?php
 							$oid = $row->sales. "_". $row->goods. "_". $row->repeat. "_". str_replace('-', '', $delivery_dt);
 							?>
-									<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt_{{$oid}}" name="" value="">
+									<input type="date" class="col-sm-6 col-form-control w-auto init_dt" id="delivery_dt_{{$oid}}" name="" value="">
 									<input type="hidden" class="" id="r_arrival_dt_{{$oid}}" name="" value="{{$row->arrival_dt}}">
 									<input type="hidden" class="" id="r_warehouse_{{$oid}}" name="" value="{{$row->outgoing_warehouse}}">
 									<br />
@@ -277,6 +276,7 @@
 											<option value="3">3</option>
 									</select>
 									<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
+									<span class="sp_br"></span>
 									<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order('{{$oid}}');">
 								</div>
 
@@ -717,5 +717,107 @@ const App = {
 
 
 <script>
+function initDate() {
+	var today = new Date();
+	today.setDate(today.getDate());
+	var yyyy = today.getFullYear();
+	var mm = ("0"+(today.getMonth()+1)).slice(-2);
+	var dd = ("0"+today.getDate()).slice(-2);
+	document.getElementById("sdt").value = yyyy + '-' + mm + '-' + dd;
+	//document.getElementById("sdt").value = '2000-01-01';
+}
+
 isSmartPhone();
+function isSmartPhone() {
+	initDate();
+
+	// UserAgentからのスマホ判定
+	if (navigator.userAgent.match(/iPhone|Android.+Mobile/)) {
+
+		var s = document.getElementById("sticky");
+		s.style.color = '#fff';
+
+		var wrap = document.getElementById("wrap");
+		//wrap.style.transform = 'scale(1.0, 1.0)';
+		//wrap.style.transform = 'scaleX(0.7)';
+		wrap.style.zoom = '75%';
+//		wrap.style.zoom = '25%';
+
+		var es = document.getElementsByClassName("_sticky");
+		es.forEach((el) => {
+			el.style.color = "#950000";
+			el.style.width = '50%';
+		});
+
+		var th_goods = document.getElementById("th_goods");
+		th_goods.style.width = '1rem';
+
+		var th_qty = document.getElementById("th_qty");
+		th_qty.style.width = '1rem';
+
+		var th_ship_addr = document.getElementById("th_ship_addr");
+		th_ship_addr.style.width = '1rem';
+		th_ship_addr.style.content = 'test';
+
+		var th_arrival_dt = document.getElementById("th_arrival_dt");
+		th_arrival_dt.style.width = '1rem';
+
+		var th_warehouse = document.getElementById("th_warehouse");
+		th_warehouse.style.width = '1rem';
+
+		var th_customer_name = document.getElementById("th_customer_name");
+		th_customer_name.style.width = '1rem';
+
+		var th_confirm = document.getElementById("th_confirm");
+		th_confirm.style.width = '1rem';
+
+		var ibox = document.getElementsByClassName("inner_box");
+		ibox.forEach((ib) => {
+			ib.style.color = "#950000";
+			ib.style.width = '40%';
+			//ib.style.width = '50px';
+			//ib.style.zoom = '75%';
+			ib.style.fontSize = '14px';
+		});
+
+		var itxt = document.getElementsByClassName("inner_text");
+		itxt.forEach((ib) => {
+			ib.style.color = "#950000";
+			//ib.style.width = '40%';
+			ib.style.width = '55px';
+			//ib.style.zoom = '75%';
+			ib.style.fontSize = '14px';
+		});
+
+		var sp_br = document.getElementsByClassName("sp_br");
+		sp_br.forEach((spbr) => {
+			spbr.innerHTML = '<br /><br />';
+		});
+
+		var initDt = document.getElementsByClassName("init_dt");
+		var today = new Date();
+		today.setDate(today.getDate());
+		var yyyy = today.getFullYear();
+		var mm = ("0"+(today.getMonth()+1)).slice(-2);
+		var dd = ("0"+today.getDate()).slice(-2);
+		initDt.forEach((idt) => {
+			idt.value = yyyy + '-' + mm + '-' + dd;
+		});
+
+		return true;
+
+	} else {
+		return false;
+	}
+/*
+	console.log(window.matchMedia);
+
+	// デバイス幅が640px以下の場合にスマホと判定する
+	if (window.matchMedia && window.matchMedia('(max-device-width: 640px)').matches) {
+		return true;
+	} else {
+		return false;
+	}
+*/
+}
 </script>

@@ -1,73 +1,8 @@
-function isSmartPhone() {
-	// UserAgentからのスマホ判定
-	if (navigator.userAgent.match(/iPhone|Android.+Mobile/)) {
 
-		var s = document.getElementById("sticky");
-		s.style.color = '#fff';
-
-		var wrap = document.getElementById("wrap");
-		//wrap.style.transform = 'scale(1.0, 1.0)';
-		//wrap.style.transform = 'scaleX(0.7)';
-		wrap.style.zoom = '75%';
-//		wrap.style.zoom = '25%';
-
-		var es = document.getElementsByClassName("_sticky");
-		es.forEach((el) => {
-			el.style.color = "#950000";
-			el.style.width = '50%';
-		});
-
-		var th_goods = document.getElementById("th_goods");
-		th_goods.style.width = '3rem';
-
-		var th_qty = document.getElementById("th_qty");
-		th_qty.style.width = '2rem';
-
-		var th_ship_addr = document.getElementById("th_ship_addr");
-		th_ship_addr.style.width = '2rem';
-		th_ship_addr.style.content = 'test';
-
-		var th_arrival_dt = document.getElementById("th_arrival_dt");
-		th_arrival_dt.style.width = '2rem';
-
-		var ibox = document.getElementsByClassName("inner_box");
-		ibox.forEach((ib) => {
-			ib.style.color = "#950000";
-			ib.style.width = '40%';
-			//ib.style.width = '50px';
-			//ib.style.zoom = '75%';
-			ib.style.fontSize = '14px';
-		});
-
-		var itxt = document.getElementsByClassName("inner_text");
-		itxt.forEach((ib) => {
-			ib.style.color = "#950000";
-			//ib.style.width = '40%';
-			ib.style.width = '100px';
-			//ib.style.zoom = '75%';
-			ib.style.fontSize = '14px';
-		});
-
-		return true;
-
-	} else {
-		return false;
-	}
-/*
-	console.log(window.matchMedia);
-
-	// デバイス幅が640px以下の場合にスマホと判定する
-	if (window.matchMedia && window.matchMedia('(max-device-width: 640px)').matches) {
-		return true;
-	} else {
-		return false;
-	}
-*/
-}
 
 function cmd_search() {
 	document.forms.method = 'get';
-	document.forms.action = "/wp-admin/admin.php?page=delivery-graph&action=search"
+	document.forms.action = "/wp-admin/admin.php?page={{$formPage}}&action=search"
 	document.forms.cmd.value = 'search';
 	document.forms.submit();
 }
@@ -311,21 +246,4 @@ function setResult(oid) {
 	} else {
 	}
 
-}
-
-/**
- * 未使用
- * 
- **/
-function init_status(applicant = null) {
-	if (applicant == "" || applicant == null) {
-		alert("No. がありません。");
-		exit;
-	}
-
-	var str = "No. 【" + applicant + "】 の「登録状況」を初期化しますか？";
-	if (window.confirm(str)) {
-		//alert("初期化しました。");
-		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=shop-list&post=" + applicant + "&action=init-status";
-	}
 }
