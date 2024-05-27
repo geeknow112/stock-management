@@ -2,100 +2,20 @@
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
 
-<style>
-	.message {
-		width: 100%;
-		height: 150px;
-		margin-top: 1.5em;
-		margin-bottom: 1.5em;
-		border: 1px solid #c0c0c0;
-		overflow: auto;
-	}
+<link href="<?php echo home_url(); ?>/wp-content/plugins/stock-management/views/css/style.css" rel="stylesheet" />
+<script src="<?php echo home_url(); ?>/wp-content/plugins/stock-management/views/js/delivery-graph.js" integrity="" crossorigin=""></script>
 
-	.message p {
-		color: red;
-		font-size: 16px;
-	}
+<!-- bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<!-- bootstrap end -->
+<!-- Vue 3.2.26 -->
+<script src="https://unpkg.com/vue@3.2.26/dist/vue.global.js"></script>
+<!-- Vue 3.2.26 end -->
+<!-- CDNJS :: Sortable (https://cdnjs.com/) -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
+<!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
+<script src="https://cdn.jsdelivr.net/npm/vuedraggable@4.0.2/dist/vuedraggable.umd.min.js"></script>
 
-	#th_goods {
-		width: 7rem;
-	}
-
-	#th_qty {
-		width: 3rem;
-	}
-
-	#th_ship_addr {
-		width: 7rem;
-	}
-	#th_ship_addr::before {
-		content: '配'; #配送先
-	}
-
-	#th_arrival_dt {
-		width: 5rem;
-	}
-	#th_arrival_dt::before {
-		content: '入庫'; #入庫予定日
-	}
-
-	.inner_box {
-		width: 8rem; background: #eeeeee; border-right: 1px solid #d3d3d3;
-		font-size: 16px;
-	}
-
-	.inner_box_repeat {
-		width: 8rem; background: #ffc107; border-right: 1px solid #ffffff; color: #ffffff;
-		font-size: 16px;
-	}
-
-	#btn_unregist {
-		width: 5.6rem; 
-		color: #fff;
-		background-color: #ff69b4;
-		border-color: #ff69b4;
-		font-size: 16px;
-	}
-
-	#jump_link {
-		text-align: center;
-	}
-
-	@media(min-width:751px){
-		.sp {
-			display: none !important;
-		}
-	}
-
-	@media(max-width:750px){
-		.pc {
-			display: none !important;
-		}
-	}
-
-._sticky {
-  position: sticky;
-  top: 0;
-  left: 0;
-  background: none;
-  border-left: none;
-  border-right: none;
-}
-._sticky:before {
-  content: "";
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-#  border-left: 1px solid #f00;
-#  border-right: 1px solid #f00;
-#  background: #ffeb3b;
-  background: lightgray;
-  z-index: -1;
-}
-
-</style>
 
 <div id="wpbody-content">
 	<div class="wrap" id="wrap">
@@ -163,15 +83,6 @@
 
 				</span>
 				<span class="sp"><br /></br /></span>
-
-				<script>
-				function cmd_search() {
-					document.forms.method = 'get';
-					document.forms.action = "/wp-admin/admin.php?page=delivery-graph&action=search"
-					document.forms.cmd.value = 'search';
-					document.forms.submit();
-				}
-				</script>
 			</div>
 
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
@@ -439,144 +350,6 @@
 	</div>
 <?php	}	?>
 
-<script>
-/**
- * [注文]ボタン押下時の処理 (class 0)
- * 
- **/
-function change_repeat_order(oid) {
-	var r_order_id = 'r_order_' + oid;
-	var cars_class_id = 'cars_class_' + oid;
-	var cars_tank_id = 'cars_tank_' + oid;
-	var delivery_dt_id = 'delivery_dt_' + oid;
-	var warehouse_id = 'r_warehouse_' + oid;
-	var arrival_dt_id = 'r_arrival_dt_' + oid;
-
-	var cars_class = document.getElementById(cars_class_id).value;
-	var cars_tank = document.getElementById(cars_tank_id).value;
-	var delivery_dt = document.getElementById(delivery_dt_id).value;
-	var warehouse = document.getElementById(warehouse_id).value;
-	var arrival_dt = document.getElementById(arrival_dt_id).value;
-
-
-	if (window.confirm('車種、槽、配送予定日 を変更しますか？')) {
-		document.forms.method = 'post';
-		document.forms.action.value = 'regist';
-		//document.forms.oid.value = '1';
-		document.getElementById(r_order_id).value = r_order_id;
-		document.forms.class.value = cars_class;
-		document.forms.cars_tank.value = cars_tank;
-		document.forms.change_delivery_dt.value = delivery_dt;
-		document.forms.r_warehouse.value = warehouse;
-		document.forms.r_arrival_dt.value = arrival_dt;
-
-	/*
-		document.forms.r_delivery_dt.value = <?php echo $row->delivery_dt; ?>;
-		document.forms.r_class.value = <?php echo $row->class; ?>;
-		document.forms.r_tank.value = '{{$row->cars_tank}}';
-		document.forms.base_sales.value = '1';
-		document.forms.cmd.value = 'regist';
-	*/	document.forms.submit();
-	}
-
-}
-
-/**
- * [直取分]ボタン押下時の処理 (class 7)
- * 
- **/
-function change_repeat_order_direct_delivery(oid = null) {
-console.log(oid);
-	var r_order_id = 'r_order_' + oid;
-	var cars_class_id = 'cars_class_' + oid;
-	var cars_tank_id = 'cars_tank_' + oid;
-	var delivery_dt_id = 'delivery_dt_' + oid;
-	var warehouse_id = 'r_warehouse_' + oid;
-	var arrival_dt_id = 'r_arrival_dt_' + oid;
-
-	var cars_class = document.getElementById(cars_class_id).value;
-	var cars_tank = document.getElementById(cars_tank_id).value;
-	var delivery_dt = document.getElementById(delivery_dt_id).value;
-	var warehouse = document.getElementById(warehouse_id).value;
-	var arrival_dt = document.getElementById(arrival_dt_id).value;
-
-
-	if (window.confirm('この直取分を 【 完了 】 にしますか？')) {
-		document.forms.method = 'post';
-//		document.forms.action.value = 'regist';
-		document.forms.action.value = 'set_direct_delivery';
-		//document.forms.oid.value = '1';
-		document.getElementById(r_order_id).value = r_order_id;
-		document.forms.class.value = cars_class;
-		document.forms.cars_tank.value = cars_tank;
-		document.forms.change_delivery_dt.value = delivery_dt;
-		document.forms.r_warehouse.value = warehouse;
-		document.forms.r_arrival_dt.value = arrival_dt;
-		document.forms.submit();
-	}
-}
-
-/**
- * 受領書受取の確認
- * 
- **/
-function check_status(sales = null, goods = null, repeat_fg = null, use_stock = null) {
-	const rec = document.getElementById('check-receipt_' + sales).checked;
-	console.log(rec);
-	if (rec == true) {
-		if (window.confirm('一連の処理を 【 完了 】 にしますか？')) {
-			document.forms.method = 'post';
-			document.forms.action.value = 'set_receipt';
-			document.forms.sales.value = sales;
-			document.forms.repeat_fg.value = repeat_fg;
-			document.forms.use_stock.value = use_stock;
-			document.forms.submit();
-		}
-	} else {
-		//alert('受領書の受取をチェックしてください。');
-
-		// ロット登録画面へ遷移
-		to_lot_regist(sales, goods);
-	}
-}
-
-/**
- * 受領書受取のチェックボックス切替
- * 
- **/
-function switch_receipt(sales) {
-	const ret = document.getElementById('check-receipt_' + sales);
-	if (ret.checked == true) {
-		ret.checked = false;
-	} else {
-		ret.checked = true;
-	}
-}
-
-/**
- * ロット登録欄作成のための確認
- * 
- **/
-function confirm_make_lot_space(sales = null, goods = null, repeat_fg = null, use_stock = null) {
-	if (window.confirm('ロット登録欄を作成しますか？')) {
-		document.forms.method = 'post';
-		document.forms.action.value = 'make_lot_space';
-		document.forms.sales.value = sales;
-		document.forms.repeat_fg.value = repeat_fg;
-		document.forms.use_stock.value = use_stock;
-		document.forms.submit();
-	}
-}
-
-/**
- * ロット登録画面へ遷移
- * 
- **/
-function to_lot_regist(sales = null, goods = null) {
-	const sdt = document.getElementById('user-search-input').value; // 開始日付を付加
-	window.location = '/wp-admin/admin.php?page=lot-regist&s[sdt]=' + sdt + '&sales=' + sales + '&goods=' + goods + '&action=save';
-}
-</script>
 <?php	function innerTableFixed($delivery_dt, $list, $class, $carsTank = null, $initForm = null, $cur_user = null) { ?>
 	<?php $oid = sprintf("%s%02d%02d", str_replace('-', '', $delivery_dt), $class, $carsTank); // echo $oid; ?>
 
@@ -654,112 +427,6 @@ function to_lot_regist(sales = null, goods = null) {
 		</div>
 	<?php	} // 管理者以外非表示 END ?>
 <?php	}	?>
-
-<script>
-var unescapeHtml = function(str) {
-	if (typeof str !== 'string') return str;
-
-	var patterns = {
-		'&lt;'   : '<',
-		'&gt;'   : '>',
-		'&amp;'  : '&',
-		'&quot;' : '"',
-		'&#x27;' : '\'',
-		'&#x60;' : '`'
-	};
-
-	return str.replace(/&(lt|gt|amp|quot|#x27|#x60);/g, function(match) {
-		return patterns[match];
-	});
-};
-
-function createSelectBox(oid) {
-	console.log(oid);
-	var customer = document.getElementById("customer_" + oid).value;
-//	var goods = document.forms.goods.value;
-	console.log('c: ' + customer);
-//	console.log('g: ' + goods);
-
-	//連想配列の配列
-	var ar = "{{$test_ship_addr}}";
-	var json = JSON.parse(unescapeHtml(ar));
-	console.log(json[customer]);
-	var arr = json[customer];
-
-	// selectの初期化
-	const sel = document.getElementById("ship_addr_" + oid);
-//	sel.disabled = (goods) ? (customer) ? false : true : true; // 非活性化
-	console.log(sel.childNodes.length);
-	for (var i=sel.childNodes.length-1; i>=0; i--) {
-		sel.removeChild(sel.childNodes[i]);
-	}
-
-	if (arr !== undefined) {
-		//連想配列をループ処理で値を取り出してセレクトボックスにセットする
-		for (var i=0; i<arr.length; i++) {
-			if (i != 0 && arr[i] == '') { continue; }
-			let op = document.createElement("option");
-			op.value = i;  //value値
-			op.text = arr[i];   //テキスト値
-			sel.appendChild(op);
-		}
-	}
-}
-
-function createSelectBoxGoods(oid) {
-	console.log(oid);
-	var customer = document.getElementById("customer_" + oid).value;
-	//連想配列の配列
-	var ar = "{{$gnames}}";
-	var json = JSON.parse(unescapeHtml(ar));
-	console.log(json[customer]);
-	var arr = json[customer];
-
-	// selectの初期化
-	const sel = document.getElementById("goods_" + oid);
-//	sel.disabled = (customer) ? false : true; // 非活性化
-	console.log(sel.childNodes.length);
-	for (var i=sel.childNodes.length-1; i>=0; i--) {
-		sel.removeChild(sel.childNodes[i]);
-	}
-
-	if (arr !== undefined) {
-		//連想配列をループ処理で値を取り出してセレクトボックスにセットする
-		for (let goods in arr) {
-			let op = document.createElement("option");
-			if (goods != 0) {
-				op.value = goods;  //value値
-				op.text = goods + ' : ' + arr[goods];   //テキスト値
-			}
-			sel.appendChild(op);
-		}
-	}
-}
-
-function setResult(oid) {
-	const data = {
-		oid: oid, 
-		customer: document.getElementById("customer_" + oid).value, 
-		goods: document.getElementById("goods_" + oid).value, 
-		qty: document.getElementById("qty_" + oid).value, 
-		ship_addr: document.getElementById("ship_addr_" + oid).value, 
-		outgoing_warehouse: document.getElementById("outgoing_warehouse_" + oid).value
-	};
-	console.log(data);
-
-	var ret = window.confirm(oid + ' の結果を登録しますか？');
-	if (ret) {
-		document.forms.cmd.value = 'cmd_set_result';
-		document.forms.method = 'post';
-		document.forms.action.value = 'set_result';
-		document.forms.oid.value = oid;
-		document.forms.odata.value = JSON.stringify(data);
-		document.forms.submit();
-	} else {
-	}
-
-}
-</script>
 
 			@if (isset($rows) && count($rows))
 				<tbody id="the-list" data-wp-lists="list:user">
@@ -975,21 +642,6 @@ function setResult(oid) {
 	<div class="clear"></div>
 </div>
 
-<script>
-function init_status(applicant = null) {
-	if (applicant == "" || applicant == null) {
-		alert("No. がありません。");
-		exit;
-	}
-
-	var str = "No. 【" + applicant + "】 の「登録状況」を初期化しますか？";
-	if (window.confirm(str)) {
-		//alert("初期化しました。");
-		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=shop-list&post=" + applicant + "&action=init-status";
-	}
-}
-</script>
-
 <!--
 <table>
 <tr>
@@ -1036,49 +688,6 @@ function init_status(applicant = null) {
 </table>
 -->
 
-<style>
-.vbox {
-  width: 50%;
-  float: left;
-  padding: 20px 0;
-}
-#vbox1 {
-  background-color: #fdd;
-}
-#vbox2 {
-  background-color: #ddf;
-}
-.ul_tag {
-  list-style-type: none;
-      padding-right: 2rem;
-}
-.li_tag {
-  cursor:pointer;
-  padding: 10px;
-  border: solid #ddd 1px;
-  background-color: #fff;
-}
-
-@media screen and (max-width: 959px) {
-	/* 959px以下に適用されるCSS（タブレット用） */
-}
-@media screen and (max-width: 480px) {
-	/* 480px以下に適用されるCSS（スマホ用） */
-	transform: scale(0.25, 0.25);
-}
-</style>
-
-<!-- bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<!-- bootstrap end -->
-<!-- Vue 3.2.26 -->
-<script src="https://unpkg.com/vue@3.2.26/dist/vue.global.js"></script>
-<!-- Vue 3.2.26 end -->
-<!-- CDNJS :: Sortable (https://cdnjs.com/) -->
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
-<!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
-<script src="https://cdn.jsdelivr.net/npm/vuedraggable@4.0.2/dist/vuedraggable.umd.min.js"></script>
-
 <script>
 var r = @json($r);
 const draggable = window['vuedraggable'];
@@ -1109,70 +718,4 @@ const App = {
 
 <script>
 isSmartPhone();
-function isSmartPhone() {
-	// UserAgentからのスマホ判定
-	if (navigator.userAgent.match(/iPhone|Android.+Mobile/)) {
-
-		var s = document.getElementById("sticky");
-		s.style.color = '#fff';
-
-		var wrap = document.getElementById("wrap");
-		//wrap.style.transform = 'scale(1.0, 1.0)';
-		//wrap.style.transform = 'scaleX(0.7)';
-//		wrap.style.zoom = '75%';
-		wrap.style.zoom = '25%';
-
-		var es = document.getElementsByClassName("_sticky");
-		es.forEach((el) => {
-			el.style.color = "#950000";
-			el.style.width = '50%';
-		});
-
-		var th_goods = document.getElementById("th_goods");
-		th_goods.style.width = '3rem';
-
-		var th_qty = document.getElementById("th_qty");
-		th_qty.style.width = '2rem';
-
-		var th_ship_addr = document.getElementById("th_ship_addr");
-		th_ship_addr.style.width = '2rem';
-		th_ship_addr.style.content = 'test';
-
-		var th_arrival_dt = document.getElementById("th_arrival_dt");
-		th_arrival_dt.style.width = '2rem';
-
-		var ibox = document.getElementsByClassName("inner_box");
-		ibox.forEach((ib) => {
-			ib.style.color = "#950000";
-			ib.style.width = '40%';
-			//ib.style.width = '50px';
-			//ib.style.zoom = '75%';
-			ib.style.fontSize = '14px';
-		});
-
-		var itxt = document.getElementsByClassName("inner_text");
-		itxt.forEach((ib) => {
-			ib.style.color = "#950000";
-			//ib.style.width = '40%';
-			ib.style.width = '100px';
-			//ib.style.zoom = '75%';
-			ib.style.fontSize = '14px';
-		});
-
-		return true;
-
-	} else {
-		return false;
-	}
-/*
-	console.log(window.matchMedia);
-
-	// デバイス幅が640px以下の場合にスマホと判定する
-	if (window.matchMedia && window.matchMedia('(max-device-width: 640px)').matches) {
-		return true;
-	} else {
-		return false;
-	}
-*/
-}
 </script>
