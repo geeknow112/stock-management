@@ -1,0 +1,126 @@
+	.message {
+		width: 100%;
+		height: 150px;
+		margin-top: 1.5em;
+		margin-bottom: 1.5em;
+		border: 1px solid #c0c0c0;
+		overflow: auto;
+	}
+
+	.message p {
+		color: red;
+		font-size: 16px;
+	}
+
+	#th_goods {
+		width: 7rem;
+	}
+
+	#th_qty {
+		width: 3rem;
+	}
+
+	#th_ship_addr {
+		width: 7rem;
+	}
+	#th_ship_addr::before {
+		content: '配'; #配送先
+	}
+
+	#th_arrival_dt {
+		width: 5rem;
+	}
+	#th_arrival_dt::before {
+		content: '入庫'; #入庫予定日
+	}
+
+	.inner_box {
+		width: 8rem; background: #eeeeee; border-right: 1px solid #d3d3d3;
+		font-size: 16px;
+	}
+
+	.inner_box_repeat {
+		width: 8rem; background: #ffc107; border-right: 1px solid #ffffff; color: #ffffff;
+		font-size: 16px;
+	}
+
+	#btn_unregist {
+		width: 5.6rem; 
+		color: #fff;
+		background-color: #ff69b4;
+		border-color: #ff69b4;
+		font-size: 16px;
+	}
+
+	#jump_link {
+		text-align: center;
+	}
+
+	@media(min-width:751px){
+		.sp {
+			display: none !important;
+		}
+	}
+
+	@media(max-width:750px){
+		.pc {
+			display: none !important;
+		}
+	}
+
+._sticky {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: none;
+  border-left: none;
+  border-right: none;
+}
+._sticky:before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+#  border-left: 1px solid #f00;
+#  border-right: 1px solid #f00;
+#  background: #ffeb3b;
+  background: lightgray;
+  z-index: -1;
+}
+
+
+@media screen and (max-width: 959px) {
+	/* 959px以下に適用されるCSS（タブレット用） */
+}
+@media screen and (max-width: 480px) {
+	/* 480px以下に適用されるCSS（スマホ用） */
+	transform: scale(0.25, 0.25);
+}
+
+
+### vbox関連 --start
+.vbox {
+  width: 50%;
+  float: left;
+  padding: 20px 0;
+}
+#vbox1 {
+  background-color: #fdd;
+}
+#vbox2 {
+  background-color: #ddf;
+}
+.ul_tag {
+  list-style-type: none;
+      padding-right: 2rem;
+}
+.li_tag {
+  cursor:pointer;
+  padding: 10px;
+  border: solid #ddd 1px;
+  background-color: #fff;
+}
+
+### vbox関連 --end
