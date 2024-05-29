@@ -186,8 +186,23 @@
 				</thead>
 
 <?php	function innerTable($delivery_dt, $list, $class, $carsTank = null, $initForm = null, $cur_user = null) {	?>
-		<?php $w_box = ($cur_user->roles[0] == 'administrator') ? '40rem' : '34rem'; ?>
-		<div style="width: {{$w_box}};">
+		<?php //$role_style = ($cur_user->roles[0] == 'administrator') ? 'style_admin' : 'style_not_admin'; ?>
+		<?php
+			$ua = $_SERVER['HTTP_USER_AGENT'];
+			if ((strpos($ua, 'Android') !== false) && (strpos($ua, 'Mobile') !== false) || (strpos($ua, 'iPhone') !== false) || (strpos($ua, 'Windows Phone') !== false)) {
+				//スマホ用
+				$role_style = 'inner_table_wrap';
+
+			} elseif ((strpos($ua, 'Android') !== false) || (strpos($ua, 'iPad') !== false)) {
+				//タブレット用
+				$role_style = 'inner_table_wrap';
+
+			} else {
+				// PC用
+				$role_style = ($cur_user->roles[0] == 'administrator') ? 'style_admin' : 'style_not_admin';
+			}
+		?>
+		<div class="{{$role_style}}">
 <!--	<div class="card" style="width: 40rem;">-->
 		<?php foreach ($list as $sales => $d) { ?>
 			<?php foreach ($d as $id => $row) { ?>
@@ -354,7 +369,7 @@
 	<?php $oid = sprintf("%s%02d%02d", str_replace('-', '', $delivery_dt), $class, $carsTank); // echo $oid; ?>
 
 	<?php if ($cur_user->roles[0] == 'administrator') { // 管理者以外非表示 START ?>
-		<div style="width: 40rem;" id="app1" class="container">
+		<div class="container">
 			<div class="d-flex flex-row bd-highlight mb-3">
 
 				<!-- 「商品」 選択欄 -->
@@ -770,6 +785,21 @@ function isSmartPhone() {
 
 		var th_confirm = document.getElementById("th_confirm");
 		th_confirm.style.width = '1rem';
+
+		var iWrap = document.getElementsByClassName("inner_table_wrap");
+		iWrap.forEach((iw) => {
+			iw.style.width = '';
+		});
+
+		var sAdmin = document.getElementsByClassName("style_admin");
+		sAdmin.forEach((sa) => {
+			sa.style.width = '40rem';
+		});
+
+		var sNAdmin = document.getElementsByClassName("style_not_admin");
+		sNAdmin.forEach((sna) => {
+			sna.style.width = '34rem';
+		});
 
 		var ibox = document.getElementsByClassName("inner_box");
 		ibox.forEach((ib) => {
