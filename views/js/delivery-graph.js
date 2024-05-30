@@ -125,6 +125,7 @@ function switch_receipt(sales) {
  * 
  **/
 function confirm_make_lot_space(sales = null, goods = null, repeat_fg = null, use_stock = null) {
+alert("{{$cur_user->roles[0]}}");
 	if (window.confirm('ロット登録欄を作成しますか？')) {
 		document.forms.method = 'post';
 		document.forms.action.value = 'make_lot_space';
@@ -160,69 +161,6 @@ var unescapeHtml = function(str) {
 		return patterns[match];
 	});
 };
-
-function createSelectBox(oid) {
-	console.log(oid);
-	var customer = document.getElementById("customer_" + oid).value;
-//	var goods = document.forms.goods.value;
-	console.log('c: ' + customer);
-//	console.log('g: ' + goods);
-
-	//連想配列の配列
-	var ar = "{{$test_ship_addr}}";
-	var json = JSON.parse(unescapeHtml(ar));
-	console.log(json[customer]);
-	var arr = json[customer];
-
-	// selectの初期化
-	const sel = document.getElementById("ship_addr_" + oid);
-//	sel.disabled = (goods) ? (customer) ? false : true : true; // 非活性化
-	console.log(sel.childNodes.length);
-	for (var i=sel.childNodes.length-1; i>=0; i--) {
-		sel.removeChild(sel.childNodes[i]);
-	}
-
-	if (arr !== undefined) {
-		//連想配列をループ処理で値を取り出してセレクトボックスにセットする
-		for (var i=0; i<arr.length; i++) {
-			if (i != 0 && arr[i] == '') { continue; }
-			let op = document.createElement("option");
-			op.value = i;  //value値
-			op.text = arr[i];   //テキスト値
-			sel.appendChild(op);
-		}
-	}
-}
-
-function createSelectBoxGoods(oid) {
-	console.log(oid);
-	var customer = document.getElementById("customer_" + oid).value;
-	//連想配列の配列
-	var ar = "{{$gnames}}";
-	var json = JSON.parse(unescapeHtml(ar));
-	console.log(json[customer]);
-	var arr = json[customer];
-
-	// selectの初期化
-	const sel = document.getElementById("goods_" + oid);
-//	sel.disabled = (customer) ? false : true; // 非活性化
-	console.log(sel.childNodes.length);
-	for (var i=sel.childNodes.length-1; i>=0; i--) {
-		sel.removeChild(sel.childNodes[i]);
-	}
-
-	if (arr !== undefined) {
-		//連想配列をループ処理で値を取り出してセレクトボックスにセットする
-		for (let goods in arr) {
-			let op = document.createElement("option");
-			if (goods != 0) {
-				op.value = goods;  //value値
-				op.text = goods + ' : ' + arr[goods];   //テキスト値
-			}
-			sel.appendChild(op);
-		}
-	}
-}
 
 function setResult(oid) {
 	const data = {
