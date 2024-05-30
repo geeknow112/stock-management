@@ -54,8 +54,10 @@
 					&emsp;
 					@endif
 
+					@if ($cur_user->roles[0] != 'subscriber')
 					<span><a href="#car_model_0"><input type="button" class="btn btn-info" value="未確定"></a><span>
 					&emsp;
+					@endif
 
 					<span><a href="#car_model_1"><input type="button" class="btn btn-info" value="①"></a><span>
 					&emsp;
@@ -145,8 +147,8 @@
 						<th class="_sticky" colspan="3"></th>
 						@if ($cur_user->roles[0] != 'subscriber')
 						<th class="" colspan="{{$colspan}}">繰返</th>
-						@endif
 						<th class="" colspan="{{$colspan}}" id="car_model_0">未確定</th>
+						@endif
 						<th class="" colspan="{{$colspan}}" id="car_model_1">6t ①</th>
 						<th class="" colspan="{{$colspan}}" id="car_model_2">6t ②</th>
 						<th class="" colspan="{{$colspan}}" id="car_model_3">6t ③</th>
@@ -171,7 +173,7 @@
 								@php continue; @endphp
 							@endif
 
-							@if ($cur_user->roles[0] == 'subscriber' && $i < 4)
+							@if ($cur_user->roles[0] == 'subscriber' && $i < 6)
 								@php continue; @endphp
 							@endif
 
@@ -696,9 +698,11 @@ function setResult(oid) {
 						@endif
 
 						<!-- 6t 1 -->
+						@if ($cur_user->roles[0] != 'subscriber')
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 1, 1, $initForm, $cur_user); @endphp
 						</td>
+						@endif
 
 						<!-- 6t 2 -->
 						<td class="" colspan="{{$colspan}}">
@@ -758,9 +762,11 @@ function setResult(oid) {
 						@endif
 
 						<!-- 6t 1 -->
+						@if ($cur_user->roles[0] != 'subscriber')
 						<td colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 1, 2, $initForm, $cur_user); @endphp
 						</td>
+						@endif
 
 						<!-- 6t 2 -->
 						<td colspan="{{$colspan}}">
@@ -820,9 +826,11 @@ function setResult(oid) {
 						@endif
 
 						<!-- 6t 1 -->
+						@if ($cur_user->roles[0] != 'subscriber')
 						<td colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 1, 3, $initForm, $cur_user); @endphp
 						</td>
+						@endif
 
 						<!-- 6t 2 -->
 						<td colspan="{{$colspan}}">
