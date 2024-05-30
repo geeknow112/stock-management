@@ -1,5 +1,19 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
+
+<link href="<?php echo home_url(); ?>/wp-content/plugins/stock-management/views/css/style.css" rel="stylesheet" />
+
+<!-- bootstrap -->
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+<!-- bootstrap end -->
+<!-- Vue 3.2.26 -->
+<script src="https://unpkg.com/vue@3.2.26/dist/vue.global.js"></script>
+<!-- Vue 3.2.26 end -->
+<!-- CDNJS :: Sortable (https://cdnjs.com/) -->
+<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
+<!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
+<script src="https://cdn.jsdelivr.net/npm/vuedraggable@4.0.2/dist/vuedraggable.umd.min.js"></script>
 
 <div id="wpbody-content">
 	<div class="wrap">
@@ -128,9 +142,7 @@
 			<table class="table table-bordered text-nowrap">
 				<thead class="table-light">
 					<tr>
-						<th class=""></th>
-						<th class=""></th>
-						<th class=""></th>
+						<th class="_sticky" colspan="3"></th>
 						@if ($cur_user->roles[0] != 'subscriber')
 						<th class="" colspan="{{$colspan}}">6t ⓪</th>
 						@endif
@@ -149,9 +161,7 @@
 					</tr>
 
 					<tr>
-						<th class="" scope="col" id="username"></th>
-						<th class="" scope="col" id="username">曜</th>
-						<th class="" scope="col" id="username">日</th>
+						<th class="_sticky" scope="col" colspan="3">日</th>
 						@for ($i = 0; $i <= 10; $i++)
 							@if ($cur_user->roles[0] == 'subscriber' && $i == 0)
 								@php continue; @endphp
@@ -182,55 +192,6 @@
 						@endfor
 					</tr>
 				</thead>
-<style>
-	.message {
-		width: 100%;
-		height: 150px;
-		margin-top: 1.5em;
-		margin-bottom: 1.5em;
-		border: 1px solid #c0c0c0;
-		overflow: auto;
-	}
-
-	.message p {
-		color: red;
-		font-size: 16px;
-	}
-
-	.inner_box {
-		width: 8rem; background: #eeeeee; border-right: 1px solid #d3d3d3;
-		font-size: 16px;
-	}
-
-	.inner_box_repeat {
-		width: 8rem; background: #ffc107; border-right: 1px solid #ffffff; color: #ffffff;
-		font-size: 16px;
-	}
-
-	#btn_unregist {
-		width: 5.6rem; 
-		color: #fff;
-		background-color: #ff69b4;
-		border-color: #ff69b4;
-		font-size: 16px;
-	}
-
-	#jump_link {
-		text-align: center;
-	}
-
-	@media(min-width:751px){
-		.sp {
-			display: none !important;
-		}
-	}
-
-	@media(max-width:750px){
-		.pc {
-			display: none !important;
-		}
-	}
-</style>
 
 <?php	function innerTable($delivery_dt, $list, $class, $carsTank = null, $initForm = null, $cur_user = null) {	?>
 		<?php $w_box = ($cur_user->roles[0] == 'administrator') ? '40rem' : '34rem'; ?>
@@ -722,7 +683,7 @@ function setResult(oid) {
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($rows as $delivery_dt => $list)
 					<tr id="user-1">
-						<td class="" colspan="3">
+						<td class="_sticky" id="sticky" colspan="3">
 							<a href="#">{{$delivery_dt}}</a><br />
 							<p>　1槽</p>
 						</td>
@@ -785,7 +746,7 @@ function setResult(oid) {
 						@endif
 					</tr>
 					<tr id="user-1">
-						<td class="" colspan="3">
+						<td class="_sticky" colspan="3">
 							<p>　2槽</p>
 						</td>
 
@@ -847,7 +808,7 @@ function setResult(oid) {
 						@endif
 					</tr>
 					<tr id="user-1" style="border-bottom: solid 1px gray;">
-						<td class="" colspan="3">
+						<td class="_sticky" colspan="3">
 							<p>　3槽</p>
 						</td>
 
@@ -990,41 +951,6 @@ function init_status(applicant = null) {
 </tr>
 </table>
 -->
-
-<style>
-.vbox {
-  width: 50%;
-  float: left;
-  padding: 20px 0;
-}
-#vbox1 {
-  background-color: #fdd;
-}
-#vbox2 {
-  background-color: #ddf;
-}
-.ul_tag {
-  list-style-type: none;
-      padding-right: 2rem;
-}
-.li_tag {
-  cursor:pointer;
-  padding: 10px;
-  border: solid #ddd 1px;
-  background-color: #fff;
-}
-</style>
-
-<!-- bootstrap -->
-<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-<!-- bootstrap end -->
-<!-- Vue 3.2.26 -->
-<script src="https://unpkg.com/vue@3.2.26/dist/vue.global.js"></script>
-<!-- Vue 3.2.26 end -->
-<!-- CDNJS :: Sortable (https://cdnjs.com/) -->
-<script src="https://cdn.jsdelivr.net/npm/sortablejs@1.10.2/Sortable.min.js"></script>
-<!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
-<script src="https://cdn.jsdelivr.net/npm/vuedraggable@4.0.2/dist/vuedraggable.umd.min.js"></script>
 
 <script>
 var r = @json($r);
