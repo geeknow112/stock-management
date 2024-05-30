@@ -51,9 +51,12 @@
 				<span class="sp"><br /></br /></span>
 				<span id="jump_link">
 					@if ($cur_user->roles[0] != 'subscriber')
-					<span><a href="#table_top"><input type="button" class="btn btn-primary" value="⓪"></a><span>
+					<span><a href="#table_top"><input type="button" class="btn btn-primary" value="繰返"></a><span>
 					&emsp;
 					@endif
+
+					<span><a href="#car_model_0"><input type="button" class="btn btn-info" value="未確定"></a><span>
+					&emsp;
 
 					<span><a href="#car_model_1"><input type="button" class="btn btn-info" value="①"></a><span>
 					&emsp;
@@ -68,9 +71,6 @@
 					&emsp;
 
 					<span><a href="#car_model_5"><input type="button" class="btn btn-info" value="⑤"></a><span>
-					&emsp;
-
-					<span><a href="#car_model_6"><input type="button" class="btn btn-primary" value="⑥"></a><span>
 					&emsp;
 
 					@if ($cur_user->roles[0] == 'administrator')
@@ -136,14 +136,14 @@
 					<tr>
 						<th class="_sticky" colspan="3"></th>
 						@if ($cur_user->roles[0] != 'subscriber')
-						<th class="" colspan="{{$colspan}}">6t ⓪</th>
+						<th class="" colspan="{{$colspan}}">繰返</th>
 						@endif
+						<th class="" colspan="{{$colspan}}" id="car_model_0">未確定</th>
 						<th class="" colspan="{{$colspan}}" id="car_model_1">6t ①</th>
 						<th class="" colspan="{{$colspan}}" id="car_model_2">6t ②</th>
 						<th class="" colspan="{{$colspan}}" id="car_model_3">6t ③</th>
 						<th class="" colspan="{{$colspan}}" id="car_model_4">6t ④</th>
 						<th class="" colspan="{{$colspan}}" id="car_model_5">6t ⑤</th>
-						<th class="" colspan="{{$colspan}}" id="car_model_6">6t ⑥</th>
 						@if ($cur_user->roles[0] == 'administrator')
 						<th class="" colspan="{{$colspan}}">6t ⑦ (山忠商事(直取) 専用：繰り返し注文表示欄)</th>
 						<th class="" colspan="{{$colspan}}" id="input_result">6t ⑧ (太田畜産 専用：結果入力欄)</th>
