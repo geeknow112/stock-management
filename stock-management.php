@@ -78,7 +78,8 @@ class StockManagement {
 
 			case 'subscriber' :
 //				if (in_array($cur_user->user_login, array('naitou'))) {
-					add_submenu_page('stock-management', '配送予定表','配送予定表', 'read', 'delivery-graph', array(&$this, 'delivery_graph'));
+					add_submenu_page('stock-management', '配送予定表','🍎配送予定表', 'read', 'delivery-graph', array(&$this, 'delivery_graph'));
+					add_submenu_page('stock-management', '配送予定表STG','🌳配送予定表(STG)', 'read', 'delivery-graph-stg', array(&$this, 'delivery_graph_stg'));
 //				} else {
 //					$this->remove_menus();
 //				}
