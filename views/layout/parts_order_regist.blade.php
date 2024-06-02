@@ -195,7 +195,7 @@ function createSelectBoxGoods(){
 
 	<div class="row mb-3">
 		<label for="delivery_dt" class="col-sm-2 col-form-label">配送予定日　<span class="badge text-bg-danger">必須</span></label>
-		<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt" name="delivery_dt" aria-describedby="deliveryDtHelp" value="{{$rows->delivery_dt}}" onchange="setArrivalDt();">
+		<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt" name="delivery_dt" aria-describedby="deliveryDtHelp" value="{{$rows->delivery_dt}}" onchange="setArrivalDt(); setRepeatSDt();">
 <!--		<div id="arrivalDtHelp" class="form-text">入庫予定日を入力してください。</div>-->
 	</div>
 
@@ -303,6 +303,15 @@ function check_repeat() {
 	if (document.getElementById('repeat_fg').checked) {
 		document.getElementById('repeat_fg').value = 1; // true
 	}
+}
+
+/**
+ * 「繰返 開始日」の自動入力
+ *    - 「配送予定日」変更時
+ **/
+function setRepeatSDt() {
+	const delivery_dt = document.getElementById('delivery_dt').value;
+	document.getElementById('repeat_s_dt').value = delivery_dt;
 }
 </script>
 
