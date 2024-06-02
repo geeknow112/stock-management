@@ -124,9 +124,10 @@ function switch_receipt(sales) {
  * ロット登録欄作成のための確認
  * 
  **/
-function confirm_make_lot_space(sales = null, goods = null, repeat_fg = null, use_stock = null) {
-alert("{{$cur_user->roles[0]}}");
-	if (window.confirm('ロット登録欄を作成しますか？')) {
+function confirm_make_lot_space(sales = null, goods = null, repeat_fg = null, use_stock = null, role = null) {
+	console.log(role);
+	const message = (role == 'administrator') ? 'ロット登録欄を作成しますか？' : '確定する';
+	if (window.confirm(message)) {
 		document.forms.method = 'post';
 		document.forms.action.value = 'make_lot_space';
 		document.forms.sales.value = sales;
