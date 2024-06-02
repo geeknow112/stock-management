@@ -451,7 +451,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 				// 配送先(タンク)名の取得
 				$rows = $this->getTb()->setTankName($rows);
-				$repeat_list = $this->getTb()->setTankName($repeat_list);
+//				$repeat_list = $this->getTb()->setTankName($repeat_list); // 6t-0からの移動時に、配送先コピー不要となったため削除(2024/06/02)
 
 //$this->vd($rows);
 //$this->vd(array_keys($repeat_list));
