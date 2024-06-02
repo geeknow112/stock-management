@@ -223,7 +223,11 @@
 						@endif
 
 						<!-- 「量(t)」 表示エリア -->
-						<div class="text-wrap text-center inner_box inner_text" style="width: 3.5rem;"><?php echo $row->qty; ?></div>
+						@if ($row->class >= 1 && $row->class < 7) {{-- 未確定列と、①～⑤のみ --}}
+							<input class="text-wrap text-center" style="width: 3.0rem;" type="number" id="_qty_{{$oid}}" min="0" max="30" step="0.5" value="<?php echo $row->qty; ?>" />
+						@else
+							<div class="text-wrap text-center" style="width: 3.0rem;"><?php echo $row->qty; ?></div>
+						@endif
 
 						<!-- 「配送先」 表示エリア -->
 						<div class="text-wrap text-center inner_box inner_text" style="width: 9rem;">

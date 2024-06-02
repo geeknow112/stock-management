@@ -208,7 +208,11 @@
 						@endif
 
 						<!-- 「量(t)」 表示エリア -->
-						<div class="text-wrap text-center inner_box" style="width: 3.5rem;"><?php echo $row->qty; ?></div>
+						@if ($row->class >= 1 && $row->class < 7) {{-- 未確定列と、①～⑤のみ --}}
+							<input class="text-wrap text-center inner_box" style="width: 4.0rem;" type="number" id="_qty_{{$oid}}" min="0" max="30" step="0.5" value="<?php echo $row->qty; ?>" />
+						@else
+							<div class="text-wrap text-center inner_box" style="width: 4.0rem;"><?php echo $row->qty; ?></div>
+						@endif
 
 						<!-- 「配送先」 表示エリア -->
 						<div class="text-wrap text-center inner_box" style="width: 9rem;">
@@ -284,9 +288,9 @@
 	<!--							<a href="" class="btn btn-secondary text-center" onClick="window.prompt('車種、槽を入力してください。', ''); return false;">未注文</a>	-->
 								@else
 									@if ($cur_user->roles[0] == 'administrator')
-										<a href="#" class="btn btn-secondary text-center" onclick="confirm_make_lot_space({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}});">未作成</a>
+										<a href="#" class="btn btn-secondary text-center" onclick="confirm_make_lot_space({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}}, 'administrator');">未作成</a>
 									@elseif ($cur_user->roles[0] == 'editor')
-										<a href="#" class="btn btn-secondary text-center" onclick="confirm_make_lot_space({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}});">&emsp;&emsp;&emsp;</a>
+										<a href="#" class="btn btn-secondary text-center" onclick="confirm_make_lot_space({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}}, 'editor');">&emsp;&emsp;&emsp;</a>
 									@else
 										<span class="btn btn-secondary text-center">&emsp;&emsp;&emsp;</span>
 									@endif
