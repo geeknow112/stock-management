@@ -165,6 +165,13 @@ function createSelectBoxGoods(){
 	</div>
 
 	<div class="row mb-3">
+		<label for="shipAddrText" class="col-sm-2 col-form-label">　　　　（※ テキスト入力）</label>
+		@if ($rows->class != 8 && $rows->class != 9)
+			<input type="text" class="w-auto" id="field1" name="field1" value="{{$rows->field1}}" readonly /><!-- ship_addr (結果入力の際は、field1に登録となる) -->
+		@endif
+	</div>
+
+	<div class="row mb-3">
 		<label for="qty" class="col-sm-2 col-form-label">量(t)　<span class="badge text-bg-danger">必須</span></label>
 		@if ($rows->class != 8 && $rows->class != 9 && $rows->class != 10)
 			<select class="form-select w-75" aria-label="qty" id="qty" name="qty">
