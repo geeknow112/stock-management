@@ -224,7 +224,7 @@
 
 						<!-- 「量(t)」 表示エリア -->
 						@if ($row->class >= 1 && $row->class < 7) {{-- 未確定列と、①～⑤のみ --}}
-							<input class="text-wrap text-center" style="width: 3.0rem;" type="number" id="_qty_{{$oid}}" min="0" max="30" step="0.5" value="<?php echo $row->qty; ?>" />
+							<input class="text-wrap text-center" style="width: 3.0rem;" type="number" id="_qty_{{$oid}}" min="0" max="30" step="0.5" value="<?php echo $row->qty; ?>" disabled />
 						@else
 							<div class="text-wrap text-center" style="width: 3.0rem;"><?php echo $row->qty; ?></div>
 						@endif
@@ -240,7 +240,7 @@
 
 							@else
 								@if ($row->tank_name)
-									<select class="w-100" id="" name="">
+									<select class="w-100" id="" name="" disabled>
 										<option>{{$row->tank_name}}</option>
 									</select>
 								@else
