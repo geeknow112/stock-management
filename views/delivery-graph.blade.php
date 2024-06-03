@@ -216,15 +216,29 @@
 
 						<!-- 「配送先」 表示エリア -->
 						<div class="text-wrap text-center inner_box" style="width: 9rem;">
-						<?php
-							if (in_array($row->class, array(8,9))) {
-								echo ($row->field1) ? sprintf('%s <br>', $row->field1) : '- <br>';
+							@if (in_array($row->class, array(8,9)))
+								@if ($row->field1)
+									{{$row->field1}}
+								@else
+									-
+								@endif
 
-							} else {
-								echo ($row->tank_name) ? sprintf('%s <br>', $row->tank_name) : '- <br>';
-							}
-							echo ($row->outgoing_warehouse == 1) ? '<span style="color: red;">(内)</span>' : '&emsp;';
-						?>
+							@else
+								@if ($row->tank_name)
+									<select class="w-100" id="" name="">
+										<option>{{$row->tank_name}}</option>
+									</select>
+								@else
+									- 
+								@endif
+							@endif
+							<br>
+
+							@if ($row->outgoing_warehouse == 1)
+								<span style="color: red;">(内)</span>
+							@else
+								&emsp;
+							@endif
 						</div>
 
 						<!-- 「入庫予定日」|「出庫倉庫」 表示エリア -->
