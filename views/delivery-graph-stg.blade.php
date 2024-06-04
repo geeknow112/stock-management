@@ -224,9 +224,9 @@
 
 						<!-- 「量(t)」 表示エリア -->
 						@if ($row->class >= 1 && $row->class < 7) {{-- 未確定列と、①～⑤のみ --}}
-							<input class="text-wrap text-center" style="width: 3.0rem;" type="number" id="_qty_{{$oid}}" min="0" max="30" step="0.5" value="<?php echo $row->qty; ?>" />
+							<input class="text-wrap text-center inner_box" style="width: 3.0rem;" type="number" id="_qty_{{$oid}}" min="0" max="30" step="0.5" value="<?php echo $row->qty; ?>" />
 						@else
-							<div class="text-wrap text-center" style="width: 3.0rem;"><?php echo $row->qty; ?></div>
+							<div class="text-wrap text-center inner_box" style="width: 3.0rem;"><?php echo $row->qty; ?></div>
 						@endif
 
 						<!-- 「配送先」 表示エリア -->
@@ -475,7 +475,9 @@
 					@foreach ($rows as $delivery_dt => $list)
 					<tr id="user-1">
 						<td class="_sticky" id="sticky" colspan="3">
-							<a href="#">{{$delivery_dt}}</a><br />
+							<!--<a href="#">{{$delivery_dt}}</a><br />-->
+							<?php $dt = date_create($delivery_dt); ?>
+							<a href="#"><?php echo date_format($dt, 'm/d'); ?></a><br />
 <!--							<p>　1槽</p>-->
 						</td>
 
