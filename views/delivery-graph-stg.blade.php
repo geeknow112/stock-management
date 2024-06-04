@@ -473,16 +473,16 @@
 					@foreach ($rows as $delivery_dt => $list)
 					<tr id="user-1">
 						<td class="_sticky" id="sticky" colspan="3">
-							<!--<a href="#">{{$delivery_dt}}</a><br />-->
-							<?php $dt = date_create($delivery_dt); ?>
-							<a href="#"><?php echo date_format($dt, 'm/d'); ?></a><br />
-							<p>　1槽</p>
+							<a href="#">{{$delivery_dt}}</a><br />
+<!--							<p>　1槽</p>-->
 						</td>
 
 						<!-- 6t 0 -->
 						@if ($cur_user->roles[0] != 'subscriber')
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 1, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 2, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 3, $initForm, $cur_user); @endphp
 						</td>
 						@endif
 
@@ -490,177 +490,77 @@
 						@if ($cur_user->roles[0] != 'subscriber')
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 1, 1, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 1, 2, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 1, 3, $initForm, $cur_user); @endphp
 						</td>
 						@endif
 
 						<!-- 6t 2 -->
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 2, 1, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 2, 2, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 2, 3, $initForm, $cur_user); @endphp
 						</td>
 
 						<!-- 6t 3 -->
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 3, 1, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 3, 2, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 3, 3, $initForm, $cur_user); @endphp
 						</td>
 
 						<!-- 6t 4 -->
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 4, 1, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 4, 2, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 4, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 5 -->
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 5, 1, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 5, 2, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 5, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 6 -->
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 6, 1, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 6, 2, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 6, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 7 -->
 						@if ($cur_user->roles[0] == 'administrator')
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 7, 1, $initForm, $cur_user); @endphp
 							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 1, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 7, 2, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 2, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 7, 3, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 8, 1, $initForm, $cur_user); @endphp
 							@php innerTableFixed($delivery_dt, $list, 8, 1, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 8, 2, $initForm, $cur_user); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, 2, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 8, 3, $initForm, $cur_user); @endphp
+							@php innerTableFixed($delivery_dt, $list, 8, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 9 -->
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 9, 1, $initForm, $cur_user); @endphp
 							@php innerTableFixed($delivery_dt, $list, 9, 1, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 9, 2, $initForm, $cur_user); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, 2, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $list, 9, 3, $initForm, $cur_user); @endphp
+							@php innerTableFixed($delivery_dt, $list, 9, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 10 -->
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 10, 1, $initForm, $cur_user); @endphp
 							@php innerTableFixed($delivery_dt, $list, 10, 1, $initForm, $cur_user); @endphp
-						</td>
-						@endif
-					</tr>
-					<tr id="user-1">
-						<td class="_sticky" colspan="3">
-							<p>　2槽</p>
-						</td>
-
-						<!-- 6t 0 -->
-						@if ($cur_user->roles[0] != 'subscriber')
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 2, $initForm, $cur_user); @endphp
-						</td>
-						@endif
-
-						<!-- 6t 1 -->
-						@if ($cur_user->roles[0] != 'subscriber')
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 1, 2, $initForm, $cur_user); @endphp
-						</td>
-						@endif
-
-						<!-- 6t 2 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 2, 2, $initForm, $cur_user); @endphp
-						</td>
-
-						<!-- 6t 3 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 3, 2, $initForm, $cur_user); @endphp
-						</td>
-
-						<!-- 6t 4 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 4, 2, $initForm, $cur_user); @endphp
-						</td>
-						<!-- 6t 5 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 5, 2, $initForm, $cur_user); @endphp
-						</td>
-						<!-- 6t 6 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 6, 2, $initForm, $cur_user); @endphp
-						</td>
-						<!-- 6t 7 -->
-						@if ($cur_user->roles[0] == 'administrator')
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 7, 2, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 2, $initForm, $cur_user); @endphp
-						</td>
-						<!-- 6t 8 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 8, 2, $initForm, $cur_user); @endphp
-							@php innerTableFixed($delivery_dt, $list, 8, 2, $initForm, $cur_user); @endphp
-						</td>
-						<!-- 6t 9 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 9, 2, $initForm, $cur_user); @endphp
-							@php innerTableFixed($delivery_dt, $list, 9, 2, $initForm, $cur_user); @endphp
-						</td>
-						<!-- 6t 10 -->
-						<td colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 10, 2, $initForm, $cur_user); @endphp
 							@php innerTableFixed($delivery_dt, $list, 10, 2, $initForm, $cur_user); @endphp
-						</td>
-						@endif
-					</tr>
-					<tr id="user-1" style="border-bottom: solid 1px gray;">
-						<td class="_sticky" colspan="3">
-							<p>　3槽</p>
-						</td>
-
-						<!-- 6t 0 -->
-						@if ($cur_user->roles[0] != 'subscriber')
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 3, $initForm, $cur_user); @endphp
-						</td>
-						@endif
-
-						<!-- 6t 1 -->
-						@if ($cur_user->roles[0] != 'subscriber')
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 1, 3, $initForm, $cur_user); @endphp
-						</td>
-						@endif
-
-						<!-- 6t 2 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 2, 3, $initForm, $cur_user); @endphp
-						</td>
-
-						<!-- 6t 3 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 3, 3, $initForm, $cur_user); @endphp
-						</td>
-
-						<!-- 6t 4 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 4, 3, $initForm, $cur_user); @endphp
-						</td>
-						<!-- 6t 5 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 5, 3, $initForm, $cur_user); @endphp
-						</td>
-						<!-- 6t 6 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 6, 3, $initForm, $cur_user); @endphp
-						</td>
-						<!-- 6t 7 -->
-						@if ($cur_user->roles[0] == 'administrator')
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 7, 3, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 3, $initForm, $cur_user); @endphp
-						</td>
-						<!-- 6t 8 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 8, 3, $initForm, $cur_user); @endphp
-							@php innerTableFixed($delivery_dt, $list, 8, 3, $initForm, $cur_user); @endphp
-						</td>
-						<!-- 6t 9 -->
-						<td colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 9, 3, $initForm, $cur_user); @endphp
-							@php innerTableFixed($delivery_dt, $list, 9, 3, $initForm, $cur_user); @endphp
-						</td>
-						<!-- 6t 10 -->
-						<td colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 10, 3, $initForm, $cur_user); @endphp
 							@php innerTableFixed($delivery_dt, $list, 10, 3, $initForm, $cur_user); @endphp
 						</td>
