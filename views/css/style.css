@@ -65,6 +65,11 @@
 		font-size: 16px;
 	}
 
+	.inner_box_sp {
+		width: 3rem; background: #eeeeee; border-right: 1px solid #d3d3d3;
+		font-size: 12px;
+	}
+
 	#btn_unregist {
 		width: 5.6rem; 
 		color: #fff;
