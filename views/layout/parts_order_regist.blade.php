@@ -31,11 +31,11 @@
 					@if ($i == '0')
 					<option value=""></option>
 					@else
-					<option value="{{$i}}" @if ($i == $rows->class) selected @endif >{{$i}} : {{$d}}</option>
+					<option value="{{$i}}" @if ($i == $rows->class) selected @endif >{{$d}}</option>
 					@endif
 				@endforeach
 			@else
-					<option value="{{$rows->class}}">{{$rows->class}} : 6t-{{$rows->class}}</option>
+					<option value="{{$rows->class}}">6t-{{$rows->class}}</option>
 			@endif
 		</select>
 	</div>
