@@ -289,12 +289,12 @@
 											<option value="{{$i}}">{{$d}}</option>
 										@endforeach
 							--}}
-											<option value="1">6t-1</option>
-											<option value="2">6t-2</option>
-											<option value="3">6t-3</option>
-											<option value="4">6t-4</option>
-											<option value="5">6t-5</option>
-											<option value="6">6t-6</option>
+											<option value="1">未確定</option>
+											<option value="2">6t-1</option>
+											<option value="3">6t-2</option>
+											<option value="4">6t-3</option>
+											<option value="5">6t-4</option>
+											<option value="6">6t-5</option>
 <!--											<option value="7">6t-7</option>	-->
 									</select>
 									<select class="" id="cars_tank_{{$oid}}" name="">
