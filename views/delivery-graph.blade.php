@@ -230,7 +230,9 @@
 										<option @if($row->tank_name) selected @endif >{{$row->tank_name}}</option>
 									</select>
 								@else
-									- 
+									<select class="w-100" id="" name="">
+										<option></option>
+									</select>
 								@endif
 							@endif
 							<br>
