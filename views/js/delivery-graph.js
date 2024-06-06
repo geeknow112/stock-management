@@ -84,6 +84,45 @@ console.log(oid);
 }
 
 /**
+ * [更新]ボタン押下時の処理
+ * 
+ **/
+function change_order(oid) {
+
+	var r_order_id = 'r_order_' + oid;
+	var change_qty_id = 'change_qty_' + oid;
+//	var cars_class_id = 'cars_class_' + oid;
+//	var cars_tank_id = 'cars_tank_' + oid;
+console.log(change_qty_id);
+	var change_qty = document.getElementById(change_qty_id).value;
+console.log(change_qty);
+//	var cars_class = document.getElementById(cars_class_id).value;
+//	var cars_tank = document.getElementById(cars_tank_id).value;
+
+	if (window.confirm('更新しますか？')) {
+		document.forms.method = 'post';
+		document.forms.action.value = 'order_update';
+		//document.forms.oid.value = '1';
+console.log(oid);
+console.log(change_qty_id);
+console.log(change_qty);
+		document.getElementById(r_order_id).value = r_order_id;
+		document.forms.change_qty.value = change_qty;
+//		document.forms.class.value = cars_class;
+//		document.forms.cars_tank.value = cars_tank;
+
+	/*
+		document.forms.r_delivery_dt.value = <?php echo $row->delivery_dt; ?>;
+		document.forms.r_class.value = <?php echo $row->class; ?>;
+		document.forms.r_tank.value = '{{$row->cars_tank}}';
+		document.forms.base_sales.value = '1';
+		document.forms.cmd.value = 'regist';
+	*/	document.forms.submit();
+	}
+
+}
+
+/**
  * 受領書受取の確認
  * 
  **/

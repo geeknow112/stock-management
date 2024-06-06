@@ -354,7 +354,20 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 		if (!isset($get->action) || $post->action == 'make_lot_space') { $get->action = $post->action; }
 
+		if (!isset($get->action) || $post->action == 'order_update') { $get->action = $post->action; }
+
 		switch($get->action) {
+			case 'order_update': // 「量」、「配送先」の更新
+$this->vd($post);
+				$data['sales'] = $post->sales;
+				$data['repeat_fg'] = $post->repeat_fg; // repeat_fgをupdDetailで初期化させないため
+				$data['receipt_fg'] = true;
+				$data['qty'] = $post->change_qty;
+				(object) $data;
+$this->vd($data);exit;
+				//$result = $this->getTb()->updDetail($get, $data);
+				break;
+
 			case 'make_lot_space': // 配送予定表からロット登録欄の作成
 				$data['sales'] = $post->sales;
 				$data['repeat_fg'] = $post->repeat_fg; // repeat_fgをupdDetailで初期化させないため
