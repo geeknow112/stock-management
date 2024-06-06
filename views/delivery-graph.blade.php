@@ -104,6 +104,8 @@
 			<input type="hidden" name="repeat_fg" value="">
 			<input type="hidden" name="use_stock" value="">
 
+			<input type="hidden" name="change_qty" value="">
+
 			<input type="hidden" name="oid" value="">
 			<input type="hidden" name="odata" value="">
 
@@ -207,9 +209,12 @@
 							<div class="text-wrap text-center inner_box_repeat" style="width: 8rem;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 						@endif
 
+						<?php
+						$oid = $row->sales. "_". $row->goods. "_". $row->repeat. "_". str_replace('-', '', $delivery_dt);
+						?>
 						<!-- 「量(t)」 表示エリア -->
 						@if ($row->class >= 1 && $row->class < 7) {{-- 未確定列と、①～⑤のみ --}}
-							<input class="text-wrap text-center inner_box" style="width: 4.0rem;" type="number" id="_qty_{{$oid}}" min="0" max="30" step="0.5" value="<?php echo $row->qty; ?>" />
+							<input class="text-wrap text-center inner_box" style="width: 4.0rem;" type="number" id="change_qty_{{$oid}}" min="0" max="30" step="0.5" value="<?php echo $row->qty; ?>" />
 						@else
 							<div class="text-wrap text-center inner_box" style="width: 4.0rem;"><?php echo $row->qty; ?></div>
 						@endif
@@ -244,7 +249,8 @@
 							@endif
 
 							@if (in_array($row->class, array(1,2,3,4,5,6)))
-								<span><input type="button" class="btn btn-secondary text-center" value="更新" onclick="window.confirm('更新しますか？');"></span>
+								<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
+								<span><input type="button" class="btn btn-secondary text-center" value="更新" onclick="change_order('{{$oid}}');"></span>
 							@endif
 						</div>
 
