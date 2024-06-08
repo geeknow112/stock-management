@@ -87,39 +87,24 @@ console.log(oid);
  * [更新]ボタン押下時の処理
  * 
  **/
-function change_order(oid) {
+function change_order(sales = null, repeat_fg = null) {
+	const change_qty_id = 'change_qty_' + sales;
+	const change_qty = document.getElementById(change_qty_id).value;
 
-	var r_order_id = 'r_order_' + oid;
-	var change_qty_id = 'change_qty_' + oid;
-//	var cars_class_id = 'cars_class_' + oid;
-//	var cars_tank_id = 'cars_tank_' + oid;
-console.log(change_qty_id);
-	var change_qty = document.getElementById(change_qty_id).value;
-console.log(change_qty);
-//	var cars_class = document.getElementById(cars_class_id).value;
-//	var cars_tank = document.getElementById(cars_tank_id).value;
+	const change_ship_addr_id = 'change_ship_addr_' + sales;
+	const change_ship_addr = document.getElementById(change_ship_addr_id).value;
 
-	if (window.confirm('更新しますか？')) {
-		document.forms.method = 'post';
-		document.forms.action.value = 'order_update';
-		//document.forms.oid.value = '1';
-console.log(oid);
-console.log(change_qty_id);
-console.log(change_qty);
-		document.getElementById(r_order_id).value = r_order_id;
-		document.forms.change_qty.value = change_qty;
-//		document.forms.class.value = cars_class;
-//		document.forms.cars_tank.value = cars_tank;
-
-	/*
-		document.forms.r_delivery_dt.value = <?php echo $row->delivery_dt; ?>;
-		document.forms.r_class.value = <?php echo $row->class; ?>;
-		document.forms.r_tank.value = '{{$row->cars_tank}}';
-		document.forms.base_sales.value = '1';
-		document.forms.cmd.value = 'regist';
-	*/	document.forms.submit();
+	if (change_qty != false) {
+		if (window.confirm('更新しますか？')) {
+			document.forms.method = 'post';
+			document.forms.action.value = 'order_update';
+			document.forms.sales.value = sales;
+			document.forms.repeat_fg.value = repeat_fg;
+			document.forms.change_qty.value = change_qty;
+			document.forms.change_ship_addr.value = change_ship_addr;
+			document.forms.submit();
+		}
 	}
-
 }
 
 /**
