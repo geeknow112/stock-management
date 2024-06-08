@@ -358,14 +358,12 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 		switch($get->action) {
 			case 'order_update': // 「量」、「配送先」の更新
-$this->vd($post);
 				$data['sales'] = $post->sales;
 				$data['repeat_fg'] = $post->repeat_fg; // repeat_fgをupdDetailで初期化させないため
-				$data['receipt_fg'] = true;
-				$data['qty'] = $post->change_qty;
+				$data['qty'] = number_format($post->change_qty, 1);
+				$data['ship_addr'] = $post->change_ship_addr;
 				(object) $data;
-$this->vd($data);exit;
-				//$result = $this->getTb()->updDetail($get, $data);
+				$result = $this->getTb()->updDetail($get, $data);
 				break;
 
 			case 'make_lot_space': // 配送予定表からロット登録欄の作成
