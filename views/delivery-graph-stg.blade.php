@@ -104,6 +104,9 @@
 			<input type="hidden" name="repeat_fg" value="">
 			<input type="hidden" name="use_stock" value="">
 
+			<input type="hidden" name="change_qty" value="">
+			<input type="hidden" name="change_ship_addr" value="">
+
 			<input type="hidden" name="oid" value="">
 			<input type="hidden" name="odata" value="">
 
@@ -224,7 +227,7 @@
 
 						<!-- 「量(t)」 表示エリア -->
 						@if ($row->class >= 1 && $row->class < 7) {{-- 未確定列と、①～⑤のみ --}}
-							<input class="text-wrap text-center inner_box_sp" style="width: 3.0rem;" type="number" id="_qty_{{$oid}}" min="0" max="30" step="0.5" value="<?php echo $row->qty; ?>" />
+							<input class="text-wrap text-center inner_box_sp" style="width: 3.0rem;" type="number" id="change_qty_{{$row->sales}}" min="0" max="30" step="0.5" value="<?php echo $row->qty; ?>" />
 						@else
 							<div class="text-wrap text-center inner_box_sp" style="width: 3.0rem;"><?php echo $row->qty; ?></div>
 						@endif
@@ -239,16 +242,11 @@
 								@endif
 
 							@else
-								@if ($row->tank_name)
-									<select class="w-100" id="" name="">
-										<option></option>
-										<option @if($row->tank_name) selected @endif >{{$row->tank_name}}</option>
-									</select>
-								@else
-									<select class="w-100" id="" name="">
-										<option></option>
-									</select>
-								@endif
+								<select class="w-100" id="change_ship_addr_{{$row->sales}}" name="">
+									<?php foreach ($initForm['select']['ship_addr'][$row->customer] as $i => $tank_name) { ?>
+										<option value="{{$i}}" @if($i == $row->ship_addr) selected @endif >{{$tank_name}}</option>
+									<?php } ?>
+								</select>
 							@endif
 							<br>
 
@@ -259,7 +257,7 @@
 							@endif
 
 							@if (in_array($row->class, array(1,2,3,4,5,6)))
-								<span><input type="button" class="btn btn-secondary text-center" value="更新" onclick="window.confirm('更新しますか？');"></span>
+								<span><input type="button" class="btn btn-secondary text-center" value="更新" onclick="change_order('{{$row->sales}}', '{{$row->repeat_fg}}');"></span>
 							@endif
 						</div>
 
