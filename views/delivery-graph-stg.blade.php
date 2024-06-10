@@ -227,7 +227,7 @@
 
 						<!-- 「量(t)」 表示エリア -->
 						@if ($row->class >= 1 && $row->class < 7) {{-- 未確定列と、①～⑤のみ --}}
-							<input class="text-wrap text-center inner_box_sp" style="width: 3.0rem;" type="number" id="change_qty_{{$row->sales}}" min="0" max="30" step="0.5" value="<?php echo $row->qty; ?>" />
+							<input class="text-wrap text-center inner_box_sp" style="width: 3.0rem;" type="number" id="change_qty_{{$row->sales}}" min="0" max="6" step="0.5" value="<?php echo $row->qty; ?>" />
 						@else
 							<div class="text-wrap text-center inner_box_sp" style="width: 3.0rem;"><?php echo $row->qty; ?></div>
 						@endif
