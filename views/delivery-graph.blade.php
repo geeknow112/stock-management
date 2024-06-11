@@ -228,12 +228,14 @@
 								@endif
 
 							@else
-								<select class="w-100" id="change_ship_addr_{{$row->sales}}" name="">
-									<?php foreach ($initForm['select']['ship_addr'][$row->customer] as $i => $tank_name) { ?>
-										<option value="{{$i}}" @if($i == $row->ship_addr) selected @endif >{{$tank_name}}</option>
-									<?php } ?>
-								</select>
-								<input type="text" class="w-100" id="ship_addr_text_{{$row->sales}}" name="" value="{{$row->field1}}" /><!-- ship_addr (テキスト入力の際は、field1に登録とする(結果入力と同様)) -->
+								@if (in_array($row->class, array(1,2,3,4,5,6)))
+									<select class="w-100" id="change_ship_addr_{{$row->sales}}" name="">
+										<?php foreach ($initForm['select']['ship_addr'][$row->customer] as $i => $tank_name) { ?>
+											<option value="{{$i}}" @if($i == $row->ship_addr) selected @endif >{{$tank_name}}</option>
+										<?php } ?>
+									</select>
+									<input type="text" class="w-100" id="ship_addr_text_{{$row->sales}}" name="" value="{{$row->field1}}" /><!-- ship_addr (テキスト入力の際は、field1に登録とする(結果入力と同様)) -->
+								@endif
 							@endif
 							<br>
 
