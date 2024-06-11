@@ -94,6 +94,9 @@ function change_order(sales = null, repeat_fg = null) {
 	const change_ship_addr_id = 'change_ship_addr_' + sales;
 	const change_ship_addr = document.getElementById(change_ship_addr_id).value;
 
+	const ship_addr_text_id = 'ship_addr_text_' + sales;
+	const ship_addr_text = document.getElementById(ship_addr_text_id).value;
+
 	if (change_qty != false) {
 		if (window.confirm('更新しますか？')) {
 			document.forms.method = 'post';
@@ -102,6 +105,7 @@ function change_order(sales = null, repeat_fg = null) {
 			document.forms.repeat_fg.value = repeat_fg;
 			document.forms.change_qty.value = change_qty;
 			document.forms.change_ship_addr.value = change_ship_addr;
+			document.forms.ship_addr_text.value = ship_addr_text;
 			document.forms.submit();
 		}
 	}
