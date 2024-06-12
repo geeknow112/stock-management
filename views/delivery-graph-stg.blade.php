@@ -227,10 +227,14 @@
 						@endif
 
 						<!-- 「量(t)」 表示エリア -->
-						@if ($row->class >= 1 && $row->class < 7) {{-- 未確定列と、①～⑤のみ --}}
-							<input class="text-wrap text-center inner_box_sp" style="width: 3.0rem;" type="number" id="change_qty_{{$row->sales}}" min="0" max="6" step="0.5" value="<?php echo $row->qty; ?>" />
+						@if ($cur_user->roles[0] != 'subscriber')
+							@if ($row->class >= 1 && $row->class < 7) {{-- 未確定列と、①～⑤のみ --}}
+								<input class="text-wrap text-center inner_box" style="width: 4.0rem;" type="number" id="change_qty_{{$row->sales}}" min="0" max="6" step="0.5" value="<?php echo $row->qty; ?>" />
+							@else
+								<div class="text-wrap text-center inner_box" style="width: 4.0rem;"><?php echo $row->qty; ?></div>
+							@endif
 						@else
-							<div class="text-wrap text-center inner_box_sp" style="width: 3.0rem;"><?php echo $row->qty; ?></div>
+							<div class="text-wrap text-center inner_box" style="width: 4.0rem;"><?php echo $row->qty; ?></div>
 						@endif
 
 						<!-- 「配送先」 表示エリア -->
@@ -243,24 +247,29 @@
 								@endif
 
 							@else
-								@if (in_array($row->class, array(1,2,3,4,5,6)))
-									@if ($row->ship_addr)
-										{{$initForm['select']['ship_addr'][$row->customer][$row->ship_addr]}}<br />
-										<input type="hidden" class="" id="change_ship_addr_{{$row->sales}}" name="" value="{{$row->ship_addr}}" />
-									@else
-									<select class="w-100" id="change_ship_addr_{{$row->sales}}" name="">
-										<?php foreach ($initForm['select']['ship_addr'][$row->customer] as $i => $tank_name) { ?>
-											<option value="{{$i}}">{{$tank_name}}</option>
-										<?php } ?>
-									</select>
-									@endif
+								@if ($cur_user->roles[0] != 'subscriber')
+									@if (in_array($row->class, array(1,2,3,4,5,6)))
+										@if ($row->ship_addr)
+											{{$initForm['select']['ship_addr'][$row->customer][$row->ship_addr]}}<br />
+											<input type="hidden" class="" id="change_ship_addr_{{$row->sales}}" name="" value="{{$row->ship_addr}}" />
+										@else
+										<select class="w-100" id="change_ship_addr_{{$row->sales}}" name="">
+											<?php foreach ($initForm['select']['ship_addr'][$row->customer] as $i => $tank_name) { ?>
+												<option value="{{$i}}">{{$tank_name}}</option>
+											<?php } ?>
+										</select>
+										@endif
 
-									@if ($row->field1)
-										{{$row->field1}}
-										<input type="hidden" class="" id="ship_addr_text_{{$row->sales}}" name="" value="{{$row->field1}}" /><!-- ship_addr (テキスト入力の際は、field1に登録とする(結果入力と同様)) -->
-									@else
-										<input type="text" class="w-100" id="ship_addr_text_{{$row->sales}}" name="" value="{{$row->field1}}" /><!-- ship_addr (テキスト入力の際は、field1に登録とする(結果入力と同様)) -->
+										@if ($row->field1)
+											{{$row->field1}}
+											<input type="hidden" class="" id="ship_addr_text_{{$row->sales}}" name="" value="{{$row->field1}}" /><!-- ship_addr (テキスト入力の際は、field1に登録とする(結果入力と同様)) -->
+										@else
+											<input type="text" class="w-100" id="ship_addr_text_{{$row->sales}}" name="" value="{{$row->field1}}" /><!-- ship_addr (テキスト入力の際は、field1に登録とする(結果入力と同様)) -->
+										@endif
 									@endif
+								@else
+									{{$initForm['select']['ship_addr'][$row->customer][$row->ship_addr]}}<br />
+									{{$row->field1}}
 								@endif
 							@endif
 							<br>
@@ -271,8 +280,10 @@
 								&emsp;
 							@endif
 
-							@if (in_array($row->class, array(1,2,3,4,5,6)))
-								<span><input type="button" class="btn btn-secondary text-center" value="更新" onclick="change_order('{{$row->sales}}', '{{$row->repeat_fg}}');"></span>
+							@if ($cur_user->roles[0] != 'subscriber')
+								@if (in_array($row->class, array(1,2,3,4,5,6)))
+									<span><input type="button" class="btn btn-secondary text-center" value="更新" onclick="change_order('{{$row->sales}}', '{{$row->repeat_fg}}');"></span>
+								@endif
 							@endif
 						</div>
 
