@@ -752,35 +752,35 @@
 
 						<!-- 6t 2 -->
 						<td class="" colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 2, 1, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $list, 2, 2, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $list, 2, 3, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 2, 1, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 2, 2, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 2, 3, $initForm, $cur_user); @endphp
 						</td>
 
 						<!-- 6t 3 -->
 						<td class="" colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 3, 1, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $list, 3, 2, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $list, 3, 3, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 3, 1, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 3, 2, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 3, 3, $initForm, $cur_user); @endphp
 						</td>
 
 						<!-- 6t 4 -->
 						<td class="" colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 4, 1, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $list, 4, 2, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $list, 4, 3, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 4, 1, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 4, 2, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 4, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 5 -->
 						<td class="" colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 5, 1, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $list, 5, 2, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $list, 5, 3, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 5, 1, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 5, 2, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 5, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 6 -->
 						<td class="" colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 6, 1, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $list, 6, 2, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $list, 6, 3, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 6, 1, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 6, 2, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 6, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 7 -->
 						@if ($cur_user->roles[0] == 'administrator')
