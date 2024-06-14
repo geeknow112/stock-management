@@ -228,7 +228,7 @@
 
 						<!-- 「量(t)」 表示エリア -->
 						@if ($cur_user->roles[0] != 'subscriber')
-							@if ($row->class >= 1 && $row->class < 7) {{-- 未確定列と、①～⑤のみ --}}
+							@if ($row->class >= 1 && $row->class < 7 && !$row->field2) {{-- 未確定列と、①～⑤のみ --}}
 								<input class="text-wrap text-center inner_box" style="width: 4.0rem;" type="number" id="change_qty_{{$row->sales}}" min="0" max="6" step="0.5" value="<?php echo $row->qty; ?>" />
 							@else
 								<div class="text-wrap text-center inner_box" style="width: 4.0rem;"><?php echo $row->qty; ?></div>
@@ -518,18 +518,18 @@
 						<!-- 「品名」 表示エリア -->
 						@if ($row->repeat_fg != 1)
 							@if ($row->upuser != 'ceo')
-							<div class="text-center inner_box"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							<div class="text-center inner_box_sp"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 							@else
-							<div class="text-center inner_box" style="background: yellow;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							<div class="text-center inner_box_sp" style="background: yellow;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 							@endif
 						@else
-							<div class="text-center inner_box_repeat"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							<div class="text-center inner_box_repeat_sp"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 						@endif
 
 						<div><!-- 中央 div -->
 							<div class="text-wrap text-center" style="width: 9.0rem; background: #eeeeee; border-bottom: 1px solid #d3d3d3;"><!-- 「量(t)」 表示エリア -->
 								@if ($cur_user->roles[0] != 'subscriber')
-									@if ($row->class >= 1 && $row->class < 7) {{-- 未確定列と、①～⑤のみ --}}
+									@if ($row->class >= 1 && $row->class < 7 && !$row->field2) {{-- 未確定列と、①～⑤のみ --}}
 										<input class="text-center" style="width: 4.0rem;" type="number" id="change_qty_{{$row->sales}}" min="0" max="6" step="0.5" value="<?php echo $row->qty; ?>" />
 									@else
 										<?php echo $row->qty; ?>
