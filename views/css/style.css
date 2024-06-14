@@ -66,7 +66,12 @@
 	}
 
 	.inner_box_sp {
-		width: 3rem; background: #eeeeee; border-right: 1px solid #d3d3d3;
+		width: 6rem; background: #eeeeee; border-right: 1px solid #d3d3d3;
+		font-size: 12px;
+	}
+
+	.inner_box_repeat_sp {
+		width: 6rem; background: #ffc107; border-right: 1px solid #ffffff; color: #ffffff;
 		font-size: 12px;
 	}
 
