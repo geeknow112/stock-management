@@ -491,6 +491,236 @@
 	<?php	} // 管理者以外非表示 END ?>
 <?php	}	?>
 
+<?php	function innerTableSphone($delivery_dt, $list, $class, $carsTank = null, $initForm = null, $cur_user = null) {	?>
+		<?php //$role_style = ($cur_user->roles[0] == 'administrator') ? 'style_admin' : 'style_not_admin'; ?>
+		<?php
+			$ua = $_SERVER['HTTP_USER_AGENT'];
+			if ((strpos($ua, 'Android') !== false) && (strpos($ua, 'Mobile') !== false) || (strpos($ua, 'iPhone') !== false) || (strpos($ua, 'Windows Phone') !== false)) {
+				//スマホ用
+				$role_style = 'inner_table_wrap';
+
+			} elseif ((strpos($ua, 'Android') !== false) || (strpos($ua, 'iPad') !== false)) {
+				//タブレット用
+				$role_style = 'inner_table_wrap';
+
+			} else {
+				// PC用
+				$role_style = ($cur_user->roles[0] == 'administrator') ? 'style_admin' : 'style_not_admin';
+			}
+		?>
+		<div class="{{$role_style}}">
+<!--	<div class="card" style="width: 40rem;">-->
+		<?php foreach ($list as $sales => $d) { ?>
+			<?php foreach ($d as $id => $row) { ?>
+				<?php if ($row->class == $class && $row->cars_tank == $carsTank) { ?>
+					<div class="d-flex flex-row bd-highlight mb-3">
+
+						<!-- 「品名」 表示エリア -->
+						@if ($row->repeat_fg != 1)
+							@if ($row->upuser != 'ceo')
+							<div class="text-center inner_box"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							@else
+							<div class="text-center inner_box" style="background: yellow;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							@endif
+						@else
+							<div class="text-center inner_box_repeat"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+						@endif
+
+						<div><!-- 中央 div -->
+							<div class="text-wrap text-center" style="width: 9.0rem; background: #eeeeee; border-bottom: 1px solid #d3d3d3;"><!-- 「量(t)」 表示エリア -->
+								@if ($cur_user->roles[0] != 'subscriber')
+									@if ($row->class >= 1 && $row->class < 7) {{-- 未確定列と、①～⑤のみ --}}
+										<input class="text-center" style="width: 4.0rem;" type="number" id="change_qty_{{$row->sales}}" min="0" max="6" step="0.5" value="<?php echo $row->qty; ?>" />
+									@else
+										<?php echo $row->qty; ?>
+									@endif
+								@else
+									<?php echo $row->qty; ?>
+								@endif
+							</div>
+
+							<div class="text-wrap text-center" style="width: 9.0rem; background: #eeeeee; border-bottom: 1px solid #d3d3d3;"><!-- 「配送先」 表示エリア -->
+								@if (in_array($row->class, array(8,9)))
+									@if ($row->field1)
+										{{$row->field1}}
+									@else
+										-
+									@endif
+
+								@else
+									@if ($cur_user->roles[0] != 'subscriber')
+										@if (in_array($row->class, array(1,2,3,4,5,6)))
+											@if ($row->ship_addr || $row->field1)
+												{{$initForm['select']['ship_addr'][$row->customer][$row->ship_addr]}}<br />
+												<input type="hidden" class="" id="change_ship_addr_{{$row->sales}}" name="" value="{{$row->ship_addr}}" />
+
+												{{$row->field1}}
+												<input type="hidden" class="" id="ship_addr_text_{{$row->sales}}" name="" value="{{$row->field1}}" /><!-- ship_addr (テキスト入力の際は、field1に登録とする(結果入力と同様)) -->
+											@else
+												<select class="w-100" id="change_ship_addr_{{$row->sales}}" name="">
+													<?php foreach ($initForm['select']['ship_addr'][$row->customer] as $i => $tank_name) { ?>
+														<option value="{{$i}}">{{$tank_name}}</option>
+													<?php } ?>
+												</select>
+												<input type="text" class="w-100" id="ship_addr_text_{{$row->sales}}" name="" value="{{$row->field1}}" /><!-- ship_addr (テキスト入力の際は、field1に登録とする(結果入力と同様)) -->
+											@endif
+										@endif
+									@else
+										{{$initForm['select']['ship_addr'][$row->customer][$row->ship_addr]}}<br />
+										{{$row->field1}}
+									@endif
+								@endif
+								<br>
+
+								@if ($row->outgoing_warehouse == 1)
+									<span style="color: red;">(内)</span>
+								@else
+									&emsp;
+								@endif
+
+								@if ($cur_user->roles[0] != 'subscriber')
+									@if (in_array($row->class, array(1,2,3,4,5,6)))
+										<span><input type="button" class="btn btn-secondary text-center" value="更新" onclick="change_order('{{$row->sales}}', '{{$row->repeat_fg}}');"></span>
+									@endif
+								@endif
+							</div>
+
+							<div class="text-wrap text-center" style="width: 9.0rem; background: #eeeeee; border-bottom: 1px solid #d3d3d3;"><!-- 「入庫予定日」|「出庫倉庫」 表示エリア -->
+								@if ($row->class <= 7) {{-- ⑧、⑨、⑩の場合、出庫倉庫を表示 --}}
+									@if ($row->delivery_dt <= $row->arrival_dt)
+										<div class="text-wrap text-center inner_box inner_text bg-danger text-light"><?php echo date('m/d', strtotime($row->arrival_dt)); ?></div>
+									@else
+										<?php
+											if ($row->class != 0 && $row->remark && !$row->use_stock) {
+												$bg_arrival_dt = 'bg-info text-light';
+											} elseif ($row->class != 0 && $row->use_stock) {
+												$bg_arrival_dt = 'bg-success text-light';
+											} else {
+												$bg_arrival_dt = '';
+											}
+										?>
+										<div class="text-wrap text-center {{$bg_arrival_dt}}">@if (!$row->use_stock)<?php echo date('m/d', strtotime($row->arrival_dt)); ?>@endif</div>
+									@endif
+								@else
+									<div class="text-wrap text-center inner_box inner_text">{{$initForm['select']['outgoing_warehouse'][$row->outgoing_warehouse]}}</div>
+								@endif
+							</div>
+						</div>
+
+						<div><!-- 右 div -->
+							<div class="text-center" style="height: 75%; background: #eeeeee; border-left: 1px solid #d3d3d3;"><!-- 「(顧客)氏名」 表示エリア -->
+								<?php echo str_replace('　', '', $row->customer_name); ?>
+							</div>
+
+							<!-- 操作ボタン等 表示エリア -->
+							<div class="text-center">
+								@if ($row->class != 7)
+									@if ($row->lot_fg == 0)
+										@if (isset($row->base_sales))
+										<div>
+									<?php
+									$oid = $row->sales. "_". $row->goods. "_". $row->repeat. "_". str_replace('-', '', $delivery_dt);
+									?>
+											<input type="date" class="col-sm-6 col-form-control w-auto init_dt" id="delivery_dt_{{$oid}}" name="" value="">
+											<input type="hidden" class="" id="r_arrival_dt_{{$oid}}" name="" value="{{$row->arrival_dt}}">
+											<input type="hidden" class="" id="r_warehouse_{{$oid}}" name="" value="{{$row->outgoing_warehouse}}">
+											<br />
+											<select class="" id="cars_class_{{$oid}}" name="">
+									{{--
+												@foreach($initForm['select']['car_model'] as $i => $d)
+													<option value="{{$i}}">{{$d}}</option>
+												@endforeach
+									--}}
+													<option value="1">未確定</option>
+													<option value="2">6t-1</option>
+													<option value="3">6t-2</option>
+													<option value="4">6t-3</option>
+													<option value="5">6t-4</option>
+													<option value="6">6t-5</option>
+		<!--											<option value="7">6t-7</option>	-->
+											</select>
+											<select class="" id="cars_tank_{{$oid}}" name="">
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+											</select>
+											<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
+											<span class="sp_br"></span>
+											<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order('{{$oid}}');">
+										</div>
+
+			<!--							<a href="" class="btn btn-secondary text-center" onClick="window.prompt('車種、槽を入力してください。', ''); return false;">未注文</a>	-->
+										@else
+											@if ($cur_user->roles[0] == 'administrator')
+												<a href="#" class="btn btn-secondary text-center" onclick="confirm_make_lot_space({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}});">未作成</a>
+											@elseif ($cur_user->roles[0] == 'editor')
+												<a href="#" class="btn btn-secondary text-center" onclick="confirm_make_lot_space({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}});">&emsp;&emsp;&emsp;</a>
+											@else
+												<span class="btn btn-secondary text-center">&emsp;&emsp;&emsp;</span>
+											@endif
+										@endif
+									@elseif ($row->lot_fg == 1)
+											@if ($cur_user->roles[0] == 'administrator')
+												<a href="#" class="btn text-center" id="btn_unregist" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">未登録</a>
+											@else
+												<span class="btn text-center" id="btn_unregist">&emsp;&emsp;&emsp;</span>
+											@endif
+									@else
+										@if ($row->receipt_fg != 1)
+											@if ($cur_user->roles[0] == 'administrator')
+												<a href="#" class="btn btn-success text-center" onclick="check_status({{$row->sales}}, {{$row->goods}}, {{$row->repeat_fg}}, {{$row->use_stock}});">登録済</a>
+												<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="on"><label class="btn btn-outline-primary" onclick="switch_receipt({{$row->sales}});">受領書</label><!-- 受領書の受取確認用 -->
+		<!--										<input type="checkbox" class="btn-check" id="check-receipt_{{$row->sales}}" autocomplete="off"><label class="btn btn-outline-primary" for="check-receipt_{{$row->sales}}">受領書</label>--><!-- 受領書の受取確認用 -->
+											@else
+												<span class="btn btn-success text-center">&emsp;&emsp;&emsp;</span>
+											@endif
+										@else
+											@if ($cur_user->roles[0] == 'administrator')
+												<a href="#" class="btn btn-danger text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">&emsp;完了&emsp;</a>
+											@else
+												<span class="btn btn-danger text-center">&emsp;&emsp;&emsp;</span>
+											@endif
+										@endif
+									@endif
+								@else
+									@if ($row->receipt_fg != 1)
+										<div>
+									<?php
+									$oid = $row->sales. "_". $row->goods. "_". $row->repeat. "_". str_replace('-', '', $delivery_dt);
+									?>
+											<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt_{{$oid}}" name="" value="">
+											<input type="hidden" class="" id="r_arrival_dt_{{$oid}}" name="" value="{{$row->arrival_dt}}">
+											<input type="hidden" class="" id="r_warehouse_{{$oid}}" name="" value="{{$row->outgoing_warehouse}}">
+											<br />
+											<select class="" id="cars_class_{{$oid}}" name="">
+									{{--
+												@foreach($initForm['select']['car_model'] as $i => $d)
+													<option value="{{$i}}">{{$d}}</option>
+												@endforeach
+									--}}
+													<option value="7">6t-7</option>
+											</select>
+											<select class="" id="cars_tank_{{$oid}}" name="">
+													<option value="1">1</option>
+													<option value="2">2</option>
+													<option value="3">3</option>
+											</select>
+											<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
+											<input type="button" class="btn btn-info text-center text-light" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
+										</div>
+									@else
+										<a href="#" class="btn btn-danger text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">&emsp;完了&emsp;</a>
+									@endif
+								@endif
+							</div>
+						</div>
+					</div>
+				<?php }	?>
+			<?php }	?>
+		<?php }	?>
+	</div>
+<?php	}	?>
+
 			@if (isset($rows) && count($rows))
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($rows as $delivery_dt => $list)
@@ -514,9 +744,9 @@
 						<!-- 6t 1 -->
 						@if ($cur_user->roles[0] != 'subscriber')
 						<td class="" colspan="{{$colspan}}">
-							@php innerTable($delivery_dt, $list, 1, 1, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $list, 1, 2, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $list, 1, 3, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 1, 1, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 1, 2, $initForm, $cur_user); @endphp
+							@php innerTableSphone($delivery_dt, $list, 1, 3, $initForm, $cur_user); @endphp
 						</td>
 						@endif
 
