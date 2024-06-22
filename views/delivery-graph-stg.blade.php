@@ -515,15 +515,21 @@
 				<?php if ($row->class == $class && $row->cars_tank == $carsTank) { ?>
 					<div class="d-flex flex-row bd-highlight mb-3">
 
+						@if ($row->outgoing_warehouse == 1)
+							<?php $ni = '<span style="color: red; background: white; padding: 3px;">(内)</span>'; ?>
+						@else
+							<?php $ni = '&emsp;'; ?>
+						@endif
+
 						<!-- 「品名」 表示エリア -->
 						@if ($row->repeat_fg != 1)
 							@if ($row->upuser != 'ceo')
-							<div class="text-center inner_box_sp"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							<div class="text-center inner_box_sp"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a><br><br><?php echo $ni; ?></div>
 							@else
-							<div class="text-center inner_box_sp" style="background: yellow;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							<div class="text-center inner_box_sp" style="background: yellow;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a><br><br><?php echo $ni; ?></div>
 							@endif
 						@else
-							<div class="text-center inner_box_repeat_sp"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							<div class="text-center inner_box_repeat_sp"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a><br><br><?php echo $ni; ?></div>
 						@endif
 
 						<div><!-- 中央 div -->
@@ -571,12 +577,6 @@
 									@endif
 								@endif
 								<br>
-
-								@if ($row->outgoing_warehouse == 1)
-									<span style="color: red;">(内)</span>
-								@else
-									&emsp;
-								@endif
 
 								@if ($cur_user->roles[0] != 'subscriber')
 									@if (in_array($row->class, array(1,2,3,4,5,6)))
