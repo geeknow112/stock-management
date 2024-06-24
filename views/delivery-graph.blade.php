@@ -248,6 +248,8 @@
 											</select>
 											<input type="text" class="w-100" id="ship_addr_text_{{$row->sales}}" name="" value="{{$row->field1}}" /><!-- ship_addr (テキスト入力の際は、field1に登録とする(結果入力と同様)) -->
 										@endif
+									@else
+										{{$row->tank_name}}
 									@endif
 								@else
 									{{$initForm['select']['ship_addr'][$row->customer][$row->ship_addr]}}<br />
