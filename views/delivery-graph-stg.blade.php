@@ -216,14 +216,11 @@
 					<div class="d-flex flex-row bd-highlight mb-3">
 
 						<!-- 「品名」 表示エリア -->
+						<?php $bgcolor = ($row->upuser == 'ceo') ? 'background: yellow;' : ''; ?>
 						@if ($row->repeat_fg != 1)
-							@if ($row->upuser != 'ceo')
-							<div class="text-wrap text-center inner_box inner_text"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
-							@else
-							<div class="text-wrap text-center inner_box inner_text" style="background: yellow;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
-							@endif
+							<div class="text-wrap text-center inner_box inner_text" style="{{$bgcolor}}"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 						@else
-							<div class="text-wrap text-center inner_box_repeat inner_text"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							<div class="text-wrap text-center inner_box_repeat inner_text" style="{{$bgcolor}}"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 						@endif
 
 						<!-- 「量(t)」 表示エリア -->
@@ -524,14 +521,11 @@
 						@endif
 
 						<!-- 「品名」 表示エリア -->
+						<?php $bgcolor = ($row->upuser == 'ceo') ? 'background: yellow;' : ''; ?>
 						@if ($row->repeat_fg != 1)
-							@if ($row->upuser != 'ceo')
-							<div class="text-center inner_box_sp"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a><br><br><?php echo $ni; ?></div>
-							@else
-							<div class="text-center inner_box_sp" style="background: yellow;"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a><br><br><?php echo $ni; ?></div>
-							@endif
+							<div class="text-center inner_box_sp" style="{{$bgcolor}}"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a><br><br><?php echo $ni; ?></div>
 						@else
-							<div class="text-center inner_box_repeat_sp"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a><br><br><?php echo $ni; ?></div>
+							<div class="text-center inner_box_repeat_sp" style="{{$bgcolor}}"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a><br><br><?php echo $ni; ?></div>
 						@endif
 
 						<div><!-- 中央 div -->
