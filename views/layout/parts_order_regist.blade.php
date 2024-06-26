@@ -223,6 +223,9 @@ function createSelectBoxGoods(){
 				@endif
 			@endforeach
 		</select>
+		@if ($cur_user->roles[0] != 'administrator')
+			<input type="hidden" name="outgoing_warehouse" value="{{$rows->outgoing_warehouse}}" />
+		@endif
 	</div>
 
 	<div class="">
