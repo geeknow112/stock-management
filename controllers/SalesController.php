@@ -362,6 +362,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				$data['repeat_fg'] = $post->repeat_fg; // repeat_fgをupdDetailで初期化させないため
 				$data['qty'] = number_format($post->change_qty, 1);
 				$data['ship_addr'] = $post->change_ship_addr;
+				$data['use_stock'] = $post->use_stock;
 				$data['field1'] = $post->ship_addr_text;
 				$data['field2'] = true; // 「量」を変更した場合、予定表の入力欄をテキスト表示にするため、初回変更時にフラグをtrueにする。
 				(object) $data;

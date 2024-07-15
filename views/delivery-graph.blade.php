@@ -263,7 +263,7 @@
 
 							@if ($cur_user->roles[0] != 'subscriber')
 								@if (in_array($row->class, array(1,2,3,4,5,6)))
-									<span><input type="button" class="btn btn-secondary text-center" value="更新" onclick="change_order('{{$row->sales}}', '{{$row->repeat_fg}}');"></span>
+									<span><input type="button" class="btn btn-secondary text-center" value="更新" onclick="change_order('{{$row->sales}}', '{{$row->repeat_fg}}', '{{$row->use_stock}}');"></span>
 								@endif
 							@endif
 						</div>
