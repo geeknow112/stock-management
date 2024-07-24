@@ -233,7 +233,7 @@ function createSelectBoxGoods(){
 <!--		<input type="checkbox" class="col-sm-2 form-check-input" id="repeat" name="repeat" onchange="changeCheckBox('repeat') && checkRepeat();">-->
 		<!--<input type="checkbox" class="col-sm-2 form-check-input" id="repeat_fg" name="repeat_fg" onchange="check_repeat();">-->
 
-		<input type="checkbox" class="btn-check" id="repeat_fg" name="repeat_fg" autocomplete="off" value="" onchange="check_repeat(); checkRepeat();" @if (($cur_user->roles[0] != 'administrator') || ($rows->class == 8 || $rows->class == 9 || $rows->class == 10)) disabled @endif>
+		<input type="checkbox" class="btn-check" id="repeat_fg" name="repeat_fg" autocomplete="off" value="" onchange="check_repeat(); checkRepeat();" @if (($cur_user->roles[0] == 'subscriber') || ($rows->class == 8 || $rows->class == 9 || $rows->class == 10)) disabled @elseif ($cur_user->roles[0] == 'editor') readonly @endif>
 		<label class="btn btn-outline-primary" for="repeat_fg">繰り返し予定を設定する</label>
 		@if ($rows->class == 8 || $rows->class == 9 || $rows->class == 10)
 		<span id="" class="manual-text form-text" style="color: red;">※ 「結果入力」した注文からの「繰り返し予定設定」はできません。</span>
