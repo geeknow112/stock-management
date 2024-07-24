@@ -793,6 +793,69 @@ class Stock extends Ext_Model_Base {
 	}
 
 	/**
+	 * 日付コード変換表
+	 **/
+	public $_dt_codes = array(
+		'01' => 'MJ', 
+		'02' => 'GM', 
+		'03' => 'JQ', 
+		'04' => 'OR', 
+		'05' => 'RV', 
+		'06' => 'UG', 
+		'07' => 'YE', 
+		'08' => 'CD', 
+		'09' => 'EW', 
+		'10' => 'HY', 
+		'11' => 'FT', 
+		'12' => 'LK', 
+		'13' => 'NA', 
+		'14' => 'QF', 
+		'15' => 'SI', 
+		'16' => 'TL', 
+		'17' => 'XN', 
+		'18' => 'ZP', 
+		'19' => 'WO', 
+		'20' => 'IS', 
+		'21' => 'KX', 
+		'22' => 'PU', 
+		'23' => 'DH', 
+		'24' => 'AB', 
+		'25' => 'BC', 
+		'26' => 'MZ', 
+		'27' => 'OC', 
+		'28' => 'SN', 
+		'29' => 'IR', 
+		'30' => 'FD', 
+		'31' => 'ZH'
+	);
+
+	/**
+	 * ソート用に日付コードを数字に変換
+	 **/
+	public function convertDtCodeToNumber($lot = null) {
+		$year  = substr($lot, 0, 2);
+		$month = substr($lot, 2, 2);
+		$dt_code   = substr($lot, 4, 2);
+
+		$day = array_search($dt_code, $this->_dt_codes);
+		$lot = str_replace($dt_code, $day, $lot); // ex) $lot = str_replace('MJ', '01', $lot);
+		return $lot;
+	}
+
+	/**
+	 * ソート後、表示用に数字を日付コードに変換
+	 **/
+	public function convertNumberToDtCode($lot = null) {
+		$year  = substr($lot, 0, 2);
+		$month = substr($lot, 2, 2);
+		$day   = substr($lot, 4, 2);
+
+		$dt_code = $year. $month. $this->_dt_codes[$day];
+		$lot = preg_replace('/^[0-9]{6}/', $dt_code, $lot);
+		return $lot;
+	}
+
+	/**
 	 * 
 	 **/
 	public function getInitForm() {

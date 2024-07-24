@@ -744,11 +744,18 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 					}
 
 					foreach ($tmp_lots as $lot => $list) {
+						// ソート用に日付コードを数値に変換
+						$lot = $this->getTb()->convertDtCodeToNumber($lot);
 						$lots[] = sprintf('%s (%d)', $lot, count($list));
 					}
 
 					// ロット番号のソート(先頭の年度「23,24..」の順でソート)
 					asort($lots);
+
+					// ソート後、表示用に数字を日付コードに変換
+					foreach ($lots as $i => $lot) {
+						$lots[$i] = $this->getTb()->convertNumberToDtCode($lot);
+					}
 
 					unset($tmp_lots);
 
