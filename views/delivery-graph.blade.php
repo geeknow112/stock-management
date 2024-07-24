@@ -214,6 +214,7 @@
 								<input class="text-wrap text-center inner_box" style="width: 4.0rem;" type="number" id="change_qty_{{$row->sales}}" min="0" max="6" step="0.5" value="<?php echo $row->qty; ?>" />
 							@else
 								<div class="text-wrap text-center inner_box" style="width: 4.0rem;"><?php echo $row->qty; ?></div>
+								<input type="hidden" id="change_qty_{{$row->sales}}" value="{{$row->qty}}" />
 							@endif
 						@else
 							<div class="text-wrap text-center inner_box" style="width: 4.0rem;"><?php echo $row->qty; ?></div>
