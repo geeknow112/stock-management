@@ -167,7 +167,7 @@ function createSelectBoxGoods(){
 	<div class="row mb-3">
 		<label for="shipAddrText" class="col-sm-2 col-form-label">　　　　（※ テキスト入力）</label>
 		@if ($rows->class != 8 && $rows->class != 9)
-			<input type="text" class="w-25" id="field1" name="field1" value="{{$rows->field1}}" /><!-- ship_addr (結果入力の際は、field1に登録となる) -->
+			<textarea class="ship-addr-textarea" id="field1" name="field1">{{$rows->field1}}</textarea><!-- ship_addr (結果入力の際は、field1に登録となる) -->
 		@endif
 	</div>
 
@@ -330,5 +330,11 @@ function setRepeatSDt() {
 	width: 400px;
 	padding-left: 10px;
 	#background: gray;
+}
+
+.ship-addr-textarea {
+	width: 300px;
+	height: 200px;
+	padding-left: 10px;
 }
 </style>
