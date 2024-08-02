@@ -44,6 +44,8 @@
 					<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 					&emsp;&emsp;
 					<input type="button" id="btn_print" class="btn btn-danger" onclick="exe_print();" value="印刷">
+					&emsp;&emsp;
+					<input type="button" id="btn_copy" class="btn btn-warning" onclick="copy_html();" value="コピー">
 				</div>
 			</div>
 
@@ -221,3 +223,35 @@ function exe_print() {
 	}
 }
 </style>
+
+<textarea style="width:0px; height:0px; opacity:0;" id="export_html">
+<?php if (isset($rows) && count($rows)) {
+	$h[] = '製品名';
+	$h[] = '荷姿・容量';
+	$h[] = '個数';
+	$h[] = '数量(kg)';
+	$h[] = '備考';
+	echo implode('	', $h). PHP_EOL; // output
+
+	foreach ($sort as $goods => $d) {
+		$r['goods_name'] = $d->goods_name;
+		$r['separately'] = ($d->separately_fg != true) ? "500kgTB" : "バラ";
+		$r['goods_cnt']  = ($rows[$goods]->cnt) ? number_format($rows[$goods]->cnt) : "";
+		$r['goods_stock_total'] = ($rows[$goods]->stock_total) ? number_format($rows[$goods]->stock_total) : "";
+		$r['goods_lots'] = $rows[$goods]->lots;
+		echo implode('	', $r). PHP_EOL; // output
+	}
+
+	$t['title'] = '合計';
+	$t['stock_cnt'] = number_format($stock_cnt);
+	$t['stock_sum'] = number_format($stock_sum);
+	echo '	'. implode('	', $t). PHP_EOL; // output
+} ?>
+</textarea>
+<script>
+function copy_html() {
+	var textarea = document.getElementsByTagName("textarea")[0];
+	textarea.select();
+	document.execCommand("copy");
+}
+</script>
