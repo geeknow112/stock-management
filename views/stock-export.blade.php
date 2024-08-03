@@ -226,6 +226,10 @@ function exe_print() {
 
 <textarea style="width:0px; height:0px; opacity:0;" id="export_html">
 <?php if (isset($rows) && count($rows)) {
+	echo "引取(入庫)日	". $get->s['arrival_e_dt']. PHP_EOL;
+	echo "出庫倉庫	". $initForm['select']['outgoing_warehouse'][$get->s['outgoing_warehouse']]. PHP_EOL;
+	echo PHP_EOL;
+
 	$h[] = '製品名';
 	$h[] = '荷姿・容量';
 	$h[] = '個数';
