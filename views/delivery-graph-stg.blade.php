@@ -16,6 +16,20 @@
 <!-- CDNJS :: Vue.Draggable (https://cdnjs.com/) -->
 <script src="https://cdn.jsdelivr.net/npm/vuedraggable@4.0.2/dist/vuedraggable.umd.min.js"></script>
 
+<style>
+.table-responsive {
+
+}
+
+.small-disp {
+	#background: blue;
+	transform: scale(0.2);
+	transform-origin: left top;
+	height: calc(100% / 0.2);
+	width: calc(100% / 0.2)x;
+}
+</style>
+
 <div id="wpbody-content">
 	<div class="wrap" id="wrap">
 		<h1 class="wp-heading-inline">【配送予定表】 : {{$formPage}}</h1>
@@ -137,7 +151,7 @@
 
 		<?php $colspan = 6; ?>
 		<div id="table_top">
-			<table class="table table-bordered text-nowrap">
+			<table class="table table-bordered text-nowrap small-disp">
 				<thead class="table-light">
 					<tr>
 						<th class="_sticky" colspan="3"></th>
