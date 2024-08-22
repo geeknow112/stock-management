@@ -33,6 +33,8 @@
 					<input type="button" id="search-submit" class="btn btn-primary" onclick="cmd_search();" value="検索">
 					&emsp;&emsp;
 					<input type="button" id="btn_print" class="btn btn-danger" onclick="exe_print();" value="印刷">
+					&emsp;&emsp;
+					<input type="button" id="btn_copy" class="btn btn-warning" onclick="copy_html();" value="コピー">
 				</span>
 
 			</div>
@@ -302,3 +304,66 @@ function exe_print() {
 	}
 }
 </style>
+
+<textarea style="width:0px; height:0px; opacity:0;" id="export_html">
+<?php if (isset($rows) && count($rows)) {
+	echo "引取(入庫)日	". $get->s['delivery_s_dt']. PHP_EOL;
+	echo "出庫倉庫	". $initForm['select']['outgoing_warehouse'][$get->s['outgoing_warehouse']]. PHP_EOL;
+	echo PHP_EOL;
+
+	// ■ ※①～⑥、⑧、⑨ （※配送予定表の①～⑥、⑧、⑨を集計します。）
+	$title = '■ ※①～⑥、⑧、⑨ （※配送予定表の①～⑥、⑧、⑨を集計します。）';
+	echo $title. PHP_EOL. PHP_EOL; // output
+
+	$h[] = 'No.';
+	$h[] = '品名';
+	$h[] = '容量';
+	$h[] = '量目(t)';
+	$h[] = '備考';
+	echo implode('	', $h). PHP_EOL; // output
+
+	foreach ($rows as $num => $d) {
+		$r['no'] = $num+1;
+		$r['goods_name'] = $d->goods_name;
+		$r['separately'] = ($d->separately_fg != true) ? "(T)" : "(B)";
+		$r['qty']  = ($d->qty) ? number_format($d->qty, 1) : "";
+		$r['customer_name'] = ($d->customer_name) ? $d->customer_name : "";
+		echo implode('	', $r). PHP_EOL; // output
+	}
+	$delivery_company = '運送会社	内藤運送';
+	echo PHP_EOL. $delivery_company. PHP_EOL; // output
+
+	echo PHP_EOL. PHP_EOL;
+
+	// ■ 【直取】　※⑩ （※配送予定表の⑩を集計します。）
+	$title2 = '■ 【直取】　※⑩ （※配送予定表の⑩を集計します。）';
+	echo $title2. PHP_EOL. PHP_EOL; // output
+
+	echo implode('	', $h). PHP_EOL; // output
+
+	echo PHP_EOL. PHP_EOL;
+
+
+	// ■ 【転送】　丹波SP ➤ 内藤SP
+	$title3 = '■ 【転送】　丹波SP ➤ 内藤SP';
+	echo $title3. PHP_EOL. PHP_EOL; // output
+
+	echo implode('	', $h). PHP_EOL; // output
+
+	echo PHP_EOL. PHP_EOL;
+
+
+	// ■ 【転送】　内藤SP ➤ 丹波SP
+	$title4 = '■ 【転送】　内藤SP ➤ 丹波SP';
+	echo $title4. PHP_EOL. PHP_EOL; // output
+
+	echo implode('	', $h). PHP_EOL; // output
+} ?>
+</textarea>
+<script>
+function copy_html() {
+	var textarea = document.getElementsByTagName("textarea")[0];
+	textarea.select();
+	document.execCommand("copy");
+}
+</script>
