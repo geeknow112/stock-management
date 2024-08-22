@@ -479,6 +479,19 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 
 		if (!empty($get->s['arrival_s_dt']) && !empty($get->s['arrival_e_dt'])) {
 			switch($post->cmd) {
+				case 'cancel':
+					// salesテーブルへ登録のための成形
+					$this->convertSalesData($post);
+
+$post->remark = "";
+					// salesテーブルへ更新
+					$rows = $this->getTb()->updDetail($get, $post);
+// $this->vd($post);
+//$this->vd($rows);exit;
+					break;
+			}
+
+			switch($post->cmd) {
 				case 'regist':
 					// salesテーブルへ登録のための成形
 					$this->convertSalesData($post);
@@ -497,6 +510,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 //$this->vd($post);
 // $this->vd($rows);exit;
 
+				case 'cancel':
 				case 'search':
 				default:
 					// 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。

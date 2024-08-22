@@ -125,7 +125,12 @@
 							?>
 										<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
 										<input type="date" class="col-sm-6 col-form-control w-auto" id="change_arrival_dt_{{$oid}}" name="" value="{{$d->arrival_dt}}">
-										<input type="button" class="btn btn-primary text-center" value="確定" onclick=" decide_receive_order('{{$oid}}');">
+
+										@if (!$d->remark)
+											<input type="button" class="btn btn-primary text-center" value="確定" onclick="decide_receive_order('{{$oid}}');">
+										@else
+											<input type="button" class="btn btn-secondary text-center" value="解除" onclick="cancel_receive_order('{{$oid}}');">
+										@endif
 									</td>
 									<td class="tx-right @if ($d->remark && !$d->use_stock) table-info @elseif ($d->use_stock) table-success @endif">
 										<input type="checkbox" class="btn-check" id="use_stock_{{$oid}}" name="use_stock" autocomplete="off" onchange="check_use_stock('{{$oid}}');">
@@ -224,6 +229,24 @@ console.log(arrival_dt);
 		document.forms.change_arrival_dt.value = arrival_dt;
 
 		document.forms.cmd.value = 'regist';
+		document.forms.submit();
+	}
+}
+
+/**
+ * [入庫予定日]編集欄で日付編集後の[確定]をキャンセルする処理
+ * 
+ **/
+function cancel_receive_order(oid) {
+	var r_order_id = 'r_order_' + oid;
+
+	if (window.confirm('入庫日 の確定を解除しますか？')) {
+		document.forms.method = 'post';
+		document.forms.action.value = 'cancel';
+		//document.forms.oid.value = '1';
+		document.getElementById(r_order_id).value = r_order_id;
+
+		document.forms.cmd.value = 'cancel';
 		document.forms.submit();
 	}
 }
