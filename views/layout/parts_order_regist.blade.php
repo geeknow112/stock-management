@@ -11,7 +11,7 @@
 
 	<div class="row mb-3">
 		<label for="customer" class="col-sm-2 col-form-label w-5">氏名　<span class="badge text-bg-danger">必須</span></label>
-		<select class="form-select w-75" aria-label="customer" id="customer" name="customer" onchange="createSelectBox(); createSelectBoxGoods();">
+		<select class="form-select w-75" aria-label="customer" id="customer" name="customer" onchange="createSelectBox(); createSelectBoxGoods();" @if ($cur_user->roles[0] != 'administrator') disabled @endif>
 			@foreach($initForm['select']['customer'] as $customer => $d)
 				@if ($customer == '0')
 				<option value=""></option>
@@ -20,6 +20,9 @@
 				@endif
 			@endforeach
 		</select>
+		@if ($cur_user->roles[0] != 'administrator')
+			<input type="hidden" name="customer" value="{{$rows->customer}}" />
+		@endif
 <!--		<div id="orderName" class="form-text">氏名を入力してください。</div>-->
 	</div>
 
@@ -51,7 +54,7 @@
 
 	<div class="row mb-3">
 		<label for="goodsName" class="col-sm-2 col-form-label">品名　<span class="badge text-bg-danger">必須</span></label>
-		<select class="form-select w-75" aria-label="goodsName" id="goods" name="goods" onchange="createSelectBox();" @if ($get->action == '') disabled @endif>
+		<select class="form-select w-75" aria-label="goodsName" id="goods" name="goods" onchange="createSelectBox();" @if ($get->action == '' || $cur_user->roles[0] != 'administrator') disabled @endif>
 			@if ($post->customer)
 				@foreach($initForm['select']['goods_name'][$post->customer] as $i => $d)
 					<option value="{{$i}}" @if ($i == $rows->goods) selected @endif >{{$d}}</option>
@@ -62,6 +65,9 @@
 				@endforeach
 			@endif
 		</select>
+		@if ($cur_user->roles[0] != 'administrator')
+			<input type="hidden" name="goods" value="{{$rows->goods}}" />
+		@endif
 		<span id="" class="manual-text form-text">※ 「<b>氏名</b>」を選択後、プルダウンが有効になります。</span>
 	</div>
 <script>
