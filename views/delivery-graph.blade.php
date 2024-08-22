@@ -137,8 +137,8 @@
 
 		<?php $colspan = 6; ?>
 		<div id="table_top">
-			<table class="table table-bordered text-nowrap">
-				<thead class="table-light">
+			<table class="table table-bordered border-dark text-nowrap">
+				<thead class="table-light border-dark">
 					<tr>
 						<th class="_sticky" colspan="3"></th>
 						@if ($cur_user->roles[0] != 'subscriber')
