@@ -311,54 +311,48 @@ function exe_print() {
 	echo "出庫倉庫	". $initForm['select']['outgoing_warehouse'][$get->s['outgoing_warehouse']]. PHP_EOL;
 	echo PHP_EOL;
 
-	// ■ ※①～⑥、⑧、⑨ （※配送予定表の①～⑥、⑧、⑨を集計します。）
-	$title = '■ ※①～⑥、⑧、⑨ （※配送予定表の①～⑥、⑧、⑨を集計します。）';
-	echo $title. PHP_EOL. PHP_EOL; // output
-
 	$h[] = 'No.';
 	$h[] = '品名';
 	$h[] = '容量';
 	$h[] = '量目(t)';
 	$h[] = '備考';
-	echo implode('	', $h). PHP_EOL; // output
 
-	foreach ($rows as $num => $d) {
-		$r['no'] = $num+1;
-		$r['goods_name'] = $d->goods_name;
-		$r['separately'] = ($d->separately_fg != true) ? "(T)" : "(B)";
-		$r['qty']  = ($d->qty) ? number_format($d->qty, 1) : "";
-		$r['customer_name'] = ($d->customer_name) ? $d->customer_name : "";
-		echo implode('	', $r). PHP_EOL; // output
-	}
-	$delivery_company = '運送会社	内藤運送';
-	echo PHP_EOL. $delivery_company. PHP_EOL; // output
+	$d_company = array('naitou' => '内藤運送', 'yamachu' => '山忠商事');
 
-	echo PHP_EOL. PHP_EOL;
+	$title = '■ ※①～⑥、⑧、⑨ （※配送予定表の①～⑥、⑧、⑨を集計します。）';
+	output_textarea($h, $title, $rows, $d_company['naitou']);
 
-	// ■ 【直取】　※⑩ （※配送予定表の⑩を集計します。）
 	$title2 = '■ 【直取】　※⑩ （※配送予定表の⑩を集計します。）';
-	echo $title2. PHP_EOL. PHP_EOL; // output
+	output_textarea($h, $title2, $jks, $d_company['yamachu']);
 
-	echo implode('	', $h). PHP_EOL; // output
-
-	echo PHP_EOL. PHP_EOL;
-
-
-	// ■ 【転送】　丹波SP ➤ 内藤SP
 	$title3 = '■ 【転送】　丹波SP ➤ 内藤SP';
-	echo $title3. PHP_EOL. PHP_EOL; // output
+	output_textarea($h, $title3, $trans_t_n, $d_company['naitou'], 0.5);
 
-	echo implode('	', $h). PHP_EOL; // output
+	$title4 = '■ 【転送】　内藤SP ➤ 丹波SP';
+	output_textarea($h, $title4, $trans_n_t, $d_company['naitou'], 0.5);
+} 
+
+function output_textarea($h = null, $title = null, $rows = null, $d_company = null, $qty_rate = 1) {
+	echo $title. PHP_EOL; // output
+
+	if (isset($rows) && count($rows)) {
+		echo implode('	', $h). PHP_EOL; // output
+
+		foreach ($rows as $num => $d) {
+			$r['no'] = $num+1;
+			$r['goods_name'] = $d->goods_name;
+			$r['separately'] = ($d->separately_fg != true) ? "(T)" : "(B)";
+			$r['qty']  = ($d->qty) ? number_format($d->qty * $qty_rate, 1) : "";
+			$r['customer_name'] = ($d->customer_name) ? $d->customer_name : "";
+			echo implode('	', $r). PHP_EOL; // output
+		}
+		$delivery_company = '運送会社	'. $d_company;
+		echo PHP_EOL. $delivery_company. PHP_EOL; // output
+	}
 
 	echo PHP_EOL. PHP_EOL;
-
-
-	// ■ 【転送】　内藤SP ➤ 丹波SP
-	$title4 = '■ 【転送】　内藤SP ➤ 丹波SP';
-	echo $title4. PHP_EOL. PHP_EOL; // output
-
-	echo implode('	', $h). PHP_EOL; // output
-} ?>
+}
+?>
 </textarea>
 <script>
 function copy_html() {
