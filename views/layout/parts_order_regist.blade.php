@@ -235,12 +235,17 @@ function createSelectBoxGoods(){
 	</div>
 
 	<div class="">
-		<label for="repeat_fg" class="col-sm-2 col-form-label"><!--繰り返し予定を設定する--></label>
-<!--		<input type="checkbox" class="col-sm-2 form-check-input" id="repeat" name="repeat" onchange="changeCheckBox('repeat') && checkRepeat();">-->
-		<!--<input type="checkbox" class="col-sm-2 form-check-input" id="repeat_fg" name="repeat_fg" onchange="check_repeat();">-->
+		@if (($cur_user->roles[0] != 'administrator') || ($rows->class == 8 || $rows->class == 9 || $rows->class == 10))
+			<label for="repeat_tmp" class="col-sm-2 col-form-label"><!--繰り返し予定を設定する--></label>
+			<input type="checkbox" class="btn-check" id="repeat_tmp" name="repeat_tmp" autocomplete="off" value="" @if ($rows->repeat_fg) checked @endif disabled>
+			<label class="btn btn-outline-primary" for="repeat_tmp">繰り返し予定を設定する</label>
+			<input type="hidden" class="btn-check" id="repeat_fg" name="repeat_fg" value="" onload="check_repeat();" @if ($cur_user->roles[0] != 'editor') disabled @endif>
+		@else
+			<label for="repeat_fg" class="col-sm-2 col-form-label"><!--繰り返し予定を設定する--></label>
+			<input type="checkbox" class="btn-check" id="repeat_fg" name="repeat_fg" autocomplete="off" value="" onchange="check_repeat(); checkRepeat();">
+			<label class="btn btn-outline-primary" for="repeat_fg">繰り返し予定を設定する</label>
+		@endif
 
-		<input type="checkbox" class="btn-check" id="repeat_fg" name="repeat_fg" autocomplete="off" value="" onchange="check_repeat(); checkRepeat();" @if (($cur_user->roles[0] == 'subscriber') || ($rows->class == 8 || $rows->class == 9 || $rows->class == 10)) disabled @elseif ($cur_user->roles[0] == 'editor') readonly @endif>
-		<label class="btn btn-outline-primary" for="repeat_fg">繰り返し予定を設定する</label>
 		@if ($rows->class == 8 || $rows->class == 9 || $rows->class == 10)
 		<span id="" class="manual-text form-text" style="color: red;">※ 「結果入力」した注文からの「繰り返し予定設定」はできません。</span>
 		@endif
