@@ -704,106 +704,107 @@ $post->remark = "";
 
 		$initForm = $this->getTb()->getInitForm();
 
-		switch($get->cmd) {
-			case 'search':
-			default:
-				$rows = $this->getTb()->getStockExportList($get);
+		if ($get->cmd) { // 初回はDB検索されないように修正
+			switch($get->cmd) {
+				case 'search':
+				default:
+					$rows = $this->getTb()->getStockExportList($get);
 
-				// 「注文」による在庫の減少 のための注文取得
-				$dlist = $this->getTb()->getSalesDeliveredList($get);
+					// 「注文」による在庫の減少 のための注文取得
+					$dlist = $this->getTb()->getSalesDeliveredList($get);
 
-//				$this->vd(count($rows));
-//$this->vd($rows);
-//$this->vd($dlist);
-				// 「注文」(配送済み) 除外
-				foreach ($rows as $i => $stock) {
-					foreach ($dlist as $j => $del) {
+	//				$this->vd(count($rows));
+	//$this->vd($rows);
+	//$this->vd($dlist);
+					// 「注文」(配送済み) 除外
+					foreach ($rows as $i => $stock) {
+						foreach ($dlist as $j => $del) {
 
-						// 商品別で数量による除外
-						if ($stock->goods == $del->goods) {
-							if ($get->match_lot != true) {
-								unset($rows[$i]);
-								unset($dlist[$j]);
-								break;
-
-							} else {
-								// ロット番号による除外
-								if ($stock->lot == $del->lot) {
+							// 商品別で数量による除外
+							if ($stock->goods == $del->goods) {
+								if ($get->match_lot != true) {
 									unset($rows[$i]);
 									unset($dlist[$j]);
 									break;
+
+								} else {
+									// ロット番号による除外
+									if ($stock->lot == $del->lot) {
+										unset($rows[$i]);
+										unset($dlist[$j]);
+										break;
+									}
 								}
 							}
+
+						}
+					}
+
+	//				$this->vd(count($rows));
+
+					// 再集計
+					foreach ($rows as $i => $stock) {
+						$data[$stock->goods][] = $stock;
+					}
+	//				$this->vd($data);
+
+					unset($rows);
+					foreach ($data as $goods => $stocks) {
+
+						// ロット番号(カウント)表示のための整形
+						$lots = array();
+						foreach ($stocks as $i => $std) {
+							if (empty($std->lot)) { continue; }
+							$tmp_lots[$std->lot][] = $std->lot;
 						}
 
+						foreach ($tmp_lots as $lot => $list) {
+							// ソート用に日付コードを数値に変換
+							$lot = $this->getTb()->convertDtCodeToNumber($lot);
+							$lots[] = sprintf('%s (%d)', $lot, count($list));
+						}
+
+						// ロット番号のソート(先頭の年度「23,24..」の順でソート)
+						asort($lots);
+
+						// ソート後、表示用に数字を日付コードに変換
+						foreach ($lots as $i => $lot) {
+							$lots[$i] = $this->getTb()->convertNumberToDtCode($lot);
+						}
+
+						unset($tmp_lots);
+
+						$goods = $stocks[0]->goods;
+						$s['goods'] = $goods;
+						$s['goods_name'] = $stocks[0]->goods_name;
+						$s['qty'] = $stocks[0]->qty;
+						$s['cnt'] = count($stocks);
+						$s['stock_total'] = count($stocks) * 500;
+	//$this->vd($lots);exit;
+						$s['lots'] = implode(', ', $lots);
+						$rows[$goods] = (object) $s;
 					}
-				}
+	//				$this->vd($rows);
+					break;
+			}
 
-//				$this->vd(count($rows));
+			// 在庫TB個数の総合計
+			$stock_cnt = array_sum(array_column((array) $rows, 'cnt'));
 
-				// 再集計
-				foreach ($rows as $i => $stock) {
-					$data[$stock->goods][] = $stock;
-				}
-//				$this->vd($data);
+			// 在庫数量の総合計
+			$stock_sum = array_sum(array_column((array) $rows, 'stock_total'));
 
-				unset($rows);
-				foreach ($data as $goods => $stocks) {
-
-					// ロット番号(カウント)表示のための整形
-					$lots = array();
-					foreach ($stocks as $i => $std) {
-						if (empty($std->lot)) { continue; }
-						$tmp_lots[$std->lot][] = $std->lot;
-					}
-
-					foreach ($tmp_lots as $lot => $list) {
-						// ソート用に日付コードを数値に変換
-						$lot = $this->getTb()->convertDtCodeToNumber($lot);
-						$lots[] = sprintf('%s (%d)', $lot, count($list));
-					}
-
-					// ロット番号のソート(先頭の年度「23,24..」の順でソート)
-					asort($lots);
-
-					// ソート後、表示用に数字を日付コードに変換
-					foreach ($lots as $i => $lot) {
-						$lots[$i] = $this->getTb()->convertNumberToDtCode($lot);
-					}
-
-					unset($tmp_lots);
-
-					$goods = $stocks[0]->goods;
-					$s['goods'] = $goods;
-					$s['goods_name'] = $stocks[0]->goods_name;
-					$s['qty'] = $stocks[0]->qty;
-					$s['cnt'] = count($stocks);
-					$s['stock_total'] = count($stocks) * 500;
-//$this->vd($lots);exit;
-					$s['lots'] = implode(', ', $lots);
-					$rows[$goods] = (object) $s;
-				}
-//				$this->vd($rows);
-				break;
+			// ソートのための順序作成
+			$Goods = new Goods;
+			$glist = $Goods->getList();
+			//$this->vd($glist);
+			foreach ($glist as $i => $gd) {
+				$sort[$gd->goods] = (object) array(
+					'goods_name' => $gd->name, 
+					'separately_fg' => $gd->separately_fg, 
+				);
+			}
 		}
-
-		// 在庫TB個数の総合計
-		$stock_cnt = array_sum(array_column((array) $rows, 'cnt'));
-
-		// 在庫数量の総合計
-		$stock_sum = array_sum(array_column((array) $rows, 'stock_total'));
-
-		// ソートのための順序作成
-		$Goods = new Goods;
-		$glist = $Goods->getList();
-		//$this->vd($glist);
-		foreach ($glist as $i => $gd) {
-			$sort[$gd->goods] = (object) array(
-				'goods_name' => $gd->name, 
-				'separately_fg' => $gd->separately_fg, 
-			);
-		}
-
 		echo $this->get_blade()->run("stock-export", compact('rows', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum', 'sort'));
 	}
 
