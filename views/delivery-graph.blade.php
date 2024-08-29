@@ -3,6 +3,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1, user-scalable=yes">
 
 <link href="<?php echo home_url(); ?>/wp-content/plugins/stock-management/views/css/style.css" rel="stylesheet" />
+<link href="<?php echo home_url(); ?>/wp-content/plugins/stock-management/views/css/scrolltable.css" rel="stylesheet" />
 <script src="<?php echo home_url(); ?>/wp-content/plugins/stock-management/views/js/delivery-graph.js" integrity="" crossorigin=""></script>
 
 <!-- bootstrap -->
@@ -50,7 +51,7 @@
 				<span class="pc">&emsp;&emsp;&emsp;&emsp;</span>
 				<span class="sp"><br /></br /></span>
 				<span id="jump_link">
-					@if ($cur_user->roles[0] != 'subscriber')
+					@if ($cur_user->roles[0] == 'administrator')
 					<span><a href="#table_top"><input type="button" class="btn btn-primary" value="繰返"></a><span>
 					&emsp;
 					@endif
@@ -136,13 +137,15 @@
 			</table>
 
 		<?php $colspan = 6; ?>
-		<div id="table_top">
+		<div id="table_top" class="scrolltable">
 			<table class="table table-bordered border-dark text-nowrap">
 				<thead class="table-light border-dark">
 					<tr>
-						<th class="_sticky" colspan="3"></th>
+						<th class="_sticky"></th>
 						@if ($cur_user->roles[0] != 'subscriber')
-						<th class="" colspan="{{$colspan}}">繰返</th>
+							@if ($cur_user->roles[0] == 'administrator')
+								<th class="" colspan="{{$colspan}}">繰返</th>
+							@endif
 						<th class="" colspan="{{$colspan}}" id="car_model_0">未確定</th>
 						@endif
 						<th class="" colspan="{{$colspan}}" id="car_model_1">6t ①</th>
@@ -159,13 +162,13 @@
 					</tr>
 
 					<tr>
-						<th class="_sticky" scope="col" colspan="3">日</th>
+						<th class="_sticky" scope="col">日</th>
 						@for ($i = 0; $i <= 10; $i++)
 							@if ($cur_user->roles[0] == 'subscriber' && $i == 0)
 								@php continue; @endphp
 							@endif
 
-							@if ($cur_user->roles[0] == 'editor' && $i < 4)
+							@if ($cur_user->roles[0] == 'editor' && $i < 5)
 								@php continue; @endphp
 							@endif
 
@@ -478,14 +481,13 @@
 			@if (isset($rows) && count($rows))
 				<tbody id="the-list" data-wp-lists="list:user">
 					@foreach ($rows as $delivery_dt => $list)
-					<tr id="user-1">
-						<td class="_sticky" id="sticky" colspan="3">
-							<a href="#">{{$delivery_dt}}</a><br />
-<!--							<p>　1槽</p>-->
+					<tr>
+						<td class="_sticky" id="">
+							{{$delivery_dt}}<br />
 						</td>
 
 						<!-- 6t 0 -->
-						@if ($cur_user->roles[0] != 'subscriber')
+						@if ($cur_user->roles[0] == 'administrator')
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 1, $initForm, $cur_user); @endphp
 							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 2, $initForm, $cur_user); @endphp
