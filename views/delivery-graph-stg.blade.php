@@ -64,7 +64,7 @@
 				<span class="pc">&emsp;&emsp;&emsp;&emsp;</span>
 				<span class="sp"><br /></br /></span>
 				<span id="jump_link">
-					@if ($cur_user->roles[0] != 'subscriber')
+					@if ($cur_user->roles[0] == 'administrator')
 					<span><a href="#table_top"><input type="button" class="btn btn-primary" value="繰返"></a><span>
 					&emsp;
 					@endif
@@ -156,7 +156,9 @@
 					<tr>
 						<th class="_sticky" colspan="3"></th>
 						@if ($cur_user->roles[0] != 'subscriber')
-						<th class="" colspan="{{$colspan}}">繰返</th>
+							@if ($cur_user->roles[0] == 'administrator')
+								<th class="" colspan="{{$colspan}}">繰返</th>
+							@endif
 						<th class="" colspan="{{$colspan}}" id="car_model_0">未確定</th>
 						@endif
 						<th class="" colspan="{{$colspan}}" id="car_model_1">6t ①</th>
@@ -179,7 +181,7 @@
 								@php continue; @endphp
 							@endif
 
-							@if ($cur_user->roles[0] == 'editor' && $i < 4)
+							@if ($cur_user->roles[0] == 'editor' && $i < 5)
 								@php continue; @endphp
 							@endif
 
@@ -747,7 +749,7 @@
 						</td>
 
 						<!-- 6t 0 -->
-						@if ($cur_user->roles[0] != 'subscriber')
+						@if ($cur_user->roles[0] == 'administrator')
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 1, $initForm, $cur_user); @endphp
 							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 0, 2, $initForm, $cur_user); @endphp
