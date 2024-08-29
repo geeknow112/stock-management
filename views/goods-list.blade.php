@@ -21,8 +21,11 @@
 				<label for="qty" class="col-sm-2 col-form-label">荷姿・容量：</label>
 					<input type="search" id="qty" name="s[qty]" value="<?php echo htmlspecialchars($get->s['qty']); ?>"><br /><br />
 
+<!--
 				<label for="lot" class="col-sm-2 col-form-label">ロット番号：</label>
 					<input type="search" id="lot" name="s[lot]" value="<?php echo htmlspecialchars($get->s['lot']); ?>"><br /><br />
+-->
+
 <!--
 				<input type="submit" id="search-submit" class="button" value="申込者を検索">
 -->

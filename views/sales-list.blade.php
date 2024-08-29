@@ -63,9 +63,11 @@
 					</select>
 					<br /><br />
 
+<!--
 				<label for="carModel" class="col-sm-2 col-form-label">注文日：</label>
 					<input type="date" id="user-search-input" name="s[order_s_dt]" value="<?php echo htmlspecialchars($get->s['order_s_dt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
 				<input type="date" id="user-search-input" name="s[order_e_dt]" value="<?php echo htmlspecialchars($get->s['order_e_dt']); ?>" placeholder="2022-12-01"><br /><br />
+-->
 
 				<label for="carModel" class="col-sm-2 col-form-label">配送予定日：</label>
 					<input type="date" id="user-search-input" name="s[delivery_s_dt]" value="<?php echo htmlspecialchars($get->s['delivery_s_dt']); ?>" placeholder="2020-11-01">&emsp;～&emsp;
