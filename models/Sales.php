@@ -419,6 +419,27 @@ $dt = new DateTime($sdt. ' +1 days');
 		$cur_user = wp_get_current_user();
 		$data['upuser'] = $cur_user->user_login;
 
+		// 既登録の情報と、配送予定日が変更する場合
+		$confirm_status = (int) array_search('確定', $this->getPartsStatus());
+		if ($registed->delivery_dt != $post->delivery_dt && $registed->status == $confirm_status && $get->page == 'sales-detail') {
+			// 既に作成されいてるロット登録欄を削除
+			$ret_delete[] = $wpdb->delete(
+				'yc_goods_detail', 
+				array(
+					'sales' => $post->sales, 
+				)
+				//array('%s', '%s', '%d', '%s') // 第3引数: フォーマット
+			);
+
+			// 下記の項目を初期値に戻す
+			$data['status'] = (int) array_search('未確定', $this->getPartsStatus());
+			$data['lot_fg'] = (int) array_search('未作成', $this->getPartsLotFg());
+			$data['receipt_fg'] = 0;
+			$data['ship_addr'] = null;
+			$data['field1'] = null;
+			$data['field2'] = null;
+		}
+
 		$ret = $wpdb->update(
 			$this->getTableName(), 
 			$data, 
