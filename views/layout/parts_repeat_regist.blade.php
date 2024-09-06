@@ -50,9 +50,11 @@
 
   <div class="row mb-3">
     <label for="repeat_s_dt" class="col-sm-2 col-form-label">開始日</label>
-    <input type="date" class="col-sm-6 col-form-control w-auto" id="repeat_s_dt" name="repeat_s_dt" aria-describedby="repeatSDtHelp" value="{{$rows->repeat_s_dt}}" @if ($cur_user->roles[0] != 'administrator') disabled @endif>
-	@if ($cur_user->roles[0] != 'administrator')
-		<input type="hidden" name="repeat_s_dt" value="{{$rows->repeat_s_dt}}" />
+	@if ($cur_user->roles[0] == 'administrator')
+		<input type="date" class="col-sm-6 col-form-control w-auto" id="repeat_s_dt" name="repeat_s_dt" aria-describedby="repeatSDtHelp" value="{{$rows->repeat_s_dt}}">
+	@else
+		<input type="date" class="col-sm-6 col-form-control w-auto" id="disp_repeat_s_dt" name="disp_repeat_s_dt" aria-describedby="repeatSDtHelp" value="{{$rows->repeat_s_dt}}" disabled>
+		<input type="hidden" id="repeat_s_dt" name="repeat_s_dt" value="{{$rows->repeat_s_dt}}" />
 	@endif
 <!--    <div id="repeatSDtHelp" class="form-text">開始日を入力してください。</div>-->
   </div>

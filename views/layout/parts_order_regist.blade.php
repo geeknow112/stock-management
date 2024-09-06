@@ -332,7 +332,12 @@ function check_repeat() {
  **/
 function setRepeatSDt() {
 	const delivery_dt = document.getElementById('delivery_dt').value;
-	document.getElementById('repeat_s_dt').value = delivery_dt;
+	document.getElementById('repeat_s_dt').value = delivery_dt;	
+
+	const cur_user = '{{$cur_user->roles[0]}}';
+	if (cur_user != 'administrator') {
+		document.getElementById('disp_repeat_s_dt').value = delivery_dt;
+	}
 }
 </script>
 
