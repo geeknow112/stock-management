@@ -435,9 +435,9 @@ $dt = new DateTime($sdt. ' +1 days');
 			$data['status'] = (int) array_search('未確定', $this->getPartsStatus());
 			$data['lot_fg'] = (int) array_search('未作成', $this->getPartsLotFg());
 			$data['receipt_fg'] = 0;
-			$data['ship_addr'] = null;
-			$data['field1'] = null;
-			$data['field2'] = null;
+//			$data['ship_addr'] = null;
+//			$data['field1'] = null;
+//			$data['field2'] = null;
 		}
 
 		$ret = $wpdb->update(
