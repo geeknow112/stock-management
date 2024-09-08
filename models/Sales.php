@@ -1182,6 +1182,7 @@ $dt = new DateTime($sdt. ' +1 days');
 				'customer' => $this->getPartsOrderName(), 
 				'car_model' => $this->getPartsCarModel(), 
 				'car_model_add' => $this->getPartsCarModelAdd(), 
+				'car_model_limit' => array(), 
 				'cars_tank' => $this->getPartsCarsTank(), 
 				'goods_name' => $this->getPartsGoodsName(), 
 				'ship_addr' => $this->getPartsShipAddr(), 
