@@ -88,6 +88,14 @@ class SalesController extends Ext_Controller_Action
 				$_SESSION[$session_key] = '';
 		}
 
+		// ŽÔŽí’PˆÊ‚ÌŒÀŠE’l(6t)‚ðŠÄŽ‹‚·‚éˆ—
+		$d_dt = $this->getTb()->getDeliveryDtBySales($get->sales);
+		$sum_qty = $this->getTb()->getSumQtyByDeliveryDt($d_dt);
+//		$this->vd($sum_qty);
+		$initForm['select']['car_model_limit'] = (!empty($sum_qty)) ? $sum_qty : array();
+//		$this->vd($initForm['select']['car_model']);
+//		$this->vd($initForm['select']['car_model_limit']);
+
 		$rows = null;
 		switch($get->action) {
 			case 'regist':

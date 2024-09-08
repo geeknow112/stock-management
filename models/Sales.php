@@ -1128,6 +1128,52 @@ $dt = new DateTime($sdt. ' +1 days');
 	}
 
 	/**
+	 * 「配送予定日」の取得
+	 * @sales
+	 **/
+	public function getDeliveryDtBySales($sales = null) {
+		global $wpdb;
+
+		$sql  = "SELECT s.delivery_dt ";
+		$sql .= "FROM yc_sales AS s ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
+		$sql .= "AND s.sales = '". $sales. "' ";
+		$sql .= ";";
+
+//$this->vd($sql);exit;
+		$rows = $wpdb->get_results($sql);
+		return current($rows)->delivery_dt;
+	}
+
+	/**
+	 * 「配送予定日」から車種別数量合計を集計し、限界値(6t)に達した車種を返す
+	 * @delivery_dt
+	 **/
+	public function getSumQtyByDeliveryDt($delivery_dt = null) {
+		global $wpdb;
+
+		$sql  = "SELECT s.class, SUM(s.qty) AS sum_qty ";
+		$sql .= "FROM yc_sales AS s ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
+		$sql .= "AND s.delivery_dt is not null ";
+		$sql .= "AND s.class IN (2,3,4,5,6,7) "; // 車種6t-1～6t-7まで
+		$sql .= "AND s.delivery_dt = '". $delivery_dt. "' ";
+		$sql .= "GROUP BY s.class ";
+		$sql .= ";";
+
+//$this->vd($sql);exit;
+		$rows = $wpdb->get_results($sql);
+
+		$limit = 6; // 限界値(6t)
+		foreach ($rows as $i => $d) {
+			if ($d->sum_qty >= $limit) {
+				$ret[] = $d->class;
+			}
+		}
+		return $ret;
+	}
+
+	/**
 	 * 
 	 **/
 	public function getInitForm() {
