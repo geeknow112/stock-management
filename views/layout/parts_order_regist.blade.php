@@ -34,7 +34,7 @@
 					@if ($i == '0')
 					<option value=""></option>
 					@else
-					<option value="{{$i}}" @if ($i == $rows->class) selected @endif >{{$d}}</option>
+					<option value="{{$i}}" @if ($i == $rows->class) selected @endif @if (in_array($i, $initForm['select']['car_model_limit'])) disabled @endif>{{$d}}</option>
 					@endif
 				@endforeach
 			@else
