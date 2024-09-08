@@ -621,7 +621,7 @@ $initForm = $s->getInitForm();
 			} else {
 				echo '<td>'. $object->field1. '</td>';
 			}
-			echo '<td>'. $object->delivery_dt. '</td>';
+			echo '<td><a href="/wp-admin/admin.php?page=delivery-graph&s[sdt]='. $object->delivery_dt. '&action=search&cmd=search">'. $object->delivery_dt. '</a></td>';
 			echo '<td>'. $object->arrival_dt. '</td>';
 
 			if ($object->class == '7') { // 6t-7の際は、状態を非表示にする。(ロット欄の作成が不要なため)
