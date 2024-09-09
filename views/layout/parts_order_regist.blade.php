@@ -28,7 +28,7 @@
 
 	<div class="row mb-3">
 		<label for="carModel" class="col-sm-2 col-form-label">車種　<span class="badge text-bg-danger">必須</span></label>
-		<select class="form-select w-75" aria-label="carModel" id="class" name="class">
+		<select class="form-select w-75" aria-label="carModel" id="class" name="class" onchange="set_class_tmp();">
 			@if ($rows->class != 8 && $rows->class != 9 && $rows->class != 10)
 				@foreach($initForm['select']['car_model'] as $i => $d)
 					@if ($i == '0')
@@ -41,6 +41,19 @@
 					<option value="{{$rows->class}}">6t-{{$rows->class}}</option>
 			@endif
 		</select>
+		@if ($rows->class != 8 && $rows->class != 9 && $rows->class != 10)
+			@if (in_array($rows->class, $initForm['select']['car_model_limit']))
+				<script>
+					// selectのoptionがdisabledになった場合、hiddenで渡すための処理
+					function set_class_tmp() {
+						const c = document.getElementById("class");
+						const ct = document.getElementById("class_tmp");
+						ct.value = c.value;
+					}
+				</script>
+				<input type="hidden" id="class_tmp" name="class" value="{{$rows->class}}" /><!-- car_model_limit -->
+			@endif
+		@endif
 	</div>
 
 	<div class="row mb-3">

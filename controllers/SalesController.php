@@ -89,7 +89,8 @@ class SalesController extends Ext_Controller_Action
 		}
 
 		// ŽÔŽí’PˆÊ‚ÌŒÀŠE’l(6t)‚ðŠÄŽ‹‚·‚éˆ—
-		$d_dt = $this->getTb()->getDeliveryDtBySales($get->sales);
+		$sales = ($get->sales) ? $get->sales : $post->sales;
+		$d_dt = $this->getTb()->getDeliveryDtBySales($sales);
 		$sum_qty = $this->getTb()->getSumQtyByDeliveryDt($d_dt);
 //		$this->vd($sum_qty);
 		$initForm['select']['car_model_limit'] = (!empty($sum_qty)) ? $sum_qty : array();
