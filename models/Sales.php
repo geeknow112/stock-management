@@ -1176,6 +1176,66 @@ $dt = new DateTime($sdt. ' +1 days');
 	/**
 	 * 
 	 **/
+	public function getClassDetailByDeliveryDt($delivery_dt = null) {
+		$class_detail = array(
+			'20240905' => array(
+				'1' => array(
+					'goods' => '1', 
+					'qty' => '2', 
+					'customer' => '1', 
+				), 
+				'2' => array(
+					'goods' => '2', 
+					'qty' => '4', 
+					'customer' => '2', 
+				), 
+				'3' => array(), 
+				'4' => array(), 
+			), 
+			'20240906' => array(
+				'1' => array(), 
+				'2' => array(), 
+				'3' => array(
+					'goods' => '3', 
+					'qty' => '2', 
+					'customer' => '3', 
+				), 
+				'4' => array(
+					'goods' => '4', 
+					'qty' => '4', 
+					'customer' => '4', 
+				), 
+			), 
+		);
+//$this->vd($class_detail);
+//		return $class_detail;
+
+		global $wpdb;
+
+		$sql  = "SELECT s.sales, s.delivery_dt, s.class, s.qty, s.goods, s.customer ";
+		$sql .= "FROM yc_sales AS s ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
+		$sql .= "AND s.delivery_dt is not null ";
+		$sql .= "AND s.class IN (1,2,3,4,5,6,7) "; // 車種6t-1～6t-7まで
+		$sql .= "AND s.delivery_dt = '". $delivery_dt. "' ";
+		$sql .= "ORDER BY s.class ASC";
+		$sql .= ";";
+
+//$this->vd($sql);exit;
+		$rows = $wpdb->get_results($sql);
+
+		$classes = array(1,2,3,4,5,6,7);
+		foreach ($rows as $i => $d) {
+			$ddt = str_replace('-', '', $d->delivery_dt);
+			$ret[$ddt][$d->class][] = (array) $d;
+		}
+//$this->vd($ret);
+		return $ret;
+	}
+
+	/**
+	 * 
+	 **/
 	public function getInitForm() {
 		return array(
 			'select' => array(
