@@ -34,26 +34,13 @@
 					@if ($i == '0')
 					<option value=""></option>
 					@else
-					<option value="{{$i}}" @if ($i == $rows->class) selected @endif @if (in_array($i, $initForm['select']['car_model_limit'])) disabled @endif>{{$d}}</option>
+					<option value="{{$i}}" @if ($i == $rows->class) selected @endif @if (in_array($i, $initForm['select']['car_model_limit'])) style="color: red;" @endif>{{$d}}</option>
 					@endif
 				@endforeach
 			@else
 					<option value="{{$rows->class}}">6t-{{$rows->class}}</option>
 			@endif
 		</select>
-		@if ($rows->class != 8 && $rows->class != 9 && $rows->class != 10)
-			@if (in_array($rows->class, $initForm['select']['car_model_limit']))
-				<script>
-					// selectのoptionがdisabledになった場合、hiddenで渡すための処理
-					function set_class_tmp() {
-						const c = document.getElementById("class");
-						const ct = document.getElementById("class_tmp");
-						ct.value = c.value;
-					}
-				</script>
-				<input type="hidden" id="class_tmp" name="class" value="{{$rows->class}}" /><!-- car_model_limit -->
-			@endif
-		@endif
 	</div>
 
 	<div class="row mb-3">
