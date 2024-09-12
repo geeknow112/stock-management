@@ -28,7 +28,7 @@
 
 	<div class="row mb-3">
 		<label for="carModel" class="col-sm-2 col-form-label">車種　<span class="badge text-bg-danger">必須</span></label>
-		<select class="form-select w-75" aria-label="carModel" id="class" name="class" onchange="set_class_tmp();">
+		<select class="form-select w-75" aria-label="carModel" id="class" name="class" onchange="disp_class_detail();">
 			@if ($rows->class != 8 && $rows->class != 9 && $rows->class != 10)
 				@foreach($initForm['select']['car_model'] as $i => $d)
 					@if ($i == '0')
@@ -41,6 +41,68 @@
 					<option value="{{$rows->class}}">6t-{{$rows->class}}</option>
 			@endif
 		</select>
+	</div>
+
+	<div class="row mb-3">
+		<label for="class_detail" class="col-sm-2 col-form-label hide-area">　- 車種　明細 <span id="limit_alert">⚠️</span></label>
+		<table class="table table-bordered text-nowrap class-detail-textarea hide-area" id="class_detail" name="class_detail">
+			<tr class="table-light border-dark">
+				<th>品名</th>
+				<th>量(t)</th>
+				<th>顧客名</th>
+			</tr>
+			<tr>
+				<td>みやび肥育</td>
+				<td>4</td>
+				<td>能勢農場</td>
+			</tr>
+		</table>
+		<script>
+			function disp_class_detail() {
+				// 明細出力エリアを表示
+				var get_area = document.getElementsByClassName("hide-area");
+				Object.keys(get_area).forEach(function(i) {
+//					console.log(get_area[i]);
+					get_area[i].style.display = 'block';
+				});
+
+				const ddt_value = document.getElementById("delivery_dt").value.replaceAll('-', '');
+				const class_value = document.getElementById("class").value;
+
+				//連想配列の配列
+				var cd = "{{$class_detail}}";
+				var class_data = JSON.parse(unescapeHtml(cd));
+//				console.log(class_data);
+
+				const class_detail = document.getElementById("class_detail");
+				const chead = '<tr class="table-light border-dark"><th>品名</th><th>量(t)</th><th>顧客名</th></tr>';
+
+console.log(ddt_value);
+console.log(class_value);
+
+				var d = class_data[ddt_value][class_value];
+				var cbody = '';
+
+	if (d != undefined) {
+		console.log('data : ' + d);
+	}
+	var cnt = Object.keys(d).length;
+	console.log('cnt : ' + cnt);
+
+	for (var i=1; i<=cnt; i++) {
+		if (d[i] != undefined) {
+			console.log(d[i]);
+			cbody += '<tr><td>' + d[i]['goods'] + '</td><td>' + d[i]['qty'] + '</td><td>' + d[i]['customer'] + '</td></tr>';
+		}
+	}
+
+
+//				for (var i=1; i<=Object.keys(d).length; i++) {
+//					cbody += '<tr><td>' + d[i]['goods'] + '</td><td>' + d[i]['qty'] + '</td><td>' + d[i]['customer'] + '</td></tr>';
+//				}
+				class_detail.innerHTML = chead + cbody;
+			}
+		</script>
 	</div>
 
 	<div class="row mb-3">
@@ -352,5 +414,15 @@ function setRepeatSDt() {
 	width: 300px;
 	height: 200px;
 	padding-left: 10px;
+}
+
+.class-detail-textarea {
+	width: 300px;
+	height: 200px;
+	padding-left: 10px;
+}
+
+.hide-area {
+	display: none;
 }
 </style>
