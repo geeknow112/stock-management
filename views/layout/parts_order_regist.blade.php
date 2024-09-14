@@ -44,7 +44,7 @@
 	</div>
 
 	<div class="row mb-3">
-		<label for="class_detail" class="col-sm-2 col-form-label hide-area">　- 車種　明細 <span id="limit_alert">⚠️</span></label>
+		<label for="class_detail" class="col-sm-2 col-form-label hide-area">　- {{$rows->delivery_dt}}　車種　{{$rows->class}}　明細 <span id="limit_alert">⚠️</span></label>
 		<table class="table table-bordered text-nowrap class-detail-textarea hide-area" id="class_detail" name="class_detail">
 			<tr class="table-light border-dark">
 				<th>品名</th>

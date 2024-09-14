@@ -1226,10 +1226,19 @@ $dt = new DateTime($sdt. ' +1 days');
 //$this->vd($sql);exit;
 		$rows = $wpdb->get_results($sql);
 
-		$classes = array(1,2,3,4,5,6,7);
+		$ddt = str_replace('-', '', current($rows)->delivery_dt);
 		foreach ($rows as $i => $d) {
-			$ddt = str_replace('-', '', $d->delivery_dt);
-			$ret[$ddt][$d->class][] = (array) $d;
+			$conv[$ddt][$d->class][] = (array) $d;
+		}
+
+		$classes = array(1,2,3,4,5,6,7);
+		$ret[$ddt][''] = array();
+		foreach ($classes as $class) {
+			if ($conv[$ddt][$class]) {
+				$ret[$ddt][$class] = $conv[$ddt][$class];
+			} else {
+				$ret[$ddt][$class] = array();
+			}
 		}
 //$this->vd($ret);
 		return $ret;
