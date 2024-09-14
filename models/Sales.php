@@ -19,7 +19,6 @@ class Sales extends Ext_Model_Base {
 	 * 
 	 **/
 	public function getValidElement($step_num = null) {
-
 		$messages = array(
 			'name.required' => 'ユーザー名を入力してください',
 			'name.string' => '正しい形式で入力してください',
@@ -55,6 +54,14 @@ class Sales extends Ext_Model_Base {
 			), 
 			'messages' => $messages
 		);
+
+		// 車種の登録限界量(6t)を超える入力がされた場合
+		$post = (object) $_POST;
+		$over_limit = $this->checkSumQtyOverLimit($post->delivery_dt, $post->class, $post->qty);
+		if ($over_limit == true) {
+			echo ('<span style="color: red;">車種の登録限界量(6t)を超える入力のため、登録できません。</span>');
+			$step1['rules']['qty'] = 'required|max:1';
+		}
 
 		$step2 = array(
 			'rules' => array(
@@ -1171,6 +1178,35 @@ $dt = new DateTime($sdt. ' +1 days');
 			}
 		}
 		return $ret;
+	}
+
+	/**
+	 * 「配送予定日」、「車種」から車種別数量合計を集計し、「量(t)」を加算した場合、限界値(6t)を超えるかどうか検査
+	 * 限界値を超えた場合、trueを返す
+	 * 
+	 * @delivery_dt
+	 * @class
+	 * @qty
+	 * 
+	 **/
+	public function checkSumQtyOverLimit($delivery_dt = null, $class = null, $qty = null) {
+		global $wpdb;
+
+		$sql  = "SELECT SUM(s.qty) AS sum_qty ";
+		$sql .= "FROM yc_sales AS s ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
+		$sql .= "AND s.delivery_dt is not null ";
+		$sql .= "AND s.delivery_dt = '". $delivery_dt. "' ";
+		$sql .= "AND s.class = '". $class. "' ";
+		$sql .= ";";
+
+		$rows = $wpdb->get_results($sql);
+
+		$cur_sum_qty = current($rows)->sum_qty;
+		$confirm_qty = $cur_sum_qty + $qty;
+		$limit = 6; // 限界値(6t)
+
+		return ($confirm_qty > $limit) ? true : false;
 	}
 
 	/**
