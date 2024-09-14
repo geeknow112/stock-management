@@ -51,11 +51,13 @@
 				<th>量(t)</th>
 				<th>顧客名</th>
 			</tr>
+<!--
 			<tr>
 				<td>みやび肥育</td>
 				<td>4</td>
 				<td>能勢農場</td>
 			</tr>
+-->
 		</table>
 		<script>
 			function disp_class_detail() {
@@ -89,10 +91,10 @@ console.log(class_value);
 	var cnt = Object.keys(d).length;
 	console.log('cnt : ' + cnt);
 
-	for (var i=1; i<=cnt; i++) {
+	for (var i=0; i<=cnt; i++) {
 		if (d[i] != undefined) {
 			console.log(d[i]);
-			cbody += '<tr><td>' + d[i]['goods'] + '</td><td>' + d[i]['qty'] + '</td><td>' + d[i]['customer'] + '</td></tr>';
+			cbody += '<tr><td>' + d[i]['goods_name'] + '</td><td>' + d[i]['qty'] + '</td><td>' + d[i]['customer_name'] + '</td></tr>';
 		}
 	}
 

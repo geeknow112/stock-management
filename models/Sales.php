@@ -1212,8 +1212,10 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		global $wpdb;
 
-		$sql  = "SELECT s.sales, s.delivery_dt, s.class, s.qty, s.goods, s.customer ";
+		$sql  = "SELECT s.sales, s.delivery_dt, s.class, s.qty, s.goods, s.customer, g.name AS goods_name, c.name AS customer_name ";
 		$sql .= "FROM yc_sales AS s ";
+		$sql .= "LEFT JOIN yc_goods as g ON s.goods = g.goods ";
+		$sql .= "LEFT JOIN yc_customer as c ON s.customer = c.customer ";
 		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 		$sql .= "AND s.delivery_dt is not null ";
 		$sql .= "AND s.class IN (1,2,3,4,5,6,7) "; // 車種6t-1～6t-7まで
