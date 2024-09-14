@@ -44,7 +44,7 @@
 	</div>
 
 	<div class="row mb-3">
-		<label for="class_detail" class="col-sm-2 col-form-label hide-area">　- {{$rows->delivery_dt}}　車種　{{$rows->class}}　明細 <span id="limit_alert">⚠️</span></label>
+		<label for="class_detail" class="col-sm-2 col-form-label hide-area">　{{$rows->delivery_dt}}の内訳<span id="limit_alert"></span></label>
 		<table class="table table-bordered text-nowrap class-detail-textarea hide-area" id="class_detail" name="class_detail">
 			<tr class="table-light border-dark">
 				<th>品名</th>
@@ -91,11 +91,24 @@ console.log(class_value);
 	var cnt = Object.keys(d).length;
 	console.log('cnt : ' + cnt);
 
+	var qtys = [];
 	for (var i=0; i<=cnt; i++) {
 		if (d[i] != undefined) {
 			console.log(d[i]);
 			cbody += '<tr><td>' + d[i]['goods_name'] + '</td><td>' + d[i]['qty'] + '</td><td>' + d[i]['customer_name'] + '</td></tr>';
+			qtys.push(d[i]['qty']);
 		}
+	}
+
+	const limit = 6; // 限界値(6t)
+	var sum_qty = qtys.reduce((pre_value, cur_value) => parseFloat(pre_value) + parseFloat(cur_value), 0);
+	console.log(sum_qty);
+	const limit_alert = document.getElementById('limit_alert');
+	if (sum_qty >= limit) {
+		limit_alert.style.color = 'red';
+		limit_alert.innerHTML = "<br>　⚠️6tを超えています";
+	} else {
+		limit_alert.innerHTML = "";
 	}
 
 
