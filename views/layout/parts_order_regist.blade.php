@@ -43,6 +43,7 @@
 		</select>
 	</div>
 
+	@if ($get->action != '')
 	<div class="row mb-3">
 		<label for="class_detail" class="col-sm-2 col-form-label hide-area">　{{$rows->delivery_dt}}の内訳<span id="limit_alert"></span></label>
 		<table class="table table-bordered text-nowrap class-detail-textarea hide-area" id="class_detail" name="class_detail">
@@ -59,8 +60,18 @@
 			</tr>
 -->
 		</table>
+	</div>
+	@endif
+
 		<script>
 			function disp_class_detail() {
+				// 更新画面以外は処理を終了する
+				var action = "{{$get->action}}";
+				if (!action) {
+//					console.log(action);
+					return;
+				}
+
 				// 明細出力エリアを表示
 				var get_area = document.getElementsByClassName("hide-area");
 				Object.keys(get_area).forEach(function(i) {
@@ -118,7 +129,6 @@ console.log(class_value);
 				class_detail.innerHTML = chead + cbody;
 			}
 		</script>
-	</div>
 
 	<div class="row mb-3">
 		<label for="carsTank" class="col-sm-2 col-form-label">槽　（※ ６ｔ車のタンクの番号）</label>
