@@ -138,7 +138,7 @@ $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 $gnames = json_encode($initForm['select']['goods_name']);
 $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['ship_addr'][$post->customer][$post->ship_addr] : null;
-				echo $this->get_blade()->run("sales-detail", compact('cur_user', 'rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr'));
+				echo $this->get_blade()->run("sales-detail", compact('cur_user', 'rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr', 'class_detail'));
 				break;
 
 			case 'save':
