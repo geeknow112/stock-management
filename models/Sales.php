@@ -55,12 +55,24 @@ class Sales extends Ext_Model_Base {
 			'messages' => $messages
 		);
 
-		// 車種の登録限界量(6t)を超える入力がされた場合
 		$post = (object) $_POST;
-		$over_limit = $this->checkSumQtyOverLimit($post->delivery_dt, $post->class, $post->qty);
-		if ($over_limit == true) {
-			echo ('<span style="color: red;">車種の登録限界量(6t)を超える入力のため、登録できません。</span>');
-			$step1['rules']['qty'] = 'required|max:1';
+		// 更新の時のみ処理実施
+		if ($post->sales && $post->cmd == 'cmd_confirm') {
+			// 車種の登録限界量(6t)を超える入力がされた場合
+			$over_limit = $this->checkSumQtyOverLimit($post->delivery_dt, $post->class, $post->qty);
+
+			// 車種変更がある更新処理の場合
+			$change_class = $this->checkEditForClass($post->sales, $post->class);
+
+			// 数量変更がある更新処理の場合
+			$change_qty = $this->checkEditForQty($post->sales, $post->qty);
+
+			if ($change_class == true || $change_qty == true) {
+				if ($over_limit == true) {
+					echo ('<span style="color: red;">車種の登録限界量(6t)を超える入力のため、登録できません。</span>');
+					$step1['rules']['qty'] = 'required|max:1';
+				}
+			}
 		}
 
 		$step2 = array(
@@ -1207,6 +1219,54 @@ $dt = new DateTime($sdt. ' +1 days');
 		$limit = 6; // 限界値(6t)
 
 		return ($confirm_qty > $limit) ? true : false;
+	}
+
+	/**
+	 * 車種変更がある更新処理かどうか確認し、
+	 * その場合trueを返す
+	 * 
+	 * @sales
+	 * @class
+	 * 
+	 **/
+	public function checkEditForClass($sales = null, $class = null) {
+		global $wpdb;
+
+		$sql  = "SELECT COUNT(sales) AS count ";
+		$sql .= "FROM yc_sales AS s ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
+		$sql .= "AND s.class is not null ";
+		$sql .= "AND s.sales = '". $sales. "' ";
+		$sql .= "AND s.class = '". $class. "' ";
+		$sql .= ";";
+
+		$rows = $wpdb->get_results($sql);
+		$count = current($rows)->count;
+		return ($count <= 0) ? true : false; // count = 0 の場合、変更ありのため、true
+	}
+
+	/**
+	 * 数量変更がある更新処理かどうか確認し、
+	 * その場合trueを返す
+	 * 
+	 * @sales
+	 * @qty
+	 * 
+	 **/
+	public function checkEditForQty($sales = null, $qty = null) {
+		global $wpdb;
+
+		$sql  = "SELECT COUNT(sales) AS count ";
+		$sql .= "FROM yc_sales AS s ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
+		$sql .= "AND s.qty is not null ";
+		$sql .= "AND s.sales = '". $sales. "' ";
+		$sql .= "AND s.qty = '". $qty. "' ";
+		$sql .= ";";
+
+		$rows = $wpdb->get_results($sql);
+		$count = current($rows)->count;
+		return ($count <= 0) ? true : false; // count = 0 の場合、変更ありのため、true
 	}
 
 	/**
