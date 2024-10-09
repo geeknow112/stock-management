@@ -50,7 +50,7 @@
 
 		<!-- start -->
 		<div class="table-responsive">
-			<div class="title-box">■ ※①～⑥、⑧、⑨ （※配送予定表の①～⑥、⑧、⑨を集計します。）</div>
+			<div class="title-box">■ ※①～⑤、⑧、⑨ （※配送予定表の①～⑤、⑧、⑨を集計します。）</div>
 			@if (isset($rows) && count($rows))
 			<table class="table table-bordered text-nowrap">
 				<!-- thead -->
@@ -319,7 +319,7 @@ function exe_print() {
 
 	$d_company = array('naitou' => '内藤運送', 'yamachu' => '山忠商事');
 
-	$title = '■ ※①～⑥、⑧、⑨ （※配送予定表の①～⑥、⑧、⑨を集計します。）';
+	$title = '■ ※①～⑤、⑧、⑨ （※配送予定表の①～⑤、⑧、⑨を集計します。）';
 	output_textarea($h, $title, $rows, $d_company['naitou']);
 
 	$title2 = '■ 【直取】　※⑩ （※配送予定表の⑩を集計します。）';
