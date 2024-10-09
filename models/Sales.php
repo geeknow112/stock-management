@@ -1210,6 +1210,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		$sql .= "AND s.delivery_dt is not null ";
 		$sql .= "AND s.delivery_dt = '". $delivery_dt. "' ";
 		$sql .= "AND s.class = '". $class. "' ";
+		$sql .= "AND s.class IN (2,3,4,5,6,7) "; // 車種6t-2～6t-7まで (6t-1(未確定)以外)
 		$sql .= ";";
 
 		$rows = $wpdb->get_results($sql);
