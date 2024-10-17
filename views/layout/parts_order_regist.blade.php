@@ -236,10 +236,7 @@ function createSelectBoxGoods(){
 	}
 };
 </script>
-<?php function checkCustomer() { return '29'; } ?>
-@if ($rows->customer == checkCustomer())
-{{$rows->customer}}
-@endif
+
 	<div class="row mb-3">
 		<label for="shipAddr" class="col-sm-2 col-form-label">配送先　（※ 顧客の槽（タンク））</label>
 		@if ($rows->class != 8 && $rows->class != 9)
