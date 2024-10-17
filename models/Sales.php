@@ -1348,6 +1348,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		return array(
 			'select' => array(
 				'customer' => $this->getPartsOrderName(), 
+				'special_customers' => $this->getSpecialCustomers(), 
 				'car_model' => $this->getPartsCarModel(), 
 				'car_model_add' => $this->getPartsCarModelAdd(), 
 				'car_model_limit' => array(), 
@@ -1388,6 +1389,15 @@ $dt = new DateTime($sdt. ' +1 days');
 			45 => '顧客②',
 		);
 */
+	}
+
+	/**
+	 * 特殊処理がある顧客
+	 **/
+	private function getSpecialCustomers() {
+		return array(
+			29, // 顧客番号: 29 (MEGA FARM)
+		);
 	}
 
 	/**

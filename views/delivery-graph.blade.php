@@ -242,12 +242,19 @@
 											{{$row->field1}}
 											<input type="hidden" class="" id="ship_addr_text_{{$row->sales}}" name="" value="{{$row->field1}}" /><!-- ship_addr (テキスト入力の際は、field1に登録とする(結果入力と同様)) -->
 										@else
-											<select class="w-100" id="change_ship_addr_{{$row->sales}}" name="">
-												<?php foreach ($initForm['select']['ship_addr'][$row->customer] as $i => $tank_name) { ?>
-													<option value="{{$i}}">{{$tank_name}}</option>
-												<?php } ?>
-											</select>
-											<input type="text" class="w-100" id="ship_addr_text_{{$row->sales}}" name="" value="{{$row->field1}}" /><!-- ship_addr (テキスト入力の際は、field1に登録とする(結果入力と同様)) -->
+											@if ($cur_user->roles[0] != 'editor' || in_array($row->customer, $initForm['select']['special_customers'])) {{-- 特殊処理がある顧客の場合、編集可能にする --}}
+												<select class="w-100" id="change_ship_addr_{{$row->sales}}" name="">
+													<?php foreach ($initForm['select']['ship_addr'][$row->customer] as $i => $tank_name) { ?>
+														<option value="{{$i}}">{{$tank_name}}</option>
+													<?php } ?>
+												</select>
+												<input type="text" class="w-100" id="ship_addr_text_{{$row->sales}}" name="" value="{{$row->field1}}" /><!-- ship_addr (テキスト入力の際は、field1に登録とする(結果入力と同様)) -->
+											@else
+												&emsp;<br />
+												&emsp;
+												<input type="hidden" id="change_ship_addr_{{$row->sales}}" name="" value="" />
+												<input type="hidden" id="ship_addr_text_{{$row->sales}}" name="" value="" />
+											@endif
 										@endif
 									@else
 										{{$row->tank_name}}
@@ -387,7 +394,11 @@
 											<option value="3">3</option>
 									</select>
 									<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
-									<input type="button" class="btn btn-info text-center text-light" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
+									@if ($row->repeat_fg != 1)
+										<input type="button" class="btn text-center" style="background: pink;" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
+									@else
+										<input type="button" class="btn btn-info text-center text-light" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
+									@endif
 								</div>
 							@else
 								<a href="#" class="btn btn-danger text-center" onclick="to_lot_regist({{$row->sales}}, {{$row->goods}});">&emsp;完了&emsp;</a>

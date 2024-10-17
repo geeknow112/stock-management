@@ -236,11 +236,14 @@ function createSelectBoxGoods(){
 	}
 };
 </script>
-
+<?php function checkCustomer() { return '29'; } ?>
+@if ($rows->customer == checkCustomer())
+{{$rows->customer}}
+@endif
 	<div class="row mb-3">
 		<label for="shipAddr" class="col-sm-2 col-form-label">配送先　（※ 顧客の槽（タンク））</label>
 		@if ($rows->class != 8 && $rows->class != 9)
-			<select class="form-select w-75" aria-label="shipAddr" id="ship_addr" name="ship_addr" @if ($get->action == '') disabled @endif>
+			<select class="form-select w-75" aria-label="shipAddr" id="ship_addr" name="ship_addr" @if ($get->action == '' || ($cur_user->roles[0] != 'administrator' && !in_array($rows->customer, $initForm['select']['special_customers']))) disabled @endif>
 				@if ($post->customer)
 					@foreach($initForm['select']['ship_addr'][$post->customer] as $i => $d)
 						<option value="{{$i}}" @if ($i == $rows->ship_addr) selected @endif >{{$d}}</option>
@@ -260,7 +263,7 @@ function createSelectBoxGoods(){
 	<div class="row mb-3">
 		<label for="shipAddrText" class="col-sm-2 col-form-label">　　　　（※ テキスト入力）</label>
 		@if ($rows->class != 8 && $rows->class != 9)
-			<textarea class="ship-addr-textarea" id="field1" name="field1">{{$rows->field1}}</textarea><!-- ship_addr (結果入力の際は、field1に登録となる) -->
+			<textarea class="ship-addr-textarea" id="field1" name="field1" @if ($cur_user->roles[0] != 'administrator' && !in_array($rows->customer, $initForm['select']['special_customers'])) disabled @endif>{{$rows->field1}}</textarea><!-- ship_addr (結果入力の際は、field1に登録となる) -->
 		@endif
 	</div>
 
