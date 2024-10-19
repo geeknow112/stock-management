@@ -81,7 +81,7 @@ class ScheduleRepeat extends Ext_Model_Base {
 		$cur_user = wp_get_current_user();
 
 		$sql  = "SELECT scr.*, scr.sales AS sales ";
-		$sql .= ", s.class, s.cars_tank, s.outgoing_warehouse, s.goods, s.ship_addr, s.qty, s.use_stock, s.customer, s.name, s.repeat_fg, s.delivery_dt "; // yc_sales
+		$sql .= ", s.class, s.cars_tank, s.outgoing_warehouse, s.goods, s.ship_addr, s.qty, s.use_stock, s.customer, s.name, s.repeat_fg, s.delivery_dt, s.field3 "; // yc_sales
 		$sql .= ", c.name AS customer_name "; // yc_customer
 		$sql .= ", g.name AS goods_name "; // yc_goods
 		$sql .= "FROM yc_schedule_repeat AS scr ";

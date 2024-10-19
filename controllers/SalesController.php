@@ -443,6 +443,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 				// salesテーブルへ登録
 				$post->repeat_fg = true;
+				$post->field3 = true;
 				$rows = $this->getTb()->copyDetail($get, $post);
 
 				// repeat_excludeテーブルに必要な情報を追加

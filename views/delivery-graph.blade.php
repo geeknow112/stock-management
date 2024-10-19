@@ -394,7 +394,7 @@
 											<option value="3">3</option>
 									</select>
 									<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
-									@if ($row->repeat_fg != 1)
+									@if ($row->field3 == 1)
 										<input type="button" class="btn text-center" style="background: pink;" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
 									@else
 										<input type="button" class="btn btn-info text-center text-light" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">

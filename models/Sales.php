@@ -902,6 +902,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		$post->week= null;
 		$post->repeat_s_dt= null;
 		$post->repeat_e_dt= null;
+		$post->field3 = 1;
 //$this->vd($post);exit;
 		$ret = $this->regDetail($get, $post);
 		return $ret;
