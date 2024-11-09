@@ -45,7 +45,7 @@
 
 	@if ($get->action != '')
 	<div class="row mb-3">
-		<label for="class_detail" class="col-sm-2 col-form-label hide-area">　{{$rows->delivery_dt}}の内訳<span id="limit_alert"></span></label>
+		<label for="class_detail" class="col-sm-2 col-form-label hide-area">　<span id="label_class_detail"></span>の内訳<span id="limit_alert"></span></label>
 		<table class="table table-bordered text-nowrap class-detail-textarea hide-area" id="class_detail" name="class_detail">
 			<tr class="table-light border-dark">
 				<th>品名</th>
@@ -79,7 +79,8 @@
 					get_area[i].style.display = 'block';
 				});
 
-				const ddt_value = document.getElementById("delivery_dt").value.replaceAll('-', '');
+				const ddt_value = document.getElementById("delivery_dt").value;
+				const ddt = ddt_value.replaceAll('-', '');
 				const class_value = document.getElementById("class").value;
 
 				//連想配列の配列
@@ -90,10 +91,13 @@
 				const class_detail = document.getElementById("class_detail");
 				const chead = '<tr class="table-light border-dark"><th>品名</th><th>量(t)</th><th>顧客名</th></tr>';
 
-console.log(ddt_value);
+console.log(ddt);
 console.log(class_value);
 
-				var d = class_data[ddt_value][class_value];
+				// ラベルに日付を表示
+				document.getElementById("label_class_detail").innerHTML = ddt_value;
+
+				var d = class_data[ddt][class_value];
 				var cbody = '';
 
 	if (d != undefined) {
@@ -260,7 +264,7 @@ function createSelectBoxGoods(){
 	<div class="row mb-3">
 		<label for="shipAddrText" class="col-sm-2 col-form-label">　　　　（※ テキスト入力）</label>
 		@if ($rows->class != 8 && $rows->class != 9)
-			<textarea class="ship-addr-textarea" id="field1" name="field1" @if ($cur_user->roles[0] != 'administrator' && !in_array($rows->customer, $initForm['select']['special_customers'])) disabled @endif>{{$rows->field1}}</textarea><!-- ship_addr (結果入力の際は、field1に登録となる) -->
+			<textarea class="ship-addr-textarea" id="field1" name="field1">{{$rows->field1}}</textarea><!-- ship_addr (結果入力の際は、field1に登録となる) -->
 		@endif
 	</div>
 

@@ -1317,27 +1317,28 @@ $dt = new DateTime($sdt. ' +1 days');
 		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 		$sql .= "AND s.delivery_dt is not null ";
 		$sql .= "AND s.class IN (1,2,3,4,5,6,7) "; // 車種6t-1～6t-7まで
-		$sql .= "AND s.delivery_dt = '". $delivery_dt. "' ";
+//		$sql .= "AND s.delivery_dt = '". $delivery_dt. "' ";
+		$sql .= "AND s.delivery_dt >= '". $delivery_dt. "' ";
 		$sql .= "ORDER BY s.class ASC";
 		$sql .= ";";
 
 //$this->vd($sql);exit;
 		$rows = $wpdb->get_results($sql);
 
-		$ddt = str_replace('-', '', current($rows)->delivery_dt);
-		foreach ($rows as $i => $d) {
-			$conv[$ddt][$d->class][] = (array) $d;
-		}
-
 		$classes = array(1,2,3,4,5,6,7);
-		$ret[$ddt][''] = array();
-		foreach ($classes as $class) {
-			if ($conv[$ddt][$class]) {
-				$ret[$ddt][$class] = $conv[$ddt][$class];
-			} else {
-				$ret[$ddt][$class] = array();
+		foreach ($rows as $i => $d) {
+			$ddt = str_replace('-', '', $d->delivery_dt);
+			$conv[$ddt][$d->class][] = (array) $d;
+
+			foreach ($classes as $class) {
+				if ($conv[$ddt][$class]) {
+					$ret[$ddt][$class] = $conv[$ddt][$class];
+				} else {
+					$ret[$ddt][$class] = array();
+				}
 			}
 		}
+//$this->vd($conv);
 //$this->vd($ret);
 		return $ret;
 	}
