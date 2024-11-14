@@ -1172,24 +1172,58 @@ $dt = new DateTime($sdt. ' +1 days');
 	public function getSumQtyByDeliveryDt($delivery_dt = null) {
 		global $wpdb;
 
-		$sql  = "SELECT s.class, SUM(s.qty) AS sum_qty ";
+		// 配送予定日から1週間後の日付(1週間分の予定取得のため)
+		$dt = new DateTime($delivery_dt);
+		$range_dt = $dt->modify('+1 week')->format('Y-m-d');
+//$this->vd($range_dt);
+
+		// 結果配列の初期化
+		$ddt = new DateTime($delivery_dt);
+		for ($i=0; $i<=7; $i++) { // 1週間分ループ
+			$add_dt = ($i > 0) ? 1 : 0;
+			$key_dt = $ddt->modify(sprintf('+%d day', $add_dt))->format('Ymd');
+			$ret[$key_dt] = array();
+		}
+//$this->vd($ret);
+
+//		$sql  = "SELECT s.class, s.delivery_dt, SUM(s.qty) AS sum_qty ";
+		$sql  = "SELECT s.class, s.delivery_dt, s.qty ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 		$sql .= "AND s.delivery_dt is not null ";
 		$sql .= "AND s.class IN (2,3,4,5,6,7) "; // 車種6t-1～6t-7まで
-		$sql .= "AND s.delivery_dt = '". $delivery_dt. "' ";
-		$sql .= "GROUP BY s.class ";
+		$sql .= "AND s.delivery_dt >= '". $delivery_dt. "' ";
+		$sql .= "AND s.delivery_dt <= '". $range_dt. "' ";
+//		$sql .= "GROUP BY s.class ";
 		$sql .= ";";
 
 //$this->vd($sql);exit;
 		$rows = $wpdb->get_results($sql);
+//$this->vd($rows);
 
-		$limit = 6; // 限界値(6t)
+		// 集計用に整形
 		foreach ($rows as $i => $d) {
-			if ($d->sum_qty >= $limit) {
-				$ret[] = $d->class;
+			$ddt = str_replace('-', '', $d->delivery_dt);
+			$conv[$ddt][$d->class][] = $d->qty;
+		}
+
+		// 配送予定日で集計
+		foreach ($conv as $ddt => $classes) {
+			foreach ($classes as $class => $qtys) {
+				$sum[$ddt][$class] = array_sum($qtys);
 			}
 		}
+//$this->vd($sum);
+
+		$limit = 6; // 限界値(6t)
+		foreach ($sum as $ddt => $classes) {
+			foreach ($classes as $class => $sum_qty) {
+				if ($sum_qty >= $limit) {
+					$ret[$ddt][] = $class;
+				}
+			}
+		}
+//$this->vd($ret);
 		return $ret;
 	}
 

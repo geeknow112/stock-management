@@ -96,6 +96,7 @@ class SalesController extends Ext_Controller_Action
 		$initForm['select']['car_model_limit'] = (!empty($sum_qty)) ? $sum_qty : array();
 //		$this->vd($initForm['select']['car_model']);
 //		$this->vd($initForm['select']['car_model_limit']);
+		$car_model_limit = json_encode($initForm['select']['car_model_limit']);
 
 		// ŽÔŽí‚Ì–¾×•\Ž¦—p‚Ìî•ñŽæ“¾ˆ—
 		$class_detail = json_encode($this->getTb()->getClassDetailByDeliveryDt($d_dt));
@@ -138,7 +139,7 @@ $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 $gnames = json_encode($initForm['select']['goods_name']);
 $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['ship_addr'][$post->customer][$post->ship_addr] : null;
-				echo $this->get_blade()->run("sales-detail", compact('cur_user', 'rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr', 'class_detail'));
+				echo $this->get_blade()->run("sales-detail", compact('cur_user', 'rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr', 'class_detail', 'car_model_limit'));
 				break;
 
 			case 'save':
@@ -227,7 +228,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 $gnames = json_encode($initForm['select']['goods_name']);
 $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['ship_addr'][$post->customer][$post->ship_addr] : null;
-				echo $this->get_blade()->run("sales-detail", compact('cur_user', 'rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr', 'class_detail'));
+				echo $this->get_blade()->run("sales-detail", compact('cur_user', 'rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr', 'class_detail', 'car_model_limit'));
 				break;
 		}
 	}
