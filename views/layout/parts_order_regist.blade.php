@@ -34,7 +34,7 @@
 					@if ($i == '0')
 					<option value=""></option>
 					@else
-					<option value="{{$i}}" @if ($i == $rows->class) selected @endif @if (in_array($i, $initForm['select']['car_model_limit'])) style="color: red;" @endif>{{$d}}</option>
+					<option value="{{$i}}" id="cl_{{$i}}" @if ($i == $rows->class) selected @endif>{{$d}}</option>
 					@endif
 				@endforeach
 			@else
@@ -64,6 +64,36 @@
 	@endif
 
 		<script>
+			//最後に実行(コンテンツ読み込み後)
+			window.onload = function() {
+				set_car_model_limit_color();
+			};
+
+			// 限界値に達した車種の配列を取得
+			function set_car_model_limit_color() {
+				const ddt_value = document.getElementById("delivery_dt").value;
+				const ddt = ddt_value.replaceAll('-', '');
+
+				const cl = "{{$car_model_limit}}";
+				var car_model_limit = JSON.parse(unescapeHtml(cl));
+				var cmls = car_model_limit[ddt];
+				console.log(cmls);
+				if (cmls && cmls.length != 0) {
+					for (var i=0; i<cmls.length; i++) {
+						console.log('clms : ' + cmls[i]);
+						document.getElementById('cl_' + cmls[i]).style.color = 'red';
+					}
+				} else {
+					document.getElementById('cl_1').style.color = '';
+					document.getElementById('cl_2').style.color = '';
+					document.getElementById('cl_3').style.color = '';
+					document.getElementById('cl_4').style.color = '';
+					document.getElementById('cl_5').style.color = '';
+					document.getElementById('cl_6').style.color = '';
+					document.getElementById('cl_7').style.color = '';
+				}
+			}
+
 			function disp_class_detail() {
 				// 更新画面以外は処理を終了する
 				var action = "{{$get->action}}";
@@ -83,13 +113,16 @@
 				const ddt = ddt_value.replaceAll('-', '');
 				const class_value = document.getElementById("class").value;
 
-				//連想配列の配列
+				// 注文の配列を取得
 				var cd = "{{$class_detail}}";
 				var class_data = JSON.parse(unescapeHtml(cd));
 //				console.log(class_data);
 
 				const class_detail = document.getElementById("class_detail");
 				const chead = '<tr class="table-light border-dark"><th>品名</th><th>量(t)</th><th>顧客名</th></tr>';
+
+				// 限界値に達した車種の配列を取得
+				set_car_model_limit_color();
 
 console.log(ddt);
 console.log(class_value);
@@ -305,7 +338,7 @@ function createSelectBoxGoods(){
 
 	<div class="row mb-3">
 		<label for="delivery_dt" class="col-sm-2 col-form-label">配送予定日　<span class="badge text-bg-danger">必須</span></label>
-		<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt" name="delivery_dt" aria-describedby="deliveryDtHelp" value="{{$rows->delivery_dt}}" onchange="setArrivalDt(); setRepeatSDt();">
+		<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt" name="delivery_dt" aria-describedby="deliveryDtHelp" value="{{$rows->delivery_dt}}" onchange="setArrivalDt(); setRepeatSDt(); disp_class_detail();">
 <!--		<div id="arrivalDtHelp" class="form-text">入庫予定日を入力してください。</div>-->
 	</div>
 
