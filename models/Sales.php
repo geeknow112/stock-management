@@ -885,7 +885,7 @@ $dt = new DateTime($sdt. ' +1 days');
 //$this->vd($rows);exit;
 		$post->sales = null;
 		$post->goods = $rows->goods;
-//		$post->ship_addr = $rows->ship_addr; // 6t-0からの移動時に、配送先コピー不要となったため削除(2024/06/02)
+		$post->ship_addr = $rows->ship_addr; // 6t-0からの移動時に、配送先コピー不要となったため削除(2024/06/02) // 再度必要となったため復活(2024/11/14)
 
 		$select_qty = $this->getPartsQty();
 		$post->qty = $select_qty[sprintf('%.1f', $rows->qty)];
