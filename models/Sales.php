@@ -59,7 +59,7 @@ class Sales extends Ext_Model_Base {
 		// 更新の時のみ処理実施
 		if ($post->sales && $post->cmd == 'cmd_confirm') {
 			// 車種の登録限界量(6t)を超える入力がされた場合
-			$over_limit = $this->checkSumQtyOverLimit($post->delivery_dt, $post->class, $post->qty);
+			$over_limit = $this->checkSumQtyOverLimit($post->sales, $post->delivery_dt, $post->class, $post->qty);
 
 			// 車種変更がある更新処理の場合
 			$change_class = $this->checkEditForClass($post->sales, $post->class);
@@ -1236,7 +1236,7 @@ $dt = new DateTime($sdt. ' +1 days');
 	 * @qty
 	 * 
 	 **/
-	public function checkSumQtyOverLimit($delivery_dt = null, $class = null, $qty = null) {
+	public function checkSumQtyOverLimit($sales = null, $delivery_dt = null, $class = null, $qty = null) {
 		global $wpdb;
 
 		$sql  = "SELECT SUM(s.qty) AS sum_qty ";
@@ -1246,6 +1246,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		$sql .= "AND s.delivery_dt = '". $delivery_dt. "' ";
 		$sql .= "AND s.class = '". $class. "' ";
 		$sql .= "AND s.class IN (2,3,4,5,6,7) "; // 車種6t-2～6t-7まで (6t-1(未確定)以外)
+		$sql .= "AND s.sales <> '". $sales. "' ";
 		$sql .= ";";
 
 		$rows = $wpdb->get_results($sql);
