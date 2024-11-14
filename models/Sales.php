@@ -1309,6 +1309,23 @@ $dt = new DateTime($sdt. ' +1 days');
 //		return $class_detail;
 
 		global $wpdb;
+		$classes = array(1,2,3,4,5,6,7);
+
+		// 配送予定日から1週間後の日付(1週間分の予定取得のため)
+		$dt = new DateTime($delivery_dt);
+		$range_dt = $dt->modify('+1 week')->format('Y-m-d');
+//$this->vd($range_dt);
+
+		// 結果配列の初期化
+		$ddt = new DateTime($delivery_dt);
+		for ($i=0; $i<=7; $i++) { // 1週間分ループ
+			$add_dt = ($i > 0) ? 1 : 0;
+			$key_dt = $ddt->modify(sprintf('+%d day', $add_dt))->format('Ymd');
+			foreach ($classes as $class) {
+				$ret[$key_dt][$class] = array();
+			}
+		}
+//$this->vd($ret);
 
 		$sql  = "SELECT s.sales, s.delivery_dt, s.class, s.qty, s.goods, s.customer, g.name AS goods_name, c.name AS customer_name ";
 		$sql .= "FROM yc_sales AS s ";
@@ -1317,15 +1334,14 @@ $dt = new DateTime($sdt. ' +1 days');
 		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 		$sql .= "AND s.delivery_dt is not null ";
 		$sql .= "AND s.class IN (1,2,3,4,5,6,7) "; // 車種6t-1～6t-7まで
-//		$sql .= "AND s.delivery_dt = '". $delivery_dt. "' ";
 		$sql .= "AND s.delivery_dt >= '". $delivery_dt. "' ";
+		$sql .= "AND s.delivery_dt <= '". $range_dt. "' ";
 		$sql .= "ORDER BY s.class ASC";
 		$sql .= ";";
 
 //$this->vd($sql);exit;
 		$rows = $wpdb->get_results($sql);
 
-		$classes = array(1,2,3,4,5,6,7);
 		foreach ($rows as $i => $d) {
 			$ddt = str_replace('-', '', $d->delivery_dt);
 			$conv[$ddt][$d->class][] = (array) $d;

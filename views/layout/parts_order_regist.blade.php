@@ -97,40 +97,46 @@ console.log(class_value);
 				// ラベルに日付を表示
 				document.getElementById("label_class_detail").innerHTML = ddt_value;
 
-				var d = class_data[ddt][class_value];
-				var cbody = '';
+				if (class_data[ddt]) {
 
-	if (d != undefined) {
-		console.log('data : ' + d);
-	}
-	var cnt = Object.keys(d).length;
-	console.log('cnt : ' + cnt);
+					var d = class_data[ddt][class_value];
+					var cbody = '';
 
-	var qtys = [];
-	for (var i=0; i<=cnt; i++) {
-		if (d[i] != undefined) {
-			console.log(d[i]);
-			cbody += '<tr><td>' + d[i]['goods_name'] + '</td><td>' + d[i]['qty'] + '</td><td>' + d[i]['customer_name'] + '</td></tr>';
-			qtys.push(d[i]['qty']);
-		}
-	}
+					if (d != undefined) {
+						console.log('data : ' + d);
+					}
+					var cnt = Object.keys(d).length;
+					console.log('cnt : ' + cnt);
 
-	const limit = 6; // 限界値(6t)
-	var sum_qty = qtys.reduce((pre_value, cur_value) => parseFloat(pre_value) + parseFloat(cur_value), 0);
-	console.log(sum_qty);
-	const limit_alert = document.getElementById('limit_alert');
-	if (sum_qty >= limit) {
-		limit_alert.style.color = 'red';
-		limit_alert.innerHTML = "<br>　⚠️6tを超えています";
-	} else {
-		limit_alert.innerHTML = "";
-	}
+					var qtys = [];
+					for (var i=0; i<=cnt; i++) {
+						if (d[i] != undefined) {
+							console.log(d[i]);
+							cbody += '<tr><td>' + d[i]['goods_name'] + '</td><td>' + d[i]['qty'] + '</td><td>' + d[i]['customer_name'] + '</td></tr>';
+							qtys.push(d[i]['qty']);
+						}
+					}
 
+					const limit = 6; // 限界値(6t)
+					var sum_qty = qtys.reduce((pre_value, cur_value) => parseFloat(pre_value) + parseFloat(cur_value), 0);
+					console.log(sum_qty);
+					const limit_alert = document.getElementById('limit_alert');
+					if (sum_qty >= limit) {
+						limit_alert.style.color = 'red';
+						limit_alert.innerHTML = "<br>　⚠️6tを超えています";
+					} else {
+						limit_alert.innerHTML = "";
+					}
 
-//				for (var i=1; i<=Object.keys(d).length; i++) {
-//					cbody += '<tr><td>' + d[i]['goods'] + '</td><td>' + d[i]['qty'] + '</td><td>' + d[i]['customer'] + '</td></tr>';
-//				}
-				class_detail.innerHTML = chead + cbody;
+//					for (var i=1; i<=Object.keys(d).length; i++) {
+//						cbody += '<tr><td>' + d[i]['goods'] + '</td><td>' + d[i]['qty'] + '</td><td>' + d[i]['customer'] + '</td></tr>';
+//					}
+					class_detail.innerHTML = chead + cbody;
+
+				} else {
+					console.log('output range : false');
+					class_detail.innerHTML = "表示可能範囲(1週間)を超えています";
+				}
 			}
 		</script>
 
