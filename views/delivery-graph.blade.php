@@ -52,41 +52,92 @@
 				<span class="sp"><br /></br /></span>
 				<span id="jump_link">
 					@if ($cur_user->roles[0] == 'administrator')
-					<span><a href="#table_top"><input type="button" class="btn btn-primary" value="繰返"></a><span>
+					<span><a href="#table_top"><input type="button" class="btn btn-primary" value="繰返"></a></span>
 					&emsp;
 					@endif
 
 					@if ($cur_user->roles[0] != 'subscriber')
-					<span><a href="#car_model_0"><input type="button" class="btn btn-info" value="未確定"></a><span>
+					<span><a href="#car_model_0"><input type="button" class="btn btn-info" value="未確定"></a></span>
 					&emsp;
 					@endif
 
-					<span><a href="#car_model_1"><input type="button" class="btn btn-info" value="①"></a><span>
+					<span><a href="#car_model_1"><input type="button" class="btn btn-info" value="①"></a></span>
 					&emsp;
 
-					<span><a href="#car_model_2"><input type="button" class="btn btn-info" value="②"></a><span>
+					<span><a href="#car_model_2"><input type="button" class="btn btn-info" value="②"></a></span>
 					&emsp;
 
-					<span><a href="#car_model_3"><input type="button" class="btn btn-primary" value="③"></a><span>
+					<span><a href="#car_model_3"><input type="button" class="btn btn-primary" value="③"></a></span>
 					&emsp;
 
-					<span><a href="#car_model_4"><input type="button" class="btn btn-info" value="④"></a><span>
+					<span><a href="#car_model_4"><input type="button" class="btn btn-info" value="④"></a></span>
 					&emsp;
 
-					<span><a href="#car_model_5"><input type="button" class="btn btn-info" value="⑤"></a><span>
+					<span><a href="#car_model_5"><input type="button" class="btn btn-info" value="⑤"></a></span>
 					&emsp;
 
 					@if ($cur_user->roles[0] == 'administrator')
-					<span><a href="#input_result"><input type="button" class="btn btn-primary" value="結果入力欄"></a><span>
+					<span><a href="#input_result"><input type="button" class="btn btn-primary" value="結果入力欄"></a></span>
 					&emsp;
 
-					<span><a href="#input_result_end" name="input_result_end"><input type="button" class="btn btn-info" value=">>"></a><span>
+					<span><a href="#input_result_end" name="input_result_end"><input type="button" class="btn btn-info" value=">>"></a></span>
+					&emsp;
+
+					<span><input type="button" class="btn btn-danger text-center" value="繰返 → 未確定" onclick="regist_order_bulk_process();"></span>
 					@endif
 
 				</span>
 				<span class="sp"><br /></br /></span>
 			</div>
+<script>
+function regist_order_bulk_process() {
+/*
+	var r_order_id = 'r_order_' + oid;
+	var cars_class_id = 'cars_class_' + oid;
+	var cars_tank_id = 'cars_tank_' + oid;
+	var delivery_dt_id = 'delivery_dt_' + oid;
+	var warehouse_id = 'r_warehouse_' + oid;
+	var arrival_dt_id = 'r_arrival_dt_' + oid;
 
+	var cars_class = document.getElementById(cars_class_id).value;
+	var cars_tank = document.getElementById(cars_tank_id).value;
+	var delivery_dt = document.getElementById(delivery_dt_id).value;
+	var warehouse = document.getElementById(warehouse_id).value;
+	var arrival_dt = document.getElementById(arrival_dt_id).value;
+*/
+
+	if (window.confirm('表示されている繰返を、全て未確定に移動しますか？')) {
+		document.forms.method = 'post';
+		document.forms.action.value = 'regist_order_bulk';
+		var r_orders = document.getElementsByClassName('r_order');
+		var items = [];
+		for (let item of r_orders) {
+//			console.log(item.id);
+			items.push(item.id);
+		}
+		document.forms.r_orders.value = items;
+		//document.forms.oid.value = '1';
+/*
+		document.getElementById(r_order_id).value = r_order_id;
+		document.forms.class.value = cars_class;
+		document.forms.cars_tank.value = cars_tank;
+		document.forms.change_delivery_dt.value = delivery_dt;
+		document.forms.r_warehouse.value = warehouse;
+		document.forms.r_arrival_dt.value = arrival_dt;
+*/
+
+	/*
+		document.forms.r_delivery_dt.value = <?php echo $row->delivery_dt; ?>;
+		document.forms.r_class.value = <?php echo $row->class; ?>;
+		document.forms.r_tank.value = '{{$row->cars_tank}}';
+		document.forms.base_sales.value = '1';
+		document.forms.cmd.value = 'regist';
+	*/
+		document.forms.submit();
+	}
+
+}
+</script>
 			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
 			<input type="hidden" name="page" value="{{$formPage}}">
@@ -111,6 +162,8 @@
 
 			<input type="hidden" name="oid" value="">
 			<input type="hidden" name="odata" value="">
+
+			<input type="hidden" name="r_orders" value="">
 
 {{--			@endif	--}}
 
@@ -333,7 +386,7 @@
 											<option value="2">2</option>
 											<option value="3">3</option>
 									</select>
-									<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
+									<input type="hidden" class="r_order" id="r_order_{{$oid}}" name="r_order[]" value="">
 									<input type="button" class="btn btn-primary text-center" value="注文" onclick="change_repeat_order('{{$oid}}');">
 								</div>
 
