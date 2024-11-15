@@ -65,35 +65,38 @@
 				<span class="sp"><br /></br /></span>
 				<span id="jump_link">
 					@if ($cur_user->roles[0] == 'administrator')
-					<span><a href="#table_top"><input type="button" class="btn btn-primary" value="繰返"></a><span>
+					<span><a href="#table_top"><input type="button" class="btn btn-primary" value="繰返"></a></span>
 					&emsp;
 					@endif
 
 					@if ($cur_user->roles[0] != 'subscriber')
-					<span><a href="#car_model_0"><input type="button" class="btn btn-info" value="未確定"></a><span>
+					<span><a href="#car_model_0"><input type="button" class="btn btn-info" value="未確定"></a></span>
 					&emsp;
 					@endif
 
-					<span><a href="#car_model_1"><input type="button" class="btn btn-info" value="①"></a><span>
+					<span><a href="#car_model_1"><input type="button" class="btn btn-info" value="①"></a></span>
 					&emsp;
 
-					<span><a href="#car_model_2"><input type="button" class="btn btn-info" value="②"></a><span>
+					<span><a href="#car_model_2"><input type="button" class="btn btn-info" value="②"></a></span>
 					&emsp;
 
-					<span><a href="#car_model_3"><input type="button" class="btn btn-primary" value="③"></a><span>
+					<span><a href="#car_model_3"><input type="button" class="btn btn-primary" value="③"></a></span>
 					&emsp;
 
-					<span><a href="#car_model_4"><input type="button" class="btn btn-info" value="④"></a><span>
+					<span><a href="#car_model_4"><input type="button" class="btn btn-info" value="④"></a></span>
 					&emsp;
 
-					<span><a href="#car_model_5"><input type="button" class="btn btn-info" value="⑤"></a><span>
+					<span><a href="#car_model_5"><input type="button" class="btn btn-info" value="⑤"></a></span>
 					&emsp;
 
 					@if ($cur_user->roles[0] == 'administrator')
-					<span><a href="#input_result"><input type="button" class="btn btn-primary" value="結果入力欄"></a><span>
+					<span><a href="#input_result"><input type="button" class="btn btn-primary" value="結果入力欄"></a></span>
 					&emsp;
 
-					<span><a href="#input_result_end" name="input_result_end"><input type="button" class="btn btn-info" value=">>"></a><span>
+					<span><a href="#input_result_end" name="input_result_end"><input type="button" class="btn btn-info" value=">>"></a></span>
+					&emsp;
+
+					<span><input type="button" class="btn btn-danger text-center" value="繰返 → 未確定" onclick="alert('test');"></span>
 					@endif
 
 				</span>

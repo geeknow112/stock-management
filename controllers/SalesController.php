@@ -436,6 +436,9 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 		}
 
 		switch($get->action) {
+			case 'regist_order_bulk':
+$this->vd(explode(',', $post->r_orders));
+echo 'test';exit;
 			case 'regist':
 			case 'set_direct_delivery': // 「直取分」の処理
 				// salesテーブルへ登録のための成形
