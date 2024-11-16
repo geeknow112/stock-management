@@ -369,6 +369,8 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 		if (!isset($get->action) || $post->action == 'order_update') { $get->action = $post->action; }
 
+		if (!isset($get->action) || $post->action == 'regist_order_bulk') { $get->action = $post->action; }
+
 		switch($get->action) {
 			case 'order_update': // 「量」、「配送先」の更新
 				$data['sales'] = $post->sales;
@@ -436,53 +438,78 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 		}
 
 		switch($get->action) {
-			case 'regist_order_bulk':
-$this->vd(explode(',', $post->r_orders));
-echo 'test';exit;
-			case 'regist':
+			case 'regist_order_bulk': // 「繰返→未確定」の一括処理
+
+//echo phpinfo();exit;
+
+// 初期値を確認
+var_dump(ini_get("max_execution_time"));
+
+// ini_setで上限値を更新
+ini_set("max_execution_time", 60);
+
+				$orders = explode(',', $post->r_orders);
+//				$this->vd($orders[0]);exit;
+				foreach ($orders as $i => $order) {
+					if ($i == 5) { break; } // TODO: 検証中、削除予定
+					$post->r_order[] = $order;
+					$post->class = 1;
+					$post->cars_tank = 1;
+
+					// 繰返を未確定に変更する処理
+					$new_sales[] = $this->registOrderProcessForRepeat($get, $post);
+sleep(3);
+				}
+if (!empty($new_sales)) {
+	$this->vd($new_sales);
+}
+
+ini_set("max_execution_time", 30);
+
+				// 初期画面表示
+				$this->defaultProcessForDeliveryGraph($get, $post);
+				break;
+
+			case 'regist': // 「注文」押下時の処理
 			case 'set_direct_delivery': // 「直取分」の処理
-				// salesテーブルへ登録のための成形
-				$this->convertSalesData($post);
-//				$this->vd($post);exit;
-
-				// salesテーブルへ登録
-				$post->repeat_fg = true;
-				$post->field3 = true;
-				$rows = $this->getTb()->copyDetail($get, $post);
-
-				// repeat_excludeテーブルに必要な情報を追加
-				$post->sales = $post->base_sales;
-				if (!empty($post->base_delivery_dt)) { $post->delivery_dt = $post->base_delivery_dt; }
-				//$this->vd($post);exit;
-
-				// repeat_excludeテーブルへ登録
-				$RepeatExclude = new RepeatExclude;
-				$RepeatExclude->updDetail($get, $post);
-
-				// 元注文の繰り返しOFF
-				$init_bool = $this->getTb()->initRepeatFg($post);
-//				$this->vd($init_bool);exit;
-
-				// 元注文の繰り返しを新注文へコピーする
-				$post->sales = $rows->sales;
-				$post->delivery_dt = $rows->delivery_dt; // repeat_s_dtに新しいdelivery_dtを設定
-				$ScheduleRepeat = new ScheduleRepeat;
-				$ScheduleRepeat->copyDetail($get, $post);
+				// 繰返を未確定に変更する処理
+				$new_sales[] = $this->registOrderProcessForRepeat($get, $post);
 
 			case 'search':
 			default:
-				$initForm = $this->getTb()->getInitForm();
-				$rows = $this->getTb()->getList($get);
-				$formPage = 'delivery-graph';
+				// 初期画面表示
+				$this->defaultProcessForDeliveryGraph($get, $post);
+				break;
+		}
+	}
 
-				// 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
-				//$this->vd($get->s['sdt']);
-				$ScheduleRepeat = new ScheduleRepeat;
-				$repeat_list = $ScheduleRepeat->getList($get);
+	/**
+	 *
+	 **/
+	public function deliveryGraphSTG() {
+		$this->deliveryGraph('delivery-graph-stg');
+	}
 
-				// 配送先(タンク)名の取得
-				$rows = $this->getTb()->setTankName($rows);
-				$repeat_list = $this->getTb()->setTankName($repeat_list); // 6t-0からの移動時に、配送先コピー不要となったため削除(2024/06/02) →6t-0に表示が必要となったため再表示(2024/06/24)
+	/**
+	 * 配送予定表の初期画面表示
+	 * 
+	 **/
+	private function defaultProcessForDeliveryGraph($get = null, $post = null) {
+		$cur_user = wp_get_current_user();
+		$this->setTb('Sales');
+
+		$initForm = $this->getTb()->getInitForm();
+		$rows = $this->getTb()->getList($get);
+		$formPage = 'delivery-graph';
+
+		// 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
+		//$this->vd($get->s['sdt']);
+		$ScheduleRepeat = new ScheduleRepeat;
+		$repeat_list = $ScheduleRepeat->getList($get);
+
+		// 配送先(タンク)名の取得
+		$rows = $this->getTb()->setTankName($rows);
+		$repeat_list = $this->getTb()->setTankName($repeat_list); // 6t-0からの移動時に、配送先コピー不要となったため削除(2024/06/02) →6t-0に表示が必要となったため再表示(2024/06/24)
 
 //$this->vd($rows);
 //$this->vd(array_keys($repeat_list));
@@ -507,53 +534,44 @@ $r = array(
 
 );
 
-				// ロット番号アラートの作成
-				$msg1 = $this->getTb()->checkLotNumberStatus();
+		// ロット番号アラートの作成
+		$msg1 = $this->getTb()->checkLotNumberStatus();
 
-				// 受領書受取アラートの作成
-				$msg2 = $this->getTb()->checkReceiptStatus();
+		// 受領書受取アラートの作成
+		$msg2 = $this->getTb()->checkReceiptStatus();
 
-				if (!empty($msg1) || !empty($msg2)) {
-					$msg = array_merge($msg1, $msg2);
-				}
+		if (!empty($msg1) || !empty($msg2)) {
+			$msg = array_merge($msg1, $msg2);
+		}
 
-				$initForm['fix_customer'] = array(
-					// 太田畜産用
-					'17' => array(
-						'customer' => array(
-							'17' => $initForm['select']['customer'][17]
-						), 
-						'goods' => array(
-							'17' => $initForm['select']['goods_name'][17]
-						), 
-					), 
-					// 村上養鶏場用
-					'31' => array(
-						'customer' => array(
-							'31' => $initForm['select']['customer'][31]
-						), 
-						'goods' => array(
-							'31' => $initForm['select']['goods_name'][31]
-						), 
-					), 
-				);
+		$initForm['fix_customer'] = array(
+			// 太田畜産用
+			'17' => array(
+				'customer' => array(
+					'17' => $initForm['select']['customer'][17]
+				), 
+				'goods' => array(
+					'17' => $initForm['select']['goods_name'][17]
+				), 
+			), 
+			// 村上養鶏場用
+			'31' => array(
+				'customer' => array(
+					'31' => $initForm['select']['customer'][31]
+				), 
+				'goods' => array(
+					'31' => $initForm['select']['goods_name'][31]
+				), 
+			), 
+		);
 
 //$this->vd($initForm['fix_customer']);
 
-				$gnames = json_encode($initForm['select']['goods_name']);
-				$test_ship_addr = json_encode($initForm['select']['ship_addr']);
+		$gnames = json_encode($initForm['select']['goods_name']);
+		$test_ship_addr = json_encode($initForm['select']['ship_addr']);
 
-				$formPage = (!is_null($viewUrl)) ? $viewUrl : 'delivery-graph';
-				echo $this->get_blade()->run($formPage, compact('cur_user', 'rows', 'get', 'post', 'formPage', 'initForm', 'r', 'msg', 'repeat_list', 'gnames', 'test_ship_addr'));
-				break;
-		}
-	}
-
-	/**
-	 *
-	 **/
-	public function deliveryGraphSTG() {
-		$this->deliveryGraph('delivery-graph-stg');
+		$formPage = (!is_null($viewUrl)) ? $viewUrl : 'delivery-graph';
+		echo $this->get_blade()->run($formPage, compact('cur_user', 'rows', 'get', 'post', 'formPage', 'initForm', 'r', 'msg', 'repeat_list', 'gnames', 'test_ship_addr'));
 	}
 
 	/**
@@ -580,6 +598,42 @@ $r = array(
 		$post->repeat = $r_order[4];
 		$post->outgoing_warehouse = $post->r_warehouse;
 		$post->arrival_dt = $post->r_arrival_dt;
+	}
+
+	/**
+	 * 繰返を未確定に変更する処理 (「繰返→未確定」)
+	 * 
+	 **/
+	private function registOrderProcessForRepeat($get = null, $post = null) {
+		// salesテーブルへ登録のための成形
+		$this->convertSalesData($post);
+//		$this->vd($post);exit;
+
+		// salesテーブルへ登録
+		$post->repeat_fg = true;
+		$post->field3 = true;
+		$rows = $this->getTb()->copyDetail($get, $post);
+
+		// repeat_excludeテーブルに必要な情報を追加
+		$post->sales = $post->base_sales;
+		if (!empty($post->base_delivery_dt)) { $post->delivery_dt = $post->base_delivery_dt; }
+		//$this->vd($post);exit;
+
+		// repeat_excludeテーブルへ登録
+		$RepeatExclude = new RepeatExclude;
+		$RepeatExclude->updDetail($get, $post);
+
+		// 元注文の繰り返しOFF
+		$init_bool = $this->getTb()->initRepeatFg($post);
+//		$this->vd($init_bool);exit;
+
+		// 元注文の繰り返しを新注文へコピーする
+		$post->sales = $rows->sales;
+		$post->delivery_dt = $rows->delivery_dt; // repeat_s_dtに新しいdelivery_dtを設定
+		$ScheduleRepeat = new ScheduleRepeat;
+		$ScheduleRepeat->copyDetail($get, $post);
+
+		return $rows->sales;
 	}
 
 	/**
