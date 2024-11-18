@@ -440,32 +440,38 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 		switch($get->action) {
 			case 'regist_order_bulk': // 「繰返→未確定」の一括処理
 
-$this->vd($post);exit;
-//echo phpinfo();exit;
+				if (!empty($post->r_orders)) {
+					//$this->vd($post);exit;
+					//echo phpinfo();exit;
 
-// 初期値を確認
-var_dump(ini_get("max_execution_time"));
+					// 初期値を確認
+//					var_dump(ini_get("max_execution_time"));
 
-// ini_setで上限値を更新
-ini_set("max_execution_time", 60);
+					// ini_setで上限値を更新
+					ini_set("max_execution_time", 60);
 
-				$orders = explode(',', $post->r_orders);
-//				$this->vd($orders[0]);exit;
-				foreach ($orders as $i => $order) {
-					if ($i == 5) { break; } // TODO: 検証中、削除予定
-					$post->r_order[] = $order;
-					$post->class = 1;
-					$post->cars_tank = 1;
+					$orders = explode(',', $post->r_orders);
+//					$this->vd($orders);exit;
 
-					// 繰返を未確定に変更する処理
-					$new_sales[] = $this->registOrderProcessForRepeat($get, $post);
-sleep(3);
+					if (is_array($orders) && count($orders) > 0) {
+						foreach ($orders as $i => $order) {
+							if ($i == 3) { break; } // TODO: 検証中、削除予定
+							$post->r_order[] = $order;
+							$post->class = 1;
+							$post->cars_tank = 1;
+
+							// 繰返を未確定に変更する処理
+							$new_sales[] = $this->registOrderProcessForRepeat($get, $post);
+							sleep(1);
+						}
+
+						if (!empty($new_sales)) {
+//							$this->vd($new_sales);
+						}
+
+						ini_set("max_execution_time", 30);
+					}
 				}
-if (!empty($new_sales)) {
-	$this->vd($new_sales);
-}
-
-ini_set("max_execution_time", 30);
 
 				// 初期画面表示
 				$this->defaultProcessForDeliveryGraph($get, $post);
