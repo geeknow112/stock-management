@@ -440,6 +440,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 		switch($get->action) {
 			case 'regist_order_bulk': // 「繰返→未確定」の一括処理
 
+$this->vd($post);exit;
 //echo phpinfo();exit;
 
 // 初期値を確認
@@ -489,6 +490,8 @@ ini_set("max_execution_time", 30);
 	public function deliveryGraphSTG() {
 		$this->deliveryGraph('delivery-graph-stg');
 	}
+
+	public $_cron_data = 'test data';
 
 	/**
 	 * 配送予定表の初期画面表示
@@ -604,7 +607,7 @@ $r = array(
 	 * 繰返を未確定に変更する処理 (「繰返→未確定」)
 	 * 
 	 **/
-	private function registOrderProcessForRepeat($get = null, $post = null) {
+	public function registOrderProcessForRepeat($get = null, $post = null) {
 		// salesテーブルへ登録のための成形
 		$this->convertSalesData($post);
 //		$this->vd($post);exit;
