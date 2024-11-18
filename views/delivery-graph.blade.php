@@ -83,7 +83,7 @@
 					<span><a href="#input_result_end" name="input_result_end"><input type="button" class="btn btn-info" value=">>"></a></span>
 					&emsp;
 
-					<span><input type="button" class="btn btn-danger text-center" value="繰返 → 未確定" onclick="regist_order_bulk_process();" disabled></span>
+					<span><input type="button" class="btn btn-danger text-center" value="繰返 → 未確定" onclick="regist_order_bulk_process();" @if ($cur_user->data->user_login != 'user') disabled @endif></span>
 					@endif
 
 				</span>
