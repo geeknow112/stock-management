@@ -620,7 +620,7 @@ $r = array(
 
 		// salesテーブルへ登録
 		$post->repeat_fg = true;
-		$post->field3 = true;
+		if ($post->class == 7) { $post->field3 = true; } // 「直取分」押下時、処理済フラグを立てる
 		$rows = $this->getTb()->copyDetail($get, $post);
 
 		// repeat_excludeテーブルに必要な情報を追加
@@ -641,6 +641,9 @@ $r = array(
 		$post->delivery_dt = $rows->delivery_dt; // repeat_s_dtに新しいdelivery_dtを設定
 		$ScheduleRepeat = new ScheduleRepeat;
 		$ScheduleRepeat->copyDetail($get, $post);
+
+		// 「直取分」押下時、元注文のfield3をONにする (ONの場合、ボタン色がピンク)
+		if ($post->class == 7) { $this->getTb()->initFieldForDirectDelivery($post); }
 
 		return $rows->sales;
 	}

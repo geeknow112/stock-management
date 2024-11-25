@@ -882,6 +882,7 @@ $dt = new DateTime($sdt. ' +1 days');
 	 **/
 	public function copyDetail($get = null, $post = null) {
 		$rows = $this->getDetailForRepeatByBaseSalesCode($post->base_sales);
+//$this->vd($post);exit;
 //$this->vd($rows);exit;
 		$post->sales = null;
 		$post->goods = $rows->goods;
@@ -902,7 +903,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		$post->week= null;
 		$post->repeat_s_dt= null;
 		$post->repeat_e_dt= null;
-		$post->field3 = 1;
+		$post->field3 = (!empty($post->field3)) ? $post->field3 : null;
 //$this->vd($post);exit;
 		$ret = $this->regDetail($get, $post);
 		return $ret;
@@ -1059,6 +1060,29 @@ $dt = new DateTime($sdt. ' +1 days');
 		$data = array(
 			'sales' => $post->base_sales, 
 			'repeat_fg' => 0
+		);
+
+//$this->vd($data);exit;
+
+		$ret = $wpdb->update(
+			$this->getTableName(), 
+			$data, 
+			array('sales' => $post->base_sales)
+		);
+		return $ret;
+	}
+
+	/**
+	 * field3の設定
+	 * 「直取分」押下時、元注文のfield3をONにする (ONの場合、ボタン色がピンク)
+	 **/
+	public function initFieldForDirectDelivery($post = null) {
+		$post = (object) $post;
+		global $wpdb;
+
+		$data = array(
+			'sales' => $post->base_sales, 
+			'field3' => (!empty($post->field3)) ? $post->field3 : null
 		);
 
 //$this->vd($data);exit;
