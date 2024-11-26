@@ -344,7 +344,7 @@ function createSelectBoxGoods(){
 
 	<div class="row mb-3">
 		<label for="arrival_dt" class="col-sm-2 col-form-label">入庫予定日</label>
-		<input type="date" class="col-sm-6 col-form-control w-auto" id="arrival_dt" name="arrival_dt" aria-describedby="arrivalDtHelp" value="{{$rows->arrival_dt}}" @if ($cur_user->roles[0] != 'administrator') disabled @endif>
+		<input type="date" class="col-sm-6 col-form-control w-auto" id="arrival_dt" name="arrival_dt" aria-describedby="arrivalDtHelp" value="{{$rows->arrival_dt}}" @if ($cur_user->roles[0] != 'administrator') readonly @endif>
 		<span id="" class="manual-text form-text">※ 入力がない場合、「配送予定日」の<b>3日前</b>の日付を自動入力します。</span>
 	</div>
 
