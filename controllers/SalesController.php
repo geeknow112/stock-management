@@ -606,7 +606,7 @@ $r = array(
 		$post->base_sales = $r_order[2];
 		$post->repeat = $r_order[4];
 		$post->outgoing_warehouse = $post->r_warehouse;
-		$post->arrival_dt = $post->r_arrival_dt;
+		$post->arrival_dt = ($post->r_arrival_dt) ? $post->r_arrival_dt : $this->setArrivalDt($delivery_dt);
 	}
 
 	/**
