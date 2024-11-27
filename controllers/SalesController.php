@@ -605,7 +605,7 @@ $r = array(
 		$post->cars_tank = $post->cars_tank;
 		$post->base_sales = $r_order[2];
 		$post->repeat = $r_order[4];
-		$post->outgoing_warehouse = $post->r_warehouse;
+		$post->outgoing_warehouse = ($post->r_warehouse) ? $post->r_warehouse : $this->getTb()->getOutgoingWarehouseBySales($r_order[2]);
 		$post->arrival_dt = ($post->r_arrival_dt) ? $post->r_arrival_dt : $this->setArrivalDt($delivery_dt);
 	}
 
