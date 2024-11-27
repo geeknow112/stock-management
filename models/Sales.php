@@ -1252,6 +1252,25 @@ $dt = new DateTime($sdt. ' +1 days');
 	}
 
 	/**
+	 * 「出庫倉庫」の取得
+	 * @sales
+	 **/
+	public function getOutgoingWarehouseBySales($sales = null) {
+		global $wpdb;
+
+		$sql  = "SELECT s.outgoing_warehouse ";
+		$sql .= "FROM yc_sales AS s ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
+		$sql .= "AND s.sales = ". $sales;
+		$sql .= ";";
+
+//$this->vd($sql);exit;
+		$rows = $wpdb->get_results($sql);
+//$this->vd($rows);
+		return current($rows)->outgoing_warehouse;
+	}
+
+	/**
 	 * 「配送予定日」、「車種」から車種別数量合計を集計し、「量(t)」を加算した場合、限界値(6t)を超えるかどうか検査
 	 * 限界値を超えた場合、trueを返す
 	 * 
