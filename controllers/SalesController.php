@@ -478,9 +478,20 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				break;
 
 			case 'regist': // 「注文」押下時の処理
-			case 'set_direct_delivery': // 「直取分」の処理
 				// 繰返を未確定に変更する処理
 				$new_sales[] = $this->registOrderProcessForRepeat($get, $post);
+
+				// 初期画面表示
+				$this->defaultProcessForDeliveryGraph($get, $post);
+				break;
+
+			case 'set_direct_delivery': // 「直取分」の処理
+				// 繰返を確定に変更する処理(「直取分」)
+				$new_sales[] = $this->registOrderProcessForRepeatDirectDelivery($get, $post);
+
+				// 初期画面表示
+				$this->defaultProcessForDeliveryGraph($get, $post);
+				break;
 
 			case 'search':
 			default:
@@ -614,6 +625,41 @@ $r = array(
 	 * 
 	 **/
 	public function registOrderProcessForRepeat($get = null, $post = null) {
+		// salesテーブルへ登録のための成形
+		$this->convertSalesData($post);
+//		$this->vd($post);exit;
+
+		// salesテーブルへ登録
+		$post->repeat_fg = true;
+		$rows = $this->getTb()->copyDetail($get, $post);
+
+		// repeat_excludeテーブルに必要な情報を追加
+		$post->sales = $post->base_sales;
+		if (!empty($post->base_delivery_dt)) { $post->delivery_dt = $post->base_delivery_dt; }
+		//$this->vd($post);exit;
+
+		// repeat_excludeテーブルへ登録
+		$RepeatExclude = new RepeatExclude;
+		$RepeatExclude->updDetail($get, $post);
+
+		// 元注文の繰り返しOFF
+		$init_bool = $this->getTb()->initRepeatFg($post);
+//		$this->vd($init_bool);exit;
+
+		// 元注文の繰り返しを新注文へコピーする
+		$post->sales = $rows->sales;
+		$post->delivery_dt = $rows->delivery_dt; // repeat_s_dtに新しいdelivery_dtを設定
+		$ScheduleRepeat = new ScheduleRepeat;
+		$ScheduleRepeat->copyDetail($get, $post);
+
+		return $rows->sales;
+	}
+
+	/**
+	 * 繰返を確定に変更する処理 (「直取分」)
+	 * 
+	 **/
+	public function registOrderProcessForRepeatDirectDelivery($get = null, $post = null) {
 		// salesテーブルへ登録のための成形
 		$this->convertSalesData($post);
 //		$this->vd($post);exit;
