@@ -448,7 +448,7 @@ function regist_order_bulk_process() {
 									</select>
 									<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
 									@if ($row->field3 == 1)
-										<input type="button" class="btn text-center" style="background: pink;" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
+										<input type="button" class="btn text-center" style="background: pink;" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');" disabled>
 									@else
 										<input type="button" class="btn btn-info text-center text-light" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
 									@endif

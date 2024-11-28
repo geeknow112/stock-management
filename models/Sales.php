@@ -1082,7 +1082,7 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		$data = array(
 			'sales' => $post->base_sales, 
-			'field3' => (!empty($post->field3)) ? $post->field3 : null
+			'field3' => true
 		);
 
 //$this->vd($data);exit;
