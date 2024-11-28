@@ -620,7 +620,6 @@ $r = array(
 
 		// salesテーブルへ登録
 		$post->repeat_fg = true;
-		if ($post->class == 7) { $post->field3 = true; } // 「直取分」押下時、処理済フラグを立てる
 		$rows = $this->getTb()->copyDetail($get, $post);
 
 		// repeat_excludeテーブルに必要な情報を追加
