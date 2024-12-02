@@ -681,14 +681,17 @@ $r = array(
 		$init_bool = $this->getTb()->initRepeatFg($post);
 //		$this->vd($init_bool);exit;
 
+		// 「直取分」押下時、元注文のfield3をONにする (ONの場合、ボタン色がピンク)
+		if ($post->class == 7) { $this->getTb()->initFieldForDirectDelivery($post); }
+
+		// 配送予定日の更新
+		if ($post->class == 7) { $this->getTb()->updDetailForDirectDelivery($get, $post); }
+
 		// 元注文の繰り返しを新注文へコピーする
 		$post->sales = $rows->sales;
 		$post->delivery_dt = $rows->delivery_dt; // repeat_s_dtに新しいdelivery_dtを設定
 		$ScheduleRepeat = new ScheduleRepeat;
 		$ScheduleRepeat->copyDetail($get, $post);
-
-		// 「直取分」押下時、元注文のfield3をONにする (ONの場合、ボタン色がピンク)
-		if ($post->class == 7) { $this->getTb()->initFieldForDirectDelivery($post); }
 
 		return $rows->sales;
 	}
