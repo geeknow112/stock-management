@@ -450,7 +450,11 @@ function regist_order_bulk_process() {
 									@if ($row->field3 == 1)
 										<input type="button" class="btn text-center" style="background: pink;" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');" disabled>
 									@else
-										<input type="button" class="btn btn-info text-center text-light" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
+										@if ($row->class == 7 && empty($row->base_sales) && empty($row->field3) && $row->repeat_fg == true)
+											<input type="button" class="btn btn-success text-center text-light" value="繰起点" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
+										@else
+											<input type="button" class="btn btn-info text-center text-light" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
+										@endif
 									@endif
 								</div>
 							@else

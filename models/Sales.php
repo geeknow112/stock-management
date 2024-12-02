@@ -1438,6 +1438,35 @@ $dt = new DateTime($sdt. ' +1 days');
 	}
 
 	/**
+	 * 「直取分」用、コピー後の注文情報を正しく更新
+	 * 
+	 **/
+	public function updDetailForDirectDelivery($get = null, $post = null) {
+		$post = (object) $post;
+		global $wpdb;
+		$cur_user = wp_get_current_user();
+
+		$data = array(
+			'sales' => $post->sales, 
+			'delivery_dt' => $post->delivery_dt, 
+			'arrival_dt' => $post->arrival_dt, 
+			'updt' => date('Y-m-d H:i:s'), 
+			'upuser' => $cur_user->user_login, 
+		);
+
+//$this->vd($data);exit;
+
+		$ret[] = $wpdb->update(
+			'yc_sales', 
+			$data, 
+			array('sales' => $post->sales)
+		);
+
+//$this->vd($ret);exit;
+//		return $ret;
+	}
+
+	/**
 	 * 
 	 **/
 	public function getInitForm() {
