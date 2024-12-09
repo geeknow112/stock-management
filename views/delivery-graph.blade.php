@@ -451,7 +451,7 @@ function regist_order_bulk_process() {
 										<input type="button" class="btn text-center" style="background: pink;" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');" disabled>
 									@else
 										@if ($row->class == 7 && empty($row->base_sales) && empty($row->field3) && $row->repeat_fg == true)
-											<input type="button" class="btn btn-success text-center text-light" value="繰起点" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
+											<input type="button" class="btn btn-success text-center text-light" value="繰起点" onclick="if (window.confirm('この直取分は、同じ日付の注文がありますが、処理を進めますか？')) { change_repeat_order_direct_delivery('{{$oid}}'); }">
 										@else
 											<input type="button" class="btn btn-info text-center text-light" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
 										@endif
