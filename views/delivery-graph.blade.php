@@ -207,7 +207,8 @@ function regist_order_bulk_process() {
 						<th class="" colspan="{{$colspan}}" id="car_model_4">6t ④</th>
 						<th class="" colspan="{{$colspan}}" id="car_model_5">6t ⑤</th>
 						@if ($cur_user->roles[0] == 'administrator')
-						<th class="" colspan="{{$colspan}}">6t ⑦ (山忠商事(直取) 専用：繰り返し注文表示欄)</th>
+						<th class="" colspan="{{$colspan}}">6t ⑦-1 (山忠商事(直取) 専用：繰り返し注文表示欄)</th>
+						<th class="" colspan="{{$colspan}}">6t ⑦-2 (山忠商事(直取) 専用：確定注文表示欄)</th>
 						<th class="" colspan="{{$colspan}}" id="input_result">6t ⑧ (太田畜産 専用：結果入力欄)</th>
 						<th class="" colspan="{{$colspan}}">7.5t ⑨ (村上畜産 専用：結果入力欄)</th>
 						<th class="" colspan="{{$colspan}}" id="input_result_end">6t ⑩ (山忠商事(直取) 専用：結果入力欄)</th>
@@ -216,7 +217,7 @@ function regist_order_bulk_process() {
 
 					<tr>
 						<th class="_sticky" scope="col">日</th>
-						@for ($i = 0; $i <= 10; $i++)
+						@for ($i = 0; $i <= 11; $i++)
 							@if ($cur_user->roles[0] == 'subscriber' && $i == 0)
 								@php continue; @endphp
 							@endif
@@ -450,11 +451,7 @@ function regist_order_bulk_process() {
 									@if ($row->field3 == 1)
 										<input type="button" class="btn text-center" style="background: pink;" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');" disabled>
 									@else
-										@if ($row->class == 7 && empty($row->base_sales) && empty($row->field3) && $row->repeat_fg == true)
-											<input type="button" class="btn btn-success text-center text-light" value="繰起点" onclick="if (window.confirm('この直取分は、同じ日付の注文がありますが、処理を進めますか？')) { change_repeat_order_direct_delivery('{{$oid}}'); }">
-										@else
-											<input type="button" class="btn btn-info text-center text-light" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
-										@endif
+										<input type="button" class="btn btn-info text-center text-light" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
 									@endif
 								</div>
 							@else
@@ -604,15 +601,18 @@ function regist_order_bulk_process() {
 							@php innerTable($delivery_dt, $list, 6, 2, $initForm, $cur_user); @endphp
 							@php innerTable($delivery_dt, $list, 6, 3, $initForm, $cur_user); @endphp
 						</td>
-						<!-- 6t 7 -->
 						@if ($cur_user->roles[0] == 'administrator')
+						<!-- 6t 7-1 -->
+						<td class="" colspan="{{$colspan}}">
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 1, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 2, $initForm, $cur_user); @endphp
+							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 3, $initForm, $cur_user); @endphp
+						</td>
+						<!-- 6t 7-2 -->
 						<td class="" colspan="{{$colspan}}">
 							@php innerTable($delivery_dt, $list, 7, 1, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 1, $initForm, $cur_user); @endphp
 							@php innerTable($delivery_dt, $list, 7, 2, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 2, $initForm, $cur_user); @endphp
 							@php innerTable($delivery_dt, $list, 7, 3, $initForm, $cur_user); @endphp
-							@php innerTable($delivery_dt, $repeat_list[$delivery_dt], 7, 3, $initForm, $cur_user); @endphp
 						</td>
 						<!-- 6t 8 -->
 						<td class="" colspan="{{$colspan}}">
