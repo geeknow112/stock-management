@@ -1557,10 +1557,13 @@ $dt = new DateTime($sdt. ' +1 days');
 	 **/
 	private function getPartsCarsTank() {
 		return array(
+			1 => '1', 
+/*
 			0 => '', 
 			1 => '1', 
 			2 => '2',
 			3 => '3',
+*/
 		);
 	}
 

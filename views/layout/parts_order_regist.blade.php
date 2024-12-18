@@ -173,7 +173,7 @@ console.log(class_value);
 			}
 		</script>
 
-	<div class="row mb-3">
+	<div class="row mb-3" style="display: none;">
 		<label for="carsTank" class="col-sm-2 col-form-label">槽　（※ ６ｔ車のタンクの番号）</label>
 		<select class="form-select w-75" aria-label="carsTank" id="cars_tank" name="cars_tank">
 			@foreach($initForm['select']['cars_tank'] as $i => $d)
