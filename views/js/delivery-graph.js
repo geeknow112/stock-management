@@ -203,15 +203,18 @@ function setResult(oid) {
 	};
 	console.log(data);
 
-	var ret = window.confirm(oid + ' の結果を登録しますか？');
-	if (ret) {
-		document.forms.cmd.value = 'cmd_set_result';
-		document.forms.method = 'post';
-		document.forms.action.value = 'set_result';
-		document.forms.oid.value = oid;
-		document.forms.odata.value = JSON.stringify(data);
-		document.forms.submit();
+	if (data['goods'] == "0" || !data['qty'] || data['outgoing_warehouse'] == "0") {
+		alert('品名、数量(t)、出庫倉庫の入力に誤りがあります。');
 	} else {
+		var ret = window.confirm(oid + ' の結果を登録しますか？');
+		if (ret) {
+			document.forms.cmd.value = 'cmd_set_result';
+			document.forms.method = 'post';
+			document.forms.action.value = 'set_result';
+			document.forms.oid.value = oid;
+			document.forms.odata.value = JSON.stringify(data);
+			document.forms.submit();
+		} else {
+		}
 	}
-
 }
