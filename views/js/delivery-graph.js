@@ -87,7 +87,7 @@ console.log(oid);
  * [更新]ボタン押下時の処理
  * 
  **/
-function change_order(sales = null, repeat_fg = null, use_stock = null) {
+function change_order(sales = null, repeat_fg = null, use_stock = null, goods = null, outgoing_warehouse = null) {
 	const change_qty_id = 'change_qty_' + sales;
 	const change_qty = document.getElementById(change_qty_id).value;
 
@@ -104,6 +104,8 @@ function change_order(sales = null, repeat_fg = null, use_stock = null) {
 			document.forms.sales.value = sales;
 			document.forms.repeat_fg.value = repeat_fg;
 			document.forms.use_stock.value = use_stock;
+			document.forms.goods.value = goods;
+			document.forms.outgoing_warehouse.value = outgoing_warehouse;
 			document.forms.change_qty.value = change_qty;
 			document.forms.change_ship_addr.value = change_ship_addr;
 			document.forms.ship_addr_text.value = ship_addr_text;
