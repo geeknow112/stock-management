@@ -83,7 +83,7 @@ class Sales extends Ext_Model_Base {
 //$this->vd($stock_limit);exit;
 
 			if ($stock_over == true) {
-				echo ('<span style="color: red;">この商品は、在庫残量が不足しているため、登録できません。</span>');
+				echo ('<div style="color: red;">この商品は、在庫残量が不足しているため、登録できません。</div>');
 				$step1['rules']['stock_over'] = 'required|max:1';
 			}
 		}
