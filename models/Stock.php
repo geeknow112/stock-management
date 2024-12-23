@@ -565,7 +565,7 @@ class Stock extends Ext_Model_Base {
 
 		} else {
 			if ($get->action == 'search') {
-//				if (!empty($get->s['no'])) { $sql .= sprintf("AND g.goods = '%s' ", $get->s['no']); }
+				if (!empty($get->s['goods'])) { $sql .= sprintf("AND g.goods = '%s' ", $get->s['goods']); }
 //				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
 //				$sql .= "ORDER BY g.goods desc";
 
@@ -662,7 +662,7 @@ class Stock extends Ext_Model_Base {
 
 		} else {
 			if ($get->action == 'search') {
-//				if (!empty($get->s['no'])) { $sql .= sprintf("AND g.goods = '%s' ", $get->s['no']); }
+				if (!empty($get->s['goods'])) { $sql .= sprintf("AND g.goods = '%s' ", $get->s['goods']); }
 //				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
 //				$sql .= "ORDER BY g.goods desc";
 
@@ -853,6 +853,67 @@ class Stock extends Ext_Model_Base {
 		$dt_code = $year. $month. $this->_dt_codes[$day];
 		$lot = preg_replace('/^[0-9]{6}/', $dt_code, $lot);
 		return $lot;
+	}
+
+	/**
+	 * 商品毎の在庫数を計算し、入力値が在庫残数を超えるかどうかを事前検査
+	 * 限界値を超える場合、trueを返す
+	 * 
+	 * @goods
+	 * @qty
+	 * @outgoing_warehouse
+	 * 
+	 **/
+	public function checkSumQtyStockOverByGoods($goods = null, $qty = null, $outgoing_warehouse = null) {
+		$get = (object) $get;
+		global $wpdb;
+
+		$get->action = 'search';
+		$get->s['goods'] = $goods;
+		$get->s['outgoing_warehouse'] = $outgoing_warehouse;
+
+		$rows = $this->getStockExportList($get);
+
+		// 「注文」による在庫の減少 のための注文取得
+		$dlist = $this->getSalesDeliveredList($get);
+
+//$this->vd(count($rows));
+//$this->vd($rows);exit;
+
+//$this->vd(count($dlist));
+//$this->vd($dlist);exit;
+
+		// 「注文」(配送済み) 除外
+		foreach ($rows as $i => $stock) {
+			foreach ($dlist as $j => $del) {
+
+				// 商品別で数量による除外
+				if ($stock->goods == $del->goods) {
+					if ($get->match_lot != true) {
+						unset($rows[$i]);
+						unset($dlist[$j]);
+						break;
+
+					} else {
+						// ロット番号による除外
+						if ($stock->lot == $del->lot) {
+							unset($rows[$i]);
+							unset($dlist[$j]);
+							break;
+						}
+					}
+				}
+
+			}
+		}
+
+//$this->vd(count($rows));exit;
+
+		$stock_rest = count($rows) * 0.5;
+		$stock_over = $stock_rest - $qty;
+//$this->vd($stock_over);exit;
+
+		return ($stock_over < 0) ? true : false;
 	}
 
 	/**

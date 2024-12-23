@@ -75,6 +75,19 @@ class Sales extends Ext_Model_Base {
 			}
 		}
 
+		// 登録、更新の時処理実施
+		if ($post->cmd == 'cmd_confirm') {
+			// 在庫数を超える入力がされた場合
+			$Stock = new Stock();
+			$stock_over = $Stock->checkSumQtyStockOverByGoods($post->goods, $post->qty, $post->outgoing_warehouse);
+//$this->vd($stock_limit);exit;
+
+			if ($stock_over == true) {
+				echo ('<span style="color: red;">この商品は、在庫残量が不足しているため、登録できません。</span>');
+				$step1['rules']['stock_over'] = 'required|max:1';
+			}
+		}
+
 		$step2 = array(
 			'rules' => array(
 				'tank'				=> 'required|max:100',
