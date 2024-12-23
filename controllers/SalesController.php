@@ -381,7 +381,17 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				$data['field1'] = $post->ship_addr_text;
 				$data['field2'] = true; // 「量」を変更した場合、予定表の入力欄をテキスト表示にするため、初回変更時にフラグをtrueにする。
 				(object) $data;
-				$result = $this->getTb()->updDetail($get, $data);
+
+				// 在庫数を超える入力がされた場合
+				$Stock = new Stock();
+				$post->stock_over = $Stock->checkSumQtyStockOverByGoods($post->goods, $post->change_qty, $post->outgoing_warehouse);
+//$this->vd($post->stock_over);exit;
+
+				if ($post->stock_over != true) {
+					$result = $this->getTb()->updDetail($get, $data);
+				} else {
+					$result = false;
+				}
 				break;
 
 			case 'make_lot_space': // 配送予定表からロット登録欄の作成
