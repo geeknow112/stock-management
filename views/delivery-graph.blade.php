@@ -156,8 +156,6 @@ function regist_order_bulk_process() {
 			<input type="hidden" name="repeat_fg" value="">
 			<input type="hidden" name="use_stock" value="">
 
-			<input type="hidden" name="goods" value="">
-			<input type="hidden" name="outgoing_warehouse" value="">
 			<input type="hidden" name="change_qty" value="">
 			<input type="hidden" name="change_ship_addr" value="">
 			<input type="hidden" name="ship_addr_text" value="">
@@ -330,7 +328,7 @@ function regist_order_bulk_process() {
 
 							@if ($cur_user->roles[0] != 'subscriber')
 								@if (in_array($row->class, array(1,2,3,4,5,6)))
-									<span><input type="button" class="btn btn-secondary text-center" value="更新" onclick="change_order('{{$row->sales}}', '{{$row->repeat_fg}}', '{{$row->use_stock}}', '{{$row->goods}}', '{{$row->outgoing_warehouse}}');"></span>
+									<span><input type="button" class="btn btn-secondary text-center" value="更新" onclick="change_order('{{$row->sales}}', '{{$row->repeat_fg}}', '{{$row->use_stock}}');"></span>
 								@endif
 							@endif
 						</div>
@@ -800,18 +798,6 @@ function createSelectBoxGoods(oid) {
 			}
 			sel.appendChild(op);
 		}
-	}
-}
-</script>
-
-<script>
-checkStockOver();
-function checkStockOver() {
-	const stock_over = "{{$post->stock_over}}";
-	console.log(stock_over);
-
-	if (stock_over == true) {
-		alert('stock over. You cant update.');
 	}
 }
 </script>
