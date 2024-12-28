@@ -11,7 +11,7 @@ function cmd_search() {
  * [注文]ボタン押下時の処理 (class 0)
  * 
  **/
-function change_repeat_order(oid) {
+function change_repeat_order(oid = null) {
 	var r_order_id = 'r_order_' + oid;
 	var cars_class_id = 'cars_class_' + oid;
 	var cars_tank_id = 'cars_tank_' + oid;
@@ -87,7 +87,7 @@ console.log(oid);
  * [更新]ボタン押下時の処理
  * 
  **/
-function change_order(sales = null, repeat_fg = null, use_stock = null, goods = null, outgoing_warehouse = null) {
+function change_order(sales = null, repeat_fg = null, use_stock = null) {
 	const change_qty_id = 'change_qty_' + sales;
 	const change_qty = document.getElementById(change_qty_id).value;
 
@@ -104,8 +104,6 @@ function change_order(sales = null, repeat_fg = null, use_stock = null, goods = 
 			document.forms.sales.value = sales;
 			document.forms.repeat_fg.value = repeat_fg;
 			document.forms.use_stock.value = use_stock;
-			document.forms.goods.value = goods;
-			document.forms.outgoing_warehouse.value = outgoing_warehouse;
 			document.forms.change_qty.value = change_qty;
 			document.forms.change_ship_addr.value = change_ship_addr;
 			document.forms.ship_addr_text.value = ship_addr_text;
