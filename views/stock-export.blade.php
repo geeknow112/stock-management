@@ -82,7 +82,12 @@
 								<td class="tx-center">@if ($d->separately_fg != true) 500kgTB @else バラ @endif</td>
 								<td class="tx-right">@if ($rows[$goods]->cnt) {{number_format($rows[$goods]->cnt)}} @endif</td>
 								<td class="tx-right">@if ($rows[$goods]->stock_total) {{number_format($rows[$goods]->stock_total)}} @endif</td>
-								<td class=""><span class="lot_area">{{$rows[$goods]->lots}}</span></td>
+								<td class="">
+									<span class="lot_area">{{$rows[$goods]->lots}}</span>
+									@if ($overs_cnt[$goods])
+										<span class="lot_area" style="color: red;">{{$overs_cnt[$goods]['lots']}}</span>
+									@endif
+								</td>
 							</tr>
 							@endforeach
 						@else

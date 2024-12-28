@@ -18,7 +18,7 @@ class StockController extends Ext_Controller_Action
 	protected $_test = 'test';
 
 	/**
-	 * İŒÉŒŸõ
+	 * åœ¨åº«æ¤œç´¢
 	 * 
 	 **/
 	public function listAction() {
@@ -38,13 +38,13 @@ class StockController extends Ext_Controller_Action
 
 		$this->setTb('Stock');
 
-		// [ŒŸõ‰æ–Ê‚Ö–ß‚é]ƒ{ƒ^ƒ“—p‚Ìˆ—
+		// [æ¤œç´¢ç”»é¢ã¸æˆ»ã‚‹]ãƒœã‚¿ãƒ³ç”¨ã®å‡¦ç†
 		switch($get->cmd) {
 			case 'search':
 			default: 
 				$session_key = $get->page; // 'stock-list'
 
-				// session “o˜^
+				// session ç™»éŒ²
 				$uri = $_SERVER['REQUEST_URI'];
 				$_SESSION[$session_key] = $uri;
 				break;
@@ -53,7 +53,7 @@ class StockController extends Ext_Controller_Action
 		switch($post->cmd) {
 			case 'search':
 			default:
-				// XVˆ—ŒãAŒŸõğŒ‚ÌˆÛ‚Ì‚½‚ßAGET’l‚ğPOST’l‚©‚ç•â“U
+				// æ›´æ–°å‡¦ç†å¾Œã€æ¤œç´¢æ¡ä»¶ã®ç¶­æŒã®ãŸã‚ã€GETå€¤ã‚’POSTå€¤ã‹ã‚‰è£œå¡«
 				if (!isset($get->s)) {  $get->s = $post->s; }
 				$get->s['change_status'] = $post->change_status;
 
@@ -81,7 +81,7 @@ class StockController extends Ext_Controller_Action
 	}
 
 	/**
-	 * İŒÉ“o˜^
+	 * åœ¨åº«ç™»éŒ²
 	 *
 	 **/
 	public function detailAction() {
@@ -110,7 +110,7 @@ if ($post->cmd == 'cmd_transfer') {
 					switch ($post->cmd) {
 						default:
 						case 'cmd_confirm':
-							$post->subtotal = str_replace(',', '', $post->subtotal); // ƒJƒ“ƒ}œ‹
+							$post->subtotal = str_replace(',', '', $post->subtotal); // ã‚«ãƒ³ãƒé™¤å»
 							$msg = $this->getValidMsg();
 							$rows = $post;
 							if ($rows->stock) { $rows->btn = 'update'; }
@@ -198,7 +198,7 @@ if ($post->cmd == 'cmd_transfer') {
 	}
 
 	/**
-	 * İŒÉ“o˜^
+	 * åœ¨åº«ç™»éŒ²
 	 *
 	 **/
 	public function bulkAction() {
@@ -319,7 +319,7 @@ if ($post->cmd == 'cmd_transfer') {
 	}
 
 	/**
-	 * İŒÉ“o˜^: ƒƒbƒg“o˜^
+	 * åœ¨åº«ç™»éŒ²: ãƒ­ãƒƒãƒˆç™»éŒ²
 	 *
 	 **/
 	public function lotRegistAction() {
@@ -365,7 +365,7 @@ if ($post->cmd == 'cmd_transfer') {
 				} else {
 				}
 
-				// •\¦—p‚É¬Œ`
+				// è¡¨ç¤ºç”¨ã«æˆå½¢
 				$rows = $this->convertLotList($rows, $post);
 
 				echo $this->get_blade()->run("stock-lot-regist", compact('rows', 'get', 'initForm', 'post', 'msg'));
@@ -376,7 +376,7 @@ if ($post->cmd == 'cmd_transfer') {
 					if ($post->cmd == 'save') {
 						$msg = $this->getValidMsg();
 						if ($msg['msg'] == 'success') {
-							$rows = $this->getTb()->updLotNumber($get, $post); // ƒƒbƒg”Ô†“o˜^
+							$rows = $this->getTb()->updLotNumber($get, $post); // ãƒ­ãƒƒãƒˆç•ªå·ç™»éŒ²
 //							$rows->customer_name = $rows->name;
 							$get->action = 'complete';
 
@@ -450,7 +450,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 	}
 
 	/**
-	 * •\¦—p‚É¬Œ`(ƒƒbƒg”z—ñ—p)
+	 * è¡¨ç¤ºç”¨ã«æˆå½¢(ãƒ­ãƒƒãƒˆé…åˆ—ç”¨)
 	 * 
 	 **/
 	private function convertLotList($rows = null, $post = null) {
@@ -465,7 +465,7 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 	}
 
 	/**
-	 * “üŒÉ—\’è“úŒŸõ
+	 * å…¥åº«äºˆå®šæ—¥æ¤œç´¢
 	 *
 	 **/
 	public function receiveAction() {
@@ -480,11 +480,11 @@ if ($post->pref) { $post->list = $this->sortData($post); }
 		if (!empty($get->s['arrival_s_dt']) && !empty($get->s['arrival_e_dt'])) {
 			switch($post->cmd) {
 				case 'cancel':
-					// salesƒe[ƒuƒ‹‚Ö“o˜^‚Ì‚½‚ß‚Ì¬Œ`
+					// salesãƒ†ãƒ¼ãƒ–ãƒ«ã¸ç™»éŒ²ã®ãŸã‚ã®æˆå½¢
 					$this->convertSalesData($post);
 
 $post->remark = "";
-					// salesƒe[ƒuƒ‹‚ÖXV
+					// salesãƒ†ãƒ¼ãƒ–ãƒ«ã¸æ›´æ–°
 					$rows = $this->getTb()->updDetail($get, $post);
 // $this->vd($post);
 //$this->vd($rows);exit;
@@ -493,19 +493,19 @@ $post->remark = "";
 
 			switch($post->cmd) {
 				case 'regist':
-					// salesƒe[ƒuƒ‹‚Ö“o˜^‚Ì‚½‚ß‚Ì¬Œ`
+					// salesãƒ†ãƒ¼ãƒ–ãƒ«ã¸ç™»éŒ²ã®ãŸã‚ã®æˆå½¢
 					$this->convertSalesData($post);
 
-					// salesƒe[ƒuƒ‹‚ÖXV
+					// salesãƒ†ãƒ¼ãƒ–ãƒ«ã¸æ›´æ–°
 					$rows = $this->getTb()->updDetail($get, $post);
 // $this->vd($post);
 // $this->vd($rows);exit;
 
 				case 'decide_use_stock' :
-					// salesƒe[ƒuƒ‹‚Ö“o˜^‚Ì‚½‚ß‚Ì¬Œ`
+					// salesãƒ†ãƒ¼ãƒ–ãƒ«ã¸ç™»éŒ²ã®ãŸã‚ã®æˆå½¢
 					$this->convertSalesData($post);
 
-					// salesƒe[ƒuƒ‹‚ÖXV
+					// salesãƒ†ãƒ¼ãƒ–ãƒ«ã¸æ›´æ–°
 					$rows = $this->getTb()->updDetail($get, $post);
 //$this->vd($post);
 // $this->vd($rows);exit;
@@ -513,29 +513,29 @@ $post->remark = "";
 				case 'cancel':
 				case 'search':
 				default:
-					// “ú•t‚©‚ç”ÍˆÍ“à‚Érepeat‚ª‚ ‚é‚©Šm”F‚µA‚ ‚Á‚½‚ç’•¶‚ğQÆ‚µArepeat’•¶‚ğ¶¬‚µ‚Ä6t-0—“‚É•\¦‚·‚éB
+					// æ—¥ä»˜ã‹ã‚‰ç¯„å›²å†…ã«repeatãŒã‚ã‚‹ã‹ç¢ºèªã—ã€ã‚ã£ãŸã‚‰æ³¨æ–‡ã‚’å‚ç…§ã—ã€repeatæ³¨æ–‡ã‚’ç”Ÿæˆã—ã¦6t-0æ¬„ã«è¡¨ç¤ºã™ã‚‹ã€‚
 					$sdt = new DateTime($get->s['arrival_s_dt']);
 					$sdt->modify('+3 day');
-					$get->s['sdt'] = $sdt->format('Y-m-d'); // delivery_dt‚É•ÏŠ· = +3“ú
+					$get->s['sdt'] = $sdt->format('Y-m-d'); // delivery_dtã«å¤‰æ› = +3æ—¥
 
 					$edt = new DateTime($get->s['arrival_e_dt']);
 					$edt->modify('+3 day');
-					$get->s['edt'] = $edt->format('Y-m-d'); // delivery_dt‚É•ÏŠ· = +3“ú
+					$get->s['edt'] = $edt->format('Y-m-d'); // delivery_dtã«å¤‰æ› = +3æ—¥
 
 					$interval_days = $sdt->diff($edt);
 					$use_days = $interval_days->format('%a');
 
-					if ((($sdt <= $edt) == true) && ($use_days < 100)) { // ŠJn“ú‚æ‚è‘O‚Ì“ú•t‚ğI—¹“ú‚É“ü—Í‚µ‚½ê‡A‚©‚ÂA”ÍˆÍ‚ª100“ú‚ğ’´‚¦‚éê‡‚ÍAœŠO
+					if ((($sdt <= $edt) == true) && ($use_days < 100)) { // é–‹å§‹æ—¥ã‚ˆã‚Šå‰ã®æ—¥ä»˜ã‚’çµ‚äº†æ—¥ã«å…¥åŠ›ã—ãŸå ´åˆã€ã‹ã¤ã€ç¯„å›²ãŒ100æ—¥ã‚’è¶…ãˆã‚‹å ´åˆã¯ã€é™¤å¤–
 
 						$ScheduleRepeat = new ScheduleRepeat;
 						$repeats = $ScheduleRepeat->getList($get);
 
 						switch ($get->sum_span) {
 							default:
-								// –¢Šm’è’•¶‚Ì10“ú•ª‚ğ¶¬
+								// æœªç¢ºå®šæ³¨æ–‡ã®10æ—¥åˆ†ã‚’ç”Ÿæˆ
 								$repeat_list = $repeats;
 
-								// arrival_dt‚ğ‰Šú‰»
+								// arrival_dtã‚’åˆæœŸåŒ–
 	/*
 								foreach ($repeat_list as $arrival_dt => $list) {
 									foreach ($list as $sales => $d) {
@@ -543,35 +543,35 @@ $post->remark = "";
 									}
 								}
 	*/
-								// $repeat_list ‚ğ $rows ‚ÌŒ`®‚É•ÏŠ·
+								// $repeat_list ã‚’ $rows ã®å½¢å¼ã«å¤‰æ›
 								foreach ($repeat_list as $arrival_dt => $list) {
 									foreach ($list as $sales => $d) {
 										$rep = current($d);
 
-										// ŒJ‚è•Ô‚µ—p‚Éu”z‘—æv‚ğæ“¾ ($ScheduleRepeat->getList‚Åæ“¾‚·‚é‚ÆAJOIN‚ª‘‚¦SQL‚ª•¡G‰»‚·‚é‚½‚ß‚±‚±‚Åæ“¾‚·‚éB)
+										// ç¹°ã‚Šè¿”ã—ç”¨ã«ã€Œé…é€å…ˆã€ã‚’å–å¾— ($ScheduleRepeat->getListã§å–å¾—ã™ã‚‹ã¨ã€JOINãŒå¢—ãˆSQLãŒè¤‡é›‘åŒ–ã™ã‚‹ãŸã‚ã“ã“ã§å–å¾—ã™ã‚‹ã€‚)
 										$rep->tank = $this->getTb()->getTankByCustomerAndShipAddr($rep->customer, $rep->ship_addr);
 
-										// ŒŸõğŒFu•i–¼v‚Ì‘Î‰
+										// æ¤œç´¢æ¡ä»¶ï¼šã€Œå“åã€ã®å¯¾å¿œ
 										if (!empty($get->s['goods_name'])) { 
 											if (preg_match('/.*'. $get->s['goods_name']. '.*/', $rep->goods_name)) {
-												$r_rows[] = $this->setRepeatRow($rep); // •\¦Œ`®‚É•ÏŠ·
+												$r_rows[] = $this->setRepeatRow($rep); // è¡¨ç¤ºå½¢å¼ã«å¤‰æ›
 											}
 										} else {
-											$r_rows[] = $this->setRepeatRow($rep); // •\¦Œ`®‚É•ÏŠ·
+											$r_rows[] = $this->setRepeatRow($rep); // è¡¨ç¤ºå½¢å¼ã«å¤‰æ›
 										}
 									}
 								}
 
-								// ŒŸõğŒ‚Ì‘Î‰
+								// æ¤œç´¢æ¡ä»¶ã®å¯¾å¿œ
 								$r_rows = $this->setSearchRuleForRepeat($get, $r_rows);
 
-								// Šm’è‚µ‚½’•¶‚Ìæ“¾
+								// ç¢ºå®šã—ãŸæ³¨æ–‡ã®å–å¾—
 								$ret = $this->getTb()->getListByArrivalDt($get, $post, true);
 
-								// Šm’è’•¶‚ÆA–¢Šm’è’•¶‚Ìƒ}[ƒW
+								// ç¢ºå®šæ³¨æ–‡ã¨ã€æœªç¢ºå®šæ³¨æ–‡ã®ãƒãƒ¼ã‚¸
 								$rows = (object) array_merge((array) $ret, (array) $r_rows); // object merge
 
-								// arrival_dt‚Åƒ\[ƒg
+								// arrival_dtã§ã‚½ãƒ¼ãƒˆ
 								$sort_data = $rows;
 								foreach ($sort_data as $i => $d) {
 									$r_sort[$d->arrival_dt][] = $d;
@@ -596,11 +596,11 @@ $post->remark = "";
 //$this->vd($r_rows);
 
 						foreach ($rows as $i => $d) {
-							// u’¼æ•ªv‚ÌuŒJ‹N“_v‚ğ•\¦BŠm’è’•¶‚ğœŠOB
+							// ã€Œç›´å–åˆ†ã€ã®ã€Œç¹°èµ·ç‚¹ã€ã‚’è¡¨ç¤ºã€‚ç¢ºå®šæ³¨æ–‡ã‚’é™¤å¤–ã€‚
 							if ($d->repeat_fg == false) { unset($rows->$i); }
 						}
 
-						// ‡Œv’l‚Ìì¬
+						// åˆè¨ˆå€¤ã®ä½œæˆ
 						if (!empty(current($rows))) {
 							list($detail, $sum_list) = $this->getTb()->sumReceiveListByGoods($rows);
 //$this->vd($detail);
@@ -624,7 +624,7 @@ $post->remark = "";
 	}
 
 	/**
-	 * salesƒe[ƒuƒ‹‚Ö“o˜^‚Ì‚½‚ß‚Ì¬Œ`
+	 * salesãƒ†ãƒ¼ãƒ–ãƒ«ã¸ç™»éŒ²ã®ãŸã‚ã®æˆå½¢
 	 * 
 	 **/
 	private function convertSalesData($post = null) {
@@ -642,11 +642,11 @@ $post->remark = "";
 		$post->goods = $r_order[3];
 		$post->repeat_fg = $r_order[4];
 		$post->sales = $r_order[2];
-		$post->remark = ($post->use_stock == 1) ? '' : 'reserve_fg'; // “üŒÉ or İŒÉ ‚ÌØ‘Ö‚Ì‚½‚ß
+		$post->remark = ($post->use_stock == 1) ? '' : 'reserve_fg'; // å…¥åº« or åœ¨åº« ã®åˆ‡æ›¿ã®ãŸã‚
 	}
 
 	/**
-	 * ŒJ‚è•Ô‚µî•ñ‚ğ•\¦Œ`®‚Éİ’è
+	 * ç¹°ã‚Šè¿”ã—æƒ…å ±ã‚’è¡¨ç¤ºå½¢å¼ã«è¨­å®š
 	 *
 	 **/
 	private function setRepeatRow($rep = null) {
@@ -665,27 +665,27 @@ $post->remark = "";
 	}
 
 	/**
-	 * –¢Šm’è•”•ª(ŒJ‚è•Ô‚µİ’è)‚ÌŒŸõğŒ‚Ì“K—pˆ—
+	 * æœªç¢ºå®šéƒ¨åˆ†(ç¹°ã‚Šè¿”ã—è¨­å®š)ã®æ¤œç´¢æ¡ä»¶ã®é©ç”¨å‡¦ç†
 	 *
 	 **/
 	private function setSearchRuleForRepeat($get = null, $r_rows = null) {
-		// ŒŸõğŒ‚Ì‘Î‰
+		// æ¤œç´¢æ¡ä»¶ã®å¯¾å¿œ
 		foreach ($r_rows as $i => $d) {
-			// uŒÚ‹q–¼v
+			// ã€Œé¡§å®¢åã€
 			if (!empty($get->s['customer_name'])) { 
 				if (!preg_match('/^.*'. $get->s['customer_name']. '.*/', $d->customer_name)) {
 					unset($r_rows[$i]);
 				}
 			}
 
-			// u”z‘—æv
+			// ã€Œé…é€å…ˆã€
 			if (!empty($get->s['tank'])) { 
 				if (!preg_match('/^.*'. $get->s['tank']. '.*/', $d->tank)) {
 					unset($r_rows[$i]);
 				}
 			}
 
-			// u•i–¼v
+			// ã€Œå“åã€
 			if (!empty($get->s['goods_name'])) { 
 				if (!preg_match('/.*'. $get->s['goods_name']. '.*/', $d->goods_name)) {
 					unset($r_rows[$i]);
@@ -696,7 +696,7 @@ $post->remark = "";
 	}
 
 	/**
-	 * İŒÉØ–¾‘ o—Í
+	 * åœ¨åº«è¨¼æ˜æ›¸ å‡ºåŠ›
 	 *
 	 **/
 	public function exportAction() {
@@ -709,23 +709,23 @@ $post->remark = "";
 
 		$initForm = $this->getTb()->getInitForm();
 
-		if ($get->cmd) { // ‰‰ñ‚ÍDBŒŸõ‚³‚ê‚È‚¢‚æ‚¤‚ÉC³
+		if ($get->cmd) { // åˆå›ã¯DBæ¤œç´¢ã•ã‚Œãªã„ã‚ˆã†ã«ä¿®æ­£
 			switch($get->cmd) {
 				case 'search':
 				default:
 					$rows = $this->getTb()->getStockExportList($get);
 
-					// u’•¶v‚É‚æ‚éİŒÉ‚ÌŒ¸­ ‚Ì‚½‚ß‚Ì’•¶æ“¾
+					// ã€Œæ³¨æ–‡ã€ã«ã‚ˆã‚‹åœ¨åº«ã®æ¸›å°‘ ã®ãŸã‚ã®æ³¨æ–‡å–å¾—
 					$dlist = $this->getTb()->getSalesDeliveredList($get);
 
 	//				$this->vd(count($rows));
 	//$this->vd($rows);
 	//$this->vd($dlist);
-					// u’•¶v(”z‘—Ï‚İ) œŠO
+					// ã€Œæ³¨æ–‡ã€(é…é€æ¸ˆã¿) é™¤å¤–
 					foreach ($rows as $i => $stock) {
 						foreach ($dlist as $j => $del) {
 
-							// ¤•i•Ê‚Å”—Ê‚É‚æ‚éœŠO
+							// å•†å“åˆ¥ã§æ•°é‡ã«ã‚ˆã‚‹é™¤å¤–
 							if ($stock->goods == $del->goods) {
 								if ($get->match_lot != true) {
 									unset($rows[$i]);
@@ -733,11 +733,13 @@ $post->remark = "";
 									break;
 
 								} else {
-									// ƒƒbƒg”Ô†‚É‚æ‚éœŠO
+									// ãƒ­ãƒƒãƒˆç•ªå·ã«ã‚ˆã‚‹é™¤å¤–
 									if ($stock->lot == $del->lot) {
+if (!empty($del->lot)) {
 										unset($rows[$i]);
 										unset($dlist[$j]);
 										break;
+}
 									}
 								}
 							}
@@ -745,9 +747,33 @@ $post->remark = "";
 						}
 					}
 
+	//$this->vd($dlist);
+	foreach ($dlist as $j => $over) {
+		$overs[$over->goods][$over->lot][] = array(
+			'sales' => $over->sales, 
+			'goods_name' => $over->goods_name,
+			'lot' => $over->lot
+			);
+	}
+//	$this->vd($overs);
+
+	foreach ($overs as $goods => $over) {
+		foreach ($over as $lot => $d) {
+			$disp_lot = (empty($lot)) ? '[]' : $lot;
+			$overs_list[$goods][$lot] = sprintf('â–³%s (%d)', $disp_lot, count($d));
+		}
+	}
+//	$this->vd($overs_list);
+
+	foreach ($overs_list as $goods => $overs) {
+		$overs_cnt[$goods]['lots'] = implode(', ', $overs);
+	}
+
+//	$this->vd($overs_cnt);
+
 	//				$this->vd(count($rows));
 
-					// ÄWŒv
+					// å†é›†è¨ˆ
 					foreach ($rows as $i => $stock) {
 						$data[$stock->goods][] = $stock;
 					}
@@ -756,7 +782,7 @@ $post->remark = "";
 					unset($rows);
 					foreach ($data as $goods => $stocks) {
 
-						// ƒƒbƒg”Ô†(ƒJƒEƒ“ƒg)•\¦‚Ì‚½‚ß‚Ì®Œ`
+						// ãƒ­ãƒƒãƒˆç•ªå·(ã‚«ã‚¦ãƒ³ãƒˆ)è¡¨ç¤ºã®ãŸã‚ã®æ•´å½¢
 						$lots = array();
 						foreach ($stocks as $i => $std) {
 							if (empty($std->lot)) { continue; }
@@ -764,15 +790,15 @@ $post->remark = "";
 						}
 
 						foreach ($tmp_lots as $lot => $list) {
-							// ƒ\[ƒg—p‚É“ú•tƒR[ƒh‚ğ”’l‚É•ÏŠ·
+							// ã‚½ãƒ¼ãƒˆç”¨ã«æ—¥ä»˜ã‚³ãƒ¼ãƒ‰ã‚’æ•°å€¤ã«å¤‰æ›
 							$lot = $this->getTb()->convertDtCodeToNumber($lot);
 							$lots[] = sprintf('%s (%d)', $lot, count($list));
 						}
 
-						// ƒƒbƒg”Ô†‚Ìƒ\[ƒg(æ“ª‚Ì”N“xu23,24..v‚Ì‡‚Åƒ\[ƒg)
+						// ãƒ­ãƒƒãƒˆç•ªå·ã®ã‚½ãƒ¼ãƒˆ(å…ˆé ­ã®å¹´åº¦ã€Œ23,24..ã€ã®é †ã§ã‚½ãƒ¼ãƒˆ)
 						asort($lots);
 
-						// ƒ\[ƒgŒãA•\¦—p‚É”š‚ğ“ú•tƒR[ƒh‚É•ÏŠ·
+						// ã‚½ãƒ¼ãƒˆå¾Œã€è¡¨ç¤ºç”¨ã«æ•°å­—ã‚’æ—¥ä»˜ã‚³ãƒ¼ãƒ‰ã«å¤‰æ›
 						foreach ($lots as $i => $lot) {
 							$lots[$i] = $this->getTb()->convertNumberToDtCode($lot);
 						}
@@ -793,13 +819,13 @@ $post->remark = "";
 					break;
 			}
 
-			// İŒÉTBŒÂ”‚Ì‘‡Œv
+			// åœ¨åº«TBå€‹æ•°ã®ç·åˆè¨ˆ
 			$stock_cnt = array_sum(array_column((array) $rows, 'cnt'));
 
-			// İŒÉ”—Ê‚Ì‘‡Œv
+			// åœ¨åº«æ•°é‡ã®ç·åˆè¨ˆ
 			$stock_sum = array_sum(array_column((array) $rows, 'stock_total'));
 
-			// ƒ\[ƒg‚Ì‚½‚ß‚Ì‡˜ì¬
+			// ã‚½ãƒ¼ãƒˆã®ãŸã‚ã®é †åºä½œæˆ
 			$Goods = new Goods;
 			$glist = $Goods->getList();
 			//$this->vd($glist);
@@ -810,11 +836,11 @@ $post->remark = "";
 				);
 			}
 		}
-		echo $this->get_blade()->run("stock-export", compact('rows', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum', 'sort'));
+		echo $this->get_blade()->run("stock-export", compact('rows', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum', 'sort', 'overs_cnt'));
 	}
 
 	/**
-	 * ‘qo“`•[ o—Í
+	 * å€‰å‡ºä¼ç¥¨ å‡ºåŠ›
 	 *
 	 **/
 	public function exportDayAction() {
@@ -827,23 +853,23 @@ $post->remark = "";
 
 		$initForm = $this->getTb()->getInitForm();
 
-		// u’•¶v•ª ¦”z‘——\’è•\‚Ì‡@`‡EA‡GA‡H
+		// ã€Œæ³¨æ–‡ã€åˆ† â€»é…é€äºˆå®šè¡¨ã®â‘ ï½â‘¥ã€â‘§ã€â‘¨
 		$rows = $this->getTb()->getStockExportListDay($get);
 
-		// u’¼æv•ª
+		// ã€Œç›´å–ã€åˆ†
 		$jks = $this->getTb()->getStockExportListDay($get, true);
 
-		// u“]‘—v@’O”gSP „ “à“¡SP
+		// ã€Œè»¢é€ã€ã€€ä¸¹æ³¢SP ï¼ å†…è—¤SP
 		$trans_t_n = $this->getTb()->getStockTransferList($get, 1);
 
-		// u“]‘—v@“à“¡SP „ ’O”gSP
+		// ã€Œè»¢é€ã€ã€€å†…è—¤SP ï¼ ä¸¹æ³¢SP
 		$trans_n_t = $this->getTb()->getStockTransferList($get, 2);
 
 		echo $this->get_blade()->run("stock-export-day", compact('rows', 'jks', 'get', 'post', 'formPage', 'initForm', 'stock_cnt', 'stock_sum', 'trans_t_n', 'trans_n_t'));
 	}
 
 	/**
-	 * “]‘—ˆ—
+	 * è»¢é€å‡¦ç†
 	 *
 	 **/
 	public function transferAction() {
