@@ -84,6 +84,26 @@ console.log(oid);
 }
 
 /**
+ * 確定列の[直取分]ボタン押下時の処理 (class 7)
+ * 
+ **/
+function complete_order_direct_delivery(oid = null, sales = null) {
+console.log(sales);
+
+	var cars_class_id = 'cars_class_' + oid;
+
+	var cars_class = document.getElementById(cars_class_id).value;
+
+	if (window.confirm('この直取分を 【 処理済 】 にしますか？')) {
+		document.forms.method = 'post';
+		document.forms.action.value = 'complete_direct_delivery';
+		document.forms.class.value = cars_class;
+		document.forms.sales.value = sales;
+		document.forms.submit();
+	}
+}
+
+/**
  * [更新]ボタン押下時の処理
  * 
  **/
