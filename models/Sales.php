@@ -1081,7 +1081,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		global $wpdb;
 
 		$data = array(
-			'sales' => $post->base_sales, 
+			'sales' => $post->sales, 
 			'field3' => true
 		);
 
@@ -1090,7 +1090,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		$ret = $wpdb->update(
 			$this->getTableName(), 
 			$data, 
-			array('sales' => $post->base_sales)
+			array('sales' => $post->sales)
 		);
 		return $ret;
 	}
