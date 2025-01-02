@@ -1,21 +1,28 @@
 <?php
 /**
- * SalesController.php short discription
+ * SalesCli.php short discription
  *
  * long discription
  *
  */
 use eftec\bladeone\BladeOne;
 require_once(dirname(__DIR__). '/library/Ext/Controller/Action.php');
+require_once(dirname(__DIR__). '/library/Ext/Model/Base.php');
+require_once(dirname(__DIR__). '/models/Sales.php');
 /**
- * SalesControllerClass short discription
+ * SalesCliClass short discription
  *
  * long discription
  *
  */
-class SalesController extends Ext_Controller_Action
+class SalesCli extends Ext_Controller_Action
 {
 	protected $_test = 'test';
+
+	public function __construct() {
+		echo $this->_test;
+		$this->setTb('Sales');
+	}
 
 	/**
 	 *
@@ -465,7 +472,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 							// 繰返を未確定に変更する処理
 //							$new_sales[] = $this->registOrderProcessForRepeat($get, $post);
 //							sleep(1);
-$tmp[] = array('get' => $get, 'post' => $post);
+$tmp[] = array($get, $post);
 						}
 
 						if (!empty($new_sales)) {
@@ -480,7 +487,7 @@ $cache_file = dirname(__DIR__). '/cache/tmp_file.json';
 file_put_contents($cache_file, json_encode($tmp));
 
 $bulk_data = json_decode(file_get_contents($cache_file));
-//$this->vd($bulk_data);
+$this->vd($bulk_data);
 
 
 				// 初期画面表示
@@ -643,14 +650,15 @@ $r = array(
 	 * 
 	 **/
 	public function registOrderProcessForRepeat($get = null, $post = null) {
+		
 		// salesテーブルへ登録のための成形
 		$this->convertSalesData($post);
-//		$this->vd($post);exit;
+//		var_dump($post);exit;
 
 		// salesテーブルへ登録
 		$post->repeat_fg = true;
 		$rows = $this->getTb()->copyDetail($get, $post);
-
+//var_dump($post);exit;
 		// repeat_excludeテーブルに必要な情報を追加
 		$post->sales = $post->base_sales;
 		if (!empty($post->base_delivery_dt)) { $post->delivery_dt = $post->base_delivery_dt; }
@@ -718,4 +726,32 @@ $r = array(
 		}
 	}
 }
+
+
+$_SERVER['HTTP_HOST'] = 'stg.lober-env-imp.work';
+//$wp_dir = dirname(__DIR__). '/../../..';
+//$wp_config = $wp_dir. '/wp-load.php';
+require_once('/home/bitnami/stack/wordpress/wp-load.php');
+
+$SalesCli = new SalesCli();
+$cache_file = dirname(__DIR__). '/cache/tmp_file.json';
+$bulk_data = json_decode(file_get_contents($cache_file));
+//var_dump($bulk_data[0]->post->r_orders);exit;
+
+$d = current($bulk_data);
+$get = $d->get;
+$post = $d->post;
+$orders = explode(',', $post->r_orders);
+//var_dump($orders);exit;
+
+if (is_array($orders) && count($orders) > 0) {
+	foreach ($orders as $i => $order) {
+		$post->r_order[] = $order;
+		$post->class = 1;
+		$post->cars_tank = 1;
+//		var_dump($post);exit;
+		$SalesCli->registOrderProcessForRepeat($get, $post);
+	}
+}
+
 ?>
