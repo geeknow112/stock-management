@@ -145,6 +145,7 @@ $post = $d->post;
 $orders = (array) $post->r_order;
 //var_dump($orders);exit;
 
+
 $post->r_order = (array) $post->r_order;
 //var_dump($post);exit;
 
@@ -156,6 +157,9 @@ $Sales = new Sales();
 if (is_array($orders) && count($orders) > 0) {
 	$j = 0;
 	foreach ($orders as $i => $oid) {
+
+		// TODO:orders内のoid重複を削除 (1回CLI処理すると、以降の繰り返しのoidが変更になるため)
+
 		$post->r_order[] = $oid;
 		$post->class = 1;
 		$post->cars_tank = 1;
