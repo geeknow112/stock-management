@@ -686,7 +686,7 @@ $dt = new DateTime($sdt. ' +1 days');
 //$this->vd($count);exit;
 
 		//ロット登録領域の作成処理
-		if ($ret->count == 0) {
+		if ($count->count == 0) {
 			// 数量(t)/0.5(t)=レコード数
 			$loop = (float) $sdata->qty / 0.5;
 			for ($j=0; $j<$loop; $j++) {
