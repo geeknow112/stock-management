@@ -140,11 +140,13 @@ foreach ($bulk_data as $i => $d) {
  * 
  **/
 $d = current($bulk_data);
-//var_dump($d);exit;
 $get = $d->get;
 $post = $d->post;
-$orders = $post->r_order;
+$orders = (array) $post->r_order;
 //var_dump($orders);exit;
+
+$post->r_order = (array) $post->r_order;
+//var_dump($post);exit;
 
 /**
  * jsonから読み込んだ配列のデータを元に、処理実行
@@ -153,8 +155,8 @@ $orders = $post->r_order;
 $Sales = new Sales();
 if (is_array($orders) && count($orders) > 0) {
 	$j = 0;
-	foreach ($orders as $i => $order) {
-		$post->r_order[] = $order;
+	foreach ($orders as $i => $oid) {
+		$post->r_order[] = $oid;
 		$post->class = 1;
 		$post->cars_tank = 1;
 //		var_dump($post);exit;
@@ -173,19 +175,25 @@ if (is_array($orders) && count($orders) > 0) {
  * 
  **/
 $r_orders = array();
-foreach ($post->r_order as $i => $oid) {
-	if (!empty($oid)) {
-		$r_order = explode('_', $oid);
-		if (in_array($r_order[2], $complete_sales)) {
-			unset($post->r_order[$i]);
+if (is_array($orders) && count($orders) > 0) {
+	foreach ($orders as $i => $oid) {
+		if (!empty($oid)) {
+			$r_order = explode('_', $oid);
+			if (in_array($r_order[2], $complete_sales)) {
+				unset($post->r_order[$i]);
+			}
+		} else {
+	//		unset($post->r_order[$i]);
 		}
-	} else {
-		unset($post->r_order[$i]);
 	}
 }
-//var_dump($r_orders);exit;
-var_dump($post->r_order);
+
+$post->r_orders = implode(',', $post->r_order);
+$d->get = $get;
+$d->post = $post;
+$bulk_data[0] = $d;
+//var_dump(current($bulk_data));exit;
 
 file_put_contents($cache_file, json_encode($bulk_data));
-var_dump($bulk_data);exit;
+var_dump($bulk_data[0]);exit;
 ?>
