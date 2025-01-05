@@ -29,7 +29,7 @@ class SalesCli extends Ext_Controller_Action
 
 
 	/**
-	 * salesƒe[ƒuƒ‹‚Ö“o˜^‚Ì‚½‚ß‚Ì¬Œ`
+	 * salesãƒ†ãƒ¼ãƒ–ãƒ«ã¸ç™»éŒ²ã®ãŸã‚ã®æˆå½¢
 	 * 
 	 **/
 	private function convertSalesData($post = null) {
@@ -43,7 +43,7 @@ class SalesCli extends Ext_Controller_Action
 		}
 		$ddt = $r_order[5];
 		$delivery_dt = substr($ddt, 0, 4). '-'. substr($ddt, 4, 2). '-'. substr($ddt, 6, 2);
-		$post->base_delivery_dt = $delivery_dt; // ƒXƒPƒWƒ…[ƒ‹•ÏX‘O‚Ìdelivery_dt
+		$post->base_delivery_dt = $delivery_dt; // ã‚¹ã‚±ã‚¸ãƒ¥ãƒ¼ãƒ«å¤‰æ›´å‰ã®delivery_dt
 		$post->delivery_dt = (empty($post->change_delivery_dt)) ? $delivery_dt : $post->change_delivery_dt;
 		$post->goods = $r_order[3];
 		$post->class = $post->class;
@@ -55,46 +55,46 @@ class SalesCli extends Ext_Controller_Action
 	}
 
 	/**
-	 * ŒJ•Ô‚ð–¢Šm’è‚É•ÏX‚·‚éˆ— (uŒJ•Ô¨–¢Šm’èv)
+	 * ç¹°è¿”ã‚’æœªç¢ºå®šã«å¤‰æ›´ã™ã‚‹å‡¦ç† (ã€Œç¹°è¿”â†’æœªç¢ºå®šã€)
 	 * 
 	 **/
 	public function registOrderProcessForRepeat($get = null, $post = null) {
 		
-		// salesƒe[ƒuƒ‹‚Ö“o˜^‚Ì‚½‚ß‚Ì¬Œ`
+		// salesãƒ†ãƒ¼ãƒ–ãƒ«ã¸ç™»éŒ²ã®ãŸã‚ã®æˆå½¢
 		$this->convertSalesData($post);
 //		var_dump($post);exit;
 
-		// salesƒe[ƒuƒ‹‚Ö“o˜^
+		// salesãƒ†ãƒ¼ãƒ–ãƒ«ã¸ç™»éŒ²
 		$post->repeat_fg = true;
 		$rows = $this->getTb()->copyDetail($get, $post);
 //		var_dump($post);exit;
-		// repeat_excludeƒe[ƒuƒ‹‚É•K—v‚Èî•ñ‚ð’Ç‰Á
+		// repeat_excludeãƒ†ãƒ¼ãƒ–ãƒ«ã«å¿…è¦ãªæƒ…å ±ã‚’è¿½åŠ 
 		$post->sales = $post->base_sales;
 		if (!empty($post->base_delivery_dt)) { $post->delivery_dt = $post->base_delivery_dt; }
 //		var_dump($post);exit;
 
-		// repeat_excludeƒe[ƒuƒ‹‚Ö“o˜^
+		// repeat_excludeãƒ†ãƒ¼ãƒ–ãƒ«ã¸ç™»éŒ²
 		$RepeatExclude = new RepeatExclude;
 		$RepeatExclude->updDetail($get, $post);
 
-		// Œ³’•¶‚ÌŒJ‚è•Ô‚µOFF
+		// å…ƒæ³¨æ–‡ã®ç¹°ã‚Šè¿”ã—OFF
 		$init_bool = $this->getTb()->initRepeatFg($post);
 //		$this->vd($init_bool);exit;
 
-		// Œ³’•¶‚ÌŒJ‚è•Ô‚µ‚ðV’•¶‚ÖƒRƒs[‚·‚é
+		// å…ƒæ³¨æ–‡ã®ç¹°ã‚Šè¿”ã—ã‚’æ–°æ³¨æ–‡ã¸ã‚³ãƒ”ãƒ¼ã™ã‚‹
 		$post->sales = $rows->sales;
-		$post->delivery_dt = $rows->delivery_dt; // repeat_s_dt‚ÉV‚µ‚¢delivery_dt‚ðÝ’è
+		$post->delivery_dt = $rows->delivery_dt; // repeat_s_dtã«æ–°ã—ã„delivery_dtã‚’è¨­å®š
 		$ScheduleRepeat = new ScheduleRepeat;
 		$ScheduleRepeat->copyDetail($get, $post);
 
-		return $rows->sales;
+		return array($post->base_sales, $rows->sales);
 	}
 
 	/**
-	 * “üŒÉ—\’è“ú‚Ì‰ŠúÝ’è
-	 *   - ”z‘——\’è“ú‚Ì3“ú‘O‚ÉÝ’è‚·‚é
+	 * å…¥åº«äºˆå®šæ—¥ã®åˆæœŸè¨­å®š
+	 *   - é…é€äºˆå®šæ—¥ã®3æ—¥å‰ã«è¨­å®šã™ã‚‹
 	 * 
-	 * $delivery_dt: ”z‘——\’è“ú
+	 * $delivery_dt: é…é€äºˆå®šæ—¥
 	 **/
 	private function setArrivalDt($delivery_dt = null) {
 		$arrival_dt = new DateTime($delivery_dt. ' -3 days');
@@ -113,6 +113,11 @@ $SalesCli = new SalesCli();
 $cache_file = dirname(__DIR__). '/cache/tmp_file.json';
 $bulk_data = json_decode(file_get_contents($cache_file));
 //var_dump($bulk_data[0]->post->r_orders);exit;
+
+/**
+ * jsonã‹ã‚‰èª­ã¿è¾¼ã‚“ã é…åˆ—å†…ã®ã€ç©ºç™½ã‚’é™¤åŽ» (dumpã®è¦–èªæ€§å‘ä¸Šã®ãŸã‚)
+ * 
+ **/
 foreach ($bulk_data as $i => $d) {
 	foreach ($d->post as $k => $v) {
 		if (preg_match('/customer*/', $k, $m)) {
@@ -130,6 +135,10 @@ foreach ($bulk_data as $i => $d) {
 }
 //var_dump($d->post);exit;
 
+/**
+ * ãƒ‡ãƒ¼ã‚¿æ•´å½¢
+ * 
+ **/
 $d = current($bulk_data);
 //var_dump($d);exit;
 $get = $d->get;
@@ -137,8 +146,11 @@ $post = $d->post;
 $orders = $post->r_order;
 //var_dump($orders);exit;
 
+/**
+ * jsonã‹ã‚‰èª­ã¿è¾¼ã‚“ã é…åˆ—ã®ãƒ‡ãƒ¼ã‚¿ã‚’å…ƒã«ã€å‡¦ç†å®Ÿè¡Œ
+ * 
+ **/
 $Sales = new Sales();
-
 if (is_array($orders) && count($orders) > 0) {
 	$j = 0;
 	foreach ($orders as $i => $order) {
@@ -147,11 +159,33 @@ if (is_array($orders) && count($orders) > 0) {
 		$post->cars_tank = 1;
 //		var_dump($post);exit;
 
-		$SalesCli->registOrderProcessForRepeat($get, $post);
+		list($base_sales, $ret_sales) = $SalesCli->registOrderProcessForRepeat($get, $post);
+		$ret[] = array('base_sales' => $base_sales, 'ret_sales' => $ret_sales);
+		$complete_sales[] = $base_sales;
 
-//		if ($j > 2) { var_dump($post);exit; }
+		if ($j > 0) { var_dump($post); var_dump($ret); var_dump($complete_sales); break; }
 		$j++;
 	}
 }
 
+/**
+ * å‡¦ç†ã—ãŸsalesIDã‚’jsonã‹ã‚‰é™¤åŽ» (å†å®Ÿè¡Œã‚’å›žé¿ã™ã‚‹ãŸã‚)
+ * 
+ **/
+$r_orders = array();
+foreach ($post->r_order as $i => $oid) {
+	if (!empty($oid)) {
+		$r_order = explode('_', $oid);
+		if (in_array($r_order[2], $complete_sales)) {
+			unset($post->r_order[$i]);
+		}
+	} else {
+		unset($post->r_order[$i]);
+	}
+}
+//var_dump($r_orders);exit;
+var_dump($post->r_order);
+
+file_put_contents($cache_file, json_encode($bulk_data));
+var_dump($bulk_data);exit;
 ?>
