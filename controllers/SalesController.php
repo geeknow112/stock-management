@@ -37,13 +37,13 @@ class SalesController extends Ext_Controller_Action
 
 		$this->setTb('Sales');
 
-		// [������ʂ֖߂�]�{�^���p�̏���
+		// [検索画面へ戻る]ボタン用の処理
 		switch($get->cmd) {
 			case 'search':
 			default: 
 				$session_key = 'sales-search';
 
-				// session �o�^
+				// session 登録
 				$uri = $_SERVER['REQUEST_URI'];
 				$_SESSION[$session_key] = $uri;
 				break;
@@ -53,12 +53,12 @@ class SalesController extends Ext_Controller_Action
 			case 'search':
 			case 'edit':
 			default:
-				// �X�V������A���������̈ێ��̂��߁AGET�l��POST�l�����U
+				// 更新処理後、検索条件の維持のため、GET値をPOST値から補填
 				if (!isset($get->s)) {  $get->s = $post->s; }
 				$get->s['change_status'] = $post->change_status;
 
 				$initForm = $this->getTb()->getInitForm();
-				$initForm['select']['car_model'] = array_merge($initForm['select']['car_model'], $initForm['select']['car_model_add']); // �����p�Ɂu�Ԏ�v�v���_�E���ɗv�f�ǉ�
+				$initForm['select']['car_model'] = array_merge($initForm['select']['car_model'], $initForm['select']['car_model_add']); // 検索用に「車種」プルダウンに要素追加
 
 				$rows = $this->getTb()->getList($get, $un_convert = true);
 				$formPage = 'sales-list';
@@ -80,15 +80,15 @@ class SalesController extends Ext_Controller_Action
 		$page = 'sales-detail';
 		$initForm = $this->getTb()->getInitForm($post);
 
-		// [������ʂ֖߂�]�{�^���p�̏���
+		// [検索画面へ戻る]ボタン用の処理
 		if (empty($get->action)) {
 				$session_key = 'sales-search';
 
-				// session ������
+				// session 初期化
 				$_SESSION[$session_key] = '';
 		}
 
-		// �Ԏ�P�ʂ̌��E�l(6t)���Ď����鏈��
+		// 車種単位の限界値(6t)を監視する処理
 		$sales = ($get->sales) ? $get->sales : $post->sales;
 		$d_dt = $this->getTb()->getDeliveryDtBySales($sales);
 		$sum_qty = $this->getTb()->getSumQtyByDeliveryDt($d_dt);
@@ -98,7 +98,7 @@ class SalesController extends Ext_Controller_Action
 //		$this->vd($initForm['select']['car_model_limit']);
 		$car_model_limit = json_encode($initForm['select']['car_model_limit']);
 
-		// �Ԏ�̖��ו\���p�̏��擾����
+		// 車種の明細表示用の情報取得処理
 		$class_detail = json_encode($this->getTb()->getClassDetailByDeliveryDt($d_dt));
 
 		$rows = null;
@@ -121,8 +121,8 @@ $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 						case 'cmd_confirm':
 							$msg = $this->getValidMsg();
 							$rows = $post;
-							if (!empty($rows->delivery_dt) && empty($rows->arrival_dt)) { $rows->arrival_dt = $this->setArrivalDt($rows->delivery_dt); } // post�l[arrival_dt]����̏ꍇ�A[delivery_dt]��3���O�Ɏ����ݒ�
-							if (!empty($rows->week)) { $rows->week = array_keys($rows->week); } // post�l[week]��checkbox�`���ɕϊ�
+							if (!empty($rows->delivery_dt) && empty($rows->arrival_dt)) { $rows->arrival_dt = $this->setArrivalDt($rows->delivery_dt); } // post値[arrival_dt]が空の場合、[delivery_dt]の3日前に自動設定
+							if (!empty($rows->week)) { $rows->week = array_keys($rows->week); } // post値[week]をcheckbox形式に変換
 							if ($rows->sales) { $rows->btn = 'update'; }
 
 							if ($msg['msg'] !== 'success') {
@@ -150,14 +150,14 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 							$rows = $this->getTb()->regDetail($get, $post);
 //							$rows->order_name = $rows->name;
 
-							// �J��Ԃ����o�^
+							// 繰り返し情報登録
 							if ($rows->repeat_fg == 1) {
 								$post->sales = $rows->sales;
 								$ScheduleRepeat = new ScheduleRepeat();
 								$repeat = $ScheduleRepeat->updDetail($get, $post);
 							}
 
-							// �o�^�����Ď擾
+							// 登録情報を再取得
 							$rows = $this->getTb()->getDetailBySalesCode($rows->sales);
 
 							$get->action = 'complete';
@@ -184,13 +184,13 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 							$rows = $this->getTb()->updDetail($get, $post);
 //							$rows->order_name = $rows->name;
 
-							// �J��Ԃ����o�^
+							// 繰り返し情報登録
 							if ($rows->repeat_fg == 1) {
 								$ScheduleRepeat = new ScheduleRepeat();
 								$repeat = $ScheduleRepeat->updDetail($get, $post);
 							}
 
-							// �X�V�����Ď擾
+							// 更新情報を再取得
 							$rows = $this->getTb()->getDetailBySalesCode($rows->sales);
 
 							$get->action = 'complete';
@@ -269,7 +269,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getLotNumberListBySales($get);
 
-				// lot_fg�̕ύX
+				// lot_fgの変更
 				if (!empty($rows)) { $this->getTb()->updLotFg($rows); }
 
 				echo $this->get_blade()->run("lot-regist", compact('rows', 'formPage', 'initForm', 'get', 'post', 'msg'));
@@ -283,7 +283,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 							$msg = $this->getValidMsg(2);
 							$rows = $this->getTb()->getLotNumberListBySales($get);
 
-							// DB�̍X�V�Ώۃf�[�^���Apost�l�ɕύX
+							// DBの更新対象データを、post値に変更
 							$plt_id = $post->lot_tmp_id;
 							foreach ($rows as $lot_tmp_id => $d) {
 								$d->tank = $post->tank[$lot_tmp_id];
@@ -325,7 +325,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				$initForm = $this->getTb()->getInitForm();
 				$rows = $this->getTb()->getLotNumberListBySales($get);
 
-				// lot_fg�̕ύX
+				// lot_fgの変更
 				$this->getTb()->updLotFg($rows);
 
 				echo $this->get_blade()->run("lot-regist", compact('rows', 'formPage', 'initForm', 'get', 'post', 'msg'));
@@ -345,13 +345,13 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 		$this->setTb('Sales');
 
-		// [������ʂ֖߂�]�{�^���p�̏���
+		// [検索画面へ戻る]ボタン用の処理
 		switch($get->cmd) {
 			case 'search':
 			default: 
 				$session_key = 'sales-search';
 
-				// session �o�^
+				// session 登録
 				$uri = $_SERVER['REQUEST_URI'];
 				$_SESSION[$session_key] = $uri;
 				break;
@@ -374,47 +374,74 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 		if (!isset($get->action) || $post->action == 'regist_order_bulk') { $get->action = $post->action; }
 
 		switch($get->action) {
-			case 'order_update': // �u�ʁv�A�u�z����v�̍X�V
+			case 'order_update': // 「量」、「配送先」の更新
 				$data['sales'] = $post->sales;
-				$data['repeat_fg'] = $post->repeat_fg; // repeat_fg��updDetail�ŏ����������Ȃ�����
+				$data['repeat_fg'] = $post->repeat_fg; // repeat_fgをupdDetailで初期化させないため
 				$data['qty'] = number_format($post->change_qty, 1);
 				$data['ship_addr'] = $post->change_ship_addr;
 				$data['use_stock'] = $post->use_stock;
 				$data['field1'] = $post->ship_addr_text;
-				$data['field2'] = true; // �u�ʁv��ύX�����ꍇ�A�\��\�̓��͗����e�L�X�g�\���ɂ��邽�߁A����ύX���Ƀt���O��true�ɂ���B
+				$data['field2'] = true; // 「量」を変更した場合、予定表の入力欄をテキスト表示にするため、初回変更時にフラグをtrueにする。
 				(object) $data;
 				$result = $this->getTb()->updDetail($get, $data);
 				break;
 
-			case 'make_lot_space': // �z���\��\���烍�b�g�o�^���̍쐬
+			case 'make_lot_space': // 配送予定表からロット登録欄の作成
 				$data['sales'] = $post->sales;
-				$data['repeat_fg'] = $post->repeat_fg; // repeat_fg��updDetail�ŏ����������Ȃ�����
+				$data['repeat_fg'] = $post->repeat_fg; // repeat_fgをupdDetailで初期化させないため
 				$data['lot_fg'] = 1;
 				$data['status'] = $post->change_status = 1;
 				$data['use_stock'] = $post->use_stock;
 				(object) $data;
-				$result = $this->getTb()->updDetail($get, $data);
-				$this->getTb()->makeLotSpaceSingle($get, $post);
+
+				global $wpdb;
+
+				// トランザクションを開始
+				$wpdb->query("START TRANSACTION");
+
+				// 処理対象テーブルロック
+//				$wpdb->query("LOCK TABLES yc_sales WRITE, yc_goods_detail WRITE"); // TODO: エラーになるからロックはしない
+
+				try {
+					// 更新処理
+					$result = $this->getTb()->updDetail($get, $data);
+					$mklot_ret = $this->getTb()->makeLotSpaceSingle($get, $post);
+
+					// errorチェック
+					if (is_wp_error($result) || is_wp_error($mklot_ret)) {
+						$wpdb->query('ROLLBACK');
+						echo '<script>alert("ロット登録欄作成時にエラーが発生しましたので処理を停止しました。\n再度お試しください。");</script>';
+					} else {
+						$wpdb->query('COMMIT');
+					}
+
+				} catch(Exception $e) {
+					$wpdb->query('ROLLBACK');
+
+				} finally {
+					// テーブルロック解除
+					$wpdb->query('UNLOCK TABLES');
+				}
 				break;
 
-			case 'set_receipt': // �u��̏��v�t���O�̍X�V
+			case 'set_receipt': // 「受領書」フラグの更新
 				$data['sales'] = $post->sales;
-				$data['repeat_fg'] = $post->repeat_fg; // repeat_fg��updDetail�ŏ����������Ȃ�����
+				$data['repeat_fg'] = $post->repeat_fg; // repeat_fgをupdDetailで初期化させないため
 				$data['receipt_fg'] = true;
 				$data['use_stock'] = $post->use_stock;
 				(object) $data;
 				$result = $this->getTb()->updDetail($get, $data);
 				break;
 
-			case 'set_result': // �u���ʓ��́v���̓o�^
+			case 'set_result': // 「結果入力」欄の登録
 
 				$oid = $post->oid;
 				$ret['delivery_dt'] = sprintf('%s-%s-%s', substr($oid, 0, 4), substr($oid, 4, 2), substr($oid, 6, 2));
-				$ret['arrival_dt'] = $this->setArrivalDt($ret['delivery_dt']); // [delivery_dt]��3���O�Ɏ����ݒ�
+				$ret['arrival_dt'] = $this->setArrivalDt($ret['delivery_dt']); // [delivery_dt]の3日前に自動設定
 				$ret['class'] = (int) substr($oid, 8, 2);
 				$ret['cars_tank'] = (int) substr($oid, 10, 2);
 
-				// ���`
+				// 整形
 				$data = str_replace('\"', '', $post->odata);
 				$data = str_replace('{', '', $data);
 				$data = str_replace('}', '', $data);
@@ -426,30 +453,30 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 				$pdata = (object) $ret;
 
-				// class = (8,9)�̏ꍇ�Aship_addr�̓��͒l���Afield1�ɓo�^����
+				// class = (8,9)の場合、ship_addrの入力値を、field1に登録する
 				if (in_array($pdata->class, array(8,9))) {
 					$pdata->field1 = $pdata->ship_addr;
 					unset($pdata->ship_addr);
 				}
 //				$this->vd($pdata);
 
-				// yc_sales�֓o�^
+				// yc_salesへ登録
 				$result = $this->getTb()->regDetail($get, $pdata);
 //$this->vd($result);
 				break;
 		}
 
 		switch($get->action) {
-			case 'regist_order_bulk': // �u�J�ԁ����m��v�̈ꊇ����
+			case 'regist_order_bulk': // 「繰返→未確定」の一括処理
 
 				if (!empty($post->r_orders)) {
 					//$this->vd($post);exit;
 					//echo phpinfo();exit;
 
-					// �����l���m�F
+					// 初期値を確認
 //					var_dump(ini_get("max_execution_time"));
 
-					// ini_set�ŏ���l���X�V
+					// ini_setで上限値を更新
 					ini_set("max_execution_time", 60);
 
 					$orders = explode(',', $post->r_orders);
@@ -457,12 +484,12 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 					if (is_array($orders) && count($orders) > 0) {
 						foreach ($orders as $i => $order) {
-//							if ($i == 3) { break; } // TODO: ���ؒ��A�폜�\��
+//							if ($i == 3) { break; } // TODO: 検証中、削除予定
 							$post->r_order[] = $order;
 							$post->class = 1;
 							$post->cars_tank = 1;
 
-							// �J�Ԃ𖢊m��ɕύX���鏈��
+							// 繰返を未確定に変更する処理
 //							$new_sales[] = $this->registOrderProcessForRepeat($get, $post);
 //							sleep(1);
 $tmp[] = array('get' => $get, 'post' => $post);
@@ -483,37 +510,37 @@ $bulk_data = json_decode(file_get_contents($cache_file));
 //$this->vd($bulk_data);
 
 
-				// ������ʕ\��
+				// 初期画面表示
 				$this->defaultProcessForDeliveryGraph($get, $post);
 				break;
 
-			case 'regist': // �u�����v�������̏���
-				// �J�Ԃ𖢊m��ɕύX���鏈��
+			case 'regist': // 「注文」押下時の処理
+				// 繰返を未確定に変更する処理
 				$new_sales[] = $this->registOrderProcessForRepeat($get, $post);
 
-				// ������ʕ\��
+				// 初期画面表示
 				$this->defaultProcessForDeliveryGraph($get, $post);
 				break;
 
-			case 'set_direct_delivery': // �u���敪�v�̏���
-				// �J�Ԃ��m��ɕύX���鏈��(�u���敪�v)
+			case 'set_direct_delivery': // 「直取分」の処理
+				// 繰返を確定に変更する処理(「直取分」)
 				$new_sales[] = $this->registOrderProcessForRepeat($get, $post);
 
-				// ������ʕ\��
+				// 初期画面表示
 				$this->defaultProcessForDeliveryGraph($get, $post);
 				break;
 
-			case 'complete_direct_delivery': // �u���敪�v���ςɂ��鏈��
-				// �u���敪�v�������A��������field3��ON�ɂ��� (ON�̏ꍇ�A�{�^���F���s���N)
+			case 'complete_direct_delivery': // 「直取分」を済にする処理
+				// 「直取分」押下時、元注文のfield3をONにする (ONの場合、ボタン色がピンク)
 				if ($post->class == 7) { $this->getTb()->initFieldForDirectDelivery($post); }
 
-				// ������ʕ\��
+				// 初期画面表示
 				$this->defaultProcessForDeliveryGraph($get, $post);
 				break;
 
 			case 'search':
 			default:
-				// ������ʕ\��
+				// 初期画面表示
 				$this->defaultProcessForDeliveryGraph($get, $post);
 				break;
 		}
@@ -529,7 +556,7 @@ $bulk_data = json_decode(file_get_contents($cache_file));
 	public $_cron_data = 'test data';
 
 	/**
-	 * �z���\��\�̏�����ʕ\��
+	 * 配送予定表の初期画面表示
 	 * 
 	 **/
 	private function defaultProcessForDeliveryGraph($get = null, $post = null) {
@@ -540,14 +567,14 @@ $bulk_data = json_decode(file_get_contents($cache_file));
 		$rows = $this->getTb()->getList($get);
 		$formPage = 'delivery-graph';
 
-		// ���t����͈͓���repeat�����邩�m�F���A�������璍�����Q�Ƃ��Arepeat�����𐶐�����6t-0���ɕ\������B
+		// 日付から範囲内にrepeatがあるか確認し、あったら注文を参照し、repeat注文を生成して6t-0欄に表示する。
 		//$this->vd($get->s['sdt']);
 		$ScheduleRepeat = new ScheduleRepeat;
 		$repeat_list = $ScheduleRepeat->getList($get);
 
-		// �z����(�^���N)���̎擾
+		// 配送先(タンク)名の取得
 		$rows = $this->getTb()->setTankName($rows);
-		$repeat_list = $this->getTb()->setTankName($repeat_list); // 6t-0����̈ړ����ɁA�z����R�s�[�s�v�ƂȂ������ߍ폜(2024/06/02) ��6t-0�ɕ\�����K�v�ƂȂ������ߍĕ\��(2024/06/24)
+		$repeat_list = $this->getTb()->setTankName($repeat_list); // 6t-0からの移動時に、配送先コピー不要となったため削除(2024/06/02) →6t-0に表示が必要となったため再表示(2024/06/24)
 
 //$this->vd($rows);
 //$this->vd(array_keys($repeat_list));
@@ -572,10 +599,10 @@ $r = array(
 
 );
 
-		// ���b�g�ԍ��A���[�g�̍쐬
+		// ロット番号アラートの作成
 		$msg1 = $this->getTb()->checkLotNumberStatus();
 
-		// ��̏����A���[�g�̍쐬
+		// 受領書受取アラートの作成
 		$msg2 = $this->getTb()->checkReceiptStatus();
 
 		if (!empty($msg1) || !empty($msg2)) {
@@ -583,7 +610,7 @@ $r = array(
 		}
 
 		$initForm['fix_customer'] = array(
-			// ���c�{�Y�p
+			// 太田畜産用
 			'17' => array(
 				'customer' => array(
 					'17' => $initForm['select']['customer'][17]
@@ -592,7 +619,7 @@ $r = array(
 					'17' => $initForm['select']['goods_name'][17]
 				), 
 			), 
-			// ����{�{��p
+			// 村上養鶏場用
 			'31' => array(
 				'customer' => array(
 					'31' => $initForm['select']['customer'][31]
@@ -613,7 +640,7 @@ $r = array(
 	}
 
 	/**
-	 * sales�e�[�u���֓o�^�̂��߂̐��`
+	 * salesテーブルへ登録のための成形
 	 * 
 	 **/
 	private function convertSalesData($post = null) {
@@ -627,7 +654,7 @@ $r = array(
 		}
 		$ddt = $r_order[5];
 		$delivery_dt = substr($ddt, 0, 4). '-'. substr($ddt, 4, 2). '-'. substr($ddt, 6, 2);
-		$post->base_delivery_dt = $delivery_dt; // �X�P�W���[���ύX�O��delivery_dt
+		$post->base_delivery_dt = $delivery_dt; // スケジュール変更前のdelivery_dt
 		$post->delivery_dt = (empty($post->change_delivery_dt)) ? $delivery_dt : $post->change_delivery_dt;
 		$post->goods = $r_order[3];
 		$post->class = $post->class;
@@ -639,34 +666,34 @@ $r = array(
 	}
 
 	/**
-	 * �J�Ԃ𖢊m��ɕύX���鏈�� (�u�J�ԁ����m��v)
+	 * 繰返を未確定に変更する処理 (「繰返→未確定」)
 	 * 
 	 **/
 	public function registOrderProcessForRepeat($get = null, $post = null) {
-		// sales�e�[�u���֓o�^�̂��߂̐��`
+		// salesテーブルへ登録のための成形
 		$this->convertSalesData($post);
 //		$this->vd($post);exit;
 
-		// sales�e�[�u���֓o�^
+		// salesテーブルへ登録
 		$post->repeat_fg = true;
 		$rows = $this->getTb()->copyDetail($get, $post);
 
-		// repeat_exclude�e�[�u���ɕK�v�ȏ���ǉ�
+		// repeat_excludeテーブルに必要な情報を追加
 		$post->sales = $post->base_sales;
 		if (!empty($post->base_delivery_dt)) { $post->delivery_dt = $post->base_delivery_dt; }
 		//$this->vd($post);exit;
 
-		// repeat_exclude�e�[�u���֓o�^
+		// repeat_excludeテーブルへ登録
 		$RepeatExclude = new RepeatExclude;
 		$RepeatExclude->updDetail($get, $post);
 
-		// �������̌J��Ԃ�OFF
+		// 元注文の繰り返しOFF
 		$init_bool = $this->getTb()->initRepeatFg($post);
 //		$this->vd($init_bool);exit;
 
-		// �������̌J��Ԃ���V�����փR�s�[����
+		// 元注文の繰り返しを新注文へコピーする
 		$post->sales = $rows->sales;
-		$post->delivery_dt = $rows->delivery_dt; // repeat_s_dt�ɐV����delivery_dt��ݒ�
+		$post->delivery_dt = $rows->delivery_dt; // repeat_s_dtに新しいdelivery_dtを設定
 		$ScheduleRepeat = new ScheduleRepeat;
 		$ScheduleRepeat->copyDetail($get, $post);
 
@@ -674,10 +701,10 @@ $r = array(
 	}
 
 	/**
-	 * ���ɗ\����̏����ݒ�
-	 *   - �z���\�����3���O�ɐݒ肷��
+	 * 入庫予定日の初期設定
+	 *   - 配送予定日の3日前に設定する
 	 * 
-	 * $delivery_dt: �z���\���
+	 * $delivery_dt: 配送予定日
 	 **/
 	private function setArrivalDt($delivery_dt = null) {
 		$arrival_dt = new DateTime($delivery_dt. ' -3 days');
@@ -685,7 +712,7 @@ $r = array(
 	}
 
 	/**
-	 * �����W�v
+	 * 注文集計
 	 * 
 	 **/
 	public function summaryAction() {
@@ -705,7 +732,7 @@ $r = array(
 //				$rows = $this->getTb()->getList($get, $un_convert = true);
 				$rows = $this->getTb()->getSummary($get);
 
-				// ���v�l�̍쐬
+				// 合計値の作成
 				if (!empty(current($rows))) {
 					$total = $this->getTb()->sumSalesSummaryList($rows);
 				} else {
