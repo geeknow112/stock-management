@@ -719,7 +719,7 @@ $dt = new DateTime($sdt. ' +1 days');
 			);
 		}
 //$this->vd($upd_ret);
-		return true;
+		return $upd_ret;
 	}
 
 	/**
