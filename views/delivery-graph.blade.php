@@ -208,7 +208,7 @@ function regist_order_bulk_process() {
 						<th class="" colspan="{{$colspan}}" id="car_model_5">6t ⑤</th>
 						@if ($cur_user->roles[0] == 'administrator')
 						<th class="" colspan="{{$colspan}}">6t ⑦-1 (山忠商事(直取) 専用：繰り返し注文表示欄)</th>
-						<th class="" colspan="{{$colspan}}">6t ⑦-2 (山忠商事(直取) 専用：確定注文表示欄)</th>
+						<th class="" colspan="{{$colspan}}">6t ⑦-2 (山忠商事(直取) 専用：未確定注文表示欄)</th>
 						<th class="" colspan="{{$colspan}}" id="input_result">6t ⑧ (太田畜産 専用：結果入力欄)</th>
 						<th class="" colspan="{{$colspan}}">7.5t ⑨ (村上畜産 専用：結果入力欄)</th>
 						<th class="" colspan="{{$colspan}}" id="input_result_end">6t ⑩ (山忠商事(直取) 専用：結果入力欄)</th>
@@ -430,32 +430,28 @@ function regist_order_bulk_process() {
 							<?php
 							$oid = $row->sales. "_". $row->goods. "_". $row->repeat. "_". str_replace('-', '', $delivery_dt);
 							?>
-									<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt_{{$oid}}" name="" value="">
-									<input type="hidden" class="" id="r_arrival_dt_{{$oid}}" name="" value="{{$row->arrival_dt}}">
-									<input type="hidden" class="" id="r_warehouse_{{$oid}}" name="" value="{{$row->outgoing_warehouse}}">
-									<br />
-									<select class="" id="cars_class_{{$oid}}" name="">
-							{{--
-										@foreach($initForm['select']['car_model'] as $i => $d)
-											<option value="{{$i}}">{{$d}}</option>
-										@endforeach
-							--}}
-											<option value="7">6t-7</option>
-									</select>
-									<select class="" id="cars_tank_{{$oid}}" name="">
-											<option value="1">1</option>
-											<option value="2">2</option>
-											<option value="3">3</option>
-									</select>
-									<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
 									@if (isset($row->base_sales))
+										<input type="date" class="col-sm-6 col-form-control w-auto" id="delivery_dt_{{$oid}}" name="" value="">
+										<input type="hidden" class="" id="r_arrival_dt_{{$oid}}" name="" value="{{$row->arrival_dt}}">
+										<input type="hidden" class="" id="r_warehouse_{{$oid}}" name="" value="{{$row->outgoing_warehouse}}">
+										<br />
+										<select class="" id="cars_class_{{$oid}}" name="">
+								{{--
+											@foreach($initForm['select']['car_model'] as $i => $d)
+												<option value="{{$i}}">{{$d}}</option>
+											@endforeach
+								--}}
+												<option value="7">6t-7</option>
+										</select>
+										<select class="" id="cars_tank_{{$oid}}" name="">
+												<option value="1">1</option>
+												<option value="2">2</option>
+												<option value="3">3</option>
+										</select>
+										<input type="hidden" id="r_order_{{$oid}}" name="r_order[]" value="">
 										<input type="button" class="btn btn-info text-center text-light" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');">
 									@else
-										@if ($row->field3 == 1)
-											<input type="button" class="btn text-center" style="background: pink;" value="直取分" onclick="change_repeat_order_direct_delivery('{{$oid}}');" disabled>
-										@else
-											<input type="button" class="btn btn-secondary text-center text-light" value="直取分" onclick="complete_order_direct_delivery('{{$oid}}', '{{$row->sales}}');">
-										@endif
+										<input type="button" class="btn btn-secondary text-center text-light" value="直取分" onclick="complete_order_direct_delivery('{{$oid}}', '{{$row->sales}}');" disabled>
 									@endif
 								</div>
 							@else

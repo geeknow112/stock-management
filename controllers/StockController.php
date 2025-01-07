@@ -595,11 +595,6 @@ $post->remark = "";
 //$this->vd($repeat_list);
 //$this->vd($r_rows);
 
-						foreach ($rows as $i => $d) {
-							// 「直取分」の「繰起点」を表示。確定注文を除外。
-							if ($d->repeat_fg == false) { unset($rows->$i); }
-						}
-
 						// 合計値の作成
 						if (!empty(current($rows))) {
 							list($detail, $sum_list) = $this->getTb()->sumReceiveListByGoods($rows);
