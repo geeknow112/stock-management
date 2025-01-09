@@ -490,8 +490,8 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 							$post->cars_tank = 1;
 
 							// 繰返を未確定に変更する処理
-//							$new_sales[] = $this->registOrderProcessForRepeat($get, $post);
-//							sleep(1);
+							$new_sales[] = $this->registOrderProcessForRepeat($get, $post);
+							sleep(1);
 $tmp[] = array('get' => $get, 'post' => $post);
 						}
 
