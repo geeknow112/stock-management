@@ -484,7 +484,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 
 					if (is_array($orders) && count($orders) > 0) {
 						foreach ($orders as $i => $order) {
-//							if ($i == 3) { break; } // TODO: 検証中、削除予定
+							if ($i == 3) { break; } // TODO: 検証中、削除予定
 							$post->r_order[] = $order;
 							$post->class = 1;
 							$post->cars_tank = 1;
