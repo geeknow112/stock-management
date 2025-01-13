@@ -222,11 +222,11 @@ function regist_order_bulk_process() {
 								@php continue; @endphp
 							@endif
 
-							@if ($cur_user->roles[0] == 'editor' && $i < 5)
+							@if ($cur_user->roles[0] == 'editor' && $i < 6)
 								@php continue; @endphp
 							@endif
 
-							@if ($cur_user->roles[0] == 'subscriber' && $i < 6)
+							@if ($cur_user->roles[0] == 'subscriber' && $i < 7)
 								@php continue; @endphp
 							@endif
 
