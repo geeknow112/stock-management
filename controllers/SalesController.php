@@ -605,8 +605,11 @@ $r = array(
 		// 受領書受取アラートの作成
 		$msg2 = $this->getTb()->checkReceiptStatus();
 
-		if (!empty($msg1) || !empty($msg2)) {
-			$msg = array_merge($msg1, $msg2);
+		// 必須項目登録状況アラートの作成
+		$msg3 = $this->getTb()->checkOrderRequired();
+
+		if (!empty($msg1) || !empty($msg2) || !empty($msg3)) {
+			$msg = array_merge($msg1, $msg2, $msg3);
 		}
 
 		$initForm['fix_customer'] = array(
@@ -677,6 +680,7 @@ $r = array(
 		// salesテーブルへ登録
 		$post->repeat_fg = true;
 		$rows = $this->getTb()->copyDetail($get, $post);
+		if ($rows == false) { return false; }
 
 		// repeat_excludeテーブルに必要な情報を追加
 		$post->sales = $post->base_sales;

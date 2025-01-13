@@ -849,6 +849,49 @@ $dt = new DateTime($sdt. ' +1 days');
 	}
 
 	/**
+	 * 注文の必須項目登録状況の確認
+	 * 
+	 * 「注文の必須項目(SP等)が未登録の場合、アラート表示する。」
+	 * 「アラートは、対象の注文の必須項目が登録されるまで、表示し続ける。」
+	 * 
+	 **/
+	public function checkOrderRequired() {
+		$get = (object) $get;
+		global $wpdb;
+		$cur_user = wp_get_current_user();
+
+		$or[] = "s.outgoing_warehouse is null";
+		$or[] = "s.outgoing_warehouse = ''";
+		$ors = implode(' OR ', $or);
+
+		$sql  = "SELECT s.sales, s.delivery_dt, s.outgoing_warehouse ";
+		$sql .= "FROM yc_sales as s ";
+		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
+		$sql .= sprintf("AND (%s);", $ors);
+
+		$rows = $wpdb->get_results($sql);
+
+		// convert
+		foreach ($rows as $i => $row) {
+			$conv[$row->delivery_dt][] = $row;
+		}
+
+		// sum
+		foreach ($conv as $delivery_dt => $objs) {
+			$sum[$delivery_dt] = count($objs);
+		}
+
+		// make alert message
+		foreach ($sum as $delivery_dt => $cnt) {
+			$alert_message = sprintf('%s 必須項目が未登録の注文が %s 件 あります。', $delivery_dt, $cnt);
+//			$ret[] = mb_convert_encoding($alert_message, 'UTF-8', 'SJIS');
+			$ret[] = $alert_message;
+		}
+
+		return (!empty($ret)) ? $ret : array();
+	}
+
+	/**
 	 * 状態変更
 	 * 
 	 * $change_status : 変更後の状態番号
@@ -882,6 +925,7 @@ $dt = new DateTime($sdt. ' +1 days');
 	 **/
 	public function copyDetail($get = null, $post = null) {
 		$rows = $this->getDetailForRepeatByBaseSalesCode($post->base_sales);
+		if ($rows == false) { return false; }
 //$this->vd($post);exit;
 //$this->vd($rows);exit;
 		$post->sales = null;
@@ -926,9 +970,13 @@ $dt = new DateTime($sdt. ' +1 days');
 		$rows = $wpdb->get_results($sql);
 
 		$ret = current($rows);
-		$ret->week = explode(',', $ret->week);
 
-		return $ret;
+		if (!empty($ret)) {
+			$ret->week = explode(',', $ret->week);
+			return $ret;
+		} else {
+			return false;
+		}
 	}
 
 	/**
