@@ -31,7 +31,14 @@
 			@if ($cur_user->roles[0] != 'subscriber')
 			<div class="message">
 				@foreach($msg as $k => $error)
-					<p>【 {{$k}} 】 {{$error}}</p>
+					@if (!is_array($error))
+						<p>【 {{$k}} 】 {{$error}}</p>
+					@else
+						<p>【 {{$k}} 】 {{$error['message']}}</p>
+						@foreach($error['sales_list'] as $j => $sales)
+							&emsp;<a href="/wp-admin/admin.php?page=sales-detail&sales={{$sales}}&action=edit" target="_blank">{{$sales}}</a>
+						@endforeach
+					@endif
 				@endforeach
 			</div>
 			@endif
