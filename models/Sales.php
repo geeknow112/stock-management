@@ -884,10 +884,15 @@ $dt = new DateTime($sdt. ' +1 days');
 		// make alert message
 		foreach ($sum as $delivery_dt => $cnt) {
 			$alert_message = sprintf('%s 必須項目が未登録の注文が %s 件 あります。', $delivery_dt, $cnt);
-//			$ret[] = mb_convert_encoding($alert_message, 'UTF-8', 'SJIS');
-			$ret[] = $alert_message;
-		}
 
+			$alert_sales = array();
+			foreach ($conv[$delivery_dt] as $i => $row) {
+				$alert_sales[] = $row->sales;
+			}
+//			$ret[] = mb_convert_encoding($alert_message, 'UTF-8', 'SJIS');
+			$ret[] = array('message' => $alert_message, 'sales_list' => $alert_sales);
+		}
+//$this->vd($ret);
 		return (!empty($ret)) ? $ret : array();
 	}
 
