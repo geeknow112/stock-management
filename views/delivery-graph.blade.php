@@ -34,9 +34,14 @@
 					@if (!is_array($error))
 						<p>【 {{$k}} 】 {{$error}}</p>
 					@else
-						<p>【 {{$k}} 】 {{$error['message']}}</p>
-						@foreach($error['sales_list'] as $j => $sales)
-							&emsp;<a href="/wp-admin/admin.php?page=sales-detail&sales={{$sales}}&action=edit" target="_blank">{{$sales}}</a>
+						@foreach($error['sales_list'] as $ddt => $data)
+							@foreach($data as $key => $list)
+								<p>【 {{$k}} 】 {{$ddt}} 必須項目（{{$initForm['select']['order_required'][$key]}}）が未登録の注文が（{{count($list)}}）件あります。<br />
+								@foreach($list as $i => $sales)
+									&emsp;<a href="/wp-admin/admin.php?page=sales-detail&sales={{$sales}}&action=edit" target="_blank">{{$sales}}</a>
+								@endforeach
+								</p>
+							@endforeach
 						@endforeach
 					@endif
 				@endforeach
