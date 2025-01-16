@@ -850,6 +850,7 @@ $dt = new DateTime($sdt. ' +1 days');
 
 	/**
 	 * 注文の必須項目登録状況の確認
+	 *  - 必須項目：「氏名」、「車種」、「品名」、「量(t)」、「配送予定日」、「出庫倉庫」
 	 * 
 	 * 「注文の必須項目(SP等)が未登録の場合、アラート表示する。」
 	 * 「アラートは、対象の注文の必須項目が登録されるまで、表示し続ける。」
@@ -860,12 +861,24 @@ $dt = new DateTime($sdt. ' +1 days');
 		global $wpdb;
 		$cur_user = wp_get_current_user();
 
+		$or[] = "c.name is null";
+		$or[] = "c.name = ''";
+		$or[] = "s.class is null";
+		$or[] = "s.class = ''";
+		$or[] = "g.name is null";
+		$or[] = "g.name = ''";
+		$or[] = "s.qty is null";
+		$or[] = "s.qty = ''";
+		$or[] = "s.delivery_dt is null";
+		$or[] = "s.delivery_dt = ''";
 		$or[] = "s.outgoing_warehouse is null";
 		$or[] = "s.outgoing_warehouse = ''";
 		$ors = implode(' OR ', $or);
 
-		$sql  = "SELECT s.sales, s.delivery_dt, s.outgoing_warehouse ";
+		$sql  = "SELECT s.sales, c.name AS customer_name, s.class, g.name AS goods_name, s.qty, s.delivery_dt, s.outgoing_warehouse ";
 		$sql .= "FROM yc_sales as s ";
+		$sql .= "LEFT JOIN yc_customer AS c ON s.customer = c.customer ";
+		$sql .= "LEFT JOIN yc_goods AS g ON s.goods = g.goods ";
 		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
 		$sql .= sprintf("AND (%s);", $ors);
 
@@ -876,22 +889,45 @@ $dt = new DateTime($sdt. ' +1 days');
 			$conv[$row->delivery_dt][] = $row;
 		}
 
-		// sum
+		// check
+//		$reqs = $this->getOrderRequired();
 		foreach ($conv as $delivery_dt => $objs) {
-			$sum[$delivery_dt] = count($objs);
-		}
-
-		// make alert message
-		foreach ($sum as $delivery_dt => $cnt) {
-			$alert_message = sprintf('%s 必須項目が未登録の注文が %s 件 あります。', $delivery_dt, $cnt);
-
 			$alert_sales = array();
-			foreach ($conv[$delivery_dt] as $i => $row) {
-				$alert_sales[] = $row->sales;
+			foreach ($objs as $i => $row) {
+				// 氏名
+				if (empty($row->customer_name)) {
+					$alert_sales[$delivery_dt]['customer_name'][] = $row->sales;
+				}
+
+				// 車種
+				if (empty($row->class)) {
+					$alert_sales[$delivery_dt]['class'][] = $row->sales;
+				}
+
+				// 品名
+				if (empty($row->goods_name)) {
+					$alert_sales[$delivery_dt]['goods_name'][] = $row->sales;
+				}
+
+				// 量(t)
+				if (empty($row->qty)) {
+					$alert_sales[$delivery_dt]['qty'][] = $row->sales;
+				}
+
+				// 配送予定日
+				if (empty($row->delivery_dt)) {
+					$alert_sales[$delivery_dt]['delivery_dt'][] = $row->sales;
+				}
+
+				// 出庫倉庫
+				if (empty($row->outgoing_warehouse)) {
+					$alert_sales[$delivery_dt]['outgoing_warehouse'][] = $row->sales;
+				}
 			}
 //			$ret[] = mb_convert_encoding($alert_message, 'UTF-8', 'SJIS');
-			$ret[] = array('message' => $alert_message, 'sales_list' => $alert_sales);
+			$ret[] = array('sales_list' => $alert_sales);
 		}
+
 //$this->vd($ret);
 		return (!empty($ret)) ? $ret : array();
 	}
@@ -1539,6 +1575,7 @@ $dt = new DateTime($sdt. ' +1 days');
 				'period' => $this->getPartsPeriod(), 
 				'span' => $this->getPartsSpan(), 
 				'week' => $this->getPartsWeek(), 
+				'order_required' => $this->getOrderRequired(), 
 			)
 		);
 	}
@@ -1809,6 +1846,22 @@ $dt = new DateTime($sdt. ' +1 days');
 			5 => '金',
 			6 => '土',
 			7 => '日',
+		);
+	}
+
+	/**
+	 * 注文の必須項目
+	 *  - 必須項目：「氏名」、「車種」、「品名」、「量(t)」、「配送予定日」、「出庫倉庫」
+	 * 
+	 **/
+	private function getOrderRequired() {
+		return array(
+			'customer_name' => '氏名', 
+			'class' => '車種', 
+			'goods_name' => '品名', 
+			'qty' => '量(t)', 
+			'delivery_dt' => '配送予定日', 
+			'outgoing_warehouse' => '出庫倉庫', 
 		);
 	}
 }
