@@ -228,7 +228,28 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 $gnames = json_encode($initForm['select']['goods_name']);
 $test_ship_addr = json_encode($initForm['select']['ship_addr']);
 $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['ship_addr'][$post->customer][$post->ship_addr] : null;
-				echo $this->get_blade()->run("sales-detail", compact('cur_user', 'rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr', 'class_detail', 'car_model_limit'));
+
+				/**
+				 * 注文のロック処理
+				 **/
+				$disabled = '';
+				//$disabled = 'disabled';
+				if ($get->page == 'sales-detail' && $get->action == 'edit') {
+					if (in_array($rows->class, range(2,6))) { 
+							$ddt = new DateTime($rows->delivery_dt);
+							$now = new DateTime(date('Y-m-d'));
+
+							if ($ddt < $now) {
+								echo '<br>';
+								echo 'ddt:  '. $ddt->format('Y-m-d'). '<br>';
+								echo 'now:  '. $now->format('Y-m-d'). '<br>';
+								echo '<span style="color: red;">確定した注文のため、編集できません。</span><br>';
+								$disabled = 'disabled';
+							}
+					}
+				}
+
+				echo $this->get_blade()->run("sales-detail", compact('cur_user', 'rows', 'get', 'post', 'msg', 'initForm', 'gnames', 'test_ship_addr', 'set_ship_addr', 'class_detail', 'car_model_limit', 'disabled'));
 				break;
 		}
 	}
