@@ -235,7 +235,7 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 				$disabled = '';
 				//$disabled = 'disabled';
 				if (current($cur_user->roles) == 'administrator' && 
-						$cur_user->data->user_login != 'admin-secret') {
+						!in_array($cur_user->data->user_login, array('admin-secret', 'user'))) {
 					if ($get->page == 'sales-detail' && $get->action == 'edit') {
 						if (in_array($rows->class, range(2,6))) {
 
@@ -243,9 +243,9 @@ $set_ship_addr = ($post->customer && $post->ship_addr) ? $initForm['select']['sh
 							$now = new DateTime(date('Y-m-d'));
 
 							if ($ddt < $now) {
-								echo '<br>';
-								echo 'ddt:  '. $ddt->format('Y-m-d'). '<br>';
-								echo 'now:  '. $now->format('Y-m-d'). '<br>';
+//								echo '<br>';
+//								echo 'ddt:  '. $ddt->format('Y-m-d'). '<br>';
+//								echo 'now:  '. $now->format('Y-m-d'). '<br>';
 								echo '<span style="color: red;">確定した注文のため、編集できません。</span><br>';
 								$disabled = 'disabled';
 							}
