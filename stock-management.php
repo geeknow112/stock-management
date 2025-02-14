@@ -376,4 +376,12 @@ function init_session_start() {
 }
 add_action('after_setup_theme', 'init_session_start');
 
+/**
+ * フッターの「最新バージョン」の非表示
+ **/
+function remove_version_admin() {
+	echo '<style type="text/css">#footer-upgrade { display: none; }</style>';
+}
+add_action('admin_head', 'remove_version_admin');
+
 $StockManagement = new StockManagement;
