@@ -39,7 +39,7 @@ $webhook = (object) json_decode($webhooks, true);
 
 //var_dump($webhook->yc2['url']);exit;
 
-$srv = array('yc2', 'yc3', 'keepa', 'dbc');
+$srv = array('yc2', 'yc3', 'keepa', 'dbc', 'labor-hack');
 
 foreach ($srv as $s) {
 	$ret = check_server($s, $webhook->$s['url']);
