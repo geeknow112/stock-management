@@ -89,6 +89,7 @@ function check_server($srv = null, $url) {
  * 
  **/
 function webhook_to_slack($srv = null, $webhook = null, $msg = null) {
+	date_default_timezone_set('Asia/Tokyo'); //日本のタイムゾーンに設定
 	$dt = date('Y-m-d H:i:s');
 	$cmd = sprintf('curl -X POST --data \'{"text":"[%s] %s: %s. "}\'', $dt, $srv, $msg);
 	$slack = $webhook->slack;
