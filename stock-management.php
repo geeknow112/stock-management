@@ -5,8 +5,8 @@ require(__DIR__. '/library/vendor/autoload.php');
 use eftec\bladeone\BladeOne;
 
 require_once(dirname(__DIR__). '/stock-management/models/model.php');
-require_once(dirname(__DIR__). '/stock-management/models/Shop.php');
-require_once(dirname(__DIR__). '/stock-management/models/Applicant.php');
+//require_once(dirname(__DIR__). '/stock-management/models/Shop.php');
+//require_once(dirname(__DIR__). '/stock-management/models/Applicant.php');
 require_once(dirname(__DIR__). '/stock-management/models/Sales.php');
 require_once(dirname(__DIR__). '/stock-management/models/Goods.php');
 require_once(dirname(__DIR__). '/stock-management/models/Customer.php');
