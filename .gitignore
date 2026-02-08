@@ -6,3 +6,23 @@ cache/
 
 # Vendor bin files
 library/laravel/vendor/**/bin/
+
+# Config (environment-specific)
+config/db_config.php
+config/host_ip_db.php
+config/user_config.php
+
+# CLI tools
+cli/
+
+# SQL
+sql/
+
+# Downloads
+downloads/
+
+# Uploads
+uploads/.htaccess
+
+# Dump files
+models/postmeta.dump
