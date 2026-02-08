@@ -14,14 +14,14 @@
 
 <div class="d-grid gap-2">
 <div class="d-grid gap-2 col-6 mx-auto">
-	<input type="button" id="menu_btn" class="btn btn-primary" value="商品登録" onclick="window.location = '/wp-admin/admin.php?page=goods-detail';">
-	<input type="button" id="menu_btn" class="btn btn-primary" value="顧客登録" onclick="window.location = '/wp-admin/admin.php?page=customer-detail';">
-	<input type="button" id="menu_btn" class="btn btn-primary" value="注文登録" onclick="window.location = '/wp-admin/admin.php?page=sales-detail';">
+	<input type="button" id="menu_btn" class="btn btn-primary" value="商品登録" onclick="window.location = '{{ admin_url() }}admin.php?page=goods-detail';">
+	<input type="button" id="menu_btn" class="btn btn-primary" value="顧客登録" onclick="window.location = '{{ admin_url() }}admin.php?page=customer-detail';">
+	<input type="button" id="menu_btn" class="btn btn-primary" value="注文登録" onclick="window.location = '{{ admin_url() }}admin.php?page=sales-detail';">
 </div>
 <br>
 <div class="d-grid gap-2 col-6 mx-auto">
-	<input type="button" id="menu_btn" class="btn btn-danger" value="商品検索" onclick="window.location = '/wp-admin/admin.php?page=goods-list';">
-	<input type="button" id="menu_btn" class="btn btn-danger" value="顧客検索" onclick="window.location = '/wp-admin/admin.php?page=customer-list';">
-	<input type="button" id="menu_btn" class="btn btn-danger" value="注文検索" onclick="window.location = '/wp-admin/admin.php?page=sales-list';">
+	<input type="button" id="menu_btn" class="btn btn-danger" value="商品検索" onclick="window.location = '{{ admin_url() }}admin.php?page=goods-list';">
+	<input type="button" id="menu_btn" class="btn btn-danger" value="顧客検索" onclick="window.location = '{{ admin_url() }}admin.php?page=customer-list';">
+	<input type="button" id="menu_btn" class="btn btn-danger" value="注文検索" onclick="window.location = '{{ admin_url() }}admin.php?page=sales-list';">
 </div>
 </div>
