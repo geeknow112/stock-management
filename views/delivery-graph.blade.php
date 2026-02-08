@@ -38,7 +38,7 @@
 							@foreach($data as $key => $list)
 								<p>【 {{$k}} 】 {{$ddt}} 必須項目（{{$initForm['select']['order_required'][$key]}}）が未登録の注文が（{{count($list)}}）件あります。<br />
 								@foreach($list as $i => $sales)
-									&emsp;<a href="/wp-admin/admin.php?page=sales-detail&sales={{$sales}}&action=edit" target="_blank">{{$sales}}</a>
+									&emsp;<a href="{{ admin_url() }}admin.php?page=sales-detail&sales={{$sales}}&action=edit" target="_blank">{{$sales}}</a>
 								@endforeach
 								</p>
 							@endforeach
@@ -272,9 +272,9 @@ function regist_order_bulk_process() {
 						<!-- 「品名」 表示エリア -->
 						<?php $bgcolor = ($row->upuser == 'ceo') ? 'background: yellow;' : ''; ?>
 						@if ($row->repeat_fg != 1)
-							<div class="text-wrap text-center inner_box" style="width: 8rem; {{$bgcolor}}"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							<div class="text-wrap text-center inner_box" style="width: 8rem; {{$bgcolor}}"><a href='{{ admin_url() }}admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 						@else
-							<div class="text-wrap text-center inner_box_repeat" style="width: 8rem; {{$bgcolor}}"><a href='/wp-admin/admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
+							<div class="text-wrap text-center inner_box_repeat" style="width: 8rem; {{$bgcolor}}"><a href='{{ admin_url() }}admin.php?page=sales-detail&sales={{$row->sales}}&goods={{$row->goods}}&repeat={{$row->repeat}}&action=edit'>{{$row->goods_name}} @if ($row->separately_fg == true) （バラ） @endif</a></div>
 						@endif
 
 						<!-- 「量(t)」 表示エリア -->

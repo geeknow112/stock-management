@@ -64,7 +64,7 @@
 					@foreach ($rows as $i => $list)
 					<tr id="user-1">
 						<td colspan="1">
-							<a href="/wp-admin/admin.php?page=goods-detail&customer={{$list->customer}}&action=edit">{{ $list->customer }}</a>
+							<a href="{{ admin_url() }}admin.php?page=goods-detail&customer={{$list->customer}}&action=edit">{{ $list->customer }}</a>
 						</td>
 						<td>{{ $list->customer_name }}</td>
 						<td></td>
