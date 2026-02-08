@@ -3,3 +3,6 @@ library/Ext/cache/
 library/laravel/bootstrap/cache/packages.php
 library/laravel/bootstrap/cache/services.php
 cache/
+
+# Vendor bin files
+library/laravel/vendor/**/bin/
