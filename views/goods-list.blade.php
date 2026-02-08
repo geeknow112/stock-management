@@ -121,7 +121,7 @@ function init_status(applicant = null) {
 	var str = "No. 【" + applicant + "】 の「登録状況」を初期化しますか？";
 	if (window.confirm(str)) {
 		//alert("初期化しました。");
-		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=goods-list&post=" + applicant + "&action=init-status";
+		location.href = "{{ admin_url() }}admin.php?page=goods-list&post=" + applicant + "&action=init-status";
 	}
 }
 </script>
