@@ -69,7 +69,7 @@
 				<script>
 				function cmd_search() {
 					document.forms.method = 'get';
-					document.forms.action = "/wp-admin/admin.php?page=stock-list&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
+					document.forms.action = "{{ admin_url() }}admin.php?page=stock-list&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
 					document.forms.cmd.value = 'search';
 					document.forms.submit();
 				}
@@ -78,7 +78,7 @@
 					var ret = window.confirm('チェックした在庫の状態を一括操作しますか？');
 					if (ret) {
 						document.forms.method = 'post';
-						document.forms.action = "/wp-admin/admin.php?page=stock-list&stock={{$get->stock}}&goods={{$get->goods}}"
+						document.forms.action = "{{ admin_url() }}admin.php?page=stock-list&stock={{$get->stock}}&goods={{$get->goods}}"
 						document.forms.cmd.value = 'edit';
 						document.forms.submit();
 					} else {
@@ -89,7 +89,7 @@
 					var ret = window.confirm('この「転送」処理を取り消しますか？');
 					if (ret) {
 						document.forms.method = 'post';
-						document.forms.action = "/wp-admin/admin.php?page=stock-list&stock=" + stock;
+						document.forms.action = "{{ admin_url() }}admin.php?page=stock-list&stock=" + stock;
 						document.forms.cmd.value = 'cmd_cancel_transfer';
 						document.forms.submit();
 					} else {
