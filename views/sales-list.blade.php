@@ -174,7 +174,7 @@
 						</td>
 
 						<td>
-							<a href="/wp-admin/admin.php?page=sales-detail&sales={{$list->id}}&action=edit">{{ $list->id }}</a>
+							<a href="{{ admin_url() }}admin.php?page=sales-detail&sales={{$list->id}}&action=edit">{{ $list->id }}</a>
 						</td>
 						<td>{{ $list->rgdt }}</td>
 						<td>{{ $list->name }}</td>
@@ -183,7 +183,7 @@
 							@if ($list->status == '0')
 							{{ $list->qty }}
 							@else
-							<a href="/wp-admin/admin.php?page=lot-regist&sales={{$list->id}}&goods={{$list->goods}}&action=save">{{ $list->qty }}</a>
+							<a href="{{ admin_url() }}admin.php?page=lot-regist&sales={{$list->id}}&goods={{$list->goods}}&action=save">{{ $list->qty }}</a>
 							@endif
 						</td>
 						<td></td>
