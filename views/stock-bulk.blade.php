@@ -11,14 +11,14 @@
 {{--	@include ('layout.parts_transfer_process', ['rows' => $rows])--}}
 	<div class="table-responsive">
 		<div id="title">■ 転送処理</div>
-		　<a href="{{home_url()}}/wp-admin/admin.php?page=stock-transfer">転送処理画面へ</a>
+		　<a href="{{ admin_url() }}admin.php?page=stock-transfer">転送処理画面へ</a>
 		<hr>
 	</div>
 @endsection
 
 <script>
 	function to_next() {
-		document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=stock-bulk&action=confirm";
+		document.forms.action = "{{ admin_url() }}admin.php?page=stock-bulk&action=confirm";
 
 //		var ch = document.getElementById('cmd_confirm').checked;
 //		document.forms.cmd.value = (ch != true) ? "cmd_regist" : "cmd_confirm";
