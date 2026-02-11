@@ -99,7 +99,7 @@ function to_back() {
 
 	if (ret < 0) {
 		var sdt = document.getElementById('sdt').value;
-		window.location = "/wp-admin/admin.php?s[sdt]=" + sdt + "&page=delivery-graph&action=search&cmd=search";
+		window.location = "{{ admin_url() }}admin.php?s[sdt]=" + sdt + "&page=delivery-graph&action=search&cmd=search";
 
 	} else {
 		window.location = result;
