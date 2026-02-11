@@ -55,7 +55,7 @@
 						<tr @if ($rows->transfer_fg_list[$i] == true) class="bg-warning" @endif>
 							<td class="">
 								@if ($rows->stock_list[$i])
-									<a href="/wp-admin/admin.php?page=stock-detail&stock={{$rows->stock_list[$i]}}&action=edit">{{$rows->stock_list[$i]}}</a>
+									<a href="{{ admin_url() }}admin.php?page=stock-detail&stock={{$rows->stock_list[$i]}}&action=edit">{{$rows->stock_list[$i]}}</a>
 								@endif
 							</td>
 							<input type="hidden" id="stock_list" name="stock_list[]" value="{{$rows->stock_list[$i]}}">
@@ -84,7 +84,7 @@
 								@if(!$rows->stock_list[$i] || $get->action == 'confirm')
 								 - 
 								@else
-									<a href="/wp-admin/admin.php?page=stock-lot-regist&stock={{$rows->stock_list[$i]}}&goods={{$rows->goods_list[$i]}}&arrival_dt={{$get->arrival_dt}}&warehouse={{$get->warehouse}}">入力画面へ</a>
+									<a href="{{ admin_url() }}admin.php?page=stock-lot-regist&stock={{$rows->stock_list[$i]}}&goods={{$rows->goods_list[$i]}}&arrival_dt={{$get->arrival_dt}}&warehouse={{$get->warehouse}}">入力画面へ</a>
 								@endif
 							</td>
 						</tr>
