@@ -9,7 +9,7 @@
 
 <script>
 	function to_next() {
-		document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=stock-transfer&action=confirm";
+		document.forms.action = "{{ admin_url() }}admin.php?page=stock-transfer&action=confirm";
 
 //		var ch = document.getElementById('cmd_confirm').checked;
 //		document.forms.cmd.value = (ch != true) ? "cmd_regist" : "cmd_confirm";

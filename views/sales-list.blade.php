@@ -102,7 +102,7 @@
 				<script>
 				function cmd_search() {
 					document.forms.method = 'get';
-					document.forms.action = "/wp-admin/admin.php?page=sales-list&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
+					document.forms.action = "{{ admin_url() }}admin.php?page=sales-list&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
 					document.forms.cmd.value = 'search';
 					document.forms.submit();
 				}
@@ -111,7 +111,7 @@
 					var ret = window.confirm('チェックした注文の状態を一括操作しますか？');
 					if (ret) {
 						document.forms.method = 'post';
-						document.forms.action = "/wp-admin/admin.php?page=sales-list&sales={{$get->sales}}&goods={{$get->goods}}"
+						document.forms.action = "{{ admin_url() }}admin.php?page=sales-list&sales={{$get->sales}}&goods={{$get->goods}}"
 						document.forms.cmd.value = 'edit';
 						document.forms.submit();
 					} else {
@@ -174,7 +174,7 @@
 						</td>
 
 						<td>
-							<a href="/wp-admin/admin.php?page=sales-detail&sales={{$list->id}}&action=edit">{{ $list->id }}</a>
+							<a href="{{ admin_url() }}admin.php?page=sales-detail&sales={{$list->id}}&action=edit">{{ $list->id }}</a>
 						</td>
 						<td>{{ $list->rgdt }}</td>
 						<td>{{ $list->name }}</td>
@@ -183,7 +183,7 @@
 							@if ($list->status == '0')
 							{{ $list->qty }}
 							@else
-							<a href="/wp-admin/admin.php?page=lot-regist&sales={{$list->id}}&goods={{$list->goods}}&action=save">{{ $list->qty }}</a>
+							<a href="{{ admin_url() }}admin.php?page=lot-regist&sales={{$list->id}}&goods={{$list->goods}}&action=save">{{ $list->qty }}</a>
 							@endif
 						</td>
 						<td></td>
@@ -228,7 +228,7 @@ function init_status(applicant = null) {
 	var str = "No. 【" + applicant + "】 の「登録状況」を初期化しますか？";
 	if (window.confirm(str)) {
 		//alert("初期化しました。");
-		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=sales-list&post=" + applicant + "&action=init-status";
+		location.href = "{{ admin_url() }}admin.php?page=sales-list&post=" + applicant + "&action=init-status";
 	}
 }
 

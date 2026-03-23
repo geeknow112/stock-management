@@ -604,16 +604,16 @@ $initForm = $s->getInitForm();
 			echo '<input type="hidden" id="arr_qty" name="arr_qty['. $object->sales. ']" value="'. $qty. '" />';
 //			echo '<input type="hidden" id="arr_repeat" name="arr_repeat[]" value="{{$list->repeat}}" />';
 //			echo '<input type="hidden" id="arr_delivery_dt" name="arr_delivery_dt[]" value="{{$list->delivery_dt}}" />';
-			echo '<td><a href="/wp-admin/admin.php?page=sales-detail&sales='. $object->sales. '&action=edit">'. sprintf('%07d', $object->sales). '</a></td>';
-			echo '<td><a href="/wp-admin/admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->customer_name. '</a></td>';
+			echo '<td><a href="' . admin_url() . 'admin.php?page=sales-detail&sales='. $object->sales. '&action=edit">'. sprintf('%07d', $object->sales). '</a></td>';
+			echo '<td><a href="' . admin_url() . 'admin.php?page=customer-detail&customer='. $object->customer. '&action=edit">'. $object->customer_name. '</a></td>';
 			$separately = ($object->separately_fg == true) ? mb_convert_encoding(" （バラ）", "UTF-8", "SJIS"): null;
-			echo '<td><a href="/wp-admin/admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods_name. $separately. '</a></td>';
-//			echo '<td><a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
+			echo '<td><a href="' . admin_url() . 'admin.php?page=goods-detail&goods='. $object->goods. '&action=edit">'. $object->goods_name. $separately. '</a></td>';
+//			echo '<td><a href="' . admin_url() . 'admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&action=save">'. $object->qty. '</a></td>';
 			echo '<td>';
 			if ($object->status == '0') {
 				echo ': '. $qty. ' :';
 			} else {
-				echo '<a href="/wp-admin/admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&customer='. $object->customer. '&action=save"> [ '. $qty. ' ] </a>';
+				echo '<a href="' . admin_url() . 'admin.php?page=lot-regist&sales='. $object->sales. '&goods='. $object->goods. '&customer='. $object->customer. '&action=save"> [ '. $qty. ' ] </a>';
 			}
 			echo '</td>';
 			if (!in_array($object->class, array(7,8,9,10))) {
@@ -621,7 +621,7 @@ $initForm = $s->getInitForm();
 			} else {
 				echo '<td>'. $object->field1. '</td>';
 			}
-			echo '<td><a href="/wp-admin/admin.php?page=delivery-graph&s[sdt]='. $object->delivery_dt. '&action=search&cmd=search">'. $object->delivery_dt. '</a></td>';
+			echo '<td><a href="' . admin_url() . 'admin.php?page=delivery-graph&s[sdt]='. $object->delivery_dt. '&action=search&cmd=search">'. $object->delivery_dt. '</a></td>';
 			echo '<td>'. $object->arrival_dt. '</td>';
 
 			if ($object->class == '7') { // 6t-7の際は、状態を非表示にする。(ロット欄の作成が不要なため)

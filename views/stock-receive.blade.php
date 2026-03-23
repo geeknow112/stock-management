@@ -56,7 +56,7 @@
 				<script>
 				function cmd_search() {
 					document.forms.method = 'get';
-					document.forms.action = "/wp-admin/admin.php?page=stock-receive&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
+					document.forms.action = "{{ admin_url() }}admin.php?page=stock-receive&sales={{$get->sales}}&goods={{$get->goods}}&action=search"
 					document.forms.cmd.value = 'search';
 					document.forms.submit();
 				}
@@ -326,7 +326,7 @@ function init_status(applicant = null) {
 	var str = "No. 【" + applicant + "】 の「登録状況」を初期化しますか？";
 	if (window.confirm(str)) {
 		//alert("初期化しました。");
-		location.href = location.protocol + "//" + location.hostname + "/wp-admin/admin.php?page=sales-list&post=" + applicant + "&action=init-status";
+		location.href = "{{ admin_url() }}admin.php?page=sales-list&post=" + applicant + "&action=init-status";
 	}
 }
 </script>

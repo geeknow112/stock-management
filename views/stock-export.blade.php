@@ -123,7 +123,7 @@
  **/
 function cmd_search() {
 	document.forms.method = 'get';
-	document.forms.action = "/wp-admin/admin.php?page=stock-export&action=search"
+	document.forms.action = "{{ admin_url() }}admin.php?page=stock-export&action=search"
 	document.forms.cmd.value = 'search';
 	document.forms.submit();
 }

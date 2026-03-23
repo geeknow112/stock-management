@@ -64,7 +64,7 @@
 						</td>
 						<td class="tx-right"><input type="text" class="tx-right w-75" id="text_receive_warehouse_{{$i}}" name="text_receive_warehouse[]" value="{{$rows->text_receive_warehouse[$i]}}" readonly></td>
 						<input type="hidden" id="receive_warehouse_{{$i}}" name="receive_warehouse[]" value="{{$rows->receive_warehouse[$i]}}">
-						<td class="tx-right">@if($get->stock)<a href="/wp-admin/admin.php?page=stock-lot-regist&stock={{$get->stock}}">入力画面へ</a>@else - @endif</td>
+						<td class="tx-right">@if($get->stock)<a href="{{ admin_url() }}admin.php?page=stock-lot-regist&stock={{$get->stock}}">入力画面へ</a>@else - @endif</td>
 						</td>
 					</tr>
 					@endfor

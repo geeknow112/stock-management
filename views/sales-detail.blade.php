@@ -23,7 +23,7 @@
 
 <script>
 	function to_next() {
-		document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=sales-detail&action=confirm";
+		document.forms.action = "{{ admin_url() }}admin.php?page=sales-detail&action=confirm";
 
 //		var ch = document.getElementById('cmd_confirm').checked;
 //		document.forms.cmd.value = (ch != true) ? "cmd_regist" : "cmd_confirm";
@@ -132,7 +132,7 @@
 		if (ret < 0) {
 			var arrival_dt = document.getElementById('arrival_dt').value;
 			var warehouse = document.getElementById('warehouse').value;
-			window.location = "/wp-admin/admin.php?page=stock-bulk&arrival_dt=" + arrival_dt + "&warehouse=" + warehouse + "&action=edit";
+			window.location = "{{ admin_url() }}admin.php?page=stock-bulk&arrival_dt=" + arrival_dt + "&warehouse=" + warehouse + "&action=edit";
 
 		} else {
 			window.location = result;
@@ -158,7 +158,7 @@
 
 		if (ret < 0) {
 			console.log(page);
-			window.location = "/wp-admin/admin.php?page=" + page;
+			window.location = "{{ admin_url() }}admin.php?page=" + page;
 		} else {
 			window.location = result;
 		}

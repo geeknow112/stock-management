@@ -9,7 +9,7 @@
 
 <script>
 	function to_next() {
-		document.forms.action = "{{home_url()}}/wp-admin/admin.php?page=lot-regist&sales={{$get->sales}}&goods={{$get->goods}}&action=confirm";
+		document.forms.action = "{{ admin_url() }}admin.php?page=lot-regist&sales={{$get->sales}}&goods={{$get->goods}}&action=confirm";
 		document.forms.cmd.value = "cmd_confirm";
 		document.forms.submit();
 	}
