@@ -1,8 +1,8 @@
-
+﻿
 
 function cmd_search() {
 	document.forms.method = 'get';
-	document.forms.action = "/wp-admin/admin.php?page=" + SM_FORM_PAGE + "&action=search"
+	document.forms.action = SM_ADMIN_URL + "admin.php?page=" + SM_FORM_PAGE + "&action=search"
 	document.forms.cmd.value = 'search';
 	document.forms.submit();
 }
@@ -192,7 +192,7 @@ function confirm_make_lot_space(sales = null, goods = null, repeat_fg = null, us
  **/
 function to_lot_regist(sales = null, goods = null) {
 	const sdt = document.getElementById('user-search-input').value; // 開始日付を付加
-	window.location = '{{ admin_url() }}admin.php?page=lot-regist&s[sdt]=' + sdt + '&sales=' + sales + '&goods=' + goods + '&action=save';
+	window.location = SM_ADMIN_URL + 'admin.php?page=lot-regist&s[sdt]=' + sdt + '&sales=' + sales + '&goods=' + goods + '&action=save';
 }
 
 var unescapeHtml = function(str) {
