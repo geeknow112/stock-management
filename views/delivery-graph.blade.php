@@ -4,6 +4,7 @@
 
 <link href="<?php echo home_url(); ?>/wp-content/plugins/stock-management/views/css/style.css" rel="stylesheet" />
 <link href="<?php echo home_url(); ?>/wp-content/plugins/stock-management/views/css/scrolltable.css" rel="stylesheet" />
+<script>var SM_FORM_PAGE = '{{$formPage}}';</script>
 <script src="<?php echo home_url(); ?>/wp-content/plugins/stock-management/views/js/delivery-graph.js" integrity="" crossorigin=""></script>
 
 <!-- bootstrap -->
