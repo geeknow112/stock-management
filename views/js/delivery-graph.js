@@ -2,7 +2,7 @@
 
 function cmd_search() {
 	document.forms.method = 'get';
-	document.forms.action = "/wp-admin/admin.php?page={{$formPage}}&action=search"
+	document.forms.action = "/wp-admin/admin.php?page=" + SM_FORM_PAGE + "&action=search"
 	document.forms.cmd.value = 'search';
 	document.forms.submit();
 }
