@@ -382,4 +382,33 @@ function remove_version_admin() {
 }
 add_action('admin_head', 'remove_version_admin');
 
+/**
+ * セキュリティヘッダーの付与
+ *
+ * Content-Security-Policy は、管理画面のスクリプトやスタイルを壊さないよう、
+ * 他サイトへの埋め込み禁止（frame-ancestors）だけを指定する。
+ * Strict-Transport-Security は、HTTPS で開かれたときだけ送る。
+ **/
+function sm_security_headers() {
+	return array(
+		'X-Content-Type-Options' => 'nosniff',
+		'X-Frame-Options' => 'SAMEORIGIN',
+		'Content-Security-Policy' => "frame-ancestors 'self'",
+	);
+}
+
+function sm_send_security_headers() {
+	if (headers_sent()) {
+		return;
+	}
+	foreach (sm_security_headers() as $name => $value) {
+		header($name . ': ' . $value);
+	}
+	if (is_ssl()) {
+		header('Strict-Transport-Security: max-age=31536000');
+	}
+}
+add_action('send_headers', 'sm_send_security_headers');
+add_action('admin_init', 'sm_send_security_headers');
+
 $StockManagement = new StockManagement;
