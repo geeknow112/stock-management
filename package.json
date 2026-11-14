@@ -1,0 +1,14 @@
+{
+  "name": "stock-management-e2e",
+  "private": true,
+  "description": "E2Eテスト用のWordPress環境(wp-env)を操作するためのスクリプト",
+  "scripts": {
+    "env:start": "wp-env start",
+    "env:stop": "wp-env stop",
+    "env:reset": "wp-env clean all",
+    "env:destroy": "wp-env destroy"
+  },
+  "devDependencies": {
+    "@wordpress/env": "^10.0.0"
+  }
+}

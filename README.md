@@ -77,3 +77,22 @@ git checkout v1.0.0
 ```
 
 The production deployment procedure itself is not documented here yet. It will be added when the next production deployment is carried out.
+
+## テスト環境(wp-env)
+
+E2Eテスト用に、WordPress + MySQL + 本プラグインをDockerで起動できます。
+本番のデータ・認証情報は使いません。
+
+前提: Docker と Node.js(18以上)がインストールされていること。
+
+```bash
+npm install          # 初回のみ
+npm run env:start    # 起動(プラグインも自動で有効化)
+npm run env:stop     # 停止
+npm run env:reset    # DBを初期状態に戻す
+npm run env:destroy  # 環境を完全に破棄
+```
+
+- サイト: http://localhost:8888
+- 管理画面: http://localhost:8888/wp-admin (ユーザー `admin` / パスワード `password`、テスト専用)
+- 設定は `.wp-env.json` にあります。
