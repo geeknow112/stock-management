@@ -77,7 +77,18 @@ test.describe('受注管理', () => {
     await expect(page.locator('#delivery_dt')).toHaveValue(REG_DATE);
 
     // 登録する(確認ダイアログは accept)。
+    // 保存の通信が送られたか・どう終わったかを、CIのログに残す(原因調査用)。
+    page.on('request', (r) => { if (r.url().includes('sales-detail')) console.log(`[req] ${r.method()} ${r.url()}`); });
+    page.on('requestfailed', (r) => console.log(`[req-failed] ${r.method()} ${r.url()} ${r.failure()?.errorText}`));
+    page.on('pageerror', (e) => console.log(`[pageerror] ${e.message}`));
+    page.on('console', (m) => { if (m.type() === 'error') console.log(`[console.error] ${m.text().slice(0, 200)}`); });
+    const savePromise = page.waitForResponse((r) => r.url().includes('action=save') && r.request().method() === 'POST', { timeout: 20000 });
     await page.locator('#cmd_regist').click();
+    const saveRes = await savePromise.catch((e) => { console.log(`[save] 応答なし: ${e.message.split('\n')[0]}`); return null; });
+    if (saveRes) {
+      const body = await saveRes.text().catch(() => '');
+      console.log(`[save] status=${saveRes.status()} url=${saveRes.url()} body先頭=${body.replace(/\s+/g, ' ').slice(0, 300)}`);
+    }
     await page.waitForURL(/action=save/);
     await expect(page.locator('body')).not.toContainText(FATAL);
 
