@@ -26,7 +26,7 @@ CREATE TABLE IF NOT EXISTS yc_goods_detail (
   tank VARCHAR(64) DEFAULT NULL,
   rgdt DATETIME DEFAULT NULL,
   updt DATETIME DEFAULT NULL,
-  order VARCHAR(255) DEFAULT NULL,
+  `order` VARCHAR(255) DEFAULT NULL,
   PRIMARY KEY (id),
   KEY idx_sales (sales)
 ) DEFAULT CHARSET=utf8mb4;
@@ -103,7 +103,7 @@ CREATE TABLE IF NOT EXISTS yc_schedule_repeat (
   ed_dt DATE DEFAULT NULL,
   id VARCHAR(255) DEFAULT NULL,
   order_id VARCHAR(255) DEFAULT NULL,
-  repeat VARCHAR(255) DEFAULT NULL,
+  `repeat` VARCHAR(255) DEFAULT NULL,
   st_dt DATE DEFAULT NULL,
   PRIMARY KEY (`repeat`),
   KEY idx_sales (sales)
