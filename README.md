@@ -126,3 +126,5 @@ npm run e2e:reset                 # プラグインのデータを空にして�
 
 - PRの Checks から `E2E` を開き、失敗したステップのログを確認します。
 - 実行画面の Artifacts から `playwright-report`(Playwrightのレポート・トレース)と `wp-env-logs`(WordPress/PHPのログ)をダウンロードできます(保存期間7日)。
+
+詳しい実行手順とテストの一覧は [docs/e2e.md](docs/e2e.md) を参照してください。
