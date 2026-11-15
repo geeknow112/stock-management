@@ -26,3 +26,7 @@ uploads/.htaccess
 
 # Dump files
 models/postmeta.dump
+
+# Node / wp-env
+node_modules/
+.wp-env/
