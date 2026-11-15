@@ -1,0 +1,147 @@
+-- E2E用の推定スキーマ。
+-- models/ と controllers/ が発行するSQLのテーブル名・列名から推定したもの。本番のスキーマとは一致しない。
+-- 何度実行しても同じ結果になるよう、CREATE TABLE IF NOT EXISTS を使う。
+SET NAMES utf8mb4;
+
+-- 商品
+CREATE TABLE IF NOT EXISTS yc_goods (
+  goods INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) DEFAULT NULL,
+  qty VARCHAR(32) DEFAULT NULL,
+  separately_fg TINYINT(1) NOT NULL DEFAULT 0,
+  remark TEXT,
+  rgdt DATETIME DEFAULT NULL,
+  updt DATETIME DEFAULT NULL,
+  upuser VARCHAR(60) DEFAULT NULL,
+  PRIMARY KEY (goods)
+) DEFAULT CHARSET=utf8mb4;
+
+-- 商品詳細(ロット登録欄)
+CREATE TABLE IF NOT EXISTS yc_goods_detail (
+  id INT NOT NULL AUTO_INCREMENT,
+  sales INT DEFAULT NULL,
+  goods INT DEFAULT NULL,
+  lot VARCHAR(64) DEFAULT NULL,
+  barcode VARCHAR(64) DEFAULT NULL,
+  tank VARCHAR(64) DEFAULT NULL,
+  rgdt DATETIME DEFAULT NULL,
+  updt DATETIME DEFAULT NULL,
+  `order` VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (id),
+  KEY idx_sales (sales)
+) DEFAULT CHARSET=utf8mb4;
+
+-- 顧客
+CREATE TABLE IF NOT EXISTS yc_customer (
+  customer INT NOT NULL AUTO_INCREMENT,
+  name VARCHAR(255) DEFAULT NULL,
+  rgdt DATETIME DEFAULT NULL,
+  updt DATETIME DEFAULT NULL,
+  PRIMARY KEY (customer)
+) DEFAULT CHARSET=utf8mb4;
+
+-- 顧客の配送先(タンク)
+CREATE TABLE IF NOT EXISTS yc_customer_detail (
+  customer INT NOT NULL,
+  detail INT NOT NULL,
+  tank VARCHAR(255) DEFAULT NULL,
+  rgdt DATETIME DEFAULT NULL,
+  updt DATETIME DEFAULT NULL,
+  PRIMARY KEY (customer, detail)
+) DEFAULT CHARSET=utf8mb4;
+
+-- 顧客と商品の関連
+CREATE TABLE IF NOT EXISTS yc_customer_goods (
+  customer INT NOT NULL,
+  goods INT NOT NULL,
+  rgdt DATETIME DEFAULT NULL,
+  PRIMARY KEY (customer, goods)
+) DEFAULT CHARSET=utf8mb4;
+
+-- 受注
+CREATE TABLE IF NOT EXISTS yc_sales (
+  sales INT NOT NULL AUTO_INCREMENT,
+  class INT DEFAULT NULL,
+  customer INT DEFAULT NULL,
+  name VARCHAR(255) DEFAULT NULL,
+  goods INT DEFAULT NULL,
+  qty DECIMAL(6,1) DEFAULT NULL,
+  cars_tank VARCHAR(64) DEFAULT NULL,
+  outgoing_warehouse VARCHAR(32) DEFAULT NULL,
+  ship_addr VARCHAR(255) DEFAULT NULL,
+  delivery_dt DATE DEFAULT NULL,
+  arrival_dt DATE DEFAULT NULL,
+  status TINYINT NOT NULL DEFAULT 0,
+  lot_fg TINYINT NOT NULL DEFAULT 0,
+  receipt_fg TINYINT NOT NULL DEFAULT 0,
+  repeat_fg TINYINT NOT NULL DEFAULT 0,
+  use_stock TINYINT NOT NULL DEFAULT 0,
+  field1 VARCHAR(255) DEFAULT NULL,
+  field2 TINYINT(1) DEFAULT NULL,
+  field3 TINYINT(1) DEFAULT NULL,
+  remark TEXT,
+  rgdt DATETIME DEFAULT NULL,
+  updt DATETIME DEFAULT NULL,
+  upuser VARCHAR(60) DEFAULT NULL,
+  id VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (sales),
+  KEY idx_delivery_dt (delivery_dt)
+) DEFAULT CHARSET=utf8mb4;
+
+-- 繰り返し受注の設定
+CREATE TABLE IF NOT EXISTS yc_schedule_repeat (
+  `repeat` INT NOT NULL AUTO_INCREMENT,
+  sales INT DEFAULT NULL,
+  period INT DEFAULT NULL,
+  span INT DEFAULT NULL,
+  week VARCHAR(32) DEFAULT NULL,
+  repeat_s_dt DATE DEFAULT NULL,
+  repeat_e_dt DATE DEFAULT NULL,
+  rgdt DATETIME DEFAULT NULL,
+  updt DATETIME DEFAULT NULL,
+  day_of_week VARCHAR(255) DEFAULT NULL,
+  ed_dt DATE DEFAULT NULL,
+  id VARCHAR(255) DEFAULT NULL,
+  order_id VARCHAR(255) DEFAULT NULL,
+  st_dt DATE DEFAULT NULL,
+  PRIMARY KEY (`repeat`),
+  KEY idx_sales (sales)
+) DEFAULT CHARSET=utf8mb4;
+
+-- 繰り返し受注の除外日
+CREATE TABLE IF NOT EXISTS yc_repeat_exclude (
+  exclude INT NOT NULL AUTO_INCREMENT,
+  `repeat` INT DEFAULT NULL,
+  sales INT DEFAULT NULL,
+  goods INT DEFAULT NULL,
+  delivery_dt DATE DEFAULT NULL,
+  rgdt DATETIME DEFAULT NULL,
+  PRIMARY KEY (exclude)
+) DEFAULT CHARSET=utf8mb4;
+
+-- 在庫
+CREATE TABLE IF NOT EXISTS yc_stock (
+  stock INT NOT NULL AUTO_INCREMENT,
+  goods INT DEFAULT NULL,
+  arrival_dt DATE DEFAULT NULL,
+  warehouse VARCHAR(32) DEFAULT NULL,
+  goods_total INT DEFAULT NULL,
+  rgdt DATETIME DEFAULT NULL,
+  updt DATETIME DEFAULT NULL,
+  transfer_fg TINYINT(1) NOT NULL DEFAULT 0,
+  PRIMARY KEY (stock)
+) DEFAULT CHARSET=utf8mb4;
+
+-- 在庫詳細(ロット)
+CREATE TABLE IF NOT EXISTS yc_stock_detail (
+  id INT NOT NULL AUTO_INCREMENT,
+  stock INT DEFAULT NULL,
+  lot VARCHAR(64) DEFAULT NULL,
+  barcode VARCHAR(64) DEFAULT NULL,
+  transfer_fg TINYINT(1) NOT NULL DEFAULT 0,
+  rgdt DATETIME DEFAULT NULL,
+  updt DATETIME DEFAULT NULL,
+  upuser VARCHAR(255) DEFAULT NULL,
+  PRIMARY KEY (id),
+  KEY idx_stock (stock)
+) DEFAULT CHARSET=utf8mb4;

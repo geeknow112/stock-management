@@ -28,19 +28,29 @@ export function seedUsers() {
   }
 }
 
-/** テストデータを初期化して投入し直す。ユーザーは維持し、このプラグインのデータだけ消す。 */
+/** スキーマ(CREATE TABLE IF NOT EXISTS)と架空のサンプルデータ(REPLACE INTO)を投入する。何度実行しても同じ結果になる(冪等)。 */
+export function seedFixtures() {
+  for (const f of ['schema.sql', 'data.sql']) {
+    wp('db', 'import', `/var/www/html/wp-content/plugins/stock-management/e2e/fixtures/${f}`);
+  }
+}
+
+/** テストデータを初期化して投入し直す。ユーザーは維持し、このプラグインのテーブル(yc_*)だけ作り直す。 */
 export function resetTestData() {
-  // プラグインのテーブル名は接頭辞 *_sm_ 等で始まる想定。存在するものだけ空にする。
-  const tables = wp('db', 'query', "SHOW TABLES LIKE '%stock%'", '--skip-column-names')
+  const tables = wp('db', 'query', "SHOW TABLES LIKE 'yc\\_%'", '--skip-column-names')
     .split('\n')
     .map((t) => t.trim())
     .filter(Boolean);
-  for (const t of tables) wp('db', 'query', `TRUNCATE TABLE \`${t}\``);
+  for (const t of tables) wp('db', 'query', `DROP TABLE IF EXISTS \`${t}\``);
+  seedFixtures();
   seedUsers();
 }
 
 if (require.main === module) {
   if (process.argv[2] === 'reset') resetTestData();
-  else seedUsers();
+  else {
+    seedUsers();
+    seedFixtures();
+  }
   console.log('E2E test data ready');
 }
