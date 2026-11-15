@@ -114,3 +114,14 @@ npm run e2e:reset                 # プラグインのデータを空にして�
 - ロール別のログイン状態は `e2e/auth/<ロール>.json` に保存されます(git管理外)。
 - テストでは `test.use({ storageState: storageStatePath('editor') })` で使えます。
 - テストユーザーは `e2e/support/users.ts` で定義しています。
+
+### CIでのE2E実行(GitHub Actions)
+
+`.github/workflows/e2e.yml` が、PRの作成・更新時と main への push 時に自動で実行されます。
+`npm ci` → `wp-env start` → Playwrightのインストール → `npm run e2e` の順で動き、管理画面へのログイン(3ロール)を確認します。
+同じPRで新しい実行が始まると、古い実行は自動で取り消されます。
+
+失敗したときの見方:
+
+- PRの Checks から `E2E` を開き、失敗したステップのログを確認します。
+- 実行画面の Artifacts から `playwright-report`(Playwrightのレポート・トレース)と `wp-env-logs`(WordPress/PHPのログ)をダウンロードできます(保存期間7日)。
