@@ -103,7 +103,6 @@ CREATE TABLE IF NOT EXISTS yc_schedule_repeat (
   ed_dt DATE DEFAULT NULL,
   id VARCHAR(255) DEFAULT NULL,
   order_id VARCHAR(255) DEFAULT NULL,
-  `repeat` VARCHAR(255) DEFAULT NULL,
   st_dt DATE DEFAULT NULL,
   PRIMARY KEY (`repeat`),
   KEY idx_sales (sales)
