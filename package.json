@@ -6,9 +6,16 @@
     "env:start": "wp-env start",
     "env:stop": "wp-env stop",
     "env:reset": "wp-env clean all",
-    "env:destroy": "wp-env destroy"
+    "env:destroy": "wp-env destroy",
+    "e2e": "playwright test",
+    "e2e:seed": "ts-node e2e/support/seed.ts",
+    "e2e:reset": "ts-node e2e/support/seed.ts reset"
   },
   "devDependencies": {
-    "@wordpress/env": "^10.0.0"
+    "@playwright/test": "^1.48.0",
+    "@types/node": "^20.0.0",
+    "@wordpress/env": "^10.0.0",
+    "ts-node": "^10.9.0",
+    "typescript": "^5.4.0"
   }
 }

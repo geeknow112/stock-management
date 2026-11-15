@@ -30,3 +30,9 @@ models/postmeta.dump
 # Node / wp-env
 node_modules/
 .wp-env/
+
+# E2E
+node_modules/
+e2e/auth/*.json
+test-results/
+playwright-report/

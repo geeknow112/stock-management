@@ -96,3 +96,21 @@ npm run env:destroy  # 環境を完全に破棄
 - サイト: http://localhost:8888
 - 管理画面: http://localhost:8888/wp-admin (ユーザー `admin` / パスワード `password`、テスト専用)
 - 設定は `.wp-env.json` にあります。
+
+### E2Eテスト(Playwright)
+
+Playwright(TypeScript)で、Administrator / Editor / Subscriber の3ロールのログイン状態を使ってテストします。
+テスト専用のアカウント・データのみを使います。
+
+```bash
+npm install
+npx playwright install chromium   # 初回のみ
+npm run env:start                 # テスト環境を起動
+npm run e2e                       # テスト実行(開始時にユーザー作成とログイン状態の保存を自動実行)
+npm run e2e:seed                  # ユーザーの投入のみ(何度実行しても同じ結果)
+npm run e2e:reset                 # プラグインのデータを空にして、ユーザーを再投入
+```
+
+- ロール別のログイン状態は `e2e/auth/<ロール>.json` に保存されます(git管理外)。
+- テストでは `test.use({ storageState: storageStatePath('editor') })` で使えます。
+- テストユーザーは `e2e/support/users.ts` で定義しています。
