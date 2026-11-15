@@ -1,0 +1,64 @@
+name: E2E
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: e2e-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  e2e:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+          cache: npm
+
+      - name: 依存パッケージをインストール
+        run: npm ci
+
+      - name: wp-env を起動(プラグインの有効化を含む)
+        run: npx wp-env start
+
+      - name: Playwright のブラウザをインストール
+        run: npx playwright install --with-deps chromium
+
+      - name: E2Eテストを実行
+        run: npm run e2e
+
+      - name: wp-env のログを保存
+        if: failure()
+        run: |
+          mkdir -p wp-env-logs
+          npx wp-env logs development --watch=false > wp-env-logs/development.log 2>&1 || true
+          npx wp-env logs tests --watch=false > wp-env-logs/tests.log 2>&1 || true
+
+      - name: Playwright のレポートを保存
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: playwright-report
+          path: |
+            playwright-report/
+            test-results/
+          if-no-files-found: ignore
+          retention-days: 7
+
+      - name: wp-env のログを成果物として保存
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: wp-env-logs
+          path: wp-env-logs/
+          if-no-files-found: ignore
+          retention-days: 7
