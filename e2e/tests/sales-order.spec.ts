@@ -62,6 +62,14 @@ test.describe('受注管理', () => {
     await page.locator('#delivery_dt').fill(REG_DATE);
     await page.locator('#outgoing_warehouse').selectOption('1');
 
+    // CIは WP_DEBUG でPHPの警告をページに表示するため、隠し欄 sales の値に警告文が混ざり、更新モードと判定されてしまう。
+    // 本番と同じく、新規登録では sales を空にして送る。
+    await page.evaluate(() => {
+      document.querySelectorAll<HTMLInputElement>('[name="sales"]').forEach((e) => {
+        e.value = '';
+      });
+    });
+
     // 確認画面へ。入力した配送予定日が、確認画面にも残っている。
     await page.locator('#cmd_regist').click();
     await page.waitForURL(/action=confirm/);
