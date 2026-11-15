@@ -1,11 +1,12 @@
 import { chromium, FullConfig } from '@playwright/test';
 import { mkdirSync } from 'node:fs';
 import { ROLES, TEST_USERS, storageStatePath } from './support/users';
-import { seedUsers } from './support/seed';
+import { seedUsers, seedFixtures } from './support/seed';
 
 /** 3ロールでログインし、ログイン状態(storageState)を保存する。 */
 export default async function globalSetup(config: FullConfig) {
   seedUsers();
+  seedFixtures();
   mkdirSync('e2e/auth', { recursive: true });
   const baseURL = config.projects[0].use.baseURL ?? 'http://localhost:8888';
   const browser = await chromium.launch();
