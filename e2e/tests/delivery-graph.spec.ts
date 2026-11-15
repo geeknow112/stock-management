@@ -18,7 +18,8 @@ test.describe('配送予定表', () => {
   test('開始日を指定すると、その日から日付ごとの行が並ぶ', async ({ page }) => {
     await page.goto(`${BASE}&action=search&cmd=search&s[sdt]=2026-11-16`);
     await expect(page.locator('body')).not.toContainText(FATAL);
-    await expect(page.locator('#the-list')).toBeVisible();
+    // このプラグインの画面は、WordPress標準の空の #the-list と、配送予定表本体の #the-list の2つを含むため、日付の行を持つほうに絞る。
+    await expect(page.locator('#the-list', { hasText: '2026-11-16' }).first()).toBeVisible();
     await expect(dateCell(page, '2026-11-16')).toBeVisible();
     await expect(dateCell(page, '2026-11-17')).toBeVisible();
     await expect(dateCell(page, '2026-11-18')).toBeVisible();
