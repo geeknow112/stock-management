@@ -114,6 +114,7 @@ npm run e2e:reset                 # プラグインのデータを空にして�
 - ロール別のログイン状態は `e2e/auth/<ロール>.json` に保存されます(git管理外)。
 - テストでは `test.use({ storageState: storageStatePath('editor') })` で使えます。
 - テストユーザーは `e2e/support/users.ts` で定義しています。
+- ロール別のアクセス制御は `e2e/tests/access-control.spec.ts` で確認します。許可/拒否の一覧は `e2e/support/access-matrix.ts` にあり、メニュー定義(`stock-management.php` の `add_sub_menu()`)を変えたときはここも更新してください。
 
 ### CIでのE2E実行(GitHub Actions)
 
