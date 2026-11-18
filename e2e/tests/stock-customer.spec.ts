@@ -37,7 +37,8 @@ test.describe('在庫管理・顧客管理', () => {
   test('在庫一覧が表示され、サンプルの在庫が出る', async ({ page }) => {
     await page.goto(`${ADMIN}?page=stock-list`);
     await expect(page.locator('body')).not.toContainText(FATAL);
-    await expect(page.locator('#goods_name')).toBeVisible();
+    // このプラグインの画面は、同じidの要素を2つ含むため、最初の1つに絞る。
+    await expect(page.locator('#goods_name').first()).toBeVisible();
     // 共通のサンプルデータ(stock=1,2)のリンクが一覧にある。
     await expect(page.locator('a[href*="page=stock-detail"][href*="stock=1&"]').first()).toBeVisible();
   });
