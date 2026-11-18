@@ -62,6 +62,12 @@ npx wp-env logs development --watch=false
 `npm ci` → `wp-env start` → Playwright のインストール → `npm run e2e` の順に動きます。
 同じ PR で新しい実行が始まると、古い実行は自動で取り消されます。
 
+### PHPの警告とDBエラーの扱い
+
+- wp-env は `WP_DEBUG_DISPLAY: false` で、PHPの警告・注意をページに表示せず、`wp-content/debug.log` に残します(HTMLに警告文が混ざってテストが壊れるのを防ぐため)。
+- 全テストは `e2e/support/test.ts` の `test` を使います。各テストの終了時に、そのテスト中に `debug.log` へ追加された「WordPress database error」「PHP Fatal error」などを調べ、あれば失敗にします(警告・注意は対象外)。
+- 失敗時は、該当する行だけ(1行300文字まで)を表示します。`debug.log` の全文は、出力にも成果物にも残しません。
+
 ### 失敗したときのレポートの見方
 
 1. PR の Checks から `E2E` を開き、失敗したステップのログを確認します。

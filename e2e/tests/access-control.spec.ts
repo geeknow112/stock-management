@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../support/test';
 import { ROLES, storageStatePath } from '../support/users';
 import { ALLOWED_PAGES, deniedPages } from '../support/access-matrix';
 

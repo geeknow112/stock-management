@@ -9,7 +9,8 @@
   },
   "config": {
     "WP_DEBUG": true,
-    "WP_DEBUG_LOG": true
+    "WP_DEBUG_LOG": true,
+    "WP_DEBUG_DISPLAY": false
   },
   "lifecycleScripts": {
     "afterStart": "wp-env run cli wp plugin activate stock-management"
