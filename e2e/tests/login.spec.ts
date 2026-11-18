@@ -1,4 +1,4 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../support/test';
 import { ROLES, storageStatePath } from '../support/users';
 
 for (const role of ROLES) {

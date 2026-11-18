@@ -1,11 +1,10 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../support/test';
 import { storageStatePath } from '../support/users';
 import { dbQuery, dbScalar } from '../support/db';
 
 // 受注管理(登録・編集・削除、ロット番号の追跡)のテスト。
 // 共通のサンプルデータ(sales=1〜3)は変更せず、このテスト専用の受注(sales=101〜103)を作って使う。
 // 選択肢の値は models/Sales.php に合わせている(量は '0.5'〜'6.0'、出庫倉庫は 1/2、状態は 0:未確定 1:確定 9:削除)。
-const FATAL = /Fatal error|Parse error|WordPress database error|Table '.*' doesn't exist|Uncaught/;
 const DETAIL = '/wp-admin/admin.php?page=sales-detail';
 const REG_DATE = '2027-01-12'; // 新規登録テストで使う配送予定日(他のテストと重ならない日)
 const EDIT_ID = 101;
@@ -48,11 +47,9 @@ test.describe('受注管理', () => {
     cleanup();
   });
 
-  // 一時的に除外: CIのデバッグ表示(PHP警告)が確認画面のJavaScriptを壊し、登録ボタンが動かない。#1435 で解消したら、test に戻す。
-  test.fixme('受注を新規登録できる(入力 → 確認 → 登録)', async ({ page }) => {
+  test('受注を新規登録できる(入力 → 確認 → 登録)', async ({ page }) => {
     page.on('dialog', (d) => d.accept());
     await page.goto(DETAIL);
-    await expect(page.locator('body')).not.toContainText(FATAL);
 
     // 氏名を選ぶと、品名のプルダウンが有効になる。
     await page.locator('#customer').selectOption('1');
@@ -63,24 +60,14 @@ test.describe('受注管理', () => {
     await page.locator('#delivery_dt').fill(REG_DATE);
     await page.locator('#outgoing_warehouse').selectOption('1');
 
-    // CIは WP_DEBUG でPHPの警告をページに表示するため、隠し欄 sales の値に警告文が混ざり、更新モードと判定されてしまう。
-    // 本番と同じく、新規登録では sales を空にして送る。
-    await page.evaluate(() => {
-      document.querySelectorAll<HTMLInputElement>('[name="sales"]').forEach((e) => {
-        e.value = '';
-      });
-    });
-
     // 確認画面へ。入力した配送予定日が、確認画面にも残っている。
     await page.locator('#cmd_regist').click();
     await page.waitForURL(/action=confirm/);
-    await expect(page.locator('body')).not.toContainText(FATAL);
     await expect(page.locator('#delivery_dt')).toHaveValue(REG_DATE);
 
     // 登録する(確認ダイアログは accept)。
     await page.locator('#cmd_regist').click();
     await page.waitForURL(/action=save/);
-    await expect(page.locator('body')).not.toContainText(FATAL);
 
     // DBに1件登録され、未確定(status=0)で、量が入力どおりであること。
     expect(dbScalar(`SELECT COUNT(*) FROM yc_sales WHERE delivery_dt = '${REG_DATE}'`)).toBe(1);
@@ -93,7 +80,6 @@ test.describe('受注管理', () => {
     await page.goto(DETAIL);
     await page.locator('#cmd_regist').click();
     await page.waitForLoadState('load');
-    await expect(page.locator('body')).not.toContainText(FATAL);
     // 入力画面のまま(氏名の入力欄がある)で、DBは増えない。
     await expect(page.locator('#customer')).toBeVisible();
     expect(dbScalar('SELECT COUNT(*) FROM yc_sales')).toBe(before);
@@ -103,7 +89,6 @@ test.describe('受注管理', () => {
   test.fixme('登録済みの受注を編集して更新できる(量 1.0 → 2.0)', async ({ page }) => {
     page.on('dialog', (d) => d.accept());
     await page.goto(`${DETAIL}&sales=${EDIT_ID}&action=edit`);
-    await expect(page.locator('body')).not.toContainText(FATAL);
     // 編集画面に、登録済みの値が入っている。
     await expect(page.locator('#sales')).toHaveValue(String(EDIT_ID));
     await expect(page.locator('#delivery_dt')).toHaveValue('2027-01-13');
@@ -112,11 +97,9 @@ test.describe('受注管理', () => {
     await page.locator('#qty').selectOption('2.0');
     await page.locator('#cmd_regist').click(); // 「確認」
     await page.waitForURL(/action=confirm/);
-    await expect(page.locator('body')).not.toContainText(FATAL);
 
     await page.locator('#cmd_update').click(); // 「更新」
     await page.waitForURL(/action=edit-exe/);
-    await expect(page.locator('body')).not.toContainText(FATAL);
 
     expect(dbQuery(`SELECT qty FROM yc_sales WHERE sales = ${EDIT_ID}`)).toBe('2.0');
   });
@@ -133,7 +116,6 @@ test.describe('受注管理', () => {
     await page.locator('#change_status').selectOption('9');
     await page.getByRole('button', { name: '適用' }).click();
     await page.waitForLoadState('load');
-    await expect(page.locator('body')).not.toContainText(FATAL);
 
     expect(dbScalar(`SELECT status FROM yc_sales WHERE sales = ${DELETE_ID}`)).toBe(9);
     await page.goto(list);
@@ -143,7 +125,6 @@ test.describe('受注管理', () => {
   // 一時的に除外: 受注管理の画面は、CIのWP_DEBUG表示(PHP警告)の影響で、テストが動かない。#1435 で解決してから、まとめて test に戻す。
   test.fixme('ロット番号で受注を検索できる(ロット番号の追跡)', async ({ page }) => {
     await page.goto(`/wp-admin/admin.php?page=sales-list&action=search&cmd=search&s[lot]=${LOT_VALUE}`);
-    await expect(page.locator('body')).not.toContainText(FATAL);
     // 検索ボックスに入力値が残り、そのロットを持つ受注だけが出る。
     await expect(page.locator('input[name="s[lot]"]')).toHaveValue(LOT_VALUE);
     await expect(page.locator(`input[name="no[]"][value="${LOT_ID}"]`)).toBeVisible();
@@ -153,7 +134,6 @@ test.describe('受注管理', () => {
   // 一時的に除外: 受注管理の画面は、CIのWP_DEBUG表示(PHP警告)の影響で、テストが動かない。#1435 で解決してから、まとめて test に戻す。
   test.fixme('ロット登録画面に、登録済みのロット番号が表示される', async ({ page }) => {
     await page.goto(`/wp-admin/admin.php?page=lot-regist&sales=${LOT_ID}&goods=1`);
-    await expect(page.locator('body')).not.toContainText(FATAL);
     await expect(page.locator(`input.lots[value="${LOT_VALUE}"]`)).toHaveCount(1);
   });
 });

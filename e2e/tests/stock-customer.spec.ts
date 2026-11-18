@@ -1,10 +1,9 @@
-import { test, expect } from '@playwright/test';
+import { test, expect } from '../support/test';
 import { storageStatePath } from '../support/users';
 import { dbQuery, dbScalar } from '../support/db';
 
 // 在庫管理・顧客管理のテスト。
 // 共通のサンプルデータ(customer=1,2 / stock=1,2)は変更せず、このテスト専用のデータ(customer=201〜、名前に E2E を含む)を作って使う。
-const FATAL = /Fatal error|Parse error|WordPress database error|Table '.*' doesn't exist|Uncaught/;
 const ADMIN = '/wp-admin/admin.php';
 const NEW_NAME = 'E2E新規顧客';
 const EDIT_ID = 201;
@@ -36,7 +35,6 @@ test.describe('在庫管理・顧客管理', () => {
 
   test('在庫一覧が表示され、サンプルの在庫が出る', async ({ page }) => {
     await page.goto(`${ADMIN}?page=stock-list`);
-    await expect(page.locator('body')).not.toContainText(FATAL);
     // このプラグインの画面は、同じidの要素を2つ含むため、最初の1つに絞る。
     await expect(page.locator('#goods_name').first()).toBeVisible();
     // 共通のサンプルデータ(stock=1,2)のリンクが一覧にある。
@@ -45,13 +43,11 @@ test.describe('在庫管理・顧客管理', () => {
 
   test('在庫一覧を入庫日で検索すると、範囲外の在庫は出ない', async ({ page }) => {
     await page.goto(`${ADMIN}?page=stock-list&action=search&cmd=search&s[arrival_s_dt]=2030-01-01&s[arrival_e_dt]=2030-12-31`);
-    await expect(page.locator('body')).not.toContainText(FATAL);
     await expect(page.locator('a[href*="page=stock-detail"]')).toHaveCount(0);
   });
 
   test('在庫の登録画面(一括登録)が表示される', async ({ page }) => {
     await page.goto(`${ADMIN}?page=stock-bulk`);
-    await expect(page.locator('body')).not.toContainText(FATAL);
     await expect(page.locator('#arrival_dt')).toBeVisible();
     await expect(page.locator('#outgoing_warehouse')).toBeVisible();
     // 明細は20行ぶん、品名のプルダウンがある。
@@ -68,11 +64,9 @@ test.describe('在庫管理・顧客管理', () => {
     await page.locator('#qty_0').fill('3');
     await page.locator('#cmd_regist').click(); // 「確認」
     await page.waitForURL(/action=confirm/);
-    await expect(page.locator('body')).not.toContainText(FATAL);
 
     await page.locator('#cmd_regist').click(); // 「登録」
     await page.waitForURL(/action=save/);
-    await expect(page.locator('body')).not.toContainText(FATAL);
 
     expect(dbScalar(`SELECT COUNT(*) FROM yc_stock WHERE arrival_dt = '${BULK_DATE}'`)).toBe(1);
     expect(dbScalar(`SELECT goods_total FROM yc_stock WHERE arrival_dt = '${BULK_DATE}'`)).toBe(3);
@@ -80,13 +74,11 @@ test.describe('在庫管理・顧客管理', () => {
 
   test('顧客一覧が表示される', async ({ page }) => {
     await page.goto(`${ADMIN}?page=customer-list`);
-    await expect(page.locator('body')).not.toContainText(FATAL);
     await expect(page.locator('#customer_name')).toBeVisible();
   });
 
   test('顧客の編集画面に、登録済みの顧客名と配送先(タンク)が入っている', async ({ page }) => {
     await page.goto(`${ADMIN}?page=customer-detail&customer=${EDIT_ID}&action=edit`);
-    await expect(page.locator('body')).not.toContainText(FATAL);
     await expect(page.locator('#customer')).toHaveValue(String(EDIT_ID));
     await expect(page.locator('#customer_name')).toHaveValue(EDIT_NAME_BEFORE);
     await expect(page.locator('#tank_0')).toHaveValue('E2Eタンク-1');
@@ -96,16 +88,13 @@ test.describe('在庫管理・顧客管理', () => {
   test.fixme('顧客を新規登録できる(顧客名・タンク → 確認 → 登録)', async ({ page }) => {
     page.on('dialog', (d) => d.accept());
     await page.goto(`${ADMIN}?page=customer-detail`);
-    await expect(page.locator('body')).not.toContainText(FATAL);
     await page.locator('#customer_name').fill(NEW_NAME);
     await page.locator('#tank_0').fill('E2Eタンク-N');
     await page.locator('#cmd_regist').click(); // 「確認」
     await page.waitForURL(/action=confirm/);
-    await expect(page.locator('body')).not.toContainText(FATAL);
 
     await page.locator('#cmd_regist').click(); // 「登録」
     await page.waitForURL(/action=save/);
-    await expect(page.locator('body')).not.toContainText(FATAL);
 
     expect(dbScalar(`SELECT COUNT(*) FROM yc_customer WHERE name = '${NEW_NAME}'`)).toBe(1);
     expect(dbScalar(`SELECT COUNT(*) FROM yc_customer_detail d JOIN yc_customer c ON c.customer = d.customer WHERE c.name = '${NEW_NAME}'`)).toBe(1);
@@ -118,11 +107,9 @@ test.describe('在庫管理・顧客管理', () => {
     await page.locator('#customer_name').fill(EDIT_NAME_AFTER);
     await page.locator('#cmd_regist').click(); // 「確認」
     await page.waitForURL(/action=confirm/);
-    await expect(page.locator('body')).not.toContainText(FATAL);
 
     await page.locator('#cmd_update').click(); // 「更新」
     await page.waitForURL(/action=edit-exe/);
-    await expect(page.locator('body')).not.toContainText(FATAL);
 
     expect(dbQuery(`SELECT name FROM yc_customer WHERE customer = ${EDIT_ID}`)).toBe(EDIT_NAME_AFTER);
   });
