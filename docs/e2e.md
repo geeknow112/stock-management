@@ -71,13 +71,14 @@ npx wp-env logs development --watch=false
 
 ## テストの一覧
 
-現在の合計は53件です(ロールごとの許可・拒否のページ数に応じて増減します)。
+現在の合計は59件です(ロールごとの許可・拒否のページ数に応じて増減します)。
 
 | ファイル | 確認していること | 件数 |
 |----------|------------------|------|
 | `e2e/tests/login.spec.ts` | administrator / editor / subscriber の3ロールが、保存したログイン状態で管理画面(`/wp-admin/`)に入れること | 3 |
 | `e2e/tests/access-control.spec.ts` | ロールごとに、各管理ページへ「アクセスできる」「アクセスできない(403 または権限エラー画面)」が期待どおりであること | 45 |
 | `e2e/tests/delivery-graph.spec.ts` | 配送予定表の表示、開始日の指定、受注の無い日の表示、検索ボタン(cmd_search)での日付検索 | 5 |
+| `e2e/tests/sales-order.spec.ts` | 受注管理: 新規登録(入力→確認→登録)、必須項目が空のときの差し戻し、編集して更新、一括操作での削除、ロット番号での検索とロット登録画面での表示。専用の受注(sales=101〜103)を作り、終了時に消す | 6 |
 
 ロール別のアクセス可否は次のとおりです。
 一覧の元データは `e2e/support/access-matrix.ts` で、メニュー定義(`stock-management.php` の `add_sub_menu()`)を変えたときはこちらも更新します。
