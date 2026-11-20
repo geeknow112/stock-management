@@ -54,8 +54,7 @@ test.describe('在庫管理・顧客管理', () => {
     await expect(page.locator('select[name="goods_list[]"]')).toHaveCount(20);
   });
 
-  // 一時的に除外: 確認・登録ボタンは画面のJavaScriptに依存し、CIのPHP警告表示で動かない可能性が高い(#1435)。直ったら、test に戻す。
-  test.fixme('在庫を一括登録できる(入庫予定日・倉庫・品名・個数 → 確認 → 登録)', async ({ page }) => {
+  test('在庫を一括登録できる(入庫予定日・倉庫・品名・個数 → 確認 → 登録)', async ({ page }) => {
     page.on('dialog', (d) => d.accept());
     await page.goto(`${ADMIN}?page=stock-bulk`);
     await page.locator('#arrival_dt').fill(BULK_DATE);
@@ -84,8 +83,7 @@ test.describe('在庫管理・顧客管理', () => {
     await expect(page.locator('#tank_0')).toHaveValue('E2Eタンク-1');
   });
 
-  // 一時的に除外: 確認・登録ボタンは画面のJavaScriptに依存し、CIのPHP警告表示で動かない可能性が高い(#1435)。直ったら、test に戻す。
-  test.fixme('顧客を新規登録できる(顧客名・タンク → 確認 → 登録)', async ({ page }) => {
+  test('顧客を新規登録できる(顧客名・タンク → 確認 → 登録)', async ({ page }) => {
     page.on('dialog', (d) => d.accept());
     await page.goto(`${ADMIN}?page=customer-detail`);
     await page.locator('#customer_name').fill(NEW_NAME);
@@ -100,8 +98,7 @@ test.describe('在庫管理・顧客管理', () => {
     expect(dbScalar(`SELECT COUNT(*) FROM yc_customer_detail d JOIN yc_customer c ON c.customer = d.customer WHERE c.name = '${NEW_NAME}'`)).toBe(1);
   });
 
-  // 一時的に除外: 確認・更新ボタンは画面のJavaScriptに依存し、CIのPHP警告表示で動かない可能性が高い(#1435)。直ったら、test に戻す。
-  test.fixme('顧客名を編集して更新できる', async ({ page }) => {
+  test('顧客名を編集して更新できる', async ({ page }) => {
     page.on('dialog', (d) => d.accept());
     await page.goto(`${ADMIN}?page=customer-detail&customer=${EDIT_ID}&action=edit`);
     await page.locator('#customer_name').fill(EDIT_NAME_AFTER);
