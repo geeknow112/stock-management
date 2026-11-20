@@ -710,7 +710,6 @@ class Stock extends Ext_Model_Base {
 
 		if (empty($get->action)) {
 //			$sql .= "ORDER BY ap.rgdt desc";
-			$sql .= ";";
 
 		} else {
 			if ($get->action == 'search') {
