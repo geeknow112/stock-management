@@ -84,8 +84,7 @@ test.describe('受注管理', () => {
     expect(dbScalar('SELECT COUNT(*) FROM yc_sales')).toBe(before);
   });
 
-  // 一時的に除外: 「更新」を押しても、次の画面(action=edit-exe)に進まない。CIのWP_DEBUG表示が、画面のJavaScriptを壊す可能性が高い(#1435)。直ったら、test に戻す。
-  test.fixme('登録済みの受注を編集して更新できる(量 1.0 → 2.0)', async ({ page }) => {
+  test('登録済みの受注を編集して更新できる(量 1.0 → 2.0)', async ({ page }) => {
     page.on('dialog', (d) => d.accept());
     await page.goto(`${DETAIL}&sales=${EDIT_ID}&action=edit`);
     // 編集画面に、登録済みの値が入っている。
@@ -103,7 +102,7 @@ test.describe('受注管理', () => {
     expect(dbQuery(`SELECT qty FROM yc_sales WHERE sales = ${EDIT_ID}`)).toBe('2.0');
   });
 
-  // 一時的に除外: 受注管理の画面は、CIのWP_DEBUG表示(PHP警告)の影響で、テストが動かない。#1435 で解決してから、まとめて test に戻す。
+  // 一時的に除外: 一括「削除」で、WordPress本体のSQLエラー(post_author の GROUP BY)が debug.log に出る。#1445 が直ったら、test に戻す。
   test.fixme('一括操作で「削除」すると、状態が削除(9)になり、検索結果から消える', async ({ page }) => {
     page.on('dialog', (d) => d.accept());
     const list = `/wp-admin/admin.php?page=sales-list&action=search&cmd=search&s[no]=${DELETE_ID}`;
@@ -121,7 +120,7 @@ test.describe('受注管理', () => {
     await expect(page.locator(`input[name="no[]"][value="${DELETE_ID}"]`)).toHaveCount(0);
   });
 
-  // 一時的に除外: 受注管理の画面は、CIのWP_DEBUG表示(PHP警告)の影響で、テストが動かない。#1435 で解決してから、まとめて test に戻す。
+  // 一時的に除外: 受注一覧(sales-list)の表示で、WordPress本体のSQLエラー(post_author の GROUP BY)が debug.log に出る。#1445 が直ったら、test に戻す。
   test.fixme('ロット番号で受注を検索できる(ロット番号の追跡)', async ({ page }) => {
     await page.goto(`/wp-admin/admin.php?page=sales-list&action=search&cmd=search&s[lot]=${LOT_VALUE}`);
     // 検索ボックスに入力値が残り、そのロットを持つ受注だけが出る。
@@ -130,8 +129,7 @@ test.describe('受注管理', () => {
     await expect(page.locator('input[name="no[]"]')).toHaveCount(1);
   });
 
-  // 一時的に除外: 受注管理の画面は、CIのWP_DEBUG表示(PHP警告)の影響で、テストが動かない。#1435 で解決してから、まとめて test に戻す。
-  test.fixme('ロット登録画面に、登録済みのロット番号が表示される', async ({ page }) => {
+  test('ロット登録画面に、登録済みのロット番号が表示される', async ({ page }) => {
     await page.goto(`/wp-admin/admin.php?page=lot-regist&sales=${LOT_ID}&goods=1`);
     await expect(page.locator(`input.lots[value="${LOT_VALUE}"]`)).toHaveCount(1);
   });
