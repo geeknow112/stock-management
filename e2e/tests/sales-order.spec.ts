@@ -120,7 +120,8 @@ test.describe('受注管理', () => {
     await expect(page.locator(`input[name="no[]"][value="${DELETE_ID}"]`)).toHaveCount(0);
   });
 
-  test('ロット番号で受注を検索できる(ロット番号の追跡)', async ({ page }) => {
+  // 一時的に除外: 受注一覧(sales-list)の表示で、WordPress本体のSQLエラー(post_author の GROUP BY)が debug.log に出る。#1445 が直ったら、test に戻す。
+  test.fixme('ロット番号で受注を検索できる(ロット番号の追跡)', async ({ page }) => {
     await page.goto(`/wp-admin/admin.php?page=sales-list&action=search&cmd=search&s[lot]=${LOT_VALUE}`);
     // 検索ボックスに入力値が残り、そのロットを持つ受注だけが出る。
     await expect(page.locator('input[name="s[lot]"]')).toHaveValue(LOT_VALUE);
