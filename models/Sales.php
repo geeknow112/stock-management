@@ -1206,7 +1206,6 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		if (empty($get->action)) {
 //			$sql .= "ORDER BY ap.rgdt desc";
-			$sql .= ";";
 
 		} else {
 			if ($get->action == 'search') {
