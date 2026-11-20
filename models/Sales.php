@@ -1383,8 +1383,13 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		$rows = $wpdb->get_results($sql);
 
-		$cur_sum_qty = current($rows)->sum_qty;
-		$confirm_qty = $cur_sum_qty + $qty;
+		$cur_row = current($rows);
+		$cur_sum_qty = ($cur_row && is_numeric($cur_row->sum_qty)) ? (float) $cur_row->sum_qty : 0;
+		// 量が空・数値でない場合は計算せず、必須チェック側のエラーに任せる
+		if (!is_numeric($qty)) {
+			return false;
+		}
+		$confirm_qty = $cur_sum_qty + (float) $qty;
 		$limit = 6; // 限界値(6t)
 
 		return ($confirm_qty > $limit) ? true : false;
