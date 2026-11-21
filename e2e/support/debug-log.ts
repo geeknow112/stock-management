@@ -25,5 +25,5 @@ export function newSeriousErrors(before: string, after: string = readDebugLog())
   return added
     .split('\n')
     .filter((l) => SERIOUS.test(l))
-    .map((l) => l.trim().slice(0, 300));
+    .map((l) => l.trim().slice(0, 1500)); // 末尾の「made by ...」(呼び出し元)まで見えるように、長めに残す
 }
