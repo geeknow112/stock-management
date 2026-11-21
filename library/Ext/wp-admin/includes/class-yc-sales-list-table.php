@@ -573,7 +573,7 @@ $total = current($wpdb->get_results( "SELECT count(*) AS count FROM yc_sales;" )
 	public function display_rows() {
 		// Query the post counts for this page.
 		if ( ! $this->is_site_users && ! empty( $this->items ) ) {
-			$post_counts = count_many_users_posts( array_keys( $this->items ) );
+			$post_counts = array(); // unused. count_many_users_posts() caused an empty IN() SQL error
 		}
 
 /*
