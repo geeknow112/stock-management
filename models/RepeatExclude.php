@@ -493,7 +493,7 @@ class RepeatExclude extends Ext_Model_Base {
 		}
 
 		foreach ($post->no as $i => $sales) {
-			$sqls[$sales]  = sprintf("SELECT count(*) as count FROM yc_goods_detail as gd WHERE gd.sales = %s AND gd.goods = %s LIMIT 1;", $sales, $post->arr_goods[$sales]);
+			$sqls[$sales]  = sprintf("SELECT count(*) as count FROM yc_goods_detail as gd WHERE gd.sales = %d AND gd.goods = %d LIMIT 1;", $sales, $post->arr_goods[$sales]);
 		}
 
 		foreach ($sqls as $sales => $sql) {

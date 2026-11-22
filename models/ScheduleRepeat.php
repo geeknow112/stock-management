@@ -550,7 +550,7 @@ class ScheduleRepeat extends Ext_Model_Base {
 		}
 
 		foreach ($post->no as $i => $sales) {
-			$sqls[$sales]  = sprintf("SELECT count(*) as count FROM yc_goods_detail as gd WHERE gd.sales = %s AND gd.goods = %s LIMIT 1;", $sales, $post->arr_goods[$sales]);
+			$sqls[$sales]  = sprintf("SELECT count(*) as count FROM yc_goods_detail as gd WHERE gd.sales = %d AND gd.goods = %d LIMIT 1;", $sales, $post->arr_goods[$sales]);
 		}
 
 		foreach ($sqls as $sales => $sql) {
@@ -699,7 +699,7 @@ class ScheduleRepeat extends Ext_Model_Base {
 		$sql  = "SELECT scr.* ";
 		$sql .= "FROM yc_schedule_repeat AS scr ";
 		$sql .= "WHERE scr.sales is not null ";
-		$sql .= sprintf("AND scr.repeat = %s ", $repeat);
+		$sql .= sprintf("AND scr.repeat = %d ", $repeat);
 
 		$rows = $wpdb->get_results($sql);
 		return current($rows);
