@@ -42,6 +42,7 @@ class StockManagement {
 	function __construct() {
 		add_action('admin_menu', array($this, 'add_pages'));
 		add_action('admin_menu', array($this, 'add_sub_menu'));
+		add_action('admin_init', array($this, 'check_same_origin'));
 //		add_action('init', array($this, 'export_csv'));
 //		add_action('init', array($this, 'export_pdf'));
 	}
@@ -149,6 +150,24 @@ class StockManagement {
 		add_submenu_page('stock-management', '注文集計','✡注文集計', 'read', 'sales-summary', array(&$this, 'sales_summary'));
 	}
 
+	/**
+	 * CSRF対策: 本プラグインの画面へのPOSTは、同一サイト発のものだけ受け付ける
+	 * (Origin、無ければReferer のホストがサイトのホストと一致すること)
+	 **/
+	function check_same_origin() {
+		if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') { return; }
+		$page = isset($_REQUEST['page']) ? (string) $_REQUEST['page'] : '';
+		$pages = array('stock-management', 'goods-detail', 'customer-detail', 'sales-detail', 'stock-detail', 'stock-bulk', 'stock-transfer', 'goods-list', 'customer-list', 'sales-list', 'stock-list', 'stock-receive', 'lot-regist', 'stock-lot-regist', 'delivery-graph', 'delivery-graph-stg', 'stock-export', 'stock-export-day', 'sales-summary');
+		if (!in_array($page, $pages, true)) { return; }
+
+		$src = $_SERVER['HTTP_ORIGIN'] ?? ($_SERVER['HTTP_REFERER'] ?? '');
+		if ($src === '') { return; }
+		$src_host = wp_parse_url($src, PHP_URL_HOST);
+		$site_host = wp_parse_url(admin_url(), PHP_URL_HOST);
+		if (!$src_host || strcasecmp($src_host, $site_host) !== 0) {
+			wp_die('不正なリクエストです。', '403 Forbidden', array('response' => 403));
+		}
+	}
 	/**
 	 * メニュー
 	 **/
