@@ -122,14 +122,14 @@ class Sales extends Ext_Model_Base {
 
 		} else {
 			if ($get->action == 'search') {
-				if (!empty($get->s['no'])) { $sql .= sprintf("AND s.sales = '%s' ", $get->s['no']); }
-				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
+				if (!empty($get->s['no'])) { $sql .= sprintf("AND s.sales = '%s' ", esc_sql(wp_unslash($get->s['no']))); }
+				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", esc_sql(wp_unslash($get->s['goods_name'])), '%'); }
 
-				if (!empty($get->s['order_s_dt'])) { $sql .= sprintf("AND s.rgdt >= '%s 00:00:00' ", $get->s['order_s_dt']); }
-				if (!empty($get->s['order_e_dt'])) { $sql .= sprintf("AND s.rgdt <= '%s 23:59:59' ", $get->s['order_e_dt']); }
+				if (!empty($get->s['order_s_dt'])) { $sql .= sprintf("AND s.rgdt >= '%s 00:00:00' ", esc_sql(wp_unslash($get->s['order_s_dt']))); }
+				if (!empty($get->s['order_e_dt'])) { $sql .= sprintf("AND s.rgdt <= '%s 23:59:59' ", esc_sql(wp_unslash($get->s['order_e_dt']))); }
 
-				if (!empty($get->s['arrival_s_dt'])) { $sql .= sprintf("AND s.arrival_dt >= '%s 00:00:00' ", $get->s['arrival_s_dt']); }
-				if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND s.arrival_dt <= '%s 23:59:59' ", $get->s['arrival_e_dt']); }
+				if (!empty($get->s['arrival_s_dt'])) { $sql .= sprintf("AND s.arrival_dt >= '%s 00:00:00' ", esc_sql(wp_unslash($get->s['arrival_s_dt']))); }
+				if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND s.arrival_dt <= '%s 23:59:59' ", esc_sql(wp_unslash($get->s['arrival_e_dt']))); }
 
 				if ($get->page != 'delivery-graph') { // 配送表画面以外の時は降順
 					$sql .= "ORDER BY s.rgdt desc";
@@ -235,7 +235,7 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		// 受注IDで検索して受注情報を取得するSQL
 		$sql  = "SELECT s.* FROM yc_sales as s ";
-		$sql .= "WHERE s.sales = '". $get->sales. "'";
+		$sql .= "WHERE s.sales = '". esc_sql(wp_unslash($get->sales)).  "'";
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
@@ -1048,17 +1048,17 @@ $dt = new DateTime($sdt. ' +1 days');
 		} else {
 			if ($get->action == 'search') {
 				if ($bulk != true) {
-					if (!empty($get->s['arrival_s_dt'])) { $sql .= sprintf("AND s.arrival_dt = '%s' ", $get->s['arrival_s_dt']); }
+					if (!empty($get->s['arrival_s_dt'])) { $sql .= sprintf("AND s.arrival_dt = '%s' ", esc_sql(wp_unslash($get->s['arrival_s_dt']))); }
 				} else {
-					if (!empty($get->s['arrival_s_dt'])) { $sql .= sprintf("AND s.arrival_dt >= '%s' ", $get->s['arrival_s_dt']); }
-					if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND s.arrival_dt <= '%s' ", $get->s['arrival_e_dt']); }
+					if (!empty($get->s['arrival_s_dt'])) { $sql .= sprintf("AND s.arrival_dt >= '%s' ", esc_sql(wp_unslash($get->s['arrival_s_dt']))); }
+					if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND s.arrival_dt <= '%s' ", esc_sql(wp_unslash($get->s['arrival_e_dt']))); }
 				}
 
-				if (!empty($get->s['customer_name'])) { $sql .= sprintf("AND c.name LIKE '%s%s%s' ", '%', $get->s['customer_name'], '%'); }
-				if (!empty($get->s['tank'])) { $sql .= sprintf("AND cd.tank LIKE '%s%s%s' ", '%', $get->s['tank'], '%'); }
-				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s%s' ", '%', $get->s['goods_name'], '%'); }
+				if (!empty($get->s['customer_name'])) { $sql .= sprintf("AND c.name LIKE '%s%s%s' ", '%', esc_sql(wp_unslash($get->s['customer_name'])), '%'); }
+				if (!empty($get->s['tank'])) { $sql .= sprintf("AND cd.tank LIKE '%s%s%s' ", '%', esc_sql(wp_unslash($get->s['tank'])), '%'); }
+				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s%s' ", '%', esc_sql(wp_unslash($get->s['goods_name'])), '%'); }
 
-				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", $get->s['outgoing_warehouse']); }
+				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", esc_sql(wp_unslash($get->s['outgoing_warehouse']))); }
 
 				$sql .= ";";
 
@@ -1209,17 +1209,17 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		} else {
 			if ($get->action == 'search') {
-				if (!empty($get->s['customer_name'])) { $sql .= sprintf("AND c.name LIKE '%s%s%s' ", '%', $get->s['customer_name'], '%'); }
+				if (!empty($get->s['customer_name'])) { $sql .= sprintf("AND c.name LIKE '%s%s%s' ", '%', esc_sql(wp_unslash($get->s['customer_name'])), '%'); }
 				if (!empty($get->s['tank'])) {
-					$like = '%'. $get->s['tank']. '%';
+					$like = '%'. esc_sql(wp_unslash($get->s['tank'])). '%';
 					$sql .= sprintf("AND (cd.tank LIKE '%s' OR s.field1 LIKE '%s') ", $like, $like);
 				}
-				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s%s' ", '%', $get->s['goods_name'], '%'); }
+				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s%s' ", '%', esc_sql(wp_unslash($get->s['goods_name'])), '%'); }
 
-				if (!empty($get->s['delivery_s_dt'])) { $sql .= sprintf("AND s.delivery_dt >= '%s' ", $get->s['delivery_s_dt']); }
-				if (!empty($get->s['delivery_e_dt'])) { $sql .= sprintf("AND s.delivery_dt <= '%s' ", $get->s['delivery_e_dt']); }
+				if (!empty($get->s['delivery_s_dt'])) { $sql .= sprintf("AND s.delivery_dt >= '%s' ", esc_sql(wp_unslash($get->s['delivery_s_dt']))); }
+				if (!empty($get->s['delivery_e_dt'])) { $sql .= sprintf("AND s.delivery_dt <= '%s' ", esc_sql(wp_unslash($get->s['delivery_e_dt']))); }
 
-				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", $get->s['outgoing_warehouse']); }
+				if (!empty($get->s['outgoing_warehouse'])) { $sql .= sprintf("AND s.outgoing_warehouse = '%s' ", esc_sql(wp_unslash($get->s['outgoing_warehouse']))); }
 
 //				$sql .= ";";
 
