@@ -608,7 +608,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		}
 
 		foreach ($post->no as $i => $sales) {
-			$sqls[$sales]  = sprintf("SELECT count(*) as count FROM yc_goods_detail as gd WHERE gd.sales = %s AND gd.goods = %s LIMIT 1;", $sales, $post->arr_goods[$sales]);
+			$sqls[$sales]  = sprintf("SELECT count(*) as count FROM yc_goods_detail as gd WHERE gd.sales = %d AND gd.goods = %d LIMIT 1;", $sales, $post->arr_goods[$sales]);
 		}
 
 		foreach ($sqls as $sales => $sql) {
@@ -674,10 +674,10 @@ $dt = new DateTime($sdt. ' +1 days');
 
 		$sales = $post->sales;
 
-		$sql = sprintf("SELECT s.* FROM yc_sales as s WHERE s.sales = %s LIMIT 1;", $sales);
+		$sql = sprintf("SELECT s.* FROM yc_sales as s WHERE s.sales = %d LIMIT 1;", $sales);
 		$sdata = current($wpdb->get_results($sql));
 
-		$count_sql = sprintf("SELECT count(*) as count FROM yc_goods_detail as gd WHERE gd.sales = %s AND gd.goods = %s LIMIT 1;", $sales, $sdata->goods);
+		$count_sql = sprintf("SELECT count(*) as count FROM yc_goods_detail as gd WHERE gd.sales = %d AND gd.goods = %d LIMIT 1;", $sales, $sdata->goods);
 		$count = current($wpdb->get_results($count_sql));
 
 //$this->vd($post);
@@ -1349,7 +1349,7 @@ $dt = new DateTime($sdt. ' +1 days');
 		$sql  = "SELECT s.outgoing_warehouse ";
 		$sql .= "FROM yc_sales AS s ";
 		$sql .= "WHERE s.sales is not null AND s.status <> 9 ";
-		$sql .= "AND s.sales = ". $sales;
+		$sql .= "AND s.sales = ". (int) $sales;
 		$sql .= ";";
 
 //$this->vd($sql);exit;

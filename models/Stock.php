@@ -155,7 +155,7 @@ class Stock extends Ext_Model_Base {
 		global $wpdb;
 
 		$sql  = "SELECT st.* FROM ". $this->getTableName(). " as st ";
-		$sql .= sprintf("WHERE st.stock IN (%s); ", implode(',', $stocks));
+		$sql .= sprintf("WHERE st.stock IN (%s); ", implode(',', array_map('intval', (array) $stocks)));
 
 		$rows = $wpdb->get_results($sql);
 
@@ -749,7 +749,7 @@ class Stock extends Ext_Model_Base {
 		$sql .= "LEFT JOIN yc_goods AS g ON g.goods = st.goods ";
 		$sql .= "WHERE st.stock is not null ";
 		$sql .= "AND st.transfer_fg = 1 ";
-		if (!empty($warehouse)) { $sql .= sprintf("AND st.warehouse = %s ", $warehouse); }
+		if (!empty($warehouse)) { $sql .= sprintf("AND st.warehouse = %d ", $warehouse); }
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
@@ -781,7 +781,7 @@ class Stock extends Ext_Model_Base {
 	public function deleteStockDetail($stocks = null) {
 		global $wpdb;
 		
-		$stock_ids = implode(',', $stocks);
+		$stock_ids = implode(',', array_map('intval', (array) $stocks));
 		$sql  = "DELETE st FROM ". $this->getTableName(). " as st ";
 		$sql .= "LEFT JOIN yc_stock_detail as std ON st.stock = std.stock ";
 		$sql .= sprintf("WHERE st.stock IN (%s) ", $stock_ids);
