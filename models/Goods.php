@@ -99,7 +99,7 @@ class Goods extends Ext_Model_Base {
 		} else {
 			if ($get->action == 'search') {
 				if (!empty($get->s['no'])) { $sql .= sprintf("AND g.goods = '%s' ", $get->s['no']); }
-				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
+				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", esc_sql(wp_unslash($get->s['goods_name'])), '%'); }
 //				$sql .= "ORDER BY g.goods desc";
 				$sql .= ";";
 
@@ -121,7 +121,7 @@ class Goods extends Ext_Model_Base {
 
 		// 商品IDで検索して商品情報を取得するSQL
 		$sql  = "SELECT s.* FROM yc_sales as s ";
-		$sql .= "WHERE s.id = '". $get->sales. "'";
+		$sql .= "WHERE s.id = '". esc_sql(wp_unslash($get->sales)).  "'";
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";

@@ -82,7 +82,7 @@ class Customer extends Ext_Model_Base {
 		} else {
 			if ($get->action == 'search') {
 				if (!empty($get->s['no'])) { $sql .= sprintf("AND c.customer = '%s' ", $get->s['no']); }
-				if (!empty($get->s['customer_name'])) { $sql .= sprintf("AND c.name LIKE '%s%s' ", $get->s['customer_name'], '%'); }
+				if (!empty($get->s['customer_name'])) { $sql .= sprintf("AND c.name LIKE '%s%s' ", esc_sql(wp_unslash($get->s['customer_name'])), '%'); }
 /*
 				if (!empty($get->s['order_s_dt'])) { $sql .= sprintf("AND s.rgdt >= '%s 00:00:00' ", $get->s['order_s_dt']); }
 				if (!empty($get->s['order_e_dt'])) { $sql .= sprintf("AND s.rgdt <= '%s 23:59:59' ", $get->s['order_e_dt']); }
@@ -163,7 +163,7 @@ class Customer extends Ext_Model_Base {
 
 		// 顧客IDで検索して顧客情報を取得するSQL
 		$sql  = "SELECT s.* FROM yc_sales as s ";
-		$sql .= "WHERE s.id = '". $get->sales. "'";
+		$sql .= "WHERE s.id = '". esc_sql(wp_unslash($get->sales)).  "'";
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";
