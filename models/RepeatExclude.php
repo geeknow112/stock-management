@@ -218,7 +218,7 @@ class RepeatExclude extends Ext_Model_Base {
 
 		// 受注IDで検索して受注情報を取得するSQL
 		$sql  = "SELECT s.* FROM yc_sales as s ";
-		$sql .= "WHERE s.sales = '". $get->sales. "'";
+		$sql .= "WHERE s.sales = '". esc_sql(wp_unslash($get->sales)).  "'";
 
 		if (current($cur_user->roles) != 'administrator') {
 //			$sql .= "AND ap.mail = '". $cur_user->user_email. "'";

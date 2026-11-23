@@ -99,7 +99,7 @@ class Stock extends Ext_Model_Base {
 		} else {
 			if ($get->action == 'search') {
 				if (!empty($get->s['no'])) { $sql .= sprintf("AND g.goods = '%s' ", $get->s['no']); }
-				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
+				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", esc_sql(wp_unslash($get->s['goods_name'])), '%'); }
 //				$sql .= "ORDER BY g.goods desc";
 				$sql .= ";";
 
@@ -566,7 +566,7 @@ class Stock extends Ext_Model_Base {
 		} else {
 			if ($get->action == 'search') {
 				if (!empty($get->s['goods'])) { $sql .= sprintf("AND g.goods = '%s' ", $get->s['goods']); }
-//				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
+//				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", esc_sql(wp_unslash($get->s['goods_name'])), '%'); }
 //				$sql .= "ORDER BY g.goods desc";
 
 				if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND st.arrival_dt <= '%s 23:59:59' ", $get->s['arrival_e_dt']); }
@@ -663,7 +663,7 @@ class Stock extends Ext_Model_Base {
 		} else {
 			if ($get->action == 'search') {
 				if (!empty($get->s['goods'])) { $sql .= sprintf("AND g.goods = '%s' ", $get->s['goods']); }
-//				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", $get->s['goods_name'], '%'); }
+//				if (!empty($get->s['goods_name'])) { $sql .= sprintf("AND g.name LIKE '%s%s' ", esc_sql(wp_unslash($get->s['goods_name'])), '%'); }
 //				$sql .= "ORDER BY g.goods desc";
 
 				if (!empty($get->s['arrival_e_dt'])) { $sql .= sprintf("AND s.delivery_dt <= '%s 23:59:59' ", $get->s['arrival_e_dt']); }
