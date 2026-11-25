@@ -151,8 +151,8 @@ class StockManagement {
 	}
 
 	/**
-	 * CSRF対策: 本プラグインの画面へのPOSTは、同一サイト発のものだけ受け付ける
-	 * (Origin、無ければReferer のホストがサイトのホストと一致すること)
+	 * CSRF対策: 本プラグインの画面へのPOSTは、(1)同一サイト発であり(Origin、無ければReferer のホストがサイトのホストと一致)、
+	 * (2)nonce(sm_nonce)が正しい場合だけ受け付ける
 	 **/
 	function check_same_origin() {
 		if (($_SERVER['REQUEST_METHOD'] ?? '') !== 'POST') { return; }
@@ -161,11 +161,18 @@ class StockManagement {
 		if (!in_array($page, $pages, true)) { return; }
 
 		$src = $_SERVER['HTTP_ORIGIN'] ?? ($_SERVER['HTTP_REFERER'] ?? '');
-		if ($src === '') { return; }
-		$src_host = wp_parse_url($src, PHP_URL_HOST);
-		$site_host = wp_parse_url(admin_url(), PHP_URL_HOST);
-		if (!$src_host || strcasecmp($src_host, $site_host) !== 0) {
-			wp_die('不正なリクエストです。', '403 Forbidden', array('response' => 403));
+		if ($src !== '') {
+			$src_host = wp_parse_url($src, PHP_URL_HOST);
+			$site_host = wp_parse_url(admin_url(), PHP_URL_HOST);
+			if (!$src_host || strcasecmp($src_host, $site_host) !== 0) {
+				wp_die('不正なリクエストです。', '403 Forbidden', array('response' => 403));
+			}
+		}
+
+		// nonce(CSRFトークン): 画面ごとに毎回変わり、ログイン中の利用者にひも付く。サーバで検証する。
+		$nonce = isset($_REQUEST['sm_nonce']) ? (string) $_REQUEST['sm_nonce'] : '';
+		if (!wp_verify_nonce($nonce, 'stock_management_action')) {
+			wp_die('不正なリクエストです。(トークンが無効です)', '403 Forbidden', array('response' => 403));
 		}
 	}
 	/**
