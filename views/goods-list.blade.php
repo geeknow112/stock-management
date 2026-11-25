@@ -41,7 +41,7 @@
 {{ $wp_list_table->display() }}
 
 {{-- $wp_list_table->display_tablenav('bottom') --}}
-			<input type="hidden" id="_wpnonce" name="_wpnonce" value="5647b2c250">
+			{!! wp_nonce_field('stock_management_action', 'sm_nonce', false, false) !!}
 			<!--<input type="hidden" name="_wp_http_referer" value="/wp-admin/users.php">-->
 			<input type="hidden" name="page" value="goods-list">
 			<input type="hidden" name="action" value="search">

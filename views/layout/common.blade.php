@@ -61,6 +61,7 @@
 <br />
 
 <form name="forms" id="forms" action="" method="post" enctype="multipart/form-data">
+{!! wp_nonce_field('stock_management_action', 'sm_nonce', false, false) !!}
 	<span id="msg" style="color: red;"></span>
 	<input type="hidden" name="cmd" value="" />
 	<input type="hidden" name="step" id="step" value="" />
