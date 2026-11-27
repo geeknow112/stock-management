@@ -331,7 +331,7 @@
 						@endif
 
 						<!-- 「(顧客)氏名」 表示エリア -->
-						<div class="text-wrap text-center inner_box inner_text"><?php echo str_replace('　', '', $row->customer_name); ?></div>
+						<div class="text-wrap text-center inner_box inner_text"><?php echo htmlspecialchars((string) str_replace('　', '', $row->customer_name), ENT_QUOTES, 'UTF-8'); ?></div>
 
 						<!-- 操作ボタン等 表示エリア -->
 						@if ($row->class != 7)
@@ -455,7 +455,7 @@
 					<select class="w-25" id="goods_{{$oid}}" name="">
 						<?php foreach ($initForm['fix_customer'][17]['goods'] as $customer => $goods_list) { ?>
 							<?php foreach ($initForm['fix_customer'][17]['goods'][17] as $goods => $goods_name) { ?>
-							<option value="<?php echo $goods; ?>"><?php echo sprintf("%s : %s", $goods, $goods_name); ?></option>
+							<option value="<?php echo htmlspecialchars((string) $goods, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars(sprintf("%s : %s", $goods, $goods_name), ENT_QUOTES, 'UTF-8'); ?></option>
 							<?php } ?>
 						<?php } ?>
 					</select>
@@ -464,7 +464,7 @@
 					<select class="w-25" id="goods_{{$oid}}" name="">
 						<?php foreach ($initForm['fix_customer'][31]['goods'] as $customer => $goods_list) { ?>
 							<?php foreach ($initForm['fix_customer'][31]['goods'][31] as $goods => $goods_name) { ?>
-							<option value="<?php echo $goods; ?>"><?php echo sprintf("%s : %s", $goods, $goods_name); ?></option>
+							<option value="<?php echo htmlspecialchars((string) $goods, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars(sprintf("%s : %s", $goods, $goods_name), ENT_QUOTES, 'UTF-8'); ?></option>
 							<?php } ?>
 						<?php } ?>
 					</select>
@@ -488,7 +488,7 @@
 				<!-- 「出庫倉庫」 選択欄 -->
 				<select class="" id="outgoing_warehouse_{{$oid}}" name="">
 					<?php foreach ($initForm['select']['outgoing_warehouse'] as $i => $outgoing_warehouse) { ?>
-						<option value="<?php echo $i; ?>"><?php echo $outgoing_warehouse; ?></option>
+						<option value="<?php echo $i; ?>"><?php echo htmlspecialchars((string) $outgoing_warehouse, ENT_QUOTES, 'UTF-8'); ?></option>
 					<?php } ?>
 				</select>
 
@@ -496,21 +496,21 @@
 				<?php if ($class == 8) { // 太田畜産用 ?>
 					<select class="" id="customer_{{$oid}}" name="customer_{{$oid}}">
 						<?php foreach ($initForm['fix_customer'][17]['customer'] as $customer => $customer_name) { ?>
-							<option value="<?php echo $customer; ?>"><?php echo sprintf("%s : %s", $customer, $customer_name); ?></option>
+							<option value="<?php echo htmlspecialchars((string) $customer, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars(sprintf("%s : %s", $customer, $customer_name), ENT_QUOTES, 'UTF-8'); ?></option>
 						<?php } ?>
 					</select>
 
 				<?php } elseif ($class == 9) { // 村上養鶏場用 ?>
 					<select class="" id="customer_{{$oid}}" name="customer_{{$oid}}">
 						<?php foreach ($initForm['fix_customer'][31]['customer'] as $customer => $customer_name) { ?>
-							<option value="<?php echo $customer; ?>"><?php echo sprintf("%s : %s", $customer, $customer_name); ?></option>
+							<option value="<?php echo htmlspecialchars((string) $customer, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars(sprintf("%s : %s", $customer, $customer_name), ENT_QUOTES, 'UTF-8'); ?></option>
 						<?php } ?>
 					</select>
 
 				<?php } else { // その他 ?>
 					<select class="" id="customer_{{$oid}}" name="customer_{{$oid}}" onchange="createSelectBox(<?php echo $oid; ?>); createSelectBoxGoods(<?php echo $oid; ?>);">
 						<?php foreach ($initForm['select']['customer'] as $customer => $customer_name) { ?>
-							<option value="<?php echo $customer; ?>"><?php echo sprintf("%s : %s", $customer, $customer_name); ?></option>
+							<option value="<?php echo htmlspecialchars((string) $customer, ENT_QUOTES, 'UTF-8'); ?>"><?php echo htmlspecialchars(sprintf("%s : %s", $customer, $customer_name), ENT_QUOTES, 'UTF-8'); ?></option>
 						<?php } ?>
 					</select>
 				<?php } ?>
@@ -646,7 +646,7 @@
 
 						<div><!-- 右 div -->
 							<div class="text-center" style="height: 75%; background: #eeeeee; border-left: 1px solid #d3d3d3;"><!-- 「(顧客)氏名」 表示エリア -->
-								<?php echo str_replace('　', '', $row->customer_name); ?>
+								<?php echo htmlspecialchars((string) str_replace('　', '', $row->customer_name), ENT_QUOTES, 'UTF-8'); ?>
 							</div>
 
 							<!-- 操作ボタン等 表示エリア -->
